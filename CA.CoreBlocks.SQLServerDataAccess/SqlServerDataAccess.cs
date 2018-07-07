@@ -18,6 +18,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text;
 using CA.CoreBlocks.DataAccess;
+using CA.CoreBlocks.DataAccess.DI;
 using CA.CoreBlocks.DataAccess.Paging;
 
 namespace CA.CoreBlocks.SQLServerDataAccess
@@ -34,7 +35,7 @@ namespace CA.CoreBlocks.SQLServerDataAccess
 
         public const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
 
-        public SqlServerDataAccess(string connectionString) : base(connectionString)
+        public SqlServerDataAccess(IDataAccessKeyToConnectionStringResolver resolver, DataAccessCoreOptions options) : base(resolver, options)
         {
 
         }

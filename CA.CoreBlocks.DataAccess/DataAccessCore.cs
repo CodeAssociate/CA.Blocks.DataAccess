@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using CA.CoreBlocks.DataAccess.DI;
 using CA.CoreBlocks.DataAccess.Translator;
 
 namespace CA.CoreBlocks.DataAccess
@@ -31,34 +32,21 @@ namespace CA.CoreBlocks.DataAccess
     /// </summary>
     public abstract class DataAccessCore
     {
-        static private bool _debugTrace = true;
+        private readonly DataAccessCoreOptions _options; 
         private readonly string _connectionString;
 
         #region private utility methods & constructors
 
-        /// <summary>
-        /// This method can be overridden to provide additional processing on the connection string 
-        /// property. This is useful if for example you database is specified by way of a relative 
-        /// directory which is no know at configuration time. For example accessing a Server path 
-        /// in an http context. 
-        ///</summary>
-        /// <param name="connectionString"> the connection string as configured in the connectionStrings element of the config file</param>
-        /// <returns> the default method returns the connection string as stored in the application configuration file</returns>
-        protected string ResolveConnectionStringValue(string connectionString)
-        {
-            return connectionString;
-        }
 
 
         /// <summary>
         /// This is a protected constructor which must be called by the inheriting class, bu default it will get the configuration 
         /// value stored in connectionStrings element of the configuration. This value can be overriden using the ResolveConnectionStringValue method. 
         /// </summary>
-        /// <param name="dataServiceName"></param>
-        protected DataAccessCore(string dataServiceName)
+        protected DataAccessCore(IDataAccessKeyToConnectionStringResolver resolver, DataAccessCoreOptions options)
         {
-            _connectionString = ConfigurationManager.ConnectionStrings[dataServiceName].ConnectionString;
-            _connectionString = ResolveConnectionStringValue(_connectionString);
+            _options = options;
+            _connectionString = resolver.GetConnectionString(options.ConnectionStringKey);
         }
 
         /// <summary>
@@ -87,7 +75,7 @@ namespace CA.CoreBlocks.DataAccess
         //TODO make a virtual method and include a timespan on the execute time of the query
         private void TraceDBStatement(IDbCommand cmd)
         {
-            //System.Diagnostics.Debug.WriteLine(cmd.CommandText);
+            System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         }
 
         #endregion private utility methods & constructors
@@ -112,7 +100,7 @@ namespace CA.CoreBlocks.DataAccess
         {
             bool closeconection = PrepCommand(cmd);
             int rowCount = cmd.ExecuteNonQuery();
-            if (_debugTrace)
+            if (_options.DebugTrace)
                 TraceDBStatement(cmd);
             WrapUp(cmd.Connection, closeconection);
             return rowCount;
@@ -142,7 +130,7 @@ namespace CA.CoreBlocks.DataAccess
                 theDataAdapter.Fill(ds, sTableNNameArray[0].Trim());
             }
             WrapUp(cmd.Connection, closeconection);
-            if (_debugTrace)
+            if (_options.DebugTrace)
                 TraceDBStatement(cmd);
             return (ds);
         }
@@ -201,7 +189,7 @@ namespace CA.CoreBlocks.DataAccess
         {
             PrepCommand(cmd);
             object rv = (cmd.ExecuteScalar());
-            if (_debugTrace)
+            if (_options.DebugTrace)
                 TraceDBStatement(cmd);
             cmd.Connection.Close();
             return rv;

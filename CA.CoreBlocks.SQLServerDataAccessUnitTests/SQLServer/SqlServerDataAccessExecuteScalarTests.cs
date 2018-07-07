@@ -1,4 +1,5 @@
 ﻿using System;
+using CA.CoreBlocks.DataAccess.DI;
 using CA.CoreBlocks.SQLServerDataAccess;
 using NUnit.Framework;
 
@@ -7,9 +8,11 @@ namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.SQLServer
     [TestFixture]
     public class SqlServerDataAccessExecuteScalarTests : SqlServerDataAccess
     {
-        public SqlServerDataAccessExecuteScalarTests()
-            : base("localsqlserverhost")
+        public SqlServerDataAccessExecuteScalarTests() 
+            : base(new AppDotConfigConfigConnectionStringsResolver(), 
+                   new DataAccessCoreOptions{ConnectionStringKey = "localsqlserverhost",DebugTrace  = false})
         {
+   
         }
 
 

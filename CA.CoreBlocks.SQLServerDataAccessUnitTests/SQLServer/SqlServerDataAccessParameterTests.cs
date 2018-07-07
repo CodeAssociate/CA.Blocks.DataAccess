@@ -1,4 +1,5 @@
-﻿using CA.CoreBlocks.SQLServerDataAccess;
+﻿using CA.CoreBlocks.DataAccess.DI;
+using CA.CoreBlocks.SQLServerDataAccess;
 using NUnit.Framework;
 
 namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.SQLServer
@@ -7,7 +8,8 @@ namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.SQLServer
     public class SqlServerDataAccessParameterTests : SqlServerDataAccess
     {
         public SqlServerDataAccessParameterTests()
-            : base("localsqlserverhost")
+            : base(new AppDotConfigConfigConnectionStringsResolver(), 
+                new DataAccessCoreOptions{ConnectionStringKey = "localsqlserverhost",DebugTrace  = false})
         {
         }
 
@@ -117,7 +119,5 @@ namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.SQLServer
             SqlDbType.Variant;
             SqlDbType.Xml;
             */
-
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using CA.CoreBlocks.DataAccess.DI;
 using CA.CoreBlocks.SQLServerDataAccess;
 
 namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.Base
@@ -16,7 +17,8 @@ namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.Base
     public class UnitTestDataAccess : SqlServerDataAccess
     {
         public UnitTestDataAccess()
-            : base("localsqlserverhost")
+            : base(new AppDotConfigConfigConnectionStringsResolver(), 
+                new DataAccessCoreOptions{ConnectionStringKey = "localsqlserverhost",DebugTrace  = false})
         {
         }
 
