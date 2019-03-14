@@ -1,10 +1,9 @@
 ﻿using System;
-using CA.CoreBlocks.DataAccess.Filter;
-using CA.CoreBlocks.SQLServerDataAccess;
+using CA.Blocks.DataAccess.Filter;
+using CA.Blocks.SQLServerDataAccess;
 using NUnit.Framework;
 
-
-namespace CA.Blocks.DataAccessUnitTest.Filter
+namespace CA.Blocks.SQLServerDataAccessUnitTests.Filter
 {
     public class TestFilter : BaseFilterSegment
     {

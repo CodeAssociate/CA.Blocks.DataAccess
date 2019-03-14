@@ -17,11 +17,11 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text;
-using CA.CoreBlocks.DataAccess;
-using CA.CoreBlocks.DataAccess.DI;
-using CA.CoreBlocks.DataAccess.Paging;
+using CA.Blocks.DataAccess;
+using CA.Blocks.DataAccess.DI;
+using CA.Blocks.DataAccess.Paging;
 
-namespace CA.CoreBlocks.SQLServerDataAccess
+namespace CA.Blocks.SQLServerDataAccess
 {
     /// <summary>
     /// Provides a SQL server implementation for DataAccessCore

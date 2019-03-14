@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace CA.CoreBlocks.SQLServerDataAccess
+namespace CA.Blocks.SQLServerDataAccess
 {
     public enum SpecificSQLDateTimeType
     {

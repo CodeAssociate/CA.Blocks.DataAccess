@@ -17,7 +17,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 
-namespace CA.CoreBlocks.DataAccess.Translator
+namespace CA.Blocks.DataAccess.Translator
 {
 
     public class DatabaseToObjectMappings : List<DatabaseToObjectMapping>

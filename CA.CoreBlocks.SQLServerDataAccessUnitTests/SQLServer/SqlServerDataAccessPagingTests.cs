@@ -1,10 +1,10 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using CA.CoreBlocks.DataAccess.Paging;
-using CA.CoreBlocks.SQLServerDataAccessUnitTests.Base;
+using CA.Blocks.DataAccess.Paging;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.SQLServer
+namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
     [TestFixture]
     public class SqlServerDataAccessPagingTests : UnitTestDataAccess

@@ -1,4 +1,4 @@
-﻿namespace CA.CoreBlocks.DataAccess.Paging
+﻿namespace CA.Blocks.DataAccess.Paging
 {
     public class Sort
     {

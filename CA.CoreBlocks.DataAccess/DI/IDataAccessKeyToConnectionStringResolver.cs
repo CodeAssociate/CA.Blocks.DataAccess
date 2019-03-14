@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
+﻿using System.Configuration;
 using Microsoft.Extensions.Configuration;
 
-namespace CA.CoreBlocks.DataAccess.DI
+namespace CA.Blocks.DataAccess.DI
 {
     // the interface that do the lookup ie could be from app.config or appsettings.json or  other
     public interface IDataAccessKeyToConnectionStringResolver

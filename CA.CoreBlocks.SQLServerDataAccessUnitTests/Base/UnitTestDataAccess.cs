@@ -1,10 +1,10 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using System.Text;
-using CA.CoreBlocks.DataAccess.DI;
-using CA.CoreBlocks.SQLServerDataAccess;
+using CA.Blocks.DataAccess.DI;
+using CA.Blocks.SQLServerDataAccess;
 
-namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.Base
+namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 {
     /*
          <configuration>

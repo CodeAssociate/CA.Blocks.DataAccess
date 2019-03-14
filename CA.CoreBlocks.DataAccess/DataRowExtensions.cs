@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace CA.CoreBlocks.DataAccess
+namespace CA.Blocks.DataAccess
 {
     /// <summary>
     /// This is a helper class to add some semantic sugar to the DataHelper class using  extention methods
@@ -194,6 +194,38 @@ namespace CA.CoreBlocks.DataAccess
         public static double? AsNullDouble(this DataRow dr, DataColumn column)
         {
             return DataHelper.GetValueFromRowAsNullDouble(dr, column);
+        }
+        #endregion
+
+        #region Single / float 
+        public static float AsFloat(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsFloat(dr, colName);
+        }
+
+        public static float AsFloat(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsFloat(dr, columnIndex);
+        }
+
+        public static float AsFloat(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsFloat(dr, column);
+        }
+        // Nulls
+        public static float? AsNullFloat(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsNullFloat(dr, colName);
+        }
+
+        public static float? AsNullFloat(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsNullFloat(dr, columnIndex);
+        }
+
+        public static float? AsNullFloat(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsNullFloat(dr, column);
         }
         #endregion
 

@@ -14,7 +14,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace CA.CoreBlocks.DataAccess.Translator
+namespace CA.Blocks.DataAccess.Translator
 {
     public abstract class SimpleDbReader2ObjectTranslator<T> 
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace CA.CoreBlocks.DataAccess.Translator.Basic
+namespace CA.Blocks.DataAccess.Translator.Basic
 {
 
     public class DateTimeTranslator : SimpleDbRow2ObjectTranslator<DateTime>

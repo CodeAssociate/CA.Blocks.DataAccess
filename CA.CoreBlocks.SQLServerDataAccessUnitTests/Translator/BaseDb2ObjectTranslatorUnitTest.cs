@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using CA.CoreBlocks.DataAccess.Translator;
-using CA.CoreBlocks.SQLServerDataAccessUnitTests.Base;
+using CA.Blocks.DataAccess.Translator;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.Translator
+namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
 {
     public class TestClassChar
     {

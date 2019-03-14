@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 
-namespace CA.CoreBlocks.DataAccess.Translator
+namespace CA.Blocks.DataAccess.Translator
 {
     public class DynamicDbRow2ObjectTranslator : SimpleDbRow2ObjectTranslator<dynamic>
     {

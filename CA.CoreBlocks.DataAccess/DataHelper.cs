@@ -16,7 +16,7 @@ using System;
 using System.Data;
 using System.Diagnostics;
 
-namespace CA.CoreBlocks.DataAccess
+namespace CA.Blocks.DataAccess
 {
     /// <summary>
     /// This class is a helper class for dealing data values.  It is intended to be a static helper class only.
@@ -313,6 +313,47 @@ namespace CA.CoreBlocks.DataAccess
             return val.Value;
         }
 
+        [DebuggerStepThrough]
+        public static float? GetValueFromRowAsNullFloat(DataRow dr, string sColumnName)
+        {
+            return ((float?)GetValueFromRow(dr, sColumnName));
+        }
+
+        [DebuggerStepThrough]
+        public static float? GetValueFromRowAsNullFloat(DataRow dr, int columnIndex)
+        {
+            return ((float?)GetValueFromRow(dr, columnIndex));
+        }
+
+        [DebuggerStepThrough]
+        public static float? GetValueFromRowAsNullFloat(DataRow dr, DataColumn dc)
+        {
+            return ((float?)GetValueFromRow(dr, dc));
+        }
+
+        [DebuggerStepThrough]
+        public static float GetValueFromRowAsFloat(DataRow dr, string sColumnName)
+        {
+            float? val = GetValueFromRowAsNullFloat(dr, sColumnName);
+            ThrowExceptionIfIsNull(val, sColumnName, "float");
+            return val.Value;
+        }
+
+        [DebuggerStepThrough]
+        public static float GetValueFromRowAsFloat(DataRow dr, int columnIndex)
+        {
+            float? val = GetValueFromRowAsNullFloat(dr, columnIndex);
+            ThrowExceptionIfIsNull(val, columnIndex, "float");
+            return val.Value;
+        }
+
+        [DebuggerStepThrough]
+        public static float GetValueFromRowAsFloat(DataRow dr, DataColumn dc)
+        {
+            float? val = GetValueFromRowAsNullFloat(dr, dc);
+            ThrowExceptionIfIsNull(val, dc.ColumnName, "float");
+            return val.Value;
+        }
 
         /// <summary>
         /// Will get the data value from the row as a nullable long. The return value will be set to either null or the long value

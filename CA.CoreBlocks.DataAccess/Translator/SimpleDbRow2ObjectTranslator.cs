@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace CA.CoreBlocks.DataAccess.Translator
+namespace CA.Blocks.DataAccess.Translator
 {
     
     // This object is a simple container in which the Object will do all the of Translate form a Data Row to the Object

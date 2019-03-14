@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.CoreBlocks.DataAccess", "CA.CoreBlocks.DataAccess\CA.CoreBlocks.DataAccess.csproj", "{4BF3DF0D-D2D1-4131-9C5D-A5DEE7CB4C0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess", "CA.CoreBlocks.DataAccess\CA.Blocks.DataAccess.csproj", "{4BF3DF0D-D2D1-4131-9C5D-A5DEE7CB4C0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.CoreBlocks.SQLServerDataAccess", "CA.CoreBlocks.SQLServerDataAccess\CA.CoreBlocks.SQLServerDataAccess.csproj", "{90A82810-C222-4AF5-A1B7-2CE8DF848D0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLServerDataAccess", "CA.CoreBlocks.SQLServerDataAccess\CA.Blocks.SQLServerDataAccess.csproj", "{90A82810-C222-4AF5-A1B7-2CE8DF848D0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.CoreBlocks.SQLServerDataAccessUnitTests", "CA.CoreBlocks.SQLServerDataAccessUnitTests\CA.CoreBlocks.SQLServerDataAccessUnitTests.csproj", "{31B6E3D9-580A-4650-B66B-034DC967F4B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLServerDataAccessUnitTests", "CA.CoreBlocks.SQLServerDataAccessUnitTests\CA.Blocks.SQLServerDataAccessUnitTests.csproj", "{31B6E3D9-580A-4650-B66B-034DC967F4B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

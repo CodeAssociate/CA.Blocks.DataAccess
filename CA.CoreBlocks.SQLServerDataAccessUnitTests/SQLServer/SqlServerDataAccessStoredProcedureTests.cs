@@ -1,8 +1,8 @@
 ﻿using System.Data.SqlClient;
-using CA.CoreBlocks.SQLServerDataAccessUnitTests.Base;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.SQLServer
+namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
     [TestFixture]
     public class SqlServerDataAccessStoredProcedureTests : UnitTestDataAccess

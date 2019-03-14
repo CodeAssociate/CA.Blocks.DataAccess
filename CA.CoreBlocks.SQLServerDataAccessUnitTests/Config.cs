@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Text;
 using NUnit.Framework;
 
-namespace CA.CoreBlocks.SQLServerDataAccessUnitTests
+namespace CA.Blocks.SQLServerDataAccessUnitTests
 {
     [SetUpFixture]
     public class Config
@@ -12,7 +12,7 @@ namespace CA.CoreBlocks.SQLServerDataAccessUnitTests
         [OneTimeSetUp] // [OneTimeSetUp] for NUnit 3.0 and up; see http://bartwullems.blogspot.com/2015/12/upgrading-to-nunit-30-onetimesetup.html
         public void SetUp()
         {
-            // we do this here as diffrent test frameworks use and merge the app.config depending on the run time.
+            // we do this here as different test frameworks use and merge the app.config depending on the run time.
             Configuration config =
                 ConfigurationManager.OpenExeConfiguration(
                     ConfigurationUserLevel.None);

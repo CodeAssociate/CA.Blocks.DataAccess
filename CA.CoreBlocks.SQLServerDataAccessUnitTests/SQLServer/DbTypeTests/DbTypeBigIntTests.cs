@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using CA.CoreBlocks.DataAccess.Translator.Basic;
-using CA.CoreBlocks.SQLServerDataAccess;
-using CA.CoreBlocks.SQLServerDataAccessUnitTests.Base;
+using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.SQLServerDataAccess;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
+namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
 {
     [TestFixture]
     public class DbTypeBigIntTests : UnitTestDataAccess

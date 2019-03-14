@@ -1,15 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CA.CoreBlocks.DataAccess.Paging
+namespace CA.
+    Blocks.DataAccess.Paging
 {
     public class PagingRequest
     {
-
         public PagingRequest()
         {
 
         }
+
+        // please note that is merely a way to avoid specifying an ordering and does NOT guarantee that any original data ordering will be preserved.
+        // There are other factors that can cause the result to be ordered, such as an ORDER BY in the outer query.
+        // However if there are no other order by clauses this is a very convenient way to get paging without an order by.
+        public PagingRequest(int take, int skip)
+        {
+            Take = take;
+            Skip = skip;
+            SortOrder = new List<Sort> { new Sort { Field = "(Select 1)", Dir = "ASC" } };
+        }
+
         public PagingRequest(int take, int skip, string defaultOrderByCol)
         {
             Take = take;
@@ -29,7 +40,7 @@ namespace CA.CoreBlocks.DataAccess.Paging
         public IList<Sort> SortOrder { get; set; }
         public string GetOrderBy()
         {
-            return SortOrder.Count > 0 ? string.Join(",", SortOrder.Select(sort => string.Format("{0} {1}", sort.Field, sort.Dir)).ToArray()) : "1 asc";
+            return SortOrder.Count > 0 ? string.Join(",", SortOrder.Select(sort => $"{sort.Field} {sort.Dir}").ToArray()) : "1 asc";
         }
     }
 }

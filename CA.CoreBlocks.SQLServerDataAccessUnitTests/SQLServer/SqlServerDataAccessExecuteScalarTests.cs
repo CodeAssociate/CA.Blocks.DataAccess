@@ -1,9 +1,9 @@
 ﻿using System;
-using CA.CoreBlocks.DataAccess.DI;
-using CA.CoreBlocks.SQLServerDataAccess;
+using CA.Blocks.DataAccess.DI;
+using CA.Blocks.SQLServerDataAccess;
 using NUnit.Framework;
 
-namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.SQLServer
+namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
     [TestFixture]
     public class SqlServerDataAccessExecuteScalarTests : SqlServerDataAccess

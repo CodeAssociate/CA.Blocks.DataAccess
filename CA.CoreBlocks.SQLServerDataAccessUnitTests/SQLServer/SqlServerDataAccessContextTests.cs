@@ -1,8 +1,8 @@
 ﻿using System;
-using CA.CoreBlocks.SQLServerDataAccessUnitTests.Base;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.CoreBlocks.SQLServerDataAccessUnitTests.SQLServer
+namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
     // Shows how to pass a Context to SQL on each execute  for unit testing this is simply a random guid
     // in most cases this will be the security context like user name. This is usefull incase you want to 

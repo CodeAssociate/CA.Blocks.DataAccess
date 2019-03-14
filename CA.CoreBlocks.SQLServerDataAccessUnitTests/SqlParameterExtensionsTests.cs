@@ -1,8 +1,8 @@
 ﻿using System.Data;
-using CA.CoreBlocks.SQLServerDataAccess;
+using CA.Blocks.SQLServerDataAccess;
 using NUnit.Framework;
 
-namespace CA.CoreBlocks.SQLServerDataAccessUnitTests
+namespace CA.Blocks.SQLServerDataAccessUnitTests
 {
     [TestFixture]
     public class SqlParameterExtensionsTests

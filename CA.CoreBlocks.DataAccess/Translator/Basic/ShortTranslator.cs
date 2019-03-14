@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace CA.CoreBlocks.DataAccess.Translator.Basic
+namespace CA.Blocks.DataAccess.Translator.Basic
 {
     public class ShortTranslator : SimpleDbRow2ObjectTranslator<short>
     {

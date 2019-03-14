@@ -13,7 +13,7 @@
 
 using System.Data;
 
-namespace CA.CoreBlocks.DataAccess.Translator
+namespace CA.Blocks.DataAccess.Translator
 {
     public abstract class DatabaseToObjectMapping
     {

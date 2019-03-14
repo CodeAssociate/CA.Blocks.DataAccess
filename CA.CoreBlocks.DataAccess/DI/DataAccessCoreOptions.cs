@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CA.CoreBlocks.DataAccess.DI
+﻿namespace CA.Blocks.DataAccess.DI
 {
     public interface IDataAccessCoreOptions
     {

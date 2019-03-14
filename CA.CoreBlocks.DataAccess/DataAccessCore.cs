@@ -17,10 +17,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using CA.CoreBlocks.DataAccess.DI;
-using CA.CoreBlocks.DataAccess.Translator;
+using CA.Blocks.DataAccess.DI;
+using CA.Blocks.DataAccess.Translator;
 
-namespace CA.CoreBlocks.DataAccess
+namespace CA.Blocks.DataAccess
 {
     /// <summary>
     /// <para>
