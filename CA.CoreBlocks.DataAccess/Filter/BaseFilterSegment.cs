@@ -31,7 +31,7 @@ namespace CA.Blocks.DataAccess.Filter
         {
             if (_filter.Length > 0 )
             {
-                _filter.Append(string.Format(" {0} ", _condition));
+                _filter.Append($" {_condition} ");
             }
             _filter.Append(filter);
         }
@@ -55,12 +55,12 @@ namespace CA.Blocks.DataAccess.Filter
                 if (element.DbType != sqlparam.DbType)
                 {
                     throw new ApplicationException(
-                        string.Format("The Parameter {0} has been given two diffrent types {1} and {2}, this is not allowed within a single query", sqlparam.ParameterName, sqlparam.DbType, element.DbType));
+                        $"The Parameter {sqlparam.ParameterName} has been given two different types {sqlparam.DbType} and {element.DbType}, this is not allowed within a single query");
                 }
                 if (!element.Value.Equals(sqlparam.Value))
                 {
                     throw new ApplicationException(
-                        string.Format("The Parameter {0} has been given two diffrent values {1} and {2}, this is not allowed within a single query", sqlparam.ParameterName, sqlparam.Value, element.Value));
+                        $"The Parameter {sqlparam.ParameterName} has been given two different values {sqlparam.Value} and {element.Value}, this is not allowed within a single query");
                 }
             }
         }
@@ -71,7 +71,7 @@ namespace CA.Blocks.DataAccess.Filter
         public string ToSQLFilter(bool includeWhere = false)
         {
             if (includeWhere && _filter.Length > 0)
-                return string.Format("WHERE {0}", _filter.ToString());
+                return $"WHERE {_filter.ToString()}";
             else
                 return _filter.ToString();
 

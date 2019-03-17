@@ -18,7 +18,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
     {
         public UnitTestDataAccess()
             : base(new AppDotConfigConfigConnectionStringsResolver(), 
-                new DataAccessCoreOptions{ConnectionStringKey = "localsqlserverhost",DebugTrace  = false})
+                new DataAccessConfigOptions{ConnectionStringKey = "localsqlserverhost",DebugTrace  = false})
         {
         }
 

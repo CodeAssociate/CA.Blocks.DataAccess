@@ -35,7 +35,7 @@ namespace CA.Blocks.SQLServerDataAccess
 
         public const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
 
-        public SqlServerDataAccess(IDataAccessKeyToConnectionStringResolver resolver, DataAccessCoreOptions options) : base(resolver, options)
+        public SqlServerDataAccess(IDataAccessKeyToConnectionStringResolver resolver, DataAccessConfigOptions options) : base(resolver, options)
         {
 
         }

@@ -6,15 +6,15 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 
     public class DateTimeTranslator : SimpleDbRow2ObjectTranslator<DateTime>
     {
-        private readonly string _colname;
-        public DateTimeTranslator(string colname)
+        private readonly string _colName;
+        public DateTimeTranslator(string colName)
         {
-            _colname = colname;
+            _colName = colName;
         }
 
         protected override DateTime CustomTranslate(DataRow dr)
         {
-            return DataHelper.GetValueFromRowAsDateTime(dr, _colname);
+            return dr.AsDateTime(_colName);
         }
     }
 }

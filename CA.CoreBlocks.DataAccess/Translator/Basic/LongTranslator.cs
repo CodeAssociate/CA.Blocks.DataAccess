@@ -5,15 +5,15 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 
     public class LongTranslator : SimpleDbRow2ObjectTranslator<long>
     {
-        private readonly string _colname;
-        public LongTranslator(string colname)
+        private readonly string _colName;
+        public LongTranslator(string colName)
         {
-            _colname = colname;
+            _colName = colName;
         }
 
         protected override long CustomTranslate(DataRow dr)
         {
-            return DataHelper.GetValueFromRowAsLong(dr, _colname);
+            return dr.AsLong(_colName);
         }
     }
 }

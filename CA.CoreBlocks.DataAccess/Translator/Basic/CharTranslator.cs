@@ -6,15 +6,15 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 
     public class CharTranslator : SimpleDbRow2ObjectTranslator<char>
     {
-        private readonly string _colname;
-        public CharTranslator(string colname)
+        private readonly string _colName;
+        public CharTranslator(string colName)
         {
-            _colname = colname;
+            _colName = colName;
         }
 
         protected override Char CustomTranslate(DataRow dr)
         {
-            return DataHelper.GetValueFromRowAsChar(dr, _colname);
+            return dr.AsChar(_colName);
         }
     }
 }

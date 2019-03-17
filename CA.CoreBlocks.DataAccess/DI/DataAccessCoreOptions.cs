@@ -1,12 +1,12 @@
 ﻿namespace CA.Blocks.DataAccess.DI
 {
-    public interface IDataAccessCoreOptions
+    public interface IDataAccessConfigOptions
     {
         string ConnectionStringKey {get; set;}
         bool DebugTrace { get; set; }
     }
 
-    public class DataAccessCoreOptions : IDataAccessCoreOptions
+    public class DataAccessConfigOptions : IDataAccessConfigOptions
     {
         public string ConnectionStringKey {get; set;}
         public bool DebugTrace { get; set; }

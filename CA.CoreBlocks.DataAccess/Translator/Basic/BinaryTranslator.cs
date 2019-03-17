@@ -4,15 +4,15 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 {
     public class BinaryTranslator : SimpleDbRow2ObjectTranslator<byte[]>
     {
-        private readonly string _colname;
-        public BinaryTranslator(string colname)
+        private readonly string _colName;
+        public BinaryTranslator(string colName)
         {
-            _colname = colname;
+            _colName = colName;
         }
 
         protected override byte[] CustomTranslate(DataRow dr)
         {
-            return DataHelper.GetValueFromRowAsBinary(dr, _colname);
+            return dr.AsBinary(_colName);
         }
     }
 }

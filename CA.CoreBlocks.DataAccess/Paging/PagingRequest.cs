@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CA.
-    Blocks.DataAccess.Paging
+namespace CA.Blocks.DataAccess.Paging
 {
     public class PagingRequest
     {

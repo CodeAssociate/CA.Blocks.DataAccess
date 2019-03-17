@@ -4,15 +4,15 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 {
     public class ShortTranslator : SimpleDbRow2ObjectTranslator<short>
     {
-        private readonly string _colname;
-        public ShortTranslator(string colname)
+        private readonly string _colName;
+        public ShortTranslator(string colName)
         {
-            _colname = colname;
+            _colName = colName;
         }
 
         protected override short CustomTranslate(DataRow dr)
         {
-            return DataHelper.GetValueFromRowAsShort(dr, _colname);
+            return dr.AsShort(_colName);
         }
     }
 }

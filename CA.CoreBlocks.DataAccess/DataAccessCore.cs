@@ -32,7 +32,7 @@ namespace CA.Blocks.DataAccess
     /// </summary>
     public abstract class DataAccessCore
     {
-        private readonly DataAccessCoreOptions _options; 
+        private readonly DataAccessConfigOptions _options; 
         private readonly string _connectionString;
 
         #region private utility methods & constructors
@@ -43,7 +43,7 @@ namespace CA.Blocks.DataAccess
         /// This is a protected constructor which must be called by the inheriting class, bu default it will get the configuration 
         /// value stored in connectionStrings element of the configuration. This value can be overriden using the ResolveConnectionStringValue method. 
         /// </summary>
-        protected DataAccessCore(IDataAccessKeyToConnectionStringResolver resolver, DataAccessCoreOptions options)
+        protected DataAccessCore(IDataAccessKeyToConnectionStringResolver resolver, DataAccessConfigOptions options)
         {
             _options = options;
             _connectionString = resolver.GetConnectionString(options.ConnectionStringKey);

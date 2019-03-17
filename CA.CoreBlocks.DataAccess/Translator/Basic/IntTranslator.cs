@@ -4,15 +4,15 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 {
     public class IntTranslator : SimpleDbRow2ObjectTranslator<int>
     {
-        private readonly string _colname;
-        public IntTranslator(string colname)
+        private readonly string _colName;
+        public IntTranslator(string colName)
         {
-            _colname = colname;
+            _colName = colName;
         }
 
         protected override int CustomTranslate(DataRow dr)
         {
-            return DataHelper.GetValueFromRowAsInt(dr, _colname);
+            return dr.AsInt(_colName);
         }
     }
 }

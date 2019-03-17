@@ -3,10 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.4</Version>
+    <Version>2.0.5</Version>
     <RepositoryUrl>\\RAVINNAS\NugetPackages</RepositoryUrl>
     <AssemblyName>CA.Blocks.DataAccess</AssemblyName>
     <RootNamespace>CA.Blocks.DataAccess</RootNamespace>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
