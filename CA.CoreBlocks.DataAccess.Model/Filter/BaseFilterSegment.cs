@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace CA.Blocks.DataAccess.Filter
+namespace CA.CoreBlocks.DataAccess.Model.Filter
 {
     public enum BaseFilterSegmentCondition
     {

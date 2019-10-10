@@ -6,30 +6,18 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
     [SetUpFixture]
     public class Config
     {
-        [OneTimeSetUp] // [OneTimeSetUp] for NUnit 3.0 and up; see http://bartwullems.blogspot.com/2015/12/upgrading-to-nunit-30-onetimesetup.html
+        [OneTimeSetUp] // [OneTimeSetUp] for NUnit 3.0 and up
         public void SetUp()
         {
             // we do this here as different test frameworks use and merge the app.config depending on the run time.
-            Configuration config =
-                ConfigurationManager.OpenExeConfiguration(
-                    ConfigurationUserLevel.None);
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             
-            ConnectionStringsSection csSection =
-                config.ConnectionStrings;
-            csSection.ConnectionStrings.Add(
-                new ConnectionStringSettings( "localsqlserverhost", "Server=(local);Database=tempdb;Integrated Security=SSPI", "System.Data.SqlClient"));
+            var csSection =  config.ConnectionStrings;
+            csSection.ConnectionStrings.Add(new ConnectionStringSettings( "localsqlserverhost", "Server=(local);Database=tempdb;Integrated Security=SSPI", "System.Data.SqlClient"));
 
             // Save the configuration file.
             config.Save(ConfigurationSaveMode.Modified);
-
-            //We cannot do this as this is read only at this stage 
-                /*
-            ConfigurationManager.ConnectionStrings.Add(new ConnectionStringSettings(
-                "localsqlserverhost", "Server=(local);Database=tempdb;Integrated Security=SSPI", "System.Data.SqlClient"));
-                */
         }
-
-
 
         [OneTimeTearDown]
         public void TearDown()

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.0.7</Version>
+    <Authors>Kevin Bosch</Authors>
+    <Company>Ravin Enterprises Limited</Company>
+    <RepositoryUrl>\\RAVINNAS\NugetPackages</RepositoryUrl>
+    <AssemblyName>CA.Blocks.DataAccess.Model</AssemblyName>
+    <RootNamespace>CA.Blocks.DataAccess.Model</RootNamespace>
+    <AssemblyVersion>2.0.7.0</AssemblyVersion>
+    <FileVersion>2.0.7.0</FileVersion>
+    <PackageId>CA.Blocks.DataAccess.Model</PackageId>
+  </PropertyGroup>
+
+</Project>
+

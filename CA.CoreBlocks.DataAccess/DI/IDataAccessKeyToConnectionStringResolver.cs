@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CA.Blocks.DataAccess.DI
 {
-    // the interface that do the lookup ie could be from app.config or appsettings.json or  other
+    // the interface that does the lookup ie could be from app.config or appsettings.json or whatever takes you fancy
     public interface IDataAccessKeyToConnectionStringResolver
     {
         string GetConnectionString(string connectionStringKey);
@@ -18,7 +18,7 @@ namespace CA.Blocks.DataAccess.DI
         }
     }
 
-    // App.Config provider using when the connection string is is app.config file
+    // App.Config provider using when the connection string is in appsettings.json file
     public class JsonConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
     {
         public IConfiguration Configuration { get; }

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLServerDataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLServerDataAccessUnitTests", "CA.CoreBlocks.SQLServerDataAccessUnitTests\CA.Blocks.SQLServerDataAccessUnitTests.csproj", "{31B6E3D9-580A-4650-B66B-034DC967F4B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.CoreBlocks.DataAccess.Model", "CA.CoreBlocks.DataAccess.Model\CA.CoreBlocks.DataAccess.Model.csproj", "{272E47D7-DE0B-4045-9E08-D6785A4A4E1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{31B6E3D9-580A-4650-B66B-034DC967F4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31B6E3D9-580A-4650-B66B-034DC967F4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31B6E3D9-580A-4650-B66B-034DC967F4B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{272E47D7-DE0B-4045-9E08-D6785A4A4E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272E47D7-DE0B-4045-9E08-D6785A4A4E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272E47D7-DE0B-4045-9E08-D6785A4A4E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272E47D7-DE0B-4045-9E08-D6785A4A4E1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

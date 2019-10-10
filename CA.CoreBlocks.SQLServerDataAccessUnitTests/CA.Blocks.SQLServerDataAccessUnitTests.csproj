@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CA.CoreBlocks.DataAccess.Model\CA.CoreBlocks.DataAccess.Model.csproj" />
     <ProjectReference Include="..\CA.CoreBlocks.SQLServerDataAccess\CA.Blocks.SQLServerDataAccess.csproj" />
   </ItemGroup>
 

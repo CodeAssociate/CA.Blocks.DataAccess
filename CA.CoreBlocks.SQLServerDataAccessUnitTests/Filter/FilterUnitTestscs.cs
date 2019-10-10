@@ -1,6 +1,6 @@
 ﻿using System;
-using CA.Blocks.DataAccess.Filter;
 using CA.Blocks.SQLServerDataAccess;
+using CA.CoreBlocks.DataAccess.Model.Filter;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Filter

@@ -538,7 +538,5 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullTimeSpan(dr, column);
         }
         #endregion
-
-
     }
 }

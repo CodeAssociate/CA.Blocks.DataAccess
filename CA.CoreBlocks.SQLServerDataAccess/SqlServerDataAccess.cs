@@ -19,7 +19,7 @@ using System.Data.SqlClient;
 using System.Text;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
-using CA.Blocks.DataAccess.Paging;
+using CA.CoreBlocks.DataAccess.Model.Paging;
 
 namespace CA.Blocks.SQLServerDataAccess
 {
@@ -27,8 +27,6 @@ namespace CA.Blocks.SQLServerDataAccess
     /// Provides a SQL server implementation for DataAccessCore
     /// </summary>
     /// <remarks>
-    /// <p>source code:</p>
-    /// <code outlining="true" source="..\CANC\Blocks\DataAccess\SqlServerDataAccess.cs" lang="cs"/> 
     /// </remarks>
     public class SqlServerDataAccess : DataAccessCore
     {
@@ -45,10 +43,10 @@ namespace CA.Blocks.SQLServerDataAccess
             return null;
         }
 
-        public void SetCommandContext(SqlConnection sqlConnection)
+        private void SetCommandContext(SqlConnection sqlConnection)
         {
             string context = GetConnectionContext();
-            if (!String.IsNullOrWhiteSpace(context))
+            if (!string.IsNullOrWhiteSpace(context))
             {
                 var cmd = CreateTextCommand("SET CONTEXT_INFO @AppContext");
                 cmd.Parameters.Add(Encoding.ASCII.GetBytes(context).ToSqlParameter("@AppContext"));
@@ -460,7 +458,7 @@ namespace CA.Blocks.SQLServerDataAccess
             // this is sql server specific and only for direct quries
 
             string sortOrder = page.GetOrderBy();
-            string sqlSelect = string.Format(" ROW_NUMBER() Over (Order By {0}) As RowNumber, ", sortOrder);
+            string sqlSelect = $" ROW_NUMBER() Over (Order By {sortOrder}) As RowNumber, ";
             cmd.CommandText = WrapPagingQuery(cmd.CommandText, sqlSelect);
             cmd.Parameters.Add((page.Skip + 1).ToSqlParameter("@PagingRowNumberFrom"));
             cmd.Parameters.Add((page.Skip + page.Take).ToSqlParameter("@PagingRowNumberTo"));
