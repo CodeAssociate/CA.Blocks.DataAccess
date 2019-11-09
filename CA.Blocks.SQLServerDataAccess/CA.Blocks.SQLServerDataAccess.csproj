@@ -19,8 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CA.CoreBlocks.DataAccess.Model\CA.CoreBlocks.DataAccess.Model.csproj" />
-    <ProjectReference Include="..\CA.CoreBlocks.DataAccess\CA.Blocks.DataAccess.csproj" />
+    <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
