@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>2.0.7</Version>
-    <RepositoryUrl>\\RAVINNAS\NugetPackages</RepositoryUrl>
+    <RepositoryUrl></RepositoryUrl>
     <AssemblyName>CA.Blocks.DataAccess</AssemblyName>
     <RootNamespace>CA.Blocks.DataAccess</RootNamespace>
     <AssemblyVersion>2.0.7.0</AssemblyVersion>
