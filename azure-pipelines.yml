@@ -37,9 +37,9 @@ steps:
 # Publish build artifacts to Azure Pipelines or a Windows file share
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    pathtoPublish: '$(System.DefaultWorkingDirectory)/CA.Blocks.DataAccess/bin/Release/*.nupkg' 
     artifactName: CA.Blocks.DataAccess 
-    publishLocation: 'Container' # Options: container, filePath
+    #publishLocation: 'Container' # Options: container, filePath
     #targetPath: # Required when publishLocation == FilePath
     #parallel: false # Optional
     #parallelCount: # Optional
