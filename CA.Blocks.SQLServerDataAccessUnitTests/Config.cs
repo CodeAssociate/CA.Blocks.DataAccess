@@ -13,8 +13,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             
             var csSection =  config.ConnectionStrings;
-            csSection.ConnectionStrings.Add(new ConnectionStringSettings( "localsqlserverhost", "Server=(local);Database=tempdb;Integrated Security=SSPI", "System.Data.SqlClient"));
-
+            csSection.ConnectionStrings.Clear();
+            //csSection.ConnectionStrings.Add(new ConnectionStringSettings( "localsqlserverhost", "Server=(local);Database=tempdb;Integrated Security=SSPI", "System.Data.SqlClient"));
+            csSection.ConnectionStrings.Add(new ConnectionStringSettings("localsqlserverhost", "Server=(localdb)\\MSSQLLocalDB;Integrated Security = true", "System.Data.SqlClient"));
             // Save the configuration file.
             config.Save(ConfigurationSaveMode.Modified);
         }
@@ -25,3 +26,5 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
         }
     }
 }
+
+

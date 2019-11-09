@@ -28,10 +28,10 @@ steps:
     configuration: '$(buildConfiguration)'
 
 # WE have a dependency on SQL so we need to work out if we can run a SQL express build?
-#- task: VSTest@2
-#  inputs:
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 # Publish build artifacts
 # Publish build artifacts to Azure Pipelines or a Windows file share
