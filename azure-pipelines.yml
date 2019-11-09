@@ -27,9 +27,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-# WE have a dependency on SQL so we need to work out if we can run a SQL express build?
+# WE have a dependency on SQL so only run the SQLLite tests
 - task: VSTest@2
   inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: '**\*SQLLiteDataAccessUnitTests.dll
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
