@@ -31,7 +31,9 @@ steps:
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
-    testAssemblyVer2: '**\*SQLLiteDataAccessUnitTests.dll'
+    testAssemblyVer2: 
+        '**\*SQLLiteDataAccessUnitTests.dll'
+        '!**\obj\**'' 
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
