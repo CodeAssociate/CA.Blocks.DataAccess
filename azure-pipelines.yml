@@ -33,7 +33,8 @@ steps:
     testSelector: 'testAssemblies'
     testAssemblyVer2: 
         '**\*SQLLiteDataAccessUnitTests.dll'
-        '!**\obj\**'' 
+        '!**\obj\**'
+
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
