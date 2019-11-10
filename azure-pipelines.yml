@@ -31,7 +31,7 @@ steps:
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
-    testAssemblyVer2: 
+    testAssemblyVer2: |
         '**\*SQLLiteDataAccessUnitTests.dll'
         '!**\obj\**'
 
