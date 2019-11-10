@@ -62,7 +62,7 @@ steps:
     versioningScheme: byPrereleaseNumber
     majorVersion : $(Major)
     minorVersion : $(Minor)
-    patchVersion : $(BuildNumber)
+    patchVersion : $(Patch)
 
 
 - task: NuGetAuthenticate@0
