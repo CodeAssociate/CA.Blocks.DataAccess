@@ -14,4 +14,8 @@
     <ProjectReference Include="..\CA.Blocks.SQLLiteDataAccess\CA.Blocks.SQLLiteDataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Translator\" />
+  </ItemGroup>
+
 </Project>

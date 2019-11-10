@@ -28,8 +28,7 @@ namespace CA.Blocks.DataAccess
             if (obj == null || obj == DBNull.Value)
             {
                 throw new ArgumentNullException(
-                           string.Format("Tried to get {0} from row as non-nullable {1}, however value is NULL.", sColumnName,
-                                         typeDescription));
+                    $"Tried to get {sColumnName} from row as non-nullable {typeDescription}, however value is NULL.");
             }
         }
 
@@ -38,8 +37,7 @@ namespace CA.Blocks.DataAccess
             if (obj == null || obj == DBNull.Value)
             {
                 throw new ArgumentNullException(
-                           string.Format("Tried to get col in position {0} from row as non-nullable {1}, however value is NULL.", columnIndex,
-                                         typeDescription));
+                    $"Tried to get col in position {columnIndex} from row as non-nullable {typeDescription}, however value is NULL.");
             }
         }
 
@@ -238,6 +236,7 @@ namespace CA.Blocks.DataAccess
         {
             Decimal? val = GetValueFromRowAsNullDecimal(dr, sColumnName);
             ThrowExceptionIfIsNull(val, sColumnName, "Decimal");
+            // ReSharper disable once PossibleInvalidOperationException
             return val.Value;
         }
 

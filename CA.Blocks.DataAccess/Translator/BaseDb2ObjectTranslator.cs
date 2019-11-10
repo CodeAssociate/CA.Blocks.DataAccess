@@ -26,8 +26,6 @@ namespace CA.Blocks.DataAccess.Translator
         {
             RemoveAll(m => m.DestinationName == propertyName);
         }
-
-
     }
 
 

@@ -34,9 +34,9 @@ steps:
     testAssemblyVer2: |
         **\CA.Blocks.SQLLiteDataAccessUnitTests.dll
         !**\obj\**
-
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    codeCoverageEnabled: True # Optional
 
 # Publish build artifacts
 # Publish build artifacts to Azure Pipelines or a Windows file share
