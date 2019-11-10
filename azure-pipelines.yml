@@ -15,10 +15,11 @@ variables:
   buildConfiguration: 'Release'
   Major: '2'
   Minor: '1'
-  Patch : $(BuildId)
+  Patch :'0'
 
 steps:
-- script: echo $(Major)$(Minor)$(Patch)
+- powershell: echo "##vso[task.setvariable variable=Patch;isOutput=true]$(BuildID)"
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
