@@ -2,7 +2,7 @@
 using CA.Blocks.SQLLiteDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
+namespace CA.Blocks.SQLLiteDataAccessUnitTests.SQLLite.DbTypeTests
 {
     [TestFixture]
     public class DbTypeBitTests : UnitTestDataAccess
