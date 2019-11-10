@@ -2,6 +2,7 @@
 using System.Text;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLLiteDataAccess;
+using Microsoft.Data.Sqlite;
 
 namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
 {
@@ -10,17 +11,22 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
     {
         public string GetConnectionString(string connectionStringKey)
         {
-            return "Data Source=ca_blocks_unittest; Mode=Memory; Cache=Shared";
+            return "Data Source=ca_blocks_unittest;Mode=Memory;Cache=Shared";
         }
     }
 
     // this class exposes the internal workings so we can test
     public class UnitTestDataAccess : SqlLiteDataAccess
     {
+        private SqliteConnection _dbcontext; 
+
         public UnitTestDataAccess()
             : base(new UnitTRestInMemDB(), 
                 new DataAccessConfigOptions{DebugTrace  = false})
         {
+            // we need to hold a conneciton open for in mem
+            _dbcontext = new SqliteConnection(ConnectionString);
+            _dbcontext.Open();
         }
 
 
@@ -29,18 +35,18 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
 
         protected string DropTestTableSQL()
         {
-            return $"if exists (select * from sysobjects where xtype = 'U' and id = object_id(N'{unitTestTableName}')) begin drop table {unitTestTableName} end";
+            return $"drop table if exists {unitTestTableName}";
         }
 
         protected string CreateTestTable(string coltype)
         {
-            return $"Create table {unitTestTableName} (id int identity(1,1), col {coltype} )";
+            return $"create table if not exists  {unitTestTableName} (id int identity(1,1), col {coltype} )";
 
         }
 
         protected string InsertTestDataSQL(string data)
         {
-            return  $"Insert into {unitTestTableName}  values ({data})";
+            return  $"Insert into {unitTestTableName} (col) values ({data})";
         }
 
         protected string SelectTestDataSQL()
