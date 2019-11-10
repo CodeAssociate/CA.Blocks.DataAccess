@@ -15,8 +15,10 @@ variables:
   buildConfiguration: 'Release'
   Major: '2'
   Minor: '1'
+  Patch : $(BuildId)
 
 steps:
+- script: building $(Major)$(Minor)$(Patch)
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -60,7 +62,7 @@ steps:
     versioningScheme: byPrereleaseNumber
     majorVersion : $(Major)
     minorVersion : $(Minor)
-    patchVersion : $(BuildID)
+    patchVersion : $(BuildNumber)
 
 
 - task: NuGetAuthenticate@0
