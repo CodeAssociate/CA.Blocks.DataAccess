@@ -32,8 +32,8 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-        '**\*SQLLiteDataAccessUnitTests.dll'
-        '!**\obj\**'
+        **\CA.Blocks.SQLLiteDataAccessUnitTests.dll
+        !**\obj\**
 
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
