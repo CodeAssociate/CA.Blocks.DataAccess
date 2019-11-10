@@ -18,7 +18,7 @@ variables:
   Patch : $(BuildId)
 
 steps:
-- script: building $(Major)$(Minor)$(Patch)
+- script: echo $(Major)$(Minor)$(Patch)
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
