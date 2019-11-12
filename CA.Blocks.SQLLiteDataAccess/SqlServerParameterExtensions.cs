@@ -10,8 +10,6 @@ namespace CA.Blocks.SQLLiteDataAccess
     {
         Date,
         DateTime, // The default
-        DateTime2,
-        SmallDateTime
     }
 
     public enum SpecificSQLDecimalType
@@ -23,11 +21,11 @@ namespace CA.Blocks.SQLLiteDataAccess
 
     public enum SpecificSQLStringType
     {
-        [System.Obsolete("Backwards compatibility only remove when they remove from SQL server http://msdn.microsoft.com/en-nz/library/ms187993.aspx")]
-        NText,
-        NVarChar,
-        [System.Obsolete("Backwards compatibility only remove when they remove from SQL server http://msdn.microsoft.com/en-nz/library/ms187993.aspx")]
-        Text,
+        //[System.Obsolete("Backwards compatibility only remove when they remove from SQL server http://msdn.microsoft.com/en-nz/library/ms187993.aspx")]
+        //NText,
+        //NVarChar,
+        //[System.Obsolete("Backwards compatibility only remove when they remove from SQL server http://msdn.microsoft.com/en-nz/library/ms187993.aspx")]
+        //Text,
         VarChar, // The Default
     }
 
@@ -79,17 +77,7 @@ namespace CA.Blocks.SQLLiteDataAccess
 
         public static SqliteParameter ToSqlParameter(this byte[] input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.VarBinary)
-            {
-                Direction = ParameterDirection.Input,
-            };
-            if (input != null)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
+            throw new NotSupportedException("SQL Lite does not support  byte[] convert to unicode string first");
         }
         #endregion
 
@@ -171,44 +159,43 @@ namespace CA.Blocks.SQLLiteDataAccess
                     {
                         return SqlDbType.Date;
                     }
-                case SpecificSQLDateTimeType.DateTime2:
-                    {
-                        return SqlDbType.DateTime2;
-                    }
-                case SpecificSQLDateTimeType.SmallDateTime:
-                    {
-                        return SqlDbType.SmallDateTime;
-                    }
                 default:
                     return SqlDbType.DateTime;
             }
         }
 
-        private static SqliteParameter ToSqlParameterDateTime(DateTime? input, string strParameterName, SpecificSQLDateTimeType dbType)
-        {
-            var sqlparam = new SqliteParameter(strParameterName, ToSqlDbType(dbType))
-            {
-                Direction = ParameterDirection.Input
-            };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
-        }
+        //private static SqliteParameter ToSqlParameterDateTime(DateTime? input, string strParameterName, SpecificSQLDateTimeType dbType)
+        //{
+        //    var sqlparam = new SqliteParameter(strParameterName, ToSqlDbType(dbType))
+        //    {
+        //        Direction = ParameterDirection.Input
+        //    };
+        //    if (input.HasValue)
+        //    {
+        //        //TEXT as ISO8601 strings("YYYY-MM-DD HH:MM:SS.SSS").
+        //        //string search = input.Value.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        //        string search = input.Value.ToString("yyyy-MM-DD HH:mm:ss.fff");
+        //        sqlparam.Value = search;
+        //    }
+        //    else
+        //    {
+        //        sqlparam.Value = DBNull.Value;
+        //    }
+        //    return (sqlparam);
+        //}
 
         public static SqliteParameter ToSqlParameter(this DateTime input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime)
         {
-            return ToSqlParameterDateTime(input, strParameterName, dbType);
+            throw new NotSupportedException("SQL Lite does not support DateTime .. use the  date or datetime functions ie Where col = date('{testvalue:o}')");
+            //return ToSqlParameterDateTime(input, strParameterName, dbType);
         }
 
         // Default to DateTime
 
         public static SqliteParameter ToSqlParameter(this DateTime? input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime)
         {
-            return ToSqlParameterDateTime(input, strParameterName, dbType);
+            throw new NotSupportedException("SQL Lite does not support DateTime .. use the  date or datetime functions ie Where col = date('{testvalue:o}')");
+            //return ToSqlParameterDateTime(input, strParameterName, dbType);
         }
         #endregion
 
@@ -469,10 +456,10 @@ namespace CA.Blocks.SQLLiteDataAccess
                     {
                         return SqlDbType.VarChar;
                     }
-                case SpecificSQLStringType.NVarChar:
-                    {
-                        return SqlDbType.NVarChar;
-                    }
+                //case SpecificSQLStringType.NVarChar:
+                //    {
+                //        return SqlDbType.NVarChar;
+                //    }
                 //case SpecificSQLStringType.Text:
                 //    {
                 //        return SqlDbType.Text;

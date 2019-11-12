@@ -136,7 +136,8 @@ namespace CA.Blocks.DataAccess
         [DebuggerStepThrough]
         public static int? GetValueFromRowAsNullInt(DataRow dr, string sColumnName)
         {
-            return ((int?)GetValueFromRow(dr, sColumnName));
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (int?)null : Convert.ToInt32(dbValue);
         }
 
 
@@ -150,13 +151,15 @@ namespace CA.Blocks.DataAccess
         [DebuggerStepThrough]
         public static int? GetValueFromRowAsNullInt(DataRow dr, DataColumn column)
         {
-            return ((int?)GetValueFromRow(dr, column));
+            var dbValue = GetValueFromRow(dr, column);
+            return dbValue == null ? (int?)null : Convert.ToInt32(dbValue);
         }
 
         [DebuggerStepThrough]
         public static int? GetValueFromRowAsNullInt(DataRow dr, int columnOrder)
         {
-            return ((int?)GetValueFromRow(dr, columnOrder));
+            var dbValue = GetValueFromRow(dr, columnOrder);
+            return dbValue == null ? (int?)null : Convert.ToInt32(dbValue);
         }
 
         /// <summary>
@@ -492,19 +495,22 @@ namespace CA.Blocks.DataAccess
         [DebuggerStepThrough]
         public static short? GetValueFromRowAsNullShort(DataRow dr, string sColumnName)
         {
-            return (short?)GetValueFromRow(dr, sColumnName);
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (short?)null : Convert.ToInt16(dbValue);
         }
 
         [DebuggerStepThrough]
         public static short? GetValueFromRowAsNullShort(DataRow dr, int columnIndex)
         {
-            return (short?)GetValueFromRow(dr, columnIndex);
+            var dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? (short?)null : Convert.ToInt16(dbValue);
         }
 
         [DebuggerStepThrough]
         public static short? GetValueFromRowAsNullShort(DataRow dr, DataColumn dc)
         {
-            return (short?)GetValueFromRow(dr, dc);
+            var dbValue = GetValueFromRow(dr, dc);
+            return dbValue == null ? (short?)null : Convert.ToInt16(dbValue);
         }
 
         /// <summary>
@@ -549,19 +555,22 @@ namespace CA.Blocks.DataAccess
         [DebuggerStepThrough]
         public static sbyte? GetValueFromRowAsNullSbyte(DataRow dr, string sColumnName)
         {
-            return (sbyte?)(GetValueFromRow(dr, sColumnName));
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (sbyte?)null : Convert.ToSByte(dbValue);
         }
 
         [DebuggerStepThrough]
         public static sbyte? GetValueFromRowAsNullSbyte(DataRow dr, int columnIndex)
         {
-            return (sbyte?)(GetValueFromRow(dr, columnIndex));
+            var dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? (sbyte?)null : Convert.ToSByte(dbValue);
         }
 
         [DebuggerStepThrough]
         public static sbyte? GetValueFromRowAsNullSbyte(DataRow dr, DataColumn dc)
         {
-            return (sbyte?)(GetValueFromRow(dr, dc));
+            var dbValue = GetValueFromRow(dr, dc);
+            return dbValue == null ? (sbyte?)null : Convert.ToSByte(dbValue);
         }
 
         /// <summary>
@@ -605,13 +614,15 @@ namespace CA.Blocks.DataAccess
         [DebuggerStepThrough]
         public static byte? GetValueFromRowAsNullByte(DataRow dr, string sColumnName)
         {
-            return (byte?)(GetValueFromRow(dr, sColumnName));
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (byte?) null : Convert.ToByte(dbValue);
         }
 
         [DebuggerStepThrough]
         public static byte? GetValueFromRowAsNullByte(DataRow dr, int columnIndex)
         {
-            return (byte?)(GetValueFromRow(dr, columnIndex));
+            var dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? (byte?)null : Convert.ToByte(dbValue);
         }
 
         [DebuggerStepThrough]
@@ -661,19 +672,22 @@ namespace CA.Blocks.DataAccess
         [DebuggerStepThrough]
         public static DateTime? GetValueFromRowAsNullDateTime(DataRow dr, string sColumnName)
         {
-            return (DateTime?)(GetValueFromRow(dr, sColumnName));
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (DateTime?)null : Convert.ToDateTime(dbValue);
         }
 
         [DebuggerStepThrough]
         public static DateTime? GetValueFromRowAsNullDateTime(DataRow dr, int columnIndex)
         {
-            return (DateTime?)(GetValueFromRow(dr, columnIndex));
+            var dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? (DateTime?)null : Convert.ToDateTime(dbValue);
         }
 
         [DebuggerStepThrough]
         public static DateTime? GetValueFromRowAsNullDateTime(DataRow dr, DataColumn dc)
         {
-            return (DateTime?)(GetValueFromRow(dr, dc));
+            var dbValue = GetValueFromRow(dr, dc);
+            return dbValue == null ? (DateTime?)null : Convert.ToDateTime(dbValue);
         }
 
         /// <summary>
