@@ -88,7 +88,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="sColumnName"> The Name of the Column in the DataRow </param>
         /// <param name="returnNullAsEmptyString">Sets the attribute on how an empty string will be treated, it true it will return string.empty else it will return null. </param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static string GetValueFromRowAsString(DataRow dr, string sColumnName, bool returnNullAsEmptyString = false)
         {
             object result = GetValueFromRow(dr, sColumnName);
@@ -106,7 +106,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="columnOrder"> The order of the Column in the DataRow </param>
         /// <param name="returnNullAsEmptyString">Sets the attribute on how an empty string will be treated, it true it will return string.empty else it will return null. </param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static string GetValueFromRowAsString(DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
         {
             object result = GetValueFromRow(dr, columnOrder);
@@ -116,7 +116,7 @@ namespace CA.Blocks.DataAccess
         }
 
 
-        [DebuggerStepThrough]
+        
         public static string GetValueFromRowAsString(DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
         {
             object result = GetValueFromRow(dr, column);
@@ -133,7 +133,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static int? GetValueFromRowAsNullInt(DataRow dr, string sColumnName)
         {
             var dbValue = GetValueFromRow(dr, sColumnName);
@@ -148,14 +148,14 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="column">The Column inside the datarow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static int? GetValueFromRowAsNullInt(DataRow dr, DataColumn column)
         {
             var dbValue = GetValueFromRow(dr, column);
             return dbValue == null ? (int?)null : Convert.ToInt32(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static int? GetValueFromRowAsNullInt(DataRow dr, int columnOrder)
         {
             var dbValue = GetValueFromRow(dr, columnOrder);
@@ -169,7 +169,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static int GetValueFromRowAsInt(DataRow dr, string sColumnName)
         {
             int? val = GetValueFromRowAsNullInt(dr, sColumnName);
@@ -185,7 +185,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="column">The Column which is part of the data row</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static int GetValueFromRowAsInt(DataRow dr, DataColumn column)
         {
             int? val = GetValueFromRowAsNullInt(dr, column);
@@ -193,7 +193,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static int GetValueFromRowAsInt(DataRow dr, int columnIndex)
         {
             int? val = GetValueFromRowAsNullInt(dr, columnIndex);
@@ -209,19 +209,19 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static Decimal? GetValueFromRowAsNullDecimal(DataRow dr, string sColumnName)
         {
             return ((Decimal?)GetValueFromRow(dr, sColumnName));
         }
 
-        [DebuggerStepThrough]
+        
         public static Decimal? GetValueFromRowAsNullDecimal(DataRow dr, int columnIndex)
         {
             return ((Decimal?)GetValueFromRow(dr, columnIndex));
         }
 
-        [DebuggerStepThrough]
+        
         public static Decimal? GetValueFromRowAsNullDecimal(DataRow dr, DataColumn dc)
         {
             return ((Decimal?)GetValueFromRow(dr, dc));
@@ -234,7 +234,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static Decimal GetValueFromRowAsDecimal(DataRow dr, string sColumnName)
         {
             Decimal? val = GetValueFromRowAsNullDecimal(dr, sColumnName);
@@ -243,7 +243,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static Decimal GetValueFromRowAsDecimal(DataRow dr, int columnIndex)
         {
             Decimal? val = GetValueFromRowAsNullDecimal(dr, columnIndex);
@@ -251,7 +251,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static Decimal GetValueFromRowAsDecimal(DataRow dr, DataColumn dc)
         {
             Decimal? val = GetValueFromRowAsNullDecimal(dr, dc);
@@ -266,19 +266,19 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static Double? GetValueFromRowAsNullDouble(DataRow dr, string sColumnName)
         {
             return ((Double?)GetValueFromRow(dr, sColumnName));
         }
 
-        [DebuggerStepThrough]
+        
         public static Double? GetValueFromRowAsNullDouble(DataRow dr, int columnIndex)
         {
             return ((Double?)GetValueFromRow(dr, columnIndex));
         }
 
-        [DebuggerStepThrough]
+        
         public static Double? GetValueFromRowAsNullDouble(DataRow dr, DataColumn dc)
         {
             return ((Double?)GetValueFromRow(dr, dc));
@@ -291,7 +291,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static Double GetValueFromRowAsDouble(DataRow dr, string sColumnName)
         {
             Double? val = GetValueFromRowAsNullDouble(dr, sColumnName);
@@ -299,7 +299,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static Double GetValueFromRowAsDouble(DataRow dr, int columnIndex)
         {
             Double? val = GetValueFromRowAsNullDouble(dr, columnIndex);
@@ -307,7 +307,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static Double GetValueFromRowAsDouble(DataRow dr, DataColumn dc)
         {
             Double? val = GetValueFromRowAsNullDouble(dr, dc);
@@ -315,25 +315,25 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static float? GetValueFromRowAsNullFloat(DataRow dr, string sColumnName)
         {
             return ((float?)GetValueFromRow(dr, sColumnName));
         }
 
-        [DebuggerStepThrough]
+        
         public static float? GetValueFromRowAsNullFloat(DataRow dr, int columnIndex)
         {
             return ((float?)GetValueFromRow(dr, columnIndex));
         }
 
-        [DebuggerStepThrough]
+        
         public static float? GetValueFromRowAsNullFloat(DataRow dr, DataColumn dc)
         {
             return ((float?)GetValueFromRow(dr, dc));
         }
 
-        [DebuggerStepThrough]
+        
         public static float GetValueFromRowAsFloat(DataRow dr, string sColumnName)
         {
             float? val = GetValueFromRowAsNullFloat(dr, sColumnName);
@@ -341,7 +341,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static float GetValueFromRowAsFloat(DataRow dr, int columnIndex)
         {
             float? val = GetValueFromRowAsNullFloat(dr, columnIndex);
@@ -349,7 +349,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static float GetValueFromRowAsFloat(DataRow dr, DataColumn dc)
         {
             float? val = GetValueFromRowAsNullFloat(dr, dc);
@@ -364,13 +364,13 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static long? GetValueFromRowAsNullLong(DataRow dr, string sColumnName)
         {
             return ((long?)GetValueFromRow(dr, sColumnName));
         }
 
-        [DebuggerStepThrough]
+        
         public static long? GetValueFromRowAsNullLong(DataRow dr, int columnIndex)
         {
             return ((long?)GetValueFromRow(dr, columnIndex));
@@ -383,7 +383,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="column">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static long? GetValueFromRowAsNullLong(DataRow dr, DataColumn column)
         {
             return ((long?)GetValueFromRow(dr, column));
@@ -396,7 +396,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static long GetValueFromRowAsLong(DataRow dr, string sColumnName)
         {
             long? val = GetValueFromRowAsNullLong(dr, sColumnName);
@@ -404,7 +404,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static long GetValueFromRowAsLong(DataRow dr, int columnIndex)
         {
             long? val = GetValueFromRowAsNullLong(dr, columnIndex);
@@ -419,7 +419,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="column">The Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static long GetValueFromRowAsLong(DataRow dr, DataColumn column)
         {
             long? val = GetValueFromRowAsNullLong(dr, column);
@@ -492,21 +492,21 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static short? GetValueFromRowAsNullShort(DataRow dr, string sColumnName)
         {
             var dbValue = GetValueFromRow(dr, sColumnName);
             return dbValue == null ? (short?)null : Convert.ToInt16(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static short? GetValueFromRowAsNullShort(DataRow dr, int columnIndex)
         {
             var dbValue = GetValueFromRow(dr, columnIndex);
             return dbValue == null ? (short?)null : Convert.ToInt16(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static short? GetValueFromRowAsNullShort(DataRow dr, DataColumn dc)
         {
             var dbValue = GetValueFromRow(dr, dc);
@@ -520,7 +520,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static short GetValueFromRowAsShort(DataRow dr, string sColumnName)
         {
             short? val = GetValueFromRowAsNullShort(dr, sColumnName);
@@ -528,7 +528,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static short GetValueFromRowAsShort(DataRow dr, int columnIndex)
         {
             short? val = GetValueFromRowAsNullShort(dr, columnIndex);
@@ -536,7 +536,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static short GetValueFromRowAsShort(DataRow dr, DataColumn dc)
         {
             short? val = GetValueFromRowAsNullShort(dr, dc);
@@ -552,21 +552,21 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static sbyte? GetValueFromRowAsNullSbyte(DataRow dr, string sColumnName)
         {
             var dbValue = GetValueFromRow(dr, sColumnName);
             return dbValue == null ? (sbyte?)null : Convert.ToSByte(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static sbyte? GetValueFromRowAsNullSbyte(DataRow dr, int columnIndex)
         {
             var dbValue = GetValueFromRow(dr, columnIndex);
             return dbValue == null ? (sbyte?)null : Convert.ToSByte(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static sbyte? GetValueFromRowAsNullSbyte(DataRow dr, DataColumn dc)
         {
             var dbValue = GetValueFromRow(dr, dc);
@@ -580,7 +580,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static sbyte GetValueFromRowAsSbyte(DataRow dr, string sColumnName)
         {
             sbyte? val = GetValueFromRowAsNullSbyte(dr, sColumnName);
@@ -588,7 +588,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static sbyte GetValueFromRowAsSbyte(DataRow dr, int columnIndex)
         {
             sbyte? val = GetValueFromRowAsNullSbyte(dr, columnIndex);
@@ -596,7 +596,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static sbyte GetValueFromRowAsSbyte(DataRow dr, DataColumn dc)
         {
             sbyte? val = GetValueFromRowAsNullSbyte(dr, dc);
@@ -611,21 +611,21 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+     
         public static byte? GetValueFromRowAsNullByte(DataRow dr, string sColumnName)
         {
             var dbValue = GetValueFromRow(dr, sColumnName);
             return dbValue == null ? (byte?) null : Convert.ToByte(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static byte? GetValueFromRowAsNullByte(DataRow dr, int columnIndex)
         {
             var dbValue = GetValueFromRow(dr, columnIndex);
             return dbValue == null ? (byte?)null : Convert.ToByte(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static byte? GetValueFromRowAsNullByte(DataRow dr, DataColumn dc)
         {
             return (byte?)(GetValueFromRow(dr, dc));
@@ -638,7 +638,6 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
         public static byte GetValueFromRowAsByte(DataRow dr, string sColumnName)
         {
             byte? val = GetValueFromRowAsNullByte(dr, sColumnName);
@@ -646,7 +645,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static byte GetValueFromRowAsByte(DataRow dr, int columnIndex)
         {
             byte? val = GetValueFromRowAsNullByte(dr, columnIndex);
@@ -654,7 +653,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static byte GetValueFromRowAsByte(DataRow dr, DataColumn dc)
         {
             byte? val = GetValueFromRowAsNullByte(dr, dc);
@@ -669,21 +668,21 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static DateTime? GetValueFromRowAsNullDateTime(DataRow dr, string sColumnName)
         {
             var dbValue = GetValueFromRow(dr, sColumnName);
             return dbValue == null ? (DateTime?)null : Convert.ToDateTime(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static DateTime? GetValueFromRowAsNullDateTime(DataRow dr, int columnIndex)
         {
             var dbValue = GetValueFromRow(dr, columnIndex);
             return dbValue == null ? (DateTime?)null : Convert.ToDateTime(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static DateTime? GetValueFromRowAsNullDateTime(DataRow dr, DataColumn dc)
         {
             var dbValue = GetValueFromRow(dr, dc);
@@ -697,7 +696,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static DateTime GetValueFromRowAsDateTime(DataRow dr, string sColumnName)
         {
             DateTime? val = GetValueFromRowAsNullDateTime(dr, sColumnName);
@@ -705,7 +704,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static DateTime GetValueFromRowAsDateTime(DataRow dr, int columnIndex)
         {
             DateTime? val = GetValueFromRowAsNullDateTime(dr, columnIndex);
@@ -713,7 +712,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static DateTime GetValueFromRowAsDateTime(DataRow dr, DataColumn dc)
         {
             DateTime? val = GetValueFromRowAsNullDateTime(dr, dc);
@@ -768,7 +767,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static Guid GetValueFromRowAsGuid(DataRow dr, string sColumnName)
         {
             Guid? val = GetValueFromRowAsNullGuid(dr, sColumnName);
@@ -776,7 +775,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static Guid GetValueFromRowAsGuid(DataRow dr, int columnIndex)
         {
             Guid? val = GetValueFromRowAsNullGuid(dr, columnIndex);
@@ -784,7 +783,7 @@ namespace CA.Blocks.DataAccess
             return val.Value;
         }
 
-        [DebuggerStepThrough]
+        
         public static Guid GetValueFromRowAsGuid(DataRow dr, DataColumn dc)
         {
             Guid? val = GetValueFromRowAsNullGuid(dr, dc);
@@ -800,109 +799,99 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        
         public static Guid? GetValueFromRowAsNullGuid(DataRow dr, string sColumnName)
         {
             return ((Guid?)GetValueFromRow(dr, sColumnName));
         }
 
-        [DebuggerStepThrough]
+        
         public static Guid? GetValueFromRowAsNullGuid(DataRow dr, int columnIndex)
         {
             return ((Guid?)GetValueFromRow(dr, columnIndex));
         }
 
-        [DebuggerStepThrough]
+        
         public static Guid? GetValueFromRowAsNullGuid(DataRow dr, DataColumn dc)
         {
             return ((Guid?)GetValueFromRow(dr, dc));
         }
 
-        [DebuggerStepThrough]
         public static char GetValueFromRowAsChar(DataRow dr, string sColumnName)
         {
-            object result = GetValueFromRow(dr, sColumnName);
-            return result.ToString().Length > 0 ? ((string)result)[0] : '\0';
+            object dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? '\0' : Convert.ToChar(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static char GetValueFromRowAsChar(DataRow dr, int columnIndex)
         {
-            object result = GetValueFromRow(dr, columnIndex);
-            return result.ToString().Length > 0 ? ((string)result)[0] : '\0';
+            object dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? '\0' : Convert.ToChar(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static char GetValueFromRowAsChar(DataRow dr, DataColumn dc)
         {
-            object result = GetValueFromRow(dr, dc);
-            return result.ToString().Length > 0 ? ((string)result)[0] : '\0';
+            object dbValue = GetValueFromRow(dr, dc);
+            return dbValue == null ? '\0' : Convert.ToChar(dbValue);
         }
 
-        [DebuggerStepThrough]
+
         public static char? GetValueFromRowAsNullChar(DataRow dr, string sColumnName)
         {
-            object result = GetValueFromRow(dr, sColumnName);
-            if (result != null && result.ToString().Length > 0)
-                return ((string)result)[0];
-            else
-                return null;
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (char?)null : Convert.ToChar(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static char? GetValueFromRowAsNullChar(DataRow dr, int columnIndex)
         {
-            object result = GetValueFromRow(dr, columnIndex);
-            if (result != null && result.ToString().Length > 0)
-                return ((string)result)[0];
-            else
-                return null;
+            var dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? (char?)null : Convert.ToChar(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static char? GetValueFromRowAsNullChar(DataRow dr, DataColumn dc)
         {
-            object result = GetValueFromRow(dr, dc);
-            if (result != null && result.ToString().Length > 0)
-                return ((string)result)[0];
-            else
-                return null;
+            var dbValue = GetValueFromRow(dr, dc);
+            return dbValue == null ? (char?)null : Convert.ToChar(dbValue);
         }
 
-        [DebuggerStepThrough]
+        
         public static ulong GetValueFromRowAsRowVersion(DataRow dr, string sColumnName)
         {
             byte[] result = (byte[])DataHelper.GetValueFromRow(dr, sColumnName);
             return BitConverter.ToUInt64(result, 0);
         }
 
-        [DebuggerStepThrough]
+        
         public static ulong GetValueFromRowAsRowVersion(DataRow dr, int columnIndex)
         {
             byte[] result = (byte[])DataHelper.GetValueFromRow(dr, columnIndex);
             return BitConverter.ToUInt64(result, 0);
         }
 
-        [DebuggerStepThrough]
+        
         public static ulong GetValueFromRowAsRowVersion(DataRow dr, DataColumn dc)
         {
             byte[] result = (byte[])DataHelper.GetValueFromRow(dr, dc);
             return BitConverter.ToUInt64(result, 0);
         }
 
-        [DebuggerStepThrough]
+        
         public static byte[] GetValueFromRowAsBinary(DataRow dr, string sColumnName)
         {
             return (byte[])GetValueFromRow(dr, sColumnName);
         }
 
-        [DebuggerStepThrough]
+        
         public static byte[] GetValueFromRowAsBinary(DataRow dr, int columnIndex)
         {
             return (byte[])GetValueFromRow(dr, columnIndex);
         }
 
-        [DebuggerStepThrough]
+        
         public static byte[] GetValueFromRowAsBinary(DataRow dr, DataColumn dc)
         {
             return (byte[])GetValueFromRow(dr, dc);
