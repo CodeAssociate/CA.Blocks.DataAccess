@@ -428,6 +428,43 @@ namespace CA.Blocks.DataAccess
         }
 
 
+        public static ulong? GetValueFromRowAsNullULong(DataRow dr, string sColumnName)
+        {
+            return ((ulong?)GetValueFromRow(dr, sColumnName));
+        }
+
+
+        public static ulong? GetValueFromRowAsNullULong(DataRow dr, int columnIndex)
+        {
+            return ((ulong?)GetValueFromRow(dr, columnIndex));
+        }
+
+        public static ulong? GetValueFromRowAsNullULong(DataRow dr, DataColumn column)
+        {
+            return ((ulong?)GetValueFromRow(dr, column));
+        }
+
+        public static ulong GetValueFromRowAsULong(DataRow dr, string sColumnName)
+        {
+            ulong? val = GetValueFromRowAsNullULong(dr, sColumnName);
+            ThrowExceptionIfIsNull(val, sColumnName, "ulong");
+            return val.Value;
+        }
+
+        public static ulong GetValueFromRowAsULong(DataRow dr, int columnIndex)
+        {
+            ulong? val = GetValueFromRowAsNullULong(dr, columnIndex);
+            ThrowExceptionIfIsNull(val, columnIndex, "ulong");
+            return val.Value;
+        }
+
+        public static ulong GetValueFromRowAsULong(DataRow dr, DataColumn column)
+        {
+            ulong? val = GetValueFromRowAsNullULong(dr, column);
+            ThrowExceptionIfIsNull(val, column.ColumnName, "ulong");
+            return val.Value;
+        }
+        
         /// <summary>
         /// Will get a the data value from the data row as a bool. If a DB Null is found then throw a NullException
         /// </summary>

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using CA.Blocks.DataAccess;
 using NUnit.Framework;
@@ -281,6 +284,55 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         }
 
 
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, (ulong)123456789)]
+        public void GetValueFromRowAsLong_AsNullTests(int rowNumber, ulong? expected)
+        {
+            ulong? actual;
+            var dt = CreateTestTable(typeof(ulong), expected);
+
+            actual = dt.Rows[rowNumber].AsNullULong("col");
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+
+            actual = dt.Rows[rowNumber].AsNullULong(1);
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+
+            actual = dt.Rows[rowNumber].AsNullULong(dt.Columns["col"]);
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+        }
+
+        [Test]
+        [TestCase(1, (ulong)1234567890)]
+        [TestCase(1, ulong.MinValue)]
+        [TestCase(1, ulong.MaxValue)]
+        public void GetValueFromRowAsULong(int rowNumber, ulong expected)
+        {
+            ulong actual;
+            var dt = CreateTestTable(typeof(ulong), expected);
+
+            actual = dt.Rows[rowNumber].AsULong("col");
+            Assert.AreEqual(expected, actual);
+
+            actual = dt.Rows[rowNumber].AsULong(1);
+            Assert.AreEqual(expected, actual);
+
+            actual = dt.Rows[rowNumber].AsULong(dt.Columns["col"]);
+            Assert.AreEqual(expected, actual);
+        }
+
+
         [Test]
         [TestCase(0, null)]
         [TestCase(1, (int)1456789)]
@@ -308,6 +360,107 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
                 Assert.IsFalse(actual.HasValue);
         }
 
+
+
+        [Test]
+        [TestCase(1, (sbyte)122)]
+        [TestCase(1, sbyte.MinValue)]
+        [TestCase(1, sbyte.MaxValue)]
+        public void GetValueFromRowAsULong(int rowNumber, sbyte expected)
+        {
+            sbyte actual;
+            var dt = CreateTestTable(typeof(sbyte), expected);
+
+            actual = dt.Rows[rowNumber].AsSbyte("col");
+            Assert.AreEqual(expected, actual);
+
+            actual = dt.Rows[rowNumber].AsSbyte(1);
+            Assert.AreEqual(expected, actual);
+
+            actual = dt.Rows[rowNumber].AsSbyte(dt.Columns["col"]);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, (sbyte)-12)]
+        [TestCase(1, (sbyte)13)]
+        public void GetValueFromRowAsInt_AsNullTests(int rowNumber, sbyte? expected)
+        {
+            sbyte? actual;
+            var dt = CreateTestTable(typeof(sbyte), expected);
+
+            actual = dt.Rows[rowNumber].AsNullSbyte("col");
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+
+            actual = dt.Rows[rowNumber].AsNullSbyte(1);
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+
+            actual = dt.Rows[rowNumber].AsNullSbyte(dt.Columns["col"]);
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+        }
+
+
+
+
+        [Test]
+        [TestCase(1, (short)1442)]
+        [TestCase(1, short.MinValue)]
+        [TestCase(1, short.MaxValue)]
+        public void GetValueFromRowAsShort(int rowNumber, short expected)
+        {
+            short actual;
+            var dt = CreateTestTable(typeof(short), expected);
+
+            actual = dt.Rows[rowNumber].AsShort("col");
+            Assert.AreEqual(expected, actual);
+
+            actual = dt.Rows[rowNumber].AsShort(1);
+            Assert.AreEqual(expected, actual);
+
+            actual = dt.Rows[rowNumber].AsShort(dt.Columns["col"]);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, (short)-12)]
+        [TestCase(1, (short)13)]
+        public void GetValueFromRowAsShort_AsNullTests(int rowNumber, short? expected)
+        {
+            short? actual;
+            var dt = CreateTestTable(typeof(short), expected);
+
+            actual = dt.Rows[rowNumber].AsNullShort("col");
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+
+            actual = dt.Rows[rowNumber].AsNullShort(1);
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+
+            actual = dt.Rows[rowNumber].AsNullShort(dt.Columns["col"]);
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+        }
+
         [Test]
         [TestCase(1, 1234567)]
         [TestCase(1, int.MinValue)]
@@ -326,7 +479,6 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             actual = dt.Rows[rowNumber].AsInt(dt.Columns["col"]);
             Assert.AreEqual(expected, actual);
         }
-
 
 
         [Test]
@@ -561,6 +713,190 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             Assert.AreEqual(expected, actual);
 
             actual = dt.Rows[rowNumber].AsDateTime(dt.Columns["col"]);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, "22:21:20")]
+        public void GetValueFromRowAsTimeSpan_AsNullTests(int rowNumber, string testDate)
+        {
+            TimeSpan? expected = null;
+            if (!string.IsNullOrWhiteSpace(testDate))
+            {
+                expected = TimeSpan.Parse(testDate);
+            }
+
+            TimeSpan? actual;
+            var dt = CreateTestTable(typeof(TimeSpan), expected);
+
+            actual = dt.Rows[rowNumber].AsNullTimeSpan("col");
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+
+            actual = dt.Rows[rowNumber].AsNullTimeSpan(1);
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+
+            actual = dt.Rows[rowNumber].AsNullTimeSpan(dt.Columns["col"]);
+            if (expected.HasValue)
+                Assert.AreEqual(expected, actual.Value);
+            else
+                Assert.IsFalse(actual.HasValue);
+        }
+
+        [Test]
+        [TestCase(1, "now")]
+        [TestCase(1, "00:00:00")]
+        [TestCase(1, "23:44:34.333")]
+        public void GetValueFromRowAsTimeSpan(int rowNumber, string testDate)
+        {
+            TimeSpan? expected = null;
+            if (!string.IsNullOrWhiteSpace(testDate))
+            {
+                if (testDate == "now")
+                {
+                    expected = DateTime.Now.TimeOfDay;
+                }
+                else
+                {
+                    expected = TimeSpan.Parse(testDate);
+                }
+            }
+
+            TimeSpan actual;
+            var dt = CreateTestTable(typeof(TimeSpan), expected);
+
+            actual = dt.Rows[rowNumber].AsTimeSpan("col");
+            Assert.AreEqual(expected, actual);
+
+            actual = dt.Rows[rowNumber].AsTimeSpan(1);
+            Assert.AreEqual(expected, actual);
+
+            actual = dt.Rows[rowNumber].AsTimeSpan(dt.Columns["col"]);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, "")]
+        [TestCase(1, "12345")]
+        [TestCase(1, "734^%$%$^$^%")]
+        public void GetValueFromRowAsString(int rowNumber, string expected)
+        {
+            string actual;
+            var dt = CreateTestTable(typeof(string), expected);
+
+            actual = dt.Rows[rowNumber].AsString("col");
+            if (expected != null)
+                Assert.AreEqual(expected, actual);
+            else
+                Assert.IsTrue(actual == null);
+
+            actual = dt.Rows[rowNumber].AsString(1);
+            if (expected != null)
+                Assert.AreEqual(expected, actual);
+            else
+                Assert.IsTrue(actual == null);
+
+            actual = dt.Rows[rowNumber].AsString(dt.Columns["col"]);
+            if (expected != null)
+                Assert.AreEqual(expected, actual);
+            else
+                Assert.IsTrue(actual == null);
+        }
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, "")]
+        [TestCase(1, "1,2,3,4", ',')]
+        [TestCase(1, "1|2|5", '|')]
+        public void GetValueFromRowAsShortList(int rowNumber, string testDate, char delimiter)
+        {
+            List<short> expected = new List<short>();
+            if (!string.IsNullOrWhiteSpace(testDate))
+            {
+                var sarray = testDate.Split(delimiter);
+                expected.AddRange(sarray.Select(short.Parse));
+            }
+
+            IList<short> actual;
+            var dt = CreateTestTable(typeof(string), testDate);
+
+            actual = dt.Rows[rowNumber].AsShortList("col", delimiter);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, "")]
+        [TestCase(1, "1,2,3,4", ',')]
+        [TestCase(1, "1|2|5", '|')]
+        public void GetValueFromRowAsIntList(int rowNumber, string testDate, char delimiter)
+        {
+            List<int> expected = new List<int>();
+            if (!string.IsNullOrWhiteSpace(testDate))
+            {
+                var sarray = testDate.Split(delimiter);
+                expected.AddRange(sarray.Select(int.Parse));
+            }
+
+            IList<int> actual;
+            var dt = CreateTestTable(typeof(string), testDate);
+
+            actual = dt.Rows[rowNumber].AsIntList("col", delimiter);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, "")]
+        [TestCase(1, "1,2,3,4", ',')]
+        [TestCase(1, "1|2|5", '|')]
+        public void GetValueFromRowAsLongList(int rowNumber, string testDate, char delimiter)
+        {
+            List<long> expected = new List<long>();
+            if (!string.IsNullOrWhiteSpace(testDate))
+            {
+                var sarray = testDate.Split(delimiter);
+                expected.AddRange(sarray.Select(long.Parse));
+            }
+
+            IList<long> actual;
+            var dt = CreateTestTable(typeof(string), testDate);
+
+            actual = dt.Rows[rowNumber].AsLongList("col", delimiter);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, "")]
+        [TestCase(1, "1,2,3,4", ',')]
+        [TestCase(1, "1|2|5", '|')]
+        public void GetValueFromRowAsStringList(int rowNumber, string testDate, char delimiter)
+        {
+            List<string> expected = new List<string>();
+            if (!string.IsNullOrWhiteSpace(testDate))
+            {
+                var sarray = testDate.Split(delimiter);
+                expected.AddRange(sarray.ToList());
+            }
+
+            IList<string> actual;
+            var dt = CreateTestTable(typeof(string), testDate);
+
+            actual = dt.Rows[rowNumber].AsStringList("col", delimiter);
             Assert.AreEqual(expected, actual);
         }
 

@@ -389,23 +389,39 @@ namespace CA.Blocks.DataAccess
         }
         #endregion
 
-        #region RowVersion / ulong
+        #region ulong
 
+        
         public static ulong AsULong(this DataRow dr, string colName)
         {
-            return DataHelper.GetValueFromRowAsRowVersion(dr, colName);
+            return DataHelper.GetValueFromRowAsULong(dr, colName);
         }
 
         public static ulong AsULong(this DataRow dr, int columnIndex)
         {
-            return DataHelper.GetValueFromRowAsRowVersion(dr, columnIndex);
+            return DataHelper.GetValueFromRowAsULong(dr, columnIndex);
         }
 
         public static ulong AsULong(this DataRow dr, DataColumn column)
         {
-            return DataHelper.GetValueFromRowAsRowVersion(dr, column);
+            return DataHelper.GetValueFromRowAsULong(dr, column);
         }
-        // Nulls dont make sense for RowVersion
+
+        // Nulls
+        public static ulong? AsNullULong(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsNullULong(dr, colName);
+        }
+
+        public static ulong? AsNullULong(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsNullULong(dr, columnIndex);
+        }
+
+        public static ulong? AsNullULong(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsNullULong(dr, column);
+        }
 
         #endregion
 
@@ -426,8 +442,22 @@ namespace CA.Blocks.DataAccess
         {
             return DataHelper.GetValueFromRowAsSbyte(dr, column);
         }
-        // Nulls do not make sense i think
 
+        // Nulls
+        public static sbyte? AsNullSbyte(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsNullSbyte(dr, colName);
+        }
+
+        public static sbyte? AsNullSbyte(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsNullSbyte(dr, columnIndex);
+        }
+
+        public static sbyte? AsNullSbyte(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsNullSbyte(dr, column);
+        }
 
         #endregion
 
@@ -492,6 +522,7 @@ namespace CA.Blocks.DataAccess
         }
 
         // As list
+        // This needs more work to cater for the quotes and delimiters in  data..
         public static IList<string> AsStringList(this DataRow dr, string columnName, char delimiter)
         {
             var result = new List<string>();
