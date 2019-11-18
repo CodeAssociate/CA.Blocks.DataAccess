@@ -329,6 +329,7 @@ namespace CA.Blocks.DataAccess
         }
 
         // As delimited List eg "1,2,3" will be a IList {1,2,3}
+        [System.Obsolete("This logic does not belong here it should be a string extension")]
         public static IList<int> AsIntList(this DataRow dr, string columnName, char delimiter = ',')
         {
             var result = new List<int>();
@@ -376,6 +377,7 @@ namespace CA.Blocks.DataAccess
         }
 
         // AS List
+        [System.Obsolete("This logic does not belong here it should be a string extension")]
         public static IList<long> AsLongList(this DataRow dr, string columnName, char delimiter = ',')
         {
             var result = new List<long>();
@@ -492,7 +494,8 @@ namespace CA.Blocks.DataAccess
         {
             return DataHelper.GetValueFromRowAsNullShort(dr, column);
         }
-        // AS list
+        
+        [System.Obsolete("This logic does not belong here it should be a string extension")]
         public static IList<short> AsShortList(this DataRow dr, string columnName, char delimiter = ',')
         {
             var result = new List<short>();
@@ -523,6 +526,7 @@ namespace CA.Blocks.DataAccess
 
         // As list
         // This needs more work to cater for the quotes and delimiters in  data..
+        [System.Obsolete("This logic does not belong here it should be a string extension")]
         public static IList<string> AsStringList(this DataRow dr, string columnName, char delimiter)
         {
             var result = new List<string>();

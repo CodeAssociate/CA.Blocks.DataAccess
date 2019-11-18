@@ -812,7 +812,8 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
                 Assert.IsTrue(actual == null);
         }
 
-
+        // this logic is not part of this  class it should be a string extension
+        /*
         [Test]
         [TestCase(0, null)]
         [TestCase(1, "")]
@@ -900,7 +901,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             Assert.AreEqual(expected, actual);
         }
 
-
+    */
 
     }
 }
