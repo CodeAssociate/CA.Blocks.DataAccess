@@ -47,6 +47,8 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.SQLLite
                 Trace.WriteLine(s);
             }
         }
+
+
     }
 
 

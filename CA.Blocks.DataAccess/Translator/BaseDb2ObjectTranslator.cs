@@ -163,7 +163,6 @@ namespace CA.Blocks.DataAccess.Translator
                             result = new DatabaseToObjectMappingDouble(propertyName);
                         break;
                     }
-
                 case "System.Decimal":
                     {
                         if (isNullable)
