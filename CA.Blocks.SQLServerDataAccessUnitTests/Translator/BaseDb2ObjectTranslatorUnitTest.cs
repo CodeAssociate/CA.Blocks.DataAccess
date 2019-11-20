@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using CA.Blocks.DataAccess.Translator;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+using CA.Blocks.SQLServerDataAccessUnitTests.Translator.TestObjects;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
@@ -17,13 +18,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
         public TimeSpan Col { get; set; }
     }
 
-    public class TestSysobjects
-    {
-        public string name { get; set; }
-        public int id { get; set; }
-        public string xtype { get; set; }
-        public DateTime crdate { get; set; }
-    }
+
 
     [TestFixture]
     public class BaseDb2ObjectTranslatorUnitTest : UnitTestDataAccess

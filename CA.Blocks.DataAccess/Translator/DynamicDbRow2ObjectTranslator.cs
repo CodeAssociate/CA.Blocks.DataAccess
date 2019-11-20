@@ -20,6 +20,8 @@ namespace CA.Blocks.DataAccess.Translator
 {
     public class DynamicDbRow2ObjectTranslator : SimpleDbRow2ObjectTranslator<dynamic>
     {
+        public static DynamicDbRow2ObjectTranslator CurrentInstance = new DynamicDbRow2ObjectTranslator();
+
         protected override dynamic CustomTranslate(DataRow dr)
         {
             dynamic item = new ExpandoObject();
