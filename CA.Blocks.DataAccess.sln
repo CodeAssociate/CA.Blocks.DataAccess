@@ -16,9 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		azure-pipelines.yml = azure-pipelines.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.SQLLiteDataAccess", "CA.Blocks.SQLLiteDataAccess\CA.Blocks.SQLLiteDataAccess.csproj", "{4D57BE0A-72F7-4261-AAEE-555E1FEEC0DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLLiteDataAccess", "CA.Blocks.SQLLiteDataAccess\CA.Blocks.SQLLiteDataAccess.csproj", "{4D57BE0A-72F7-4261-AAEE-555E1FEEC0DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.SQLLiteDataAccessUnitTests", "CA.Blocks.SQLSLiteDataAccessUnitTests\CA.Blocks.SQLLiteDataAccessUnitTests.csproj", "{36389CB1-4528-4DFA-945D-2E9328272084}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLLiteDataAccessUnitTests", "CA.Blocks.SQLSLiteDataAccessUnitTests\CA.Blocks.SQLLiteDataAccessUnitTests.csproj", "{36389CB1-4528-4DFA-945D-2E9328272084}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
