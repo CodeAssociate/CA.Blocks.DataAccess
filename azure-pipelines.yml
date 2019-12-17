@@ -16,6 +16,7 @@ variables:
   Major: '2'
   Minor: '1'
   Patch : $[counter(variables['BuildID'], 0)]
+  BUILD_BUILDNUMBER : $[Major].$[Minor].$[Patch]
 
 steps:
 - task: NuGetToolInstaller@1
