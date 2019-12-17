@@ -58,7 +58,7 @@ steps:
     command: 'pack'
     packagesToPack: '**/*.csproj'
     packDestination: '$(Build.ArtifactStagingDirectory)'
-    versioningScheme: byPrereleaseNumber
+    versioningScheme: byBuildNumber
     majorVersion : $(Major)
     minorVersion : $(Minor)
     patchVersion : $(Patch)

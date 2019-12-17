@@ -8,6 +8,15 @@ namespace CA.Blocks.DataAccess.DI
     {
         string GetConnectionString(string connectionStringKey);
     }
+
+    /* below are two simple and common config providers.. but the most likely is the client implementing the IDataAccessKeyToConnectionStringResolver then they can get the connection string from the apps provider */
+    //public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringResolver
+    //{
+    //    public string GetConnectionString(string connectionStringKey)
+    //    {
+    //         return /*place your code here to get the connectionString*/ "";
+    //    }
+    //}
     
     // App.Config provider using when the connection string is is app.config file
     public class AppDotConfigConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
@@ -21,17 +30,16 @@ namespace CA.Blocks.DataAccess.DI
     // App.Config provider using when the connection string is in appsettings.json file
     public class JsonConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
     {
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration _configuration;
 
         public JsonConfigConnectionStringsResolver(IConfiguration configuration)
         {
-            Configuration = configuration;
-
+            _configuration = configuration;
         }
 
         public string GetConnectionString(string connectionStringKey)
         {
-            return Configuration.GetConnectionString(connectionStringKey);
+            return _configuration.GetConnectionString(connectionStringKey);
         }
     }
 }
