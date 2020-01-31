@@ -71,12 +71,5 @@ steps:
   displayName: 'NuGet push'
   inputs:
     command: push
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
     publishVstsFeed: 'CA_Blocks_Feed'
     allowPackageConflicts: true
-
-
- - task: PublishBuildArtifacts@1    
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
