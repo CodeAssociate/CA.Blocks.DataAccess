@@ -8,6 +8,7 @@
     <AssemblyName>CA.Blocks.DataAccess</AssemblyName>
     <RootNamespace>CA.Blocks.DataAccess</RootNamespace>
     <AssemblyVersion>2.0.8.0</AssemblyVersion>
+    <PackageLicenseUrl>https://licenses.nuget.org/MIT</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>

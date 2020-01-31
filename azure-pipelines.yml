@@ -71,5 +71,18 @@ steps:
   displayName: 'NuGet push'
   inputs:
     command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
     publishVstsFeed: 'CA_Blocks_Feed'
     allowPackageConflicts: true
+
+
+ - task: NuGetAuthenticate@0
+  inputs:
+    nuGetServiceConnections: 'CA.Blocks.NugetFeed'
+-
+task: NuGetCommand@2
+  displayName: 'NuGet push to nuget.org'
+  inputs:
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+    nuGetFeedType: external

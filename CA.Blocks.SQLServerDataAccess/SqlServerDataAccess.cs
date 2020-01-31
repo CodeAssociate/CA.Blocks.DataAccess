@@ -453,7 +453,7 @@ namespace CA.Blocks.SQLServerDataAccess
         #region 
 
         // With SQL 2012 we can use syntax OFFSET x ROWS FETCH NEXT y ROWS ONLY.. but this will only work with 2012. for now leave as is. 
-        public DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
+        protected DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
         {
             // this is sql server specific and only for direct quries
 

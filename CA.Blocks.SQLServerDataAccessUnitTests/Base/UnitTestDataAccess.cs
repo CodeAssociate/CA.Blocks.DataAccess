@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Text;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
+using CA.CoreBlocks.DataAccess.Model.Paging;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 {
@@ -59,6 +60,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
         {
             SqlCommand cmd = CreateTextCommand(query);
             ExecuteNonQuery(cmd); 
+        }
+
+        public new DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
+        {
+           return base.ExecuteDataTable(cmd, page);
         }
 
 
