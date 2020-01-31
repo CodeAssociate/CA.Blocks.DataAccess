@@ -73,3 +73,9 @@ steps:
     command: push
     publishVstsFeed: 'CA_Blocks_Feed'
     allowPackageConflicts: true
+
+
+- task: PublishBuildArtifacts@1    
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
