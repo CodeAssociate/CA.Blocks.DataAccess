@@ -76,13 +76,7 @@ steps:
     allowPackageConflicts: true
 
 
- - task: NuGetAuthenticate@0
+ - task: PublishBuildArtifacts@1    
+  displayName: 'Publish Artifact: drop'
   inputs:
-    nuGetServiceConnections: 'CA.Blocks.NugetFeed'
--
-task: NuGetCommand@2
-  displayName: 'NuGet push to nuget.org'
-  inputs:
-    command: push
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
-    nuGetFeedType: external
+    PathtoPublish: '$(build.artifactstagingdirectory)'
