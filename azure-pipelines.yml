@@ -62,7 +62,7 @@ steps:
     majorVersion : $(Major)
     minorVersion : $(Minor)
     patchVersion : $(Patch)
-
+    includeReferencedProjects: true
 
 - task: NuGetAuthenticate@0
   displayName: 'NuGet Authenticate'
