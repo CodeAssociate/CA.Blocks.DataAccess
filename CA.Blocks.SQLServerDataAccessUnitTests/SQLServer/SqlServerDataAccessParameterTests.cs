@@ -8,7 +8,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     public class SqlServerDataAccessParameterTests : SqlServerDataAccess
     {
         public SqlServerDataAccessParameterTests()
-            : base(new AppDotConfigConfigConnectionStringsResolver(), 
+            : base(new AppDotConfigConnectionStringsResolver(), 
                 new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost",DebugTrace  = false})
         {
         }

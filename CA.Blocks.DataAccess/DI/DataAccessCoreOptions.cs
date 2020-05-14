@@ -8,6 +8,12 @@
 
     public class DataAccessConfigOptions : IDataAccessConfigOptions
     {
+        public DataAccessConfigOptions()
+        {
+            // Defaults
+            DebugTrace = false;
+        }
+
         public string ConnectionStringKey {get; set;}
         public bool DebugTrace { get; set; }
     }

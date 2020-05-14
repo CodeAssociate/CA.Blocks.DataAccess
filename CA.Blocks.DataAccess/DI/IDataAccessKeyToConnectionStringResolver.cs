@@ -19,6 +19,7 @@ namespace CA.Blocks.DataAccess.DI
     //}
     
     // App.Config provider using when the connection string is is app.config file
+    [System.Obsolete("Please use AppDotConfigConnectionStringsResolver in this place. ")]
     public class AppDotConfigConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
     {
         public string GetConnectionString(string connectionStringKey)
@@ -27,7 +28,21 @@ namespace CA.Blocks.DataAccess.DI
         }
     }
 
-    // App.Config provider using when the connection string is in appsettings.json file
+
+    /// <summary>
+    /// Uses the App.Config ConnectionStrings, this is common on .NET 1-4.6 frameworks 
+    /// </summary>
+    public class AppDotConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
+    {
+        public string GetConnectionString(string connectionStringKey)
+        {
+            return ConfigurationManager.ConnectionStrings[connectionStringKey].ConnectionString;
+        }
+    }
+
+    /// <summary>
+    /// Uses the JsonConfig  this is common on .NET core frameworks 
+    /// </summary>
     public class JsonConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
     {
         private readonly IConfiguration _configuration;

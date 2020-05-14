@@ -31,7 +31,7 @@ namespace CA.Blocks.DataAccess
     /// </summary>
     public abstract class DataAccessCore
     {
-        private readonly DataAccessConfigOptions _options; 
+        private readonly IDataAccessConfigOptions _options; 
         private readonly string _connectionString;
 
         #region private utility methods & constructors
@@ -42,7 +42,7 @@ namespace CA.Blocks.DataAccess
         /// This is a protected constructor which must be called by the inheriting class, bu default it will get the configuration 
         /// value stored in connectionStrings element of the configuration. This value can be overriden using the ResolveConnectionStringValue method. 
         /// </summary>
-        protected DataAccessCore(IDataAccessKeyToConnectionStringResolver resolver, DataAccessConfigOptions options)
+        protected DataAccessCore(IDataAccessKeyToConnectionStringResolver resolver, IDataAccessConfigOptions options)
         {
             _options = options;
             _connectionString = resolver.GetConnectionString(options.ConnectionStringKey);
@@ -71,8 +71,9 @@ namespace CA.Blocks.DataAccess
             }
         }
 
-        //TODO make a virtual method and include a timespan on the execute time of the query
-        private void TraceDBStatement(IDbCommand cmd)
+        // If using sql then a SQL trace will be better, this is for data sources that do not have good tracing tools
+        // you will override this method and trace to your preferred tool.  the trace happens after execute
+        protected virtual void TraceDbStatement(IDbCommand cmd)
         {
             System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         }
@@ -100,7 +101,7 @@ namespace CA.Blocks.DataAccess
             bool closeconection = PrepCommand(cmd);
             int rowCount = cmd.ExecuteNonQuery();
             if (_options.DebugTrace)
-                TraceDBStatement(cmd);
+                TraceDbStatement(cmd);
             WrapUp(cmd.Connection, closeconection);
             return rowCount;
         }
@@ -130,7 +131,7 @@ namespace CA.Blocks.DataAccess
             }
             WrapUp(cmd.Connection, closeconection);
             if (_options.DebugTrace)
-                TraceDBStatement(cmd);
+                TraceDbStatement(cmd);
             return (ds);
         }
 
@@ -189,7 +190,7 @@ namespace CA.Blocks.DataAccess
             PrepCommand(cmd);
             object rv = (cmd.ExecuteScalar());
             if (_options.DebugTrace)
-                TraceDBStatement(cmd);
+                TraceDbStatement(cmd);
             cmd.Connection.Close();
             return rv;
         }

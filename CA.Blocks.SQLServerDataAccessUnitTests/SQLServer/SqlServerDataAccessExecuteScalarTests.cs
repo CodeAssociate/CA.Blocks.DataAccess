@@ -9,7 +9,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     public class SqlServerDataAccessExecuteScalarTests : SqlServerDataAccess
     {
         public SqlServerDataAccessExecuteScalarTests() 
-            : base(new AppDotConfigConfigConnectionStringsResolver(), 
+            : base(new AppDotConfigConnectionStringsResolver(), 
                    new DataAccessConfigOptions{ConnectionStringKey = "localsqlserverhost",DebugTrace  = false})
         {
    

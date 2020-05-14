@@ -34,7 +34,7 @@ namespace CA.Blocks.SQLLiteDataAccess
 
         public const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
 
-        public SqlLiteDataAccess(IDataAccessKeyToConnectionStringResolver resolver, DataAccessConfigOptions options) : base(resolver, options)
+        public SqlLiteDataAccess(IDataAccessKeyToConnectionStringResolver resolver, IDataAccessConfigOptions options) : base(resolver, options)
         {
 
         }
