@@ -53,26 +53,25 @@ steps:
     #parallelCount: # Optional
     #fileCopyOptions: #Optional
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj;!**/*Tests.csproj'
-    packDestination: '$(Build.ArtifactStagingDirectory)'
+    packDirectory: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: byPrereleaseNumber
     majorVersion : $(Major)
     minorVersion : $(Minor)
     patchVersion : $(Patch)
-    includeReferencedProjects: true
 
-- task: NuGetAuthenticate@0
-  displayName: 'NuGet Authenticate'
+#- task: NuGetAuthenticate@0
+#  displayName: 'NuGet Authenticate'
 
-- task: NuGetCommand@2
-  displayName: 'NuGet push'
-  inputs:
-    command: push
-    publishVstsFeed: 'CA_Blocks_Feed'
-    allowPackageConflicts: true
+#- task: NuGetCommand@2
+#  displayName: 'NuGet push'
+#  inputs:
+#    command: push
+#    publishVstsFeed: 'CA_Blocks_Feed'
+#    allowPackageConflicts: true
 
 
 - task: PublishBuildArtifacts@1    
