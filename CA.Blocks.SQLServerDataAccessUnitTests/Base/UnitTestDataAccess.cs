@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Text;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
-using CA.CoreBlocks.DataAccess.Model.Paging;
+using CA.Blocks.DataAccess.Model.Paging;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 {

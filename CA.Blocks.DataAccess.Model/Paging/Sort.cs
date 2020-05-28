@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace CA.CoreBlocks.DataAccess.Model.Paging
+namespace CA.Blocks.DataAccess.Model.Paging
 {
     [DataContract]
     public class Sort

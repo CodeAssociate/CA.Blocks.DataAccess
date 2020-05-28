@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.902
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess", "CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj", "{253679BA-1267-4025-8868-258C6B6B2F3E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.CoreBlocks.DataAccess.Model", "CA.Blocks.DataAccess.Model\CA.CoreBlocks.DataAccess.Model.csproj", "{ACFF88D3-756B-4352-9EC4-8D47F5D03F19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess.Model", "CA.Blocks.DataAccess.Model\CA.Blocks.DataAccess.Model.csproj", "{ACFF88D3-756B-4352-9EC4-8D47F5D03F19}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLServerDataAccess", "CA.Blocks.SQLServerDataAccess\CA.Blocks.SQLServerDataAccess.csproj", "{7B51CB0E-C68B-475A-82D4-86E32B4BD705}"
 EndProject

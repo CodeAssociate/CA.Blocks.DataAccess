@@ -1,6 +1,6 @@
 ﻿using System;
 using CA.Blocks.SQLLiteDataAccess;
-using CA.CoreBlocks.DataAccess.Model.Filter;
+using CA.Blocks.DataAccess.Model.Filter;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLLiteDataAccessUnitTests.Model.Filter

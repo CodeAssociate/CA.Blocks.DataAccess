@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace CA.CoreBlocks.DataAccess.Model.Filter
+namespace CA.Blocks.DataAccess.Model.Filter
 {
     public enum BaseFilterSegmentCondition
     {
@@ -52,6 +53,7 @@ namespace CA.CoreBlocks.DataAccess.Model.Filter
             else
             {
                 var element = Parameters.FirstOrDefault(x => x.ParameterName == sqlparam.ParameterName);
+                Debug.Assert(element != null, nameof(element) + " != null");
                 if (element.DbType != sqlparam.DbType)
                 {
                     throw new ApplicationException(

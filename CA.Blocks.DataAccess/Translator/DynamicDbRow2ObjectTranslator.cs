@@ -2,7 +2,7 @@
 // Code Associate Data Access Block for .NET Core
 //
 //===============================================================================
-// Copyright (C) 2002-2018 Ravin Enterprises Ltd. 
+// Copyright (C) 2002-2020 Ravin Enterprises Ltd. 
 // All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT

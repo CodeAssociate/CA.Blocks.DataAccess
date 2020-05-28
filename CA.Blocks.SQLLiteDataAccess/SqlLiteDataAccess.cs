@@ -19,7 +19,7 @@ using System.Text;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLLiteDataAccess.Adapters;
-using CA.CoreBlocks.DataAccess.Model.Paging;
+using CA.Blocks.DataAccess.Model.Paging;
 using Microsoft.Data.Sqlite;
 
 namespace CA.Blocks.SQLLiteDataAccess

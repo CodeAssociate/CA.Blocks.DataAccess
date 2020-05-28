@@ -3,7 +3,7 @@
 // DataAccessCore.cs
 //
 //===============================================================================
-// Copyright (C) 2002-2018 Ravin Enterprises Ltd. 
+// Copyright (C) 2002-2020 Ravin Enterprises Ltd. 
 // All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
@@ -19,7 +19,7 @@ using System.Data.SqlClient;
 using System.Text;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
-using CA.CoreBlocks.DataAccess.Model.Paging;
+using CA.Blocks.DataAccess.Model.Paging;
 
 namespace CA.Blocks.SQLServerDataAccess
 {
@@ -455,7 +455,7 @@ namespace CA.Blocks.SQLServerDataAccess
         // With SQL 2012 we can use syntax OFFSET x ROWS FETCH NEXT y ROWS ONLY.. but this will only work with 2012. for now leave as is. 
         protected DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
         {
-            // this is sql server specific and only for direct quries
+            // this is sql server specific and only for direct queries
 
             string sortOrder = page.GetOrderBy();
             string sqlSelect = $" ROW_NUMBER() Over (Order By {sortOrder}) As RowNumber, ";

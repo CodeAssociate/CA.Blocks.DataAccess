@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using CA.CoreBlocks.DataAccess.Model.Paging;
+using CA.Blocks.DataAccess.Model.Paging;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
@@ -28,6 +28,4 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             Assert.AreEqual(10, dt.Rows.Count);
         }
     }
-
-
 }
