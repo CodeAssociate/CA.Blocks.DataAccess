@@ -19,7 +19,7 @@ namespace CA.Blocks.DataAccess.DI
     //}
     
     // App.Config provider using when the connection string is is app.config file
-    [System.Obsolete("Please use AppDotConfigConnectionStringsResolver in this place. ")]
+    [System.Obsolete("Please use AppDotConfigConnectionStringsResolver in this place. ", true)]
     public class AppDotConfigConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
     {
         public string GetConnectionString(string connectionStringKey)

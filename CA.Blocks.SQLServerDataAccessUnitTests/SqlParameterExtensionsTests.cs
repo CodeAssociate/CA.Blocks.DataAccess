@@ -70,5 +70,21 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             Assert.AreEqual("012345678901234", sqlparam.Value);
         }
 
+
+        [Test]
+        public void ToSqlParameterStringTestTrimEmpty()
+        {
+            // Setup
+            string testdata = "";
+            // Act
+            var sqlparam = testdata.ToSqlParameter("@test", trimInputTo: 15);
+            //Asert
+            Assert.AreEqual(DbType.AnsiString, sqlparam.DbType);
+            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
+            Assert.AreEqual(false, sqlparam.IsNullable);
+            Assert.AreEqual("@test", sqlparam.ParameterName);
+            Assert.AreEqual("", sqlparam.Value);
+        }
+
     }
 }

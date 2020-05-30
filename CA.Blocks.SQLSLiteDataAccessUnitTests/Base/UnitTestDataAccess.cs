@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
 {
 
-    public class UnitTRestInMemDB : IDataAccessKeyToConnectionStringResolver
+    public class UnitTRestInMemDBResolver : IDataAccessKeyToConnectionStringResolver
     {
         public string GetConnectionString(string connectionStringKey)
         {
@@ -20,9 +20,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
     {
         private SqliteConnection _dbcontext; 
 
-        public UnitTestDataAccess()
-            : base(new UnitTRestInMemDB(), 
-                new DataAccessConfigOptions{DebugTrace  = false})
+        public UnitTestDataAccess() : base (new DataAccessConfig("SqlLiteUnitTesting", new DataAccessConfigOptions(), new UnitTRestInMemDBResolver()))
         {
             // we need to hold a conneciton open for in mem
             _dbcontext = new SqliteConnection(ConnectionString);

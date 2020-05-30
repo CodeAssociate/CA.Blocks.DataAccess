@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
 {
-
     public class MockDataReader : IDataReader
     {
         private bool open = true;
         private DataTable resultSet;
         private int currentPosition = 0;
-       // private RDPConnection connection;
-
-
+        
         internal MockDataReader(DataTable tbl)
         {
             resultSet = tbl;

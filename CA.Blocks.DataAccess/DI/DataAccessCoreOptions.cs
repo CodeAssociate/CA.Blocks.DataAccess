@@ -1,5 +1,6 @@
 ﻿namespace CA.Blocks.DataAccess.DI
 {
+
     public interface IDataAccessConfigOptions
     {
         string ConnectionStringKey {get; set;}
