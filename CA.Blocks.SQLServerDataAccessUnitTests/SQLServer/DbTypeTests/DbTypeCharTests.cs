@@ -8,9 +8,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
     [TestFixture]
     public class DbTypeCharTests : UnitTestDataAccess
     {
+        private class CharDataType
+        {
+            public char Col { get; set; }
+        }
+
         private void InsertTestDataSQL(char data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data)));
+            ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
         }
 
         [SetUp]
@@ -33,7 +38,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataChar()
+        public void SelectAllData()
         {
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
@@ -43,6 +48,22 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Assert
             Assert.AreEqual(5, data.Count);
         }
+
+
+        [Test]
+        public void SelectAllDataToListOf()
+        {
+            //Setup 
+
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = ExecuteToListOf<CharDataType>(cmd);
+            //Assert
+            Assert.AreEqual(5, data.Count);
+            Assert.AreEqual('E', data[4].Col);
+        }
+
+
 
         [Test]
         public void SelectAllDataBigIntWithFilter ()

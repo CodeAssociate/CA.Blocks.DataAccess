@@ -1,5 +1,4 @@
-﻿using System.Data.SqlClient;
-using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+﻿using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
@@ -28,6 +27,4 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             Assert.IsTrue(result.Rows.Count > 0);
         }
     }
-
-
 }

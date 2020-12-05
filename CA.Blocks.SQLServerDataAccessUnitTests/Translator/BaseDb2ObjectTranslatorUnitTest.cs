@@ -35,19 +35,36 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
 
             Assert.IsTrue(result.Count > 0);
 
-            var outputformat = "{0}\t{1}\t{2}\t{3}";
-            Trace.WriteLine(string.Format(outputformat, "id", "name", "xtype", "crdate"));
+            var outputFormat = "{0}\t{1}\t{2}\t{3}";
+            Trace.WriteLine(string.Format(outputFormat, "id", "name", "xtype", "crdate"));
             foreach (var item in result)
             {
-                Trace.WriteLine(string.Format(outputformat, item.id, item.name, item.xtype, item.crdate));
+                Trace.WriteLine(string.Format(outputFormat, item.id, item.name, item.xtype, item.crdate));
             }
         }
 
-        #endregion 
+
+        [Test]
+        public void BaseDb2ObjectTranslatorTestTestSysobjectsMapping2()
+        {
+            var t = new CustomTestSysobjectsTranslator();
+            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
+            var result = t.Translate(ExecuteDataTable(cmd));
+
+            Assert.IsTrue(result.Count > 0);
+
+            var outputFormat = "{0}\t{1}\t{2}\t{3}\t{4}";
+            TestContext.WriteLine(string.Format(outputFormat, "id", "name", "xtype", "crdate", "CrazyNameForRefDate"));
+            foreach (var item in result)
+            {
+                TestContext.WriteLine(string.Format(outputFormat, item.id, item.name, item.xtype, item.crdate.Date, item.CrazyNameForRefDate));
+            }
+        }
+        #endregion
 
 
 
-    
+
         #region Char
         [Test]
         public void BaseDb2ObjectTranslatorTestCharMapping()

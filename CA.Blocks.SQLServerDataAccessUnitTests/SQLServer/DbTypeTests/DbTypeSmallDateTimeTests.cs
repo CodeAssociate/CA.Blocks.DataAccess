@@ -9,9 +9,17 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
     [TestFixture]
     public class DbTypeSmallDateTimeTests : UnitTestDataAccess
     {
+        private DateTime _testDate;
+
+        private class DateTimeDataType
+        {
+            public DateTime Col { get; set; }
+        }
+
+
         private void InsertTestDataSQL(DateTime data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'",data.ToString("yyyy MMMM dd HH:mm:ss"))));
+            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'",data.ToString("yyyy MMMM dd HH:mm"))));
         }
 
         [SetUp]
@@ -19,11 +27,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("SmallDateTime not null"));
-            InsertTestDataSQL(DateTime.Now.AddMinutes(1));
-            InsertTestDataSQL(DateTime.Now.AddDays(1));
-            InsertTestDataSQL(DateTime.Now.AddDays(-1));
-            InsertTestDataSQL(DateTime.Now.AddDays(100));
-            InsertTestDataSQL(DateTime.Now.AddDays(-100));
+
+
+            _testDate = DateTime.Now;
+            InsertTestDataSQL(_testDate);
+            InsertTestDataSQL(_testDate.AddDays(1).Date);
+            InsertTestDataSQL(_testDate.AddDays(-1).Date);
+            InsertTestDataSQL(_testDate.AddDays(100).Date);
+            InsertTestDataSQL(_testDate.AddDays(-100).Date);
+
         }
 
         [TearDown]
@@ -44,20 +56,36 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(5, data.Count);
         }
 
+
+        [Test]
+        public void SelectAllDataToListOf()
+        {
+            //Setup 
+
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = ExecuteToListOf<DateTimeDataType>(cmd);
+            //Assert
+            Assert.AreEqual(5, data.Count);
+            // SmallDateTime is now to min
+            Assert.AreEqual(_testDate.ToString("yyyy MMMM dd HH:mm"), data[0].Col.ToString("yyyy MMMM dd HH:mm"));
+        }
+
+
         [Test]
         public void SelectAllDataDateTimeWithFilter()
         {
             //setup
-            DateTime testvalue = DateTime.Now;
+
             var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >  @testValue");
+            cmd.Parameters.Add(_testDate.ToSqlParameter("@testValue"));
 
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            Assert.AreEqual(3, data.Count);
+            Assert.AreEqual(2, data.Count);
         }
 
 

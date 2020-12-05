@@ -236,6 +236,37 @@ namespace CA.Blocks.DataAccess
         {
             return DataHelper.GetValueFromRowAsNullFloat(dr, column);
         }
+        // Single 
+        public static Single AsSingle(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsFloat(dr, colName);
+        }
+
+        public static Single AsSingle(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsFloat(dr, columnIndex);
+        }
+
+        public static Single AsSingle(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsFloat(dr, column);
+        }
+        // Nulls
+        public static Single? AsNullSingle(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsNullFloat(dr, colName);
+        }
+
+        public static Single? AsNullSingle(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsNullFloat(dr, columnIndex);
+        }
+
+        public static Single? AsNullSingle(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsNullFloat(dr, column);
+        }
+
         #endregion
 
         #region Decimal
@@ -349,6 +380,41 @@ namespace CA.Blocks.DataAccess
                 result.AddRange(sarray.Select(int.Parse));
             }
             return result;
+        }
+
+        #endregion
+
+        #region uInt
+
+        public static uint AsUInt(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsUInt(dr, colName);
+        }
+
+        public static uint AsUInt(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsUInt(dr, columnIndex);
+        }
+
+        public static uint AsUInt(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsUInt(dr, column);
+        }
+
+        // Nulls
+        public static uint? AsNullUInt(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsNullUInt(dr, colName);
+        }
+
+        public static uint? AsNullUInt(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsNullUInt(dr, columnIndex);
+        }
+
+        public static uint? AsNullUInt(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsNullUInt(dr, column);
         }
 
         #endregion
@@ -515,6 +581,42 @@ namespace CA.Blocks.DataAccess
                 result.AddRange(sarray.Select(short.Parse));
             }
             return result;
+        }
+
+        #endregion
+
+        #region uInt
+
+
+        public static ushort AsUShort(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsUShort(dr, colName);
+        }
+
+        public static ushort AsUShort(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsUShort(dr, columnIndex);
+        }
+
+        public static ushort AsUShort(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsUShort(dr, column);
+        }
+
+        // Nulls
+        public static ushort? AsNullUShort(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsNullUShort(dr, colName);
+        }
+
+        public static ushort? AsNullUShort(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsNullUShort(dr, columnIndex);
+        }
+
+        public static ushort? AsNullUShort(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsNullUShort(dr, column);
         }
 
         #endregion

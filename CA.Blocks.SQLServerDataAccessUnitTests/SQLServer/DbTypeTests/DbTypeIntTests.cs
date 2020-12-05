@@ -8,6 +8,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
     [TestFixture]
     public class DbTypeIntTests : UnitTestDataAccess
     {
+
+        private class IntDataType
+        {
+            public int Col { get; set; }
+        }
+
+
         private void InsertTestDataSQL(int data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
@@ -32,7 +39,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataInt()
+        public void SelectAllData()
         {
             //Setup 
             var t = new IntTranslator(UNIT_TEST_COL_NAME);
@@ -43,8 +50,21 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(5, data.Count);
         }
 
+
         [Test]
-        public void SelectAllDataIntWithFilter ()
+        public void SelectAllDataToListOf()
+        {
+            //Setup 
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = this.ExecuteToListOf<IntDataType>(cmd);
+            //Assert
+            Assert.AreEqual(5, data.Count);
+            Assert.AreEqual(-1, data[0].Col);
+        }
+
+        [Test]
+        public void SelectAllDataFilter ()
         {
             //setup
             const int testvalue = 123; 

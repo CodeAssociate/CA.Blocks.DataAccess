@@ -78,106 +78,111 @@ namespace CA.Blocks.DataAccess.Translator
             CustomTranslate(dr, item);
         }
 
-        #region  Default Mappings Domain is 1-1 with the query
-        private DatabaseToObjectMapping GetDatabaseToObjectMapping(string typeName, string propertyName, bool isNullable)
+        protected DatabaseToObjectMapping CreateDatabaseToObjectMapping(string typeName, string destinationName, string sourceNameName, bool isNullable)
         {
             DatabaseToObjectMapping result = null;
             switch (typeName)
             {
                 case "System.String":
-                    {
-                        result = new DatabaseToObjectMappingString(propertyName);
-                        break;
-                    }
+                {
+                    result = new DatabaseToObjectMappingString(destinationName, sourceNameName);
+                    break;
+                }
                 case "System.DateTime":
-                    {
-                        if (isNullable)
-                            result = new DatabaseToObjectMappingNullDateTime(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingDateTime(propertyName);
-                        break;
-                    }
+                {
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullDateTime(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingDateTime(destinationName, sourceNameName);
+                    break;
+                }
                 case "System.Int64":
-                    {
-                        if (isNullable)
-                            result = new DatabaseToObjectMappingNullLong(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingLong(propertyName);
-                        break;
-                    }
+                {
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullLong(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingLong(destinationName, sourceNameName);
+                    break;
+                }
                 case "System.Int32":
-                    {
-                        if (isNullable)
-                            result =new DatabaseToObjectMappingNullInt(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingInt(propertyName);
-                        break;
-                    }
+                {
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullInt(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingInt(destinationName, sourceNameName);
+                    break;
+                }
                 case "System.Int16":
-                    {
-                        if (isNullable)
-                            result = new DatabaseToObjectMappingNullShort(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingShort(propertyName);
-                        break;
-                    }
+                {
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullShort(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingShort(destinationName, sourceNameName);
+                    break;
+                }
                 case "System.Byte":
-                    {
-                        if (isNullable)
-                            result = new DatabaseToObjectMappingNullByte(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingByte(propertyName);
-                        break;
-                    }
+                {
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullByte(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingByte(destinationName, sourceNameName);
+                    break;
+                }
                 case "System.Boolean":
-                    {
-                        if (isNullable)
-                            result = new DatabaseToObjectMappingNullBool(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingBool(propertyName);
-                        break;
-                    }
+                {
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullBool(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingBool(destinationName, sourceNameName);
+                    break;
+                }
                 case "System.Char":
-                    {
-                        if (isNullable)
-                            result = new DatabaseToObjectMappingNullChar(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingChar(propertyName);
-                        break;
-                    }
+                {
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullChar(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingChar(destinationName, sourceNameName);
+                    break;
+                }
 
                 case "System.TimeSpan":
-                    {
-                        if (isNullable)
-                            result = new DatabaseToObjectMappingNullTimeSpan(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingTimeSpan(propertyName);
-                        break;
-                    }
+                {
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullTimeSpan(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingTimeSpan(destinationName, sourceNameName);
+                    break;
+                }
                 case "System.Double":
-                    {
-                        
-                        if (isNullable)
-                            result = new DatabaseToObjectMappingNullDouble(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingDouble(propertyName);
-                        break;
-                    }
+                {
+
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullDouble(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingDouble(destinationName, sourceNameName);
+                    break;
+                }
                 case "System.Decimal":
-                    {
-                        if (isNullable)
-                            result = new DatabaseToObjectMappingNullDecimal(propertyName);
-                        else
-                            result = new DatabaseToObjectMappingDecimal(propertyName);
-                        break;
-                    }
+                {
+                    if (isNullable)
+                        result = new DatabaseToObjectMappingNullDecimal(destinationName, sourceNameName);
+                    else
+                        result = new DatabaseToObjectMappingDecimal(destinationName, sourceNameName);
+                    break;
+                }
                 default:
-                    {
-                        throw new ArgumentException(string.Format("Unknown type '{0}' for DatabaseToObjectMapping", typeName));
-                        // If you get here there is a missing  DatabaseToObjectMapping each to add in just follow the pattern above 
-                    }
+                {
+                    throw new ArgumentException($"Unknown type '{typeName}' for DatabaseToObjectMapping");
+                    // If you get here there is a missing  DatabaseToObjectMapping each to add in just follow the pattern above 
+                }
             }
             return result;
+        }
+
+        #region  Default Mappings Domain is 1-1 with the query
+        private DatabaseToObjectMapping GetDatabaseToObjectMapping(string typeName, string propertyName, bool isNullable)
+        {
+            return CreateDatabaseToObjectMapping(typeName, propertyName, propertyName, isNullable);
         }
 
         protected void GenerateDefaultMappings()
@@ -196,14 +201,9 @@ namespace CA.Blocks.DataAccess.Translator
                     {
                         _mappings.Add(GetDatabaseToObjectMapping(pi.PropertyType.FullName, pi.Name, false));
                     }
-                    
                 }
             }
         }
-
-
-
-
         #endregion
     }
 }

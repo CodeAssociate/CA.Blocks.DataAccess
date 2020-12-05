@@ -8,6 +8,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
     [TestFixture]
     public class DbTypeShortTests : UnitTestDataAccess
     {
+
+        private class ShortDataType
+        {
+            public short Col { get; set; }
+        }
+
         private void InsertTestDataSQL(short data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
@@ -32,7 +38,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataInt()
+        public void SelectAllData()
         {
             //Setup 
             var t = new ShortTranslator(UNIT_TEST_COL_NAME);
@@ -42,6 +48,20 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Assert
             Assert.AreEqual(5, data.Count);
         }
+
+        [Test]
+        public void SelectAllDataToListOf()
+        {
+            //Setup 
+
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = ExecuteToListOf<ShortDataType>(cmd);
+            //Assert
+            Assert.AreEqual(5, data.Count);
+            Assert.AreEqual(short.MaxValue, data[4].Col);
+        }
+
 
         [Test]
         public void SelectAllDataIntWithFilter ()

@@ -134,6 +134,45 @@ namespace CA.Blocks.DataAccess
         }
         #endregion
 
+        #region SByte
+        public static sbyte AsSByte(this IDataReader dr, string colName)
+        {
+            sbyte? val = dr.AsNullSByte(colName);
+            ThrowExceptionIfIsNull(val, colName, "byte");
+            return val.Value;
+        }
+
+
+        public static sbyte AsSByte(this IDataReader dr, int columnIndex)
+        {
+            sbyte? val = dr.AsNullSByte(columnIndex);
+            ThrowExceptionIfIsNull(val, columnIndex, "byte");
+            return val.Value;
+        }
+
+
+        // Nulls
+        public static sbyte? AsNullSByte(this IDataReader dr, string colName)
+        {
+            if (dr.IsDBNull(dr.GetOrdinal(colName)))
+                return null;
+            else
+            {
+                return Convert.ToSByte(dr[colName]);
+            }
+        }
+
+        public static sbyte? AsNullSByte(this IDataReader dr, int columnIndex)
+        {
+            if (dr.IsDBNull(columnIndex))
+                return null;
+            else
+            {
+                return Convert.ToSByte(dr[columnIndex]);
+            }
+        }
+        #endregion
+
         #region Char
 
         public static char AsChar(this IDataReader dr, string colName)
@@ -418,6 +457,49 @@ namespace CA.Blocks.DataAccess
 
         #endregion
 
+
+        #region UInt
+
+        public static uint AsUInt(this IDataReader dr, string colName)
+        {
+            uint? val = dr.AsNullUInt(colName);
+            ThrowExceptionIfIsNull(val, colName, "uint");
+            return val.Value;
+        }
+
+
+        public static uint AsUInt(this IDataReader dr, int columnIndex)
+        {
+            uint? val = dr.AsNullUInt(columnIndex);
+            ThrowExceptionIfIsNull(val, columnIndex, "uint");
+            return val.Value;
+        }
+
+
+        // Nulls
+        public static uint? AsNullUInt(this IDataReader dr, string colName)
+        {
+            if (dr.IsDBNull(dr.GetOrdinal(colName)))
+                return null;
+            else
+            {
+                return Convert.ToUInt32(dr[colName]);
+            }
+        }
+
+        public static uint? AsNullUInt(this IDataReader dr, int columnIndex)
+        {
+            if (dr.IsDBNull(columnIndex))
+                return null;
+            else
+            {
+                return Convert.ToUInt32(dr[columnIndex]);
+            }
+        }
+
+        #endregion
+
+
         #region Long
 
         public static long AsLong(this IDataReader dr, string colName)
@@ -457,41 +539,49 @@ namespace CA.Blocks.DataAccess
             }
         }
 
-        #endregion 
+        #endregion
 
-        //#region ulong
-        //public static ulong AsULong(this DataRow dr, string colName)
-        //{
-        //    return DataHelper.GetValueFromRowAsULong(dr, colName);
-        //}
+        #region ulong
 
-        //public static ulong AsULong(this DataRow dr, int columnIndex)
-        //{
-        //    return DataHelper.GetValueFromRowAsULong(dr, columnIndex);
-        //}
 
-        //public static ulong AsULong(this DataRow dr, DataColumn column)
-        //{
-        //    return DataHelper.GetValueFromRowAsULong(dr, column);
-        //}
+        public static ulong AsULong(this IDataReader dr, string colName)
+        {
+            ulong? val = dr.AsNullUShort(colName);
+            ThrowExceptionIfIsNull(val, colName, "short");
+            return val.Value;
+        }
 
-        //// Nulls
-        //public static ulong? AsNullULong(this DataRow dr, string colName)
-        //{
-        //    return DataHelper.GetValueFromRowAsNullULong(dr, colName);
-        //}
 
-        //public static ulong? AsNullULong(this DataRow dr, int columnIndex)
-        //{
-        //    return DataHelper.GetValueFromRowAsNullULong(dr, columnIndex);
-        //}
+        public static ulong AsULong(this IDataReader dr, int columnIndex)
+        {
+            ulong? val = dr.AsNullUShort(columnIndex);
+            ThrowExceptionIfIsNull(val, columnIndex, "short");
+            return val.Value;
+        }
 
-        //public static ulong? AsNullULong(this DataRow dr, DataColumn column)
-        //{
-        //    return DataHelper.GetValueFromRowAsNullULong(dr, column);
-        //}
 
-        //#endregion
+        // Nulls
+        public static ulong? AsNullULong(this IDataReader dr, string colName)
+        {
+            if (dr.IsDBNull(dr.GetOrdinal(colName)))
+                return null;
+            else
+            {
+                return Convert.ToUInt64(dr[colName]);
+            }
+        }
+
+        public static ulong? AsNullULong(this IDataReader dr, int columnIndex)
+        {
+            if (dr.IsDBNull(columnIndex))
+                return null;
+            else
+            {
+                return Convert.ToUInt64(dr[columnIndex]);
+            }
+        }
+
+        #endregion
 
         //#region Sbyte
 
@@ -570,6 +660,49 @@ namespace CA.Blocks.DataAccess
 
 
         #endregion
+
+        #region UShort
+
+        public static ushort AsUShort(this IDataReader dr, string colName)
+        {
+            ushort? val = dr.AsNullUShort(colName);
+            ThrowExceptionIfIsNull(val, colName, "short");
+            return val.Value;
+        }
+
+
+        public static ushort AsUShort(this IDataReader dr, int columnIndex)
+        {
+            ushort? val = dr.AsNullUShort(columnIndex);
+            ThrowExceptionIfIsNull(val, columnIndex, "short");
+            return val.Value;
+        }
+
+
+        // Nulls
+        public static ushort? AsNullUShort(this IDataReader dr, string colName)
+        {
+            if (dr.IsDBNull(dr.GetOrdinal(colName)))
+                return null;
+            else
+            {
+                return Convert.ToUInt16(dr[colName]);
+            }
+        }
+
+        public static ushort? AsNullUShort(this IDataReader dr, int columnIndex)
+        {
+            if (dr.IsDBNull(columnIndex))
+                return null;
+            else
+            {
+                return Convert.ToUInt16(dr[columnIndex]);
+            }
+        }
+
+
+        #endregion
+
 
         #region String
 

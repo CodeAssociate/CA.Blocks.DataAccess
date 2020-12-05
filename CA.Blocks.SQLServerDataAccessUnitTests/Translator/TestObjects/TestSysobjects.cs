@@ -13,6 +13,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.TestObjects
         public DateTime crdate { get; set; }
     }
 
+    public class CustomTestSysobjects : TestSysobjects
+    {
+        public DateTime CrazyNameForRefDate { get; set; }
+    }
+
+
     public class TestSysobjectsTranslator : SimpleDbRow2ObjectTranslator<TestSysobjects>
     {
         public static TestSysobjectsTranslator CurrentInstance = new TestSysobjectsTranslator();
@@ -46,4 +52,29 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.TestObjects
         }
     }
 
+    public class TestSysobjectsOrginalReaderTranslator : SimpleDbReader2ObjectTranslator<TestSysobjects>
+    {
+        public static TestSysobjectsOrginalReaderTranslator CurrentInstance = new TestSysobjectsOrginalReaderTranslator();
+
+        protected override TestSysobjects CustomTranslate(IDataReader dr)
+        {
+            var result = new TestSysobjects();
+
+            result.id = dr.AsInt(0);
+            result.name = dr.AsString(1);
+            result.xtype = dr.AsString(2);
+            result.crdate = dr.AsDateTime(3);
+            return result;
+        }
+    }
+
+
+    public class CustomTestSysobjectsTranslator : BaseDb2ObjectTranslator<CustomTestSysobjects>
+    {
+        public CustomTestSysobjectsTranslator()
+        {
+            _mappings.RemoveByName("CrazyNameForRefDate");
+            _mappings.Add(CreateDatabaseToObjectMapping(typeof(DateTime).FullName, "CrazyNameForRefDate" , "refdate", false));
+        }
+    }
 }

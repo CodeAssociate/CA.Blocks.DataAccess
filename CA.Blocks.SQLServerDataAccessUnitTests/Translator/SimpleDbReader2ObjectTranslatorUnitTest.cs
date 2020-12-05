@@ -11,6 +11,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
     {
 
 
+
         #region TestSysobjects
         [Test]
         public void BaseDb2ObjectTranslatorTestTestSysobjectsMapping()
@@ -28,6 +29,101 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
             }
         }
 
-        #endregion 
+        #endregion
+
+        //private string benchmarkSQL = "Select id,name,xtype,crdate from sysobjects";
+
+        //public void ExecuteReader()
+        //{
+        //    SqlCommand cmd = CreateTextCommand(benchmarkSQL);
+        //    var result = TestSysobjectsReaderTranslator.CurrentInstance.Translate(ExecuteReader(cmd));
+
+        //    Assert.IsTrue(result.Count > 0);
+
+        //}
+
+        //public void ExecuteReaderByOrdinal()
+        //{
+        //    SqlCommand cmd = CreateTextCommand(benchmarkSQL);
+        //    var result = TestSysobjectsOrginalReaderTranslator.CurrentInstance.Translate(ExecuteReader(cmd));
+
+        //    Assert.IsTrue(result.Count > 0);
+
+        //}
+
+        //public void ExecuteDataTable()
+        //{
+        //    SqlCommand cmd = CreateTextCommand(benchmarkSQL);
+        //    var result = TestSysobjectsTranslator.CurrentInstance.Translate(ExecuteDataTable(cmd));
+
+        //    Assert.IsTrue(result.Count > 0);
+        //}
+
+        //public void ExecuteTo()
+        //{
+        //    SqlCommand cmd = CreateTextCommand(benchmarkSQL);
+        //    var result = ExecuteToListOf<TestSysobjects>(cmd);
+
+        //    Assert.IsTrue(result.Count > 0);
+        //}
+
+
+
+        
+        //[Test]
+        //public void Execute2DataTableBenchMark()
+        //{
+        //    Stopwatch sw = new Stopwatch();
+        //    sw.Start();
+        //    for (int i = 0; i < 1000; i++)
+        //    {
+        //        ExecuteDataTable();
+        //    }
+        //    sw.Stop();
+        //    TestContext.WriteLine($"{sw.ElapsedMilliseconds}");
+        //}
+
+
+        //[Test]
+        //public void Execute0ReaderBenchMark()
+        //{
+        //    Stopwatch sw = new Stopwatch();
+        //    sw.Start();
+        //    for(int i = 0; i < 1000; i++)
+        //    {
+        //        ExecuteReader();
+        //    }
+        //    sw.Stop();
+        //    TestContext.WriteLine($"{sw.ElapsedMilliseconds}");
+        //}
+        //[Test]
+        //public void Execute1ReaderBenchMark()
+        //{
+        //    Stopwatch sw = new Stopwatch();
+        //    sw.Start();
+        //    for (int i = 0; i < 1000; i++)
+        //    {
+        //        ExecuteReaderByOrdinal();
+        //    }
+        //    sw.Stop();
+        //    TestContext.WriteLine($"{sw.ElapsedMilliseconds}");
+        //}
+
+
+        //[Test]
+        //public void Execute3ToBenchMark()
+        //{
+        //    Stopwatch sw = new Stopwatch();
+        //    sw.Start();
+        //    for (int i = 0; i < 1000; i++)
+        //    {
+        //        ExecuteTo();
+        //    }
+        //    sw.Stop();
+        //    TestContext.WriteLine($"{sw.ElapsedMilliseconds}");
+        //}
+
+
+
     }
 }

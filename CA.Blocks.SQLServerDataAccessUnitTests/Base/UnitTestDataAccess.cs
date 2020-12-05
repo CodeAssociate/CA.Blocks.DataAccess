@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using CA.Blocks.DataAccess.DI;
@@ -26,7 +27,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 
 
         private const string unitTestTableName = "CA_BLOCKS_UNITTEST_TEMP_TESTTABLE";
-        public const string UNIT_TEST_COL_NAME = "col";
+        public const string UNIT_TEST_COL_NAME = "Col";
 
         protected string DropTestTableSQL()
         {
@@ -63,11 +64,17 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
             ExecuteNonQuery(cmd); 
         }
 
+
         public new DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
         {
            return base.ExecuteDataTable(cmd, page);
         }
 
+
+        public new IList<T> ExecuteToListOf<T>(SqlCommand cmd) where T : new()
+        {
+            return base.ExecuteToListOf<T>(cmd);
+        }
 
         protected string DataTableToText(DataTable dt)
         {
@@ -114,5 +121,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
             }
             return sb.ToString();
         }
+
     }
 }

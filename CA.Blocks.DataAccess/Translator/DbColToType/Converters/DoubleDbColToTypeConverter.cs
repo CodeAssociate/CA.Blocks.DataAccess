@@ -1,0 +1,31 @@
+﻿using System;
+using System.Data;
+
+namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
+{
+    public class DoubleDbColToTypeConverter : BaseDbColToTypeConverter<Double>
+    {
+        public override Double GetDataValue(DataRow dr, string columnName)
+        {
+            return dr.AsDouble(columnName);
+        }
+
+        public override Double GetDataValue(IDataReader dr, string columnName)
+        {
+            return dr.AsDouble(columnName);
+        }
+    }
+
+    public class NullDoubleDbColToTypeConverter : BaseDbColToTypeConverter<Double?>
+    {
+        public override Double? GetDataValue(DataRow dr, string columnName)
+        {
+            return dr.AsNullDouble(columnName);
+        }
+
+        public override Double? GetDataValue(IDataReader dr, string columnName)
+        {
+            return dr.AsNullDouble(columnName);
+        }
+    }
+}

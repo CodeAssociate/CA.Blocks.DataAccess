@@ -162,6 +162,25 @@ namespace CA.Blocks.DataAccess
             return dbValue == null ? (int?)null : Convert.ToInt32(dbValue);
         }
 
+        public static uint? GetValueFromRowAsNullUInt(DataRow dr, string sColumnName)
+        {
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (uint?)null : Convert.ToUInt32(dbValue);
+        }
+
+        public static uint? GetValueFromRowAsNullUInt(DataRow dr, DataColumn column)
+        {
+            var dbValue = GetValueFromRow(dr, column);
+            return dbValue == null ? (uint?)null : Convert.ToUInt32(dbValue);
+        }
+
+
+        public static uint? GetValueFromRowAsNullUInt(DataRow dr, int columnOrder)
+        {
+            var dbValue = GetValueFromRow(dr, columnOrder);
+            return dbValue == null ? (uint?)null : Convert.ToUInt32(dbValue);
+        }
+
         /// <summary>
         /// Will get the data value from the row as an int. If the value is null an <see cref="ArgumentNullException"/> will be thrown
         /// This procedure assumes that the data is an integer, if not a cast exception will be thrown.  
@@ -169,7 +188,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        
+
         public static int GetValueFromRowAsInt(DataRow dr, string sColumnName)
         {
             int? val = GetValueFromRowAsNullInt(dr, sColumnName);
@@ -202,6 +221,28 @@ namespace CA.Blocks.DataAccess
         }
 
 
+        public static uint GetValueFromRowAsUInt(DataRow dr, string sColumnName)
+        {
+            uint? val = GetValueFromRowAsNullUInt(dr, sColumnName);
+            ThrowExceptionIfIsNull(val, sColumnName, "uint");
+            return val.Value;
+        }
+
+        public static uint GetValueFromRowAsUInt(DataRow dr, DataColumn column)
+        {
+            uint? val = GetValueFromRowAsNullUInt(dr, column);
+            ThrowExceptionIfIsNull(val, column.ColumnName, "uint");
+            return val.Value;
+        }
+
+
+        public static uint GetValueFromRowAsUInt(DataRow dr, int columnIndex)
+        {
+            uint? val = GetValueFromRowAsNullUInt(dr, columnIndex);
+            ThrowExceptionIfIsNull(val, columnIndex, "uint");
+            return val.Value;
+        }
+
         /// <summary>
         /// Will get the data value from the row as a nullable Decimal. The return value will be set to either null or the Decimal value
         /// This procedure assumes that the data is an Decimaleger, if not a cast exception will be thrown.  
@@ -209,7 +250,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        
+
         public static Decimal? GetValueFromRowAsNullDecimal(DataRow dr, string sColumnName)
         {
             return ((Decimal?)GetValueFromRow(dr, sColumnName));
@@ -550,6 +591,53 @@ namespace CA.Blocks.DataAccess
             return dbValue == null ? (short?)null : Convert.ToInt16(dbValue);
         }
 
+
+        public static ushort GetValueFromRowAsUShort(DataRow dr, string sColumnName)
+        {
+            ushort? val = GetValueFromRowAsNullUShort(dr, sColumnName);
+            ThrowExceptionIfIsNull(val, sColumnName, "ushort");
+            return val.Value;
+        }
+
+
+        public static ushort GetValueFromRowAsUShort(DataRow dr, int columnIndex)
+        {
+            ushort? val = GetValueFromRowAsNullUShort(dr, columnIndex);
+            ThrowExceptionIfIsNull(val, columnIndex, "ushort");
+            return val.Value;
+        }
+
+
+        public static ushort GetValueFromRowAsUShort(DataRow dr, DataColumn dc)
+        {
+            ushort? val = GetValueFromRowAsNullUShort(dr, dc);
+            ThrowExceptionIfIsNull(val, dc.ColumnName, "ushort");
+            return val.Value;
+        }
+
+
+        public static ushort? GetValueFromRowAsNullUShort(DataRow dr, string sColumnName)
+        {
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (ushort?)null : Convert.ToUInt16(dbValue);
+        }
+
+
+        public static ushort? GetValueFromRowAsNullUShort(DataRow dr, int columnIndex)
+        {
+            var dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? (ushort?)null : Convert.ToUInt16(dbValue);
+        }
+
+
+        public static ushort? GetValueFromRowAsNullUShort(DataRow dr, DataColumn dc)
+        {
+            var dbValue = GetValueFromRow(dr, dc);
+            return dbValue == null ? (ushort?)null : Convert.ToUInt16(dbValue);
+        }
+
+
+
         /// <summary>
         /// Will get the data value from the row as an short. If the value is null an <see cref="ArgumentNullException"/> will be thrown
         /// This procedure assumes that the data is an short, if not a cast exception will be thrown.  
@@ -557,7 +645,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        
+
         public static short GetValueFromRowAsShort(DataRow dr, string sColumnName)
         {
             short? val = GetValueFromRowAsNullShort(dr, sColumnName);

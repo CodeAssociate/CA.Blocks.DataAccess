@@ -391,6 +391,7 @@ namespace CA.Blocks.DataAccess.Translator
             return DataHelper.GetValueFromRowAsNullDouble(dr, SourceNameName);
         }
     }
+
     #endregion
 
     #region DateTime

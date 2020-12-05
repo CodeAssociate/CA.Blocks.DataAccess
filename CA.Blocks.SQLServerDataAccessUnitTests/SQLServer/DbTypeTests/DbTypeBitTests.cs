@@ -7,6 +7,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
     [TestFixture]
     public class DbTypeBitTests : UnitTestDataAccess
     {
+        private class BoolDataType
+        {
+            public bool Col { get; set; }
+        }
+
         private void InsertTestDataSQL(bool data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data? "1":"0"));
@@ -28,7 +33,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataBitInt()
+        public void SelectAllData()
         {
             //Setup 
            
@@ -40,7 +45,20 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataBitIntWithFilter ()
+        public void SelectAllDataToListOf()
+        {
+            //Setup 
+
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = ExecuteToListOf<BoolDataType>(cmd);
+            //Assert
+            Assert.AreEqual(2, data.Count);
+            Assert.AreEqual(true, data[0].Col);
+        }
+
+        [Test]
+        public void SelectAllDataWithFilter ()
         {
             //setup
             const bool testvalue = true;

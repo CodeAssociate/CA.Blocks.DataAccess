@@ -10,6 +10,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
     [TestFixture]
     public class DbTypeBigIntTests : UnitTestDataAccess
     {
+        private class BigIntDataType
+        {
+            public long Col { get; set; }
+        }
+
         private void InsertTestDataSQL(long data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
@@ -34,7 +39,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataBigInt()
+        public void SelectAllData()
         {
             //Setup 
             var t = new LongTranslator(UNIT_TEST_COL_NAME);
@@ -44,6 +49,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Assert
             Assert.AreEqual(5, data.Count);
         }
+
+        [Test]
+        public void SelectAllDataToListOf()
+        {
+            //Setup 
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = this.ExecuteToListOf<BigIntDataType>(cmd);
+            //Assert
+            Assert.AreEqual(5, data.Count);
+            Assert.AreEqual(-1, data[0].Col);
+        }
+
 
         [Test]
         public void SelectAllDataBigIntWithFilter ()
@@ -63,7 +81,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
 
         
         [Test]
-        public void SelectAllDataBigIntWithFilterAndSugger()
+        public void SelectAllDataBigIntWithFilterWithParameters()
         {
             //setup
             const long testvalue = 123;
@@ -80,6 +98,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Asert
             Assert.AreEqual(3, data.Count);
         }
+
+
+
+
+
 
     }
 }

@@ -8,6 +8,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
     [TestFixture]
     public class DbTypeByteTests : UnitTestDataAccess
     {
+        private class ByteDataType
+        {
+            public byte Col { get; set; }
+        }
+
         private void InsertTestDataSQL(byte data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
@@ -32,7 +37,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataInt()
+        public void SelectAllData()
         {
             //Setup 
             var t = new ByteTranslator(UNIT_TEST_COL_NAME);
@@ -41,6 +46,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
             Assert.AreEqual(5, data.Count);
+        }
+
+        [Test]
+        public void SelectAllDataToListOf()
+        {
+            //Setup 
+
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = ExecuteToListOf<ByteDataType>(cmd);
+            //Assert
+            Assert.AreEqual(5, data.Count);
+            Assert.AreEqual(byte.MaxValue, data[4].Col);
         }
 
         [Test]

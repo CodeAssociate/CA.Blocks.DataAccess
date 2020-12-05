@@ -18,6 +18,9 @@ using System.Data;
 using System.Data.Common;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Translator;
+using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 
 namespace CA.Blocks.DataAccess
 {
@@ -32,6 +35,7 @@ namespace CA.Blocks.DataAccess
     public abstract class DataAccessCore
     {
         private readonly IDataAccessConfigOptions _options;
+        private readonly IDbRowToObjectProvider _dbToObjectProvider;
 
         protected string ConnectionString { get; }
 
@@ -45,6 +49,8 @@ namespace CA.Blocks.DataAccess
         /// </summary>
         protected DataAccessCore(IDataAccessConfig config)
         {
+            // TODO IOC this
+            _dbToObjectProvider = new DefaultDbRowToObjectProviderProvider(new DefaultDbColToTypeProvider());
             _options = config.Options;
             ConnectionString = config.Resolver.GetConnectionString(_options.ConnectionStringKey);
         }
@@ -90,8 +96,6 @@ namespace CA.Blocks.DataAccess
 
         #endregion
 
-       
-
         #region ExecuteNonQuery
 
         protected int ExecuteNonQuery(IDbCommand cmd)
@@ -111,7 +115,6 @@ namespace CA.Blocks.DataAccess
             DataSet ds = new DataSet();
             return (ExecuteDataSet(cmd, ds, "Results"));
         }
-
 
         protected DataSet ExecuteDataSet(IDbCommand cmd, DataSet ds, string sTableNames)
         {
@@ -165,6 +168,7 @@ namespace CA.Blocks.DataAccess
 
         #region ExecuteDictionary 
 
+        [System.Obsolete("This will be removed as it is more of a specialized translator")]
         protected IDictionary ExecuteDictionary(IDbCommand cmd)
         {
             Hashtable dictionary = new Hashtable();
@@ -258,5 +262,22 @@ namespace CA.Blocks.DataAccess
             var translator = new DynamicDbRow2ObjectTranslator();
             return translator.Translate(ExecuteDataTable(cmd));
         }
+
+
+        
+        // execute using a provider translator
+        protected T ExecuteTo<T>(IDbCommand cmd) where T : new()
+        {
+            var t = _dbToObjectProvider.Resolve<T>();
+            return t.Translate(ExecuteDataRow(cmd));
+        }
+
+        protected IList<T> ExecuteToListOf<T>(IDbCommand cmd) where T : new()
+        {
+            var t = _dbToObjectProvider.Resolve<T>();
+            return t.Translate(ExecuteDataTable(cmd));
+        }
+        
+
     }
 }

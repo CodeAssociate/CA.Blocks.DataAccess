@@ -9,6 +9,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
     [TestFixture]
     public class DbTypeNTextTests : UnitTestDataAccess
     {
+        private class StringDataType
+        {
+            public string Col { get; set; }
+        }
+
+
         private const string  TEST_DATA = "Ntext data";
 
         private void InsertTestDataAsBinarySQL(string data)
@@ -47,7 +53,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(TEST_DATA, data[0]);
         }
 
-        
+        [Test]
+        public void SelectAllDataToListOf()
+        {
+            //Setup 
+
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = ExecuteToListOf<StringDataType>(cmd);
+            //Assert
+            Assert.AreEqual(5, data.Count);
+            Assert.AreEqual(TEST_DATA, data[0].Col);
+        }
+
         [Test]
         public void SelectDataTextWithFilter()
         {
