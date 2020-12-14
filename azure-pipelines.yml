@@ -16,6 +16,36 @@ variables:
   Major: '2'
   Minor: '2'
   Patch : $[counter(variables['BuildID'], 0)]
+  SemanticVerion : $(Major).$(Minor).$(Patch)
+
+steps:
+- script: echo $(SemanticVerion)
+
+
+#Set the assembly file and version numbers to be the build number
+ - task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess\'
+    script: '((Get-Content -path CA.Blocks.DataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.csproj'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Model\'
+    script: '((Get-Content -path CA.Blocks.DataAccess.Model.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Model.csproj'
+
+ - task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SQLLiteDataAccess\'
+    script: '((Get-Content -path CA.Blocks.SQLLiteDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SQLLiteDataAccess.csproj'
+
+ - task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SQLServerDataAccess\'
+    script: '((Get-Content -path CA.Blocks.SQLServerDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SQLServerDataAccess.csproj'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -41,27 +71,14 @@ steps:
     configuration: '$(buildConfiguration)'
     codeCoverageEnabled: True # Optional
 
-# Publish build artifacts
-# Publish build artifacts to Azure Pipelines or a Windows file share
-# - task: PublishBuildArtifacts@1
-#  inputs:
-#    pathtoPublish: '$(System.DefaultWorkingDirectory)/CA.Blocks.DataAccess/CA.Blocks.DataAccess/bin/Release/*.nupkg' 
-#    artifactName: CA.Blocks.DataAccess 
-    #publishLocation: 'Container' # Options: container, filePath
-    #targetPath: # Required when publishLocation == FilePath
-    #parallel: false # Optional
-    #parallelCount: # Optional
-    #fileCopyOptions: #Optional
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj;!**/*Tests.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)'
-    versioningScheme: byPrereleaseNumber
-    majorVersion : $(Major)
-    minorVersion : $(Minor)
-    patchVersion : $(Patch)
+    versioningScheme: byEnvVar
+    versionEnvVar : SemanticVerion
 
 #- task: NuGetAuthenticate@0
 #  displayName: 'NuGet Authenticate'

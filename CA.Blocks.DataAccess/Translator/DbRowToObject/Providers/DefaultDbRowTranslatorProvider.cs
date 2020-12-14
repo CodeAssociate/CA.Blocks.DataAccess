@@ -1,25 +1,31 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
+using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Mappings;
 
 namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
 {
-    public class DefaultDbRowToObjectProviderProvider : IDbRowToObjectProvider
+    public class DefaultDbRowTranslatorProvider : IDbRowTranslatorProvider
     {
+        private readonly IDbColToTypeProvider _colTypeConverters;
 
-        public IDbColToTypeProvider _colTypeConverters;
+        private static object _syncLock = new object();
+        private readonly IDictionary<string, object> _typeConverters;
 
-        public DefaultDbRowToObjectProviderProvider(IDbColToTypeProvider colTypeConverters)
+        public static IDbRowTranslatorProvider DefaultInstance = new DefaultDbRowTranslatorProvider();
+
+
+        public DefaultDbRowTranslatorProvider()
         {
-            _colTypeConverters = colTypeConverters;
+            _colTypeConverters = DefaultDbColToTypeProvider.DefaultInstance;
+            _typeConverters = new ConcurrentDictionary<string, object>();
+
         }
-
-
-        private readonly IDictionary<string, object> _typeConverters = new Dictionary<string, object>();
-
+        
 
         private string GetKey(Type targetType, string byName = "")
         {
@@ -27,9 +33,8 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
         }
 
 
-        private IDb2ObjectTranslator<T> GenerateDefaultMappingsFor<T>() where T : new()
+        private IDbRowTranslator<T> GenerateDefaultMappingsFor<T>() where T : new()
         {
-
             DbRowToObjectMappings mappings = new DbRowToObjectMappings();
             var myObjectFields = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var pi in myObjectFields)
@@ -46,8 +51,27 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             return new Db2ObjectTranslator<T>(mappings);
         }
 
+        private void Add<T>(string key, IDbRowTranslator<T> translator, string byName = "")
+        {
+            lock (_syncLock)
+            {
+                if (_typeConverters.ContainsKey(key))
+                {
+                    throw new ApplicationException($"There is already a IDbRowTranslator Type registered for {key} they must be unique");
+                }
+                _typeConverters.Add(key, translator);
+            }
+        }
 
-        public IDb2ObjectTranslator<T> Resolve<T>(string byName = "") where T : new()
+        public void Add<T>(IDbRowTranslator<T> translator, string byName = "")
+        {
+            var targetType = typeof(T);
+            var key = GetKey(targetType, byName);
+            Add(key, translator, byName);
+        }
+
+
+        public IDbRowTranslator<T> Resolve<T>(string byName = "") where T : new()
         {
             var targetType = typeof(T);
             var key = GetKey(targetType, byName);
@@ -56,15 +80,13 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             if (!_typeConverters.TryGetValue(key, out typeConverter))
             {
                 typeConverter = GenerateDefaultMappingsFor<T>();
-                /// bugger.
-                _typeConverters.Add(key, typeConverter);
+                Add<T>(key, (IDbRowTranslator<T>)typeConverter);
+
                // let try register the default version with 100% 1-1 mapping. might fail but no worse that not having one registered
                //throw new KeyNotFoundException($"No DbRow To Object Provider registered for {key}");
             }
 
-            return typeConverter as IDb2ObjectTranslator<T>;
+            return typeConverter as IDbRowTranslator<T>;
         }
     }
-
-
 }

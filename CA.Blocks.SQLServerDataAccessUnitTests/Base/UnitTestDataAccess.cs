@@ -19,9 +19,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
     public class UnitTestDataAccess : SqlServerDataAccess
     {
         public UnitTestDataAccess() : base (
-            new DataAccessConfig("UnitTestDataAccess", 
-            new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" }, 
-            new AppDotConfigConnectionStringsResolver()))
+            new DataAccessConfig("UnitTestDataAccess", new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" }, 
+            new AppDotConfigConnectionStringsResolver())
+        )
         {
         }
 
@@ -48,11 +48,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
         protected string SelectTestDataSQL()
         {
             return $"Select col from {unitTestTableName} /*##FILTER##*/";
-        }
-
-        protected string SelectTestDataSQL( string where)
-        {
-            return $"Select col from {unitTestTableName} {@where}";
         }
 
 

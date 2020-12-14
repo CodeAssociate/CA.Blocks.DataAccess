@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
@@ -7,8 +8,11 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
 {
     public class DefaultDbColToTypeProvider : IDbColToTypeProvider
     {
+        private static object _syncLock = new object();
         private readonly IDictionary<string, object> _typeConverters;
 
+        public static IDbColToTypeProvider DefaultInstance = new DefaultDbColToTypeProvider();
+        
 
         private string GetKey(Type targetType, string byName = "")
         {
@@ -17,7 +21,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
 
         public DefaultDbColToTypeProvider()
         {
-            _typeConverters = new Dictionary<string, object>();
+            _typeConverters = new ConcurrentDictionary<string, object>();
             // string
             Add(new StringDbColToTypeConverter());
 
@@ -27,6 +31,9 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
             // byte
             Add(new ByteDbColToTypeConverter());
             Add(new NullByteDbColToTypeConverter());
+            // sbyte
+            Add(new SByteDbColToTypeConverter());
+            Add(new NullSByteDbColToTypeConverter());
             // short
             Add(new ShortDbColToTypeConverter());
             Add(new NullShortDbColToTypeConverter());
@@ -60,6 +67,8 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
             // Decimal 
             Add(new DecimalDbColToTypeConverter());
             Add(new NullDecimalDbColToTypeConverter());
+            // Binary
+            Add(new BinaryDbColToTypeConverter());
 
 
             Add(new DateTimeDbColToTypeConverter());
@@ -71,12 +80,15 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
         {
             var targetType = typeof(T);
             var key = GetKey(targetType, byName);
-            if (_typeConverters.ContainsKey(key))
-            {
-                throw new ApplicationException($"There is already a ITypeConverter Type registered for {key} they must be unique");
-            }
-            _typeConverters[key] = typeConverter;
 
+            lock (_syncLock)
+            {
+                if (_typeConverters.ContainsKey(key))
+                {
+                    throw new ApplicationException($"There is already a ITypeConverter Type registered for {key} they must be unique");
+                }
+                _typeConverters.Add(key, typeConverter);
+            }
         }
 
         public IDbColToTypeConverter Resolve<T>(string byName = "")

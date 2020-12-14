@@ -20,7 +20,8 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
     {
         private SqliteConnection _dbcontext; 
 
-        public UnitTestDataAccess() : base (new DataAccessConfig("SqlLiteUnitTesting", new DataAccessConfigOptions(), new UnitTRestInMemDBResolver()))
+        public UnitTestDataAccess() : base (
+            new DataAccessConfig("SqlLiteUnitTesting", new DataAccessConfigOptions(), new UnitTRestInMemDBResolver()), null)
         {
             // we need to hold a conneciton open for in mem
             _dbcontext = new SqliteConnection(ConnectionString);

@@ -4,7 +4,7 @@ using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.Blocks.DataAccessUnitTest.SQLServer.DbTypeTests
+namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
 {
     [TestFixture]
     public class DbTypeVarCharTests : UnitTestDataAccess
@@ -63,7 +63,5 @@ namespace CA.Blocks.DataAccessUnitTest.SQLServer.DbTypeTests
             //Asert
             Assert.AreEqual(1, data.Count);
         }
-
-
     }
 }

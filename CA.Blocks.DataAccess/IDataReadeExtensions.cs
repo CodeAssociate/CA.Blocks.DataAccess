@@ -8,6 +8,7 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace CA.Blocks.DataAccess
@@ -112,6 +113,8 @@ namespace CA.Blocks.DataAccess
         }
 
 
+
+
         // Nulls
         public static byte? AsNullByte(this IDataReader dr, string colName)
         {
@@ -134,6 +137,29 @@ namespace CA.Blocks.DataAccess
         }
         #endregion
 
+        #region Binary
+        public static byte[] AsBinary(this IDataReader dr, string colName)
+        {
+            if (dr.IsDBNull(dr.GetOrdinal(colName)))
+                return null;
+            else
+            {
+
+                return (byte[])(dr[colName]);
+            }
+        }
+
+        public static byte[] AsBinary(this IDataReader dr, int columnIndex)
+        {
+            if (dr.IsDBNull(columnIndex))
+                return null;
+            else
+            {
+                return (byte[])(dr[columnIndex]);
+            }
+        }
+
+        #endregion
         #region SByte
         public static sbyte AsSByte(this IDataReader dr, string colName)
         {
@@ -727,6 +753,7 @@ namespace CA.Blocks.DataAccess
             }
 
         }
+
 
         #endregion
 

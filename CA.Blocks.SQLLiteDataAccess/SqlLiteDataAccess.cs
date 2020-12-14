@@ -20,6 +20,7 @@ using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLLiteDataAccess.Adapters;
 using CA.Blocks.DataAccess.Model.Paging;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using Microsoft.Data.Sqlite;
 
 namespace CA.Blocks.SQLLiteDataAccess
@@ -34,7 +35,7 @@ namespace CA.Blocks.SQLLiteDataAccess
 
         public const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
 
-        public SqlLiteDataAccess(IDataAccessConfig config) : base(config)
+        public SqlLiteDataAccess(IDataAccessConfig config, IDbRowTranslatorProvider dbRowTranslatorProvider) : base(config, dbRowTranslatorProvider)
         {
 
         }

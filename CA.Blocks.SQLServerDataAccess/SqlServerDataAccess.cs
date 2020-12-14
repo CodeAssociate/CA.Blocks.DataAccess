@@ -20,6 +20,7 @@ using System.Text;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Model.Paging;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 
 namespace CA.Blocks.SQLServerDataAccess
 {
@@ -33,7 +34,7 @@ namespace CA.Blocks.SQLServerDataAccess
 
         public const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
 
-        public SqlServerDataAccess(IDataAccessConfig config) : base(config)
+        public SqlServerDataAccess(IDataAccessConfig config, IDbRowTranslatorProvider dbRowTranslatorProvider = null) : base(config, dbRowTranslatorProvider)
         {
 
         }

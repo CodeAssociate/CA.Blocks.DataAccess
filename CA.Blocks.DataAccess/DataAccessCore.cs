@@ -11,16 +11,15 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using CA.Blocks.DataAccess.DI;
+using CA.Blocks.DataAccess.Translator;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using CA.Blocks.DataAccess.DI;
-using CA.Blocks.DataAccess.Translator;
-using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 
 namespace CA.Blocks.DataAccess
 {
@@ -35,7 +34,7 @@ namespace CA.Blocks.DataAccess
     public abstract class DataAccessCore
     {
         private readonly IDataAccessConfigOptions _options;
-        private readonly IDbRowToObjectProvider _dbToObjectProvider;
+        private readonly IDbRowTranslatorProvider _dbRowTranslatorProvider;
 
         protected string ConnectionString { get; }
 
@@ -47,10 +46,9 @@ namespace CA.Blocks.DataAccess
         /// This is a protected constructor which must be called by the inheriting class, bu default it will get the configuration 
         /// value stored in connectionStrings element of the configuration. This value can be overriden using the ResolveConnectionStringValue method. 
         /// </summary>
-        protected DataAccessCore(IDataAccessConfig config)
+        protected DataAccessCore(IDataAccessConfig config, IDbRowTranslatorProvider dbRowTranslatorProvider)
         {
-            // TODO IOC this
-            _dbToObjectProvider = new DefaultDbRowToObjectProviderProvider(new DefaultDbColToTypeProvider());
+            _dbRowTranslatorProvider = dbRowTranslatorProvider ?? DefaultDbRowTranslatorProvider.DefaultInstance;
             _options = config.Options;
             ConnectionString = config.Resolver.GetConnectionString(_options.ConnectionStringKey);
         }
@@ -268,14 +266,14 @@ namespace CA.Blocks.DataAccess
         // execute using a provider translator
         protected T ExecuteTo<T>(IDbCommand cmd) where T : new()
         {
-            var t = _dbToObjectProvider.Resolve<T>();
-            return t.Translate(ExecuteDataRow(cmd));
+            var translator = _dbRowTranslatorProvider.Resolve<T>();
+            return translator.Translate(ExecuteDataRow(cmd));
         }
 
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd) where T : new()
         {
-            var t = _dbToObjectProvider.Resolve<T>();
-            return t.Translate(ExecuteDataTable(cmd));
+            var translator = _dbRowTranslatorProvider.Resolve<T>();
+            return translator.Translate(ExecuteDataTable(cmd));
         }
         
 
