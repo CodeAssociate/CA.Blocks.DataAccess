@@ -47,7 +47,7 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SQLServerDataAccess\'
     script: '((Get-Content -path CA.Blocks.SQLServerDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SQLServerDataAccess.csproj'
 
-steps:
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
