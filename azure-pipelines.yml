@@ -23,7 +23,7 @@ steps:
 
 
 #Set the assembly file and version numbers to be the build number
- - task: PowerShell@2
+- task: PowerShell@2
   inputs:
     targetType: 'inline'
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess\'
@@ -35,13 +35,13 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Model\'
     script: '((Get-Content -path CA.Blocks.DataAccess.Model.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Model.csproj'
 
- - task: PowerShell@2
+- task: PowerShell@2
   inputs:
     targetType: 'inline'
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SQLLiteDataAccess\'
     script: '((Get-Content -path CA.Blocks.SQLLiteDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SQLLiteDataAccess.csproj'
 
- - task: PowerShell@2
+- task: PowerShell@2
   inputs:
     targetType: 'inline'
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SQLServerDataAccess\'
