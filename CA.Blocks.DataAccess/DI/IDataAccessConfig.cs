@@ -7,6 +7,7 @@
         string ConfigName { get; }
         IDataAccessKeyToConnectionStringResolver Resolver { get; }
         IDataAccessConfigOptions Options { get; }
+
     }
 
     public class DataAccessConfig : IDataAccessConfig

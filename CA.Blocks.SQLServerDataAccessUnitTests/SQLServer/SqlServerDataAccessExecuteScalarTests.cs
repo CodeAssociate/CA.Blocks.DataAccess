@@ -23,7 +23,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // Setup
             var cmd = CreateTextCommand("Select Cast(1 as tinyint) as col");
             // act
-            var result = ExecuteScalarAsByte(cmd);
+            var result = ExecuteScalarAs<byte>(cmd);
             //Assert
             Assert.AreEqual((byte)1, result);
         }
@@ -34,7 +34,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // Setup
             var cmd = CreateTextCommand("Select Cast(1 as smallint) as col");
             // act
-            var result = ExecuteScalarAsShort(cmd);
+            var result = ExecuteScalarAs<short>(cmd);
             //Assert
             Assert.AreEqual((short)1, result);
         }
@@ -45,9 +45,32 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // Setup
             var cmd = CreateTextCommand("Select Cast(1 as int) as col");
             // act
-            var result = ExecuteScalarAsInt(cmd);
+            var result = ExecuteScalarAs<int>(cmd);
             //Assert
             Assert.AreEqual((int)1, result);
+        }
+
+        [Test]
+        public void ExecuteExecuteScalarNullInt()
+        {
+            // Setup
+            var cmd = CreateTextCommand("Select null as col");
+            // act
+            var result = ExecuteScalarAs<int?>(cmd);
+            //Assert
+            Assert.IsNull(result);
+        }
+
+
+        [Test]
+        public void ExecuteExecuteScalarIntWithConvert()
+        {
+            // Setup
+            var cmd = CreateTextCommand("Select Cast(123 as tinyint) as col");
+            // act
+            var result = ExecuteScalarWithConvertAs<int>(cmd);
+            //Assert
+            Assert.AreEqual((int)123, result);
         }
 
 
@@ -57,7 +80,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // Setup
             var cmd = CreateTextCommand("Select Cast(1 as bigint) as col");
             // act
-            var result = ExecuteScalarAsLong(cmd);
+            var result = ExecuteScalarAs<long>(cmd);
             //Assert
             Assert.AreEqual((long)1, result);
         }
@@ -69,7 +92,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // Setup
             var cmd = CreateTextCommand("Select Cast('D79DB3C0-E5BE-4045-A37B-6DB923D37123' as uniqueidentifier) as col");
             // act
-            var result = ExecuteScalarAsGuid(cmd);
+            var result = ExecuteScalarAs<Guid>(cmd);
             //Assert
             Assert.AreEqual(new Guid("D79DB3C0-E5BE-4045-A37B-6DB923D37123"), result);
         }

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<codedocs>
+<member name="IDataAccessKeyToConnectionStringResolver">
+    <example>
+      IDataAccessKeyToConnectionStringResolver is an interface used to get the connectionString from a given key. 
+      <code>
+public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringResolver
+{
+  public string GetConnectionString(string connectionStringKey)
+  {
+    return /*place your code here to get the connectionString*/ "";
+  }
+}
+      </code>
+    </example>
+</member>
+
+<member name="IDataAccessKeyToConnectionStringResolver.GetConnectionString">
+    <summary>
+      interface to GetConnectionString
+    </summary>
+</member>
+
+</codedocs>

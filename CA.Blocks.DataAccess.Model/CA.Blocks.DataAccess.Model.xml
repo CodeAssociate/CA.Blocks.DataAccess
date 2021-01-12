@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CA.Blocks.DataAccess.Model</name>
+    </assembly>
+    <members>
+        <member name="T:CA.Blocks.DataAccess.Model.Paging.Sort">
+            <summary>
+            Sort Def
+            </summary>
+        </member>
+        <member name="P:CA.Blocks.DataAccess.Model.Paging.Sort.Field">
+            <summary>
+            The Name of the Field to Sort
+            </summary>
+        </member>
+        <member name="P:CA.Blocks.DataAccess.Model.Paging.Sort.Dir">
+            <summary>
+            The Direction of the Sort
+            </summary>
+        </member>
+    </members>
+</doc>

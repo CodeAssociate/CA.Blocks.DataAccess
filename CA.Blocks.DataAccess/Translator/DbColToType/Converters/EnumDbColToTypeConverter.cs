@@ -3,6 +3,11 @@ using System.Data;
 
 namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 {
+
+    /// <summary>
+    /// EnumDbColToTypeConverter Docs 
+    /// </summary>
+    /// <typeparam name="T"> wher doe this for</typeparam>
     public class EnumDbColToTypeConverter<T> : BaseDbColToTypeConverter<T> where T : struct
     {
         private readonly bool _ignoreCase;
@@ -26,10 +31,10 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         }
     }
 
-    public class NullEnumBoolDbColToTypeConverter<T> : BaseDbColToTypeConverter<T?> where T : struct
+    public class NullEnumDbColToTypeConverter<T> : BaseDbColToTypeConverter<T?> where T : struct
     {
         private readonly bool _ignoreCase;
-        public NullEnumBoolDbColToTypeConverter(bool ignoreCase = true)
+        public NullEnumDbColToTypeConverter(bool ignoreCase = true)
         {
             _ignoreCase = ignoreCase;
         }

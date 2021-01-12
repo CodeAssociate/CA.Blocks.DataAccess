@@ -180,119 +180,20 @@ namespace CA.Blocks.SQLServerDataAccess
         }
 
 
-        //protected SqlParameter AddInputParamCommandAsDeciaml(SqlCommand cmd, string strParameterName, decimal? objParameterValue)
-        //{
-        //    return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.Decimal, 38);
-        //}
 
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsGuid(SqlCommand cmd, string strParameterName, Guid? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.UniqueIdentifier, 16);
-        }
-
+        /// <summary>
+        /// To be removed
+        /// </summary>
+        /// <param name="cmd">cmd params</param>
+        /// <param name="strParameterName"> name</param>
+        /// <param name="objParameterValue"> value</param>
+        /// <returns></returns>
         [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
         protected SqlParameter AddInputParamCommandAsByte(SqlCommand cmd, string strParameterName, byte? objParameterValue)
         {
             return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.TinyInt, 1);
         }
 
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsBinary(SqlCommand cmd, string strParameterName, byte[] objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.VarBinary, -1);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsBit(SqlCommand cmd, string strParameterName, bool objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.Bit, 1);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsString(SqlCommand cmd, string strParameterName, string objParameterValue, int maxSize)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.VarChar, maxSize);
-        }
-
-        // dont care about the size of the object this assumes the check as been done already else SQL will raise an error
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsString(SqlCommand cmd, string strParameterName, string objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.VarChar, -1);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsBool(SqlCommand cmd, string strParameterName, bool? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.Bit, 1);
-        }
-        [System.Obsolete("Do Conversion to Y ? N Outside then use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsCharBool(SqlCommand cmd, string strParameterName, bool objParameterValue)
-        {
-            char DBValue = objParameterValue ? 'Y' : 'N';
-            return AddInputParamCommand(cmd, strParameterName, DBValue, SqlDbType.Char, 1);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsChar(SqlCommand cmd, string strParameterName, char? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.Char, 1);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsDateTime(SqlCommand cmd, string strParameterName, DateTime? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.DateTime, 8);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsDateTime2(SqlCommand cmd, string strParameterName, DateTime? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.DateTime2, 8);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsSmallDateTime(SqlCommand cmd, string strParameterName, DateTime? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.SmallDateTime, 4);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsMoney(SqlCommand cmd, string strParameterName, Decimal? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.Money, 0);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsDecimal(SqlCommand cmd, string strParameterName, Decimal? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.Decimal, 0);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsFloat(SqlCommand cmd, string strParameterName, Double? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.Float, 0);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsDouble(SqlCommand cmd, string strParameterName, Double? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.Float, 0);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsTimeSpan(SqlCommand cmd, string strParameterName, TimeSpan? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.Time, 0);
-        }
-
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsStringMax(SqlCommand cmd, string strParameterName, string objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.VarChar, int.MaxValue);
-        }
 
         protected SqlParameter AddOutputParamCommand(SqlCommand cmd, string strParameterName, DbType odbType, Int32 maxParamSize)
         {

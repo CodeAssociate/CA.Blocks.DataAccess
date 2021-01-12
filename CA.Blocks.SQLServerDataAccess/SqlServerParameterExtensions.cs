@@ -15,11 +15,26 @@ using System.Linq;
 
 namespace CA.Blocks.SQLServerDataAccess
 {
+    /// <summary>
+    /// When going from the .NET world info the database we need to tell the database the the precision on which to store the DateTime.  SQL server exposes four levels
+    /// </summary>
     public enum SpecificSQLDateTimeType
     {
+        /// <summary>
+        /// Will only store the date value of the DateTime Input, is is accurate to the day and uses 3 bytes of storage.
+        /// </summary>
         Date,
+        /// <summary>
+        /// Will only store the date and time value on the input, this is the default, Expect this default to change to DateTime2 as DateTime is the legacy
+        /// </summary>
         DateTime, // The default
+        /// <summary>
+        /// DateTime2 provides a much larger Date Range, in addition higher accuracy sorting down to the 100 nanoseconds level. Microsoft recommends datetime2 over datetime for new work.. but it usage is still catching up hence the default is still DateTime.
+        /// </summary>
         DateTime2,
+        /// <summary>
+        /// Will only store the date and time value on the input, this will be accurate up to the one minute. SmallDateTime is 4 bytes so has big storage advantages over big tables, however it is not SQL ANSI Compliant..
+        /// </summary>
         SmallDateTime
     }
 

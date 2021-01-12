@@ -18,8 +18,10 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
+using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 
 namespace CA.Blocks.DataAccess
 {
@@ -35,7 +37,7 @@ namespace CA.Blocks.DataAccess
     {
         private readonly IDataAccessConfigOptions _options;
         private readonly IDbRowTranslatorProvider _dbRowTranslatorProvider;
-
+        
         protected string ConnectionString { get; }
 
         #region private utility methods & constructors
@@ -83,6 +85,12 @@ namespace CA.Blocks.DataAccess
             System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         }
 
+        protected virtual void TraceDbError(IDbCommand cmd, Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(cmd.CommandText);
+            System.Diagnostics.Debug.WriteLine(ex.Message);
+        }
+
         #endregion private utility methods & constructors
 
         #region abstract methods that must me implemented
@@ -98,10 +106,10 @@ namespace CA.Blocks.DataAccess
 
         protected int ExecuteNonQuery(IDbCommand cmd)
         {
-            bool closeconection = PrepCommand(cmd);
-            int rowCount = cmd.ExecuteNonQuery();
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
+            bool closeconection = PrepCommand(cmd);
+            int rowCount = cmd.ExecuteNonQuery();
             WrapUp(cmd.Connection, closeconection);
             return rowCount;
         }
@@ -117,6 +125,8 @@ namespace CA.Blocks.DataAccess
         protected DataSet ExecuteDataSet(IDbCommand cmd, DataSet ds, string sTableNames)
         {
             // full ownership of the connection
+            if (_options.DebugTrace)
+                TraceDbStatement(cmd);
             bool closeconection = PrepCommand(cmd);
             string[] sTableNNameArray = sTableNames.Split(',');
 
@@ -129,8 +139,6 @@ namespace CA.Blocks.DataAccess
                 theDataAdapter.Fill(ds, sTableNNameArray[0].Trim());
             }
             WrapUp(cmd.Connection, closeconection);
-            if (_options.DebugTrace)
-                TraceDbStatement(cmd);
             return (ds);
         }
 
@@ -164,77 +172,99 @@ namespace CA.Blocks.DataAccess
 
         #endregion ExecuteDataRow
 
-        #region ExecuteDictionary 
-
-        [System.Obsolete("This will be removed as it is more of a specialized translator")]
-        protected IDictionary ExecuteDictionary(IDbCommand cmd)
-        {
-            Hashtable dictionary = new Hashtable();
-            DataTable dt = ExecuteDataTable(cmd);
-            if (dt.Rows.Count > 0)
-            {
-                for (int counter = 0; counter < dictionary.Count; counter++)
-                {
-                    dictionary[dt.Columns[counter].ColumnName] = dt.Rows[0].ItemArray[counter];
-                }
-            }
-            return (dictionary);
-        }
-
-        #endregion ExecuteDictionary 
-
         #region ExecuteScalar
 
         protected object ExecuteScalar(IDbCommand cmd)
         {
-            PrepCommand(cmd);
-            object rv = (cmd.ExecuteScalar());
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
+            PrepCommand(cmd);
+            object rv = (cmd.ExecuteScalar());
             cmd.Connection.Close();
             return rv;
         }
 
+        /// <summary>
+        /// This will execute the cmd to a ScalarValue and cast the ScalarValue to the target Type. Use this command if you can know the data type on  the server.
+        /// </summary>
+        /// <typeparam name="T">This the target type to execute the result in to</typeparam>
+        /// <param name="cmd">The IDbCommand cmd to execute</param>
+        /// <returns></returns>
+        protected T ExecuteScalarAs<T>(IDbCommand cmd) 
+        {
+            Object result = ExecuteScalar(cmd);
+            return  (result == null || result == DBNull.Value) ? default : (T)result;
+            //return (T?) result ?? default;
+        }
+
+        /// <summary>
+        ///  This will execute the cmd to a ScalarValue and convert the ScalarValue to the target Type TypeConverterAttributelooking for a TypeConverterAttribute.
+        /// If it cannot find a TypeConverterAttribute, it traverses the base class hierarchy of the class until it finds a primitive type.  This is useful when
+        /// changing types between the server  and  the code example store as a tiny int on the server and and int in the application code. Throw error on conversion errors
+        /// </summary>
+        /// <typeparam name="T">This the target type to execute the result in to</typeparam>
+        /// <param name="cmd">The IDbCommand cmd to execute</param>
+        /// <returns></returns>
+        protected T ExecuteScalarWithConvertAs<T>(IDbCommand cmd)
+        {
+            Object result = ExecuteScalar(cmd);
+            return (result == null || result == DBNull.Value) ? default : (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());
+        }
+
+        /// <summary>
+        /// This will execute the cmd to a ScalarValue and convert the ScalarValue to string value, There is a overload top control the value of the null passed back.
+        /// </summary>
+        /// <param name="cmd">The IDbCommand cmd to execute</param>
+        /// <param name="nullDefault">If execute result is null this this value will be passed back. </param>
+        /// <returns></returns>
         protected string ExecuteScalarAsString(IDbCommand cmd, string nullDefault = null)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? result.ToString() : nullDefault;
         }
+        #region Obsolete
 
+        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected int ExecuteScalarAsInt(IDbCommand cmd, int nullDefault = 0)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? int.Parse(result.ToString()) : nullDefault;
         }
 
+        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected short ExecuteScalarAsShort(IDbCommand cmd, short nullDefault = 0)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? short.Parse(result.ToString()) : nullDefault;
         }
 
+        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected byte ExecuteScalarAsByte(IDbCommand cmd, byte nullDefault = 0)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? byte.Parse(result.ToString()) : nullDefault;
         }
 
+        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected long ExecuteScalarAsLong(IDbCommand cmd, long nullDefault = 0)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? long.Parse(result.ToString()) : nullDefault;
         }
 
+        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected Guid ExecuteScalarAsGuid(IDbCommand cmd, Guid nullDefault)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? Guid.Parse(result.ToString()) : nullDefault;
         }
 
+        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected Guid ExecuteScalarAsGuid(IDbCommand cmd)
         {
             return ExecuteScalarAsGuid(cmd, Guid.Empty);
         }
+        #endregion
 
 
         #endregion ExecuteScalar
@@ -242,12 +272,13 @@ namespace CA.Blocks.DataAccess
         #region ExecuteReader
         protected IDataReader ExecuteReader(IDbCommand cmd)
         {
+            if (_options.DebugTrace)
+                TraceDbStatement(cmd);
             PrepCommand(cmd);
             return (cmd.ExecuteReader(CommandBehavior.CloseConnection));
         }
 
         #endregion ExecuteReader
-
 
         protected dynamic ExecuteObject(IDbCommand cmd)
         {
@@ -262,7 +293,6 @@ namespace CA.Blocks.DataAccess
         }
 
 
-        
         // execute using a provider translator
         protected T ExecuteTo<T>(IDbCommand cmd) where T : new()
         {
@@ -275,7 +305,5 @@ namespace CA.Blocks.DataAccess
             var translator = _dbRowTranslatorProvider.Resolve<T>();
             return translator.Translate(ExecuteDataTable(cmd));
         }
-        
-
     }
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CA.Blocks.SQLLiteDataAccess</name>
+    </assembly>
+    <members>
+        <member name="M:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.#ctor">
+            <overloads>
+            This class is just a shell around the DbDataAdapter.  Nothing from DbDataAdapter is overridden here, just a few constructors are defined.
+            </overloads>
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.#ctor(Microsoft.Data.Sqlite.SqliteCommand)">
+            <summary>
+            Constructs a data adapter using the specified select command.
+            </summary>
+            <param name="cmd">The select command to associate with the adapter.</param>
+        </member>
+        <member name="M:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.#ctor(System.String,Microsoft.Data.Sqlite.SqliteConnection)">
+            <summary>
+            Constructs a data adapter with the supplied select command text and associated with the specified connection.
+            </summary>
+            <param name="commandText">The select command text to associate with the data adapter.</param>
+            <param name="connection">The connection to associate with the select command.</param>
+        </member>
+        <member name="M:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.#ctor(System.String,System.String)">
+            <summary>
+            Constructs a data adapter with the specified select command text, and using the specified database connection string.
+            </summary>
+            <param name="commandText">The select command text to use to construct a select command.</param>
+            <param name="connectionString">A connection string suitable for passing to a new SqliteConnection, which is associated with the select command.</param>
+        </member>
+        <member name="E:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.RowUpdating">
+            <summary>
+            Row updating event handler
+            </summary>
+        </member>
+        <member name="E:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.RowUpdated">
+            <summary>
+            Row updated event handler
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.OnRowUpdating(System.Data.Common.RowUpdatingEventArgs)">
+            <summary>
+            Raised by the underlying DbDataAdapter when a row is being updated
+            </summary>
+            <param name="value">The event's specifics</param>
+        </member>
+        <member name="M:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.OnRowUpdated(System.Data.Common.RowUpdatedEventArgs)">
+            <summary>
+            Raised by DbDataAdapter after a row is updated
+            </summary>
+            <param name="value">The event's specifics</param>
+        </member>
+        <member name="P:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.SelectCommand">
+            <summary>
+            Gets/sets the select command for this DataAdapter
+            </summary>
+        </member>
+        <member name="P:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.InsertCommand">
+            <summary>
+            Gets/sets the insert command for this DataAdapter
+            </summary>
+        </member>
+        <member name="P:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.UpdateCommand">
+            <summary>
+            Gets/sets the update command for this DataAdapter
+            </summary>
+        </member>
+        <member name="P:CA.Blocks.SQLLiteDataAccess.Adapters.SqliteDataAdapter.DeleteCommand">
+            <summary>
+            Gets/sets the delete command for this DataAdapter
+            </summary>
+        </member>
+        <member name="T:CA.Blocks.SQLLiteDataAccess.SqlLiteDataAccess">
+            <summary>
+            Provides a SQL Lite implementation for DataAccessCore
+            </summary>
+            <remarks>
+            </remarks>
+        </member>
+    </members>
+</doc>

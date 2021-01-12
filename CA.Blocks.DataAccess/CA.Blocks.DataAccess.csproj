@@ -12,6 +12,15 @@
     <Authors>Kevin Bosch</Authors>
     <Company>Ravin Enterprises Limited</Company>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.DataAccess\CA.Blocks.DataAccess.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="DI\IDataAccessKeyToConnectionStringResolverDocs.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DI\IDataAccessKeyToConnectionStringResolverDocs.xml" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />

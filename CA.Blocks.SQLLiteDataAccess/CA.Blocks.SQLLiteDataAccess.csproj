@@ -10,6 +10,10 @@
     <Company>Ravin Enterprises Limited</Company>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.SQLLiteDataAccess\CA.Blocks.SQLLiteDataAccess.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="3.0.0" />
   </ItemGroup>

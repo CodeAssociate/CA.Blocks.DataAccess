@@ -14,5 +14,9 @@
     <PackageId>CA.Blocks.DataAccess.Model</PackageId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.DataAccess.Model\CA.Blocks.DataAccess.Model.xml</DocumentationFile>
+  </PropertyGroup>
+
 </Project>
 

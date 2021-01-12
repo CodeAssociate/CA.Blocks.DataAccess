@@ -56,7 +56,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = this.ExecuteToListOf<BigIntDataType>(cmd);
+            var data = ExecuteToListOf<BigIntDataType>(cmd);
             //Assert
             Assert.AreEqual(5, data.Count);
             Assert.AreEqual(-1, data[0].Col);

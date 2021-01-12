@@ -1,0 +1,99 @@
+﻿using System;
+using CA.Blocks.DataAccess.DI;
+using NUnit.Framework;
+using CA.Blocks.SQLServerDataAccess;
+
+namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
+{
+    [TestFixture]
+    public class ReadDataSingleValue
+    {
+
+        public class ExampleReadDataSingleValue: SqlServerDataAccess
+        {
+            public ExampleReadDataSingleValue() : base(
+                new DataAccessConfig("SampleConfig", new DataAccessConfigOptions { ConnectionStringKey = "notused" },
+                    new HardCodedConnectionStringsResolver("Server=(localdb)\\MSSQLLocalDB;Integrated Security = true"))
+            )
+            {
+
+            }
+
+            public int GetSysObjectsCount()
+            {
+                var cmd = CreateTextCommand("Select count(*) from Sysobjects");
+                return ExecuteScalarAs<int>(cmd);
+            }
+
+            public int? GetValueThatMightBeNull()
+            {
+                var cmd = CreateTextCommand("Select id from Sysobjects where 1=2"); // zero rows
+                return ExecuteScalarAs<int?>(cmd);
+            }
+            public int? GetValueThatMightBeNull2()
+            {
+                var cmd = CreateTextCommand("Select null as col"); // 1 row value null
+                return ExecuteScalarAs<int?>(cmd);
+            }
+
+            public int GetValueThatMustBeConverted()
+            {
+                var cmd = CreateTextCommand("Select Cast(123 as tinyint) as col");
+                return ExecuteScalarWithConvertAs<int>(cmd);
+            }
+
+            public DateTime GetDateTimeValue()
+            {
+                var cmd = CreateTextCommand("Select Getdate() as col");
+                return ExecuteScalarAs<DateTime>(cmd);
+            }
+        }
+
+
+
+        [Test]
+        public void GetSysObjectsCount()
+        {
+            var target = new ExampleReadDataSingleValue();
+            var executeResult = target.GetSysObjectsCount();
+
+            TestContext.WriteLine($"{executeResult}");
+        }
+
+        [Test]
+        public void GetValueThatMightBeNull()
+        {
+            var target = new ExampleReadDataSingleValue();
+            var executeResult = target.GetValueThatMightBeNull();
+            Assert.IsNull(executeResult);
+
+        }
+
+        [Test]
+        public void GetValueThatMightBeNull2()
+        {
+            var target = new ExampleReadDataSingleValue();
+            var executeResult = target.GetValueThatMightBeNull2();
+            Assert.IsNull(executeResult);
+
+        }
+
+        [Test]
+        public void GetValueThatMustBeConverted()
+        {
+            var target = new ExampleReadDataSingleValue();
+            var executeResult = target.GetValueThatMustBeConverted();
+            TestContext.WriteLine($"{executeResult}");
+
+        }
+
+        [Test]
+        public void GetDateTimeValue()
+        {
+            var target = new ExampleReadDataSingleValue();
+            var executeResult = target.GetDateTimeValue();
+            TestContext.WriteLine($"{executeResult}");
+
+        }
+    }
+}

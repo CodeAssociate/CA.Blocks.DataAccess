@@ -738,6 +738,7 @@ namespace CA.Blocks.DataAccess
                 return returnNullAsEmptyString ? string.Empty : null;
             else
             {
+                //TO DO CAST vrs convert? 
                 return (string)(dr[colName]);
             }
         }

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CA.Blocks.SQLServerDataAccess</name>
+    </assembly>
+    <members>
+        <member name="T:CA.Blocks.SQLServerDataAccess.SqlServerDataAccess">
+            <summary>
+            Provides a SQL server implementation for DataAccessCore
+            </summary>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.SqlServerDataAccess.AddInputParamCommandAsByte(System.Data.SqlClient.SqlCommand,System.String,System.Nullable{System.Byte})">
+            <summary>
+            To be removed
+            </summary>
+            <param name="cmd">cmd params</param>
+            <param name="strParameterName"> name</param>
+            <param name="objParameterValue"> value</param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.SqlServerDataAccess.GetDBType(System.Type)">
+            <summary>
+            This is usefull when you dont know the sql datatype but you do know the physical type example is datatable
+            DataColumn dc = ??
+             AddInputParamCommand(cmd, dc.ColumnName, dr[dc], GetDBType(dc.DataType), dc.MaxLength);
+            </summary>
+            <param name="theType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CA.Blocks.SQLServerDataAccess.SpecificSQLDateTimeType">
+            <summary>
+            When going from the .NET world info the database we need to tell the database the the precision on which to store the DateTime.  SQL server exposes four levels
+            </summary>
+        </member>
+        <member name="F:CA.Blocks.SQLServerDataAccess.SpecificSQLDateTimeType.Date">
+            <summary>
+            Will only store the date value of the DateTime Input, is is accurate to the day and uses 3 bytes of storage.
+            </summary>
+        </member>
+        <member name="F:CA.Blocks.SQLServerDataAccess.SpecificSQLDateTimeType.DateTime">
+            <summary>
+            Will only store the date and time value on the input, this is the default, Expect this default to change to DateTime2 as DateTime is the legacy
+            </summary>
+        </member>
+        <member name="F:CA.Blocks.SQLServerDataAccess.SpecificSQLDateTimeType.DateTime2">
+            <summary>
+            DateTime2 provides a much larger Date Range, in addition higher accuracy sorting down to the 100 nanoseconds level. Microsoft recommends datetime2 over datetime for new work.. but it usage is still catching up hence the default is still DateTime.
+            </summary>
+        </member>
+        <member name="F:CA.Blocks.SQLServerDataAccess.SpecificSQLDateTimeType.SmallDateTime">
+            <summary>
+            Will only store the date and time value on the input, this will be accurate up to the one minute. SmallDateTime is 4 bytes so has big storage advantages over big tables, however it is not SQL ANSI Compliant..
+            </summary>
+        </member>
+    </members>
+</doc>

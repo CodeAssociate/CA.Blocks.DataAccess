@@ -66,10 +66,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
         }
 
 
-        public new IList<T> ExecuteToListOf<T>(SqlCommand cmd) where T : new()
-        {
-            return base.ExecuteToListOf<T>(cmd);
-        }
+        //public new IList<T> ExecuteToListOf<T>(SqlCommand cmd) where T : new()
+        //{
+        //    return base.ExecuteToListOf<T>(cmd);
+        //}
 
         protected string DataTableToText(DataTable dt)
         {

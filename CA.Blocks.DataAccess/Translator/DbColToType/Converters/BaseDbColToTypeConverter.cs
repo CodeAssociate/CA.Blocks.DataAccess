@@ -3,6 +3,11 @@ using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
 
 namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 {
+
+    /// <summary>
+    /// What is the name of this 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class BaseDbColToTypeConverter<T> : IDbColToTypeConverter<T>, IDbColToTypeConverter
     {
         public abstract T GetDataValue(DataRow dr, string columnName);

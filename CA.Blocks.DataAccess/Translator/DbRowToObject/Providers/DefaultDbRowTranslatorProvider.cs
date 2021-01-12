@@ -23,7 +23,6 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
         {
             _colTypeConverters = DefaultDbColToTypeProvider.DefaultInstance;
             _typeConverters = new ConcurrentDictionary<string, object>();
-
         }
         
 
