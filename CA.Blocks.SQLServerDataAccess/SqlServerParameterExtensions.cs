@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -68,6 +69,70 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             cmd.Parameters.AddRange(parameters.ToArray());
             return cmd;
+        }
+
+        public static SqlCommand WithParameter(this SqlCommand cmd, SqlParameter parameter)
+        {
+            cmd.Parameters.Add(parameter);
+            return cmd;
+        }
+
+        public static SqlCommand WithReturnResult(this SqlCommand cmd)
+        {
+            SqlParameter sqlparam = cmd.CreateParameter();
+            sqlparam.ParameterName = "Return";
+            sqlparam.SqlDbType = SqlDbType.Int;
+            sqlparam.Direction = ParameterDirection.ReturnValue;
+            cmd.Parameters.Add(sqlparam);
+            return cmd;
+        }
+
+
+        public static int? GetReturnResult(this SqlCommand cmd)
+        {
+            int? result = null;
+            var sqlParam = cmd.Parameters["Return"];
+            if (sqlParam != null && sqlParam.SqlDbType == SqlDbType.Int && sqlParam.Direction == ParameterDirection.ReturnValue)
+            {
+                if (sqlParam.Value != null && sqlParam.Value != DBNull.Value)
+                    result = (int)sqlParam.Value;
+            }
+            return result;
+        }
+
+
+        public static SqlParameter AsOutout(this SqlParameter sqlParameter)
+        {
+            sqlParameter.Direction = ParameterDirection.Output;
+            return sqlParameter;
+        }
+
+        public static SqlParameter AsInputOutput(this SqlParameter sqlParameter)
+        {
+            sqlParameter.Direction = ParameterDirection.InputOutput;
+            return sqlParameter;
+        }
+
+        public static T ToValue<T>(this SqlParameter sqlParameter)
+        {
+            T result = default(T);
+            if (sqlParameter != null && (sqlParameter.Direction == ParameterDirection.Output || sqlParameter.Direction == ParameterDirection.InputOutput))
+            {
+                if (sqlParameter.Value != null && sqlParameter.Value != DBNull.Value)
+                    result = (T)sqlParameter.Value;
+            }
+            return result;
+        }
+
+        public static T ToValueWithConvert<T>(this SqlParameter sqlParameter)
+        {
+            T result = default(T);
+            if (sqlParameter != null && (sqlParameter.Direction == ParameterDirection.Output || sqlParameter.Direction == ParameterDirection.InputOutput))
+            {
+                if (sqlParameter.Value != null && sqlParameter.Value != DBNull.Value)
+                    result = (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(sqlParameter.Value.ToString());
+            }
+            return result;
         }
 
         #region SqlDbType.BigInt ( long, Int64 ) 
@@ -549,6 +614,8 @@ namespace CA.Blocks.SQLServerDataAccess
        SqlDbType.Variant; // ?lets find a usage ? 
        SqlDbType.Xml;
        */
+
+
 
     }
 }

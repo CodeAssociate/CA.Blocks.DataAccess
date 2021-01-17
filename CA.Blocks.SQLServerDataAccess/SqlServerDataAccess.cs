@@ -72,25 +72,18 @@ namespace CA.Blocks.SQLServerDataAccess
 
         #region StoredProcedureHelpers
 
-        protected SqlCommand CreateBlankStoredProcedureCommand(string strStoredProcedureName, bool bolIncludeReturnValue = false)
+        protected SqlCommand CreateBlankStoredProcedureCommand(string strStoredProcedureName)
         {
             SqlCommand sqlcmd = new SqlCommand
             {
                 CommandText = strStoredProcedureName,
                 CommandType = CommandType.StoredProcedure
             };
-            if (bolIncludeReturnValue)
-            {
-                SqlParameter sqlparam = sqlcmd.CreateParameter();
-                sqlparam.ParameterName = "Return";
-                sqlparam.SqlDbType = SqlDbType.Int;
-                sqlparam.Direction = ParameterDirection.ReturnValue;
-                sqlcmd.Parameters.Add(sqlparam);
-            }
             return (sqlcmd);
         }
 
 
+        [Obsolete("Replaced with the  sqlcmd.WithReturnParameter")]
         protected int GetStoredProcedureReturnValue(SqlCommand sqlcmd)
         {
             int result = -1;
@@ -137,6 +130,7 @@ namespace CA.Blocks.SQLServerDataAccess
 
         #region ParemeterHelpers
 
+        [System.Obsolete("Please use the ToSqlParameter Extension Methods", true)]
         protected SqlParameter AddInputParamCommand(SqlCommand cmd, string strParameterName, object objParameterValue, DbType odbType, int maxParamSize)
         {
             SqlParameter sqlparam = new SqlParameter(strParameterName, odbType);
@@ -158,6 +152,7 @@ namespace CA.Blocks.SQLServerDataAccess
             return (sqlparam);
         }
 
+        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
         protected SqlParameter AddInputParamCommand(SqlCommand cmd, string strParameterName, object objParameterValue, SqlDbType odbType, int maxParamSize)
         {
             SqlParameter sqlparam = new SqlParameter(strParameterName, odbType);
@@ -291,7 +286,7 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             SqlDataAdapter result = new SqlDataAdapter();
             result.UpdateBatchSize = batchSize;
-            SqlCommand cmd = CreateBlankStoredProcedureCommand(storedProcedureName, false);
+            SqlCommand cmd = CreateBlankStoredProcedureCommand(storedProcedureName);
             cmd.UpdatedRowSource = UpdateRowSource.None;
             result.InsertCommand = cmd;
             return result;

@@ -1,6 +1,6 @@
 ### Samples 
 
-#### Simple Single Row
+#### Simple Single Value
 
 In this example we going to use the data from the local SQL server selecting the meta data data from the sysobjects table and executing the results into single return type.  
 
