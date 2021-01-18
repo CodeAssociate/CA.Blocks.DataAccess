@@ -1,4 +1,5 @@
-﻿using CA.Blocks.SQLServerDataAccess;
+﻿using System.Diagnostics;
+using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
@@ -46,18 +47,49 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         }
 
 
+        public class SpWhoResult
+        {
+            public int spid { get; set; }
+            public string status { get; set; }
+            
+            public string loginame { get; set; }
+            public string hostname { get; set; }
+            public string blk { get; set; }
+            public string dbname { get; set; }
+            public string cmd { get; set; }
+            public int request_id { get; set; }
+        }
+        
+
         [Test]
         public void ExecuteSpwhoWithNoReturnValue()
         {
-            var cmd = CreateBlankStoredProcedureCommand("sp_who");
+            var cmd = CreateStoredProcedureCommand("sp_who");
             var result = ExecuteDataTable(cmd);
             Assert.IsTrue(result.Rows.Count > 0);
         }
-        
+
+        [Test]
+        public void ExecuteSpwhoWithNoReturnValueToObject()
+        {
+            var cmd = CreateStoredProcedureCommand("sp_who");
+            var result = ExecuteToListOf<SpWhoResult>(cmd);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [Test]
+        public void ExecuteSpWhoWithParameter()
+        {
+            string loginName = "sa";
+            var cmd = CreateStoredProcedureCommand("sp_who").WithParameter(loginName.ToSqlParameter("@loginame"));
+            var result = ExecuteToListOf<SpWhoResult>(cmd);
+            Assert.IsTrue(result.Count > 0);
+        }
+
         [Test]
         public void ExecuteSpWhoWithReturnValue()
         {
-            var cmd = CreateBlankStoredProcedureCommand("sp_who").WithReturnResult();
+            var cmd = CreateStoredProcedureCommand("sp_who").WithReturnResult();
             var result = ExecuteDataTable(cmd);
             var spReturnValue = cmd.GetReturnResult();
             Assert.AreEqual(0, spReturnValue);
@@ -68,23 +100,23 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         [Test]
         public void Execute_CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output()
         {
-            int test = 0;
-            var outParam = test.ToSqlParameter("@TestOutputValue").AsOutout();
-            var cmd = CreateBlankStoredProcedureCommand("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output").WithParameter(outParam);
+            int intOutput = 0;
+            var sqlOutputParamParam = intOutput.ToSqlParameter("@TestOutputValue").AsOutput();
+            var cmd = CreateStoredProcedureCommand("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output").WithParameter(sqlOutputParamParam);
             ExecuteNonQuery(cmd);
-            test = outParam.ToValue<int>();
-            Assert.AreEqual(123, test);
+            intOutput = sqlOutputParamParam.ToValue<int>();
+            Assert.AreEqual(123, intOutput);
         }
 
         [Test]
         public void CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput()
         {
-            int test = 123;
-            var inoutParam = test.ToSqlParameter("@TestOutputValue").AsInputOutput();
-            var cmd = CreateBlankStoredProcedureCommand("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput").WithParameter(inoutParam);
+            int intInput = 123;
+            var sqlInOutParam = intInput.ToSqlParameter("@TestOutputValue").AsInputOutput();
+            var cmd = CreateStoredProcedureCommand("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput").WithParameter(sqlInOutParam);
             ExecuteNonQuery(cmd);
-            test = inoutParam.ToValue<int>();
-            Assert.AreEqual(246, test);
+            intInput = sqlInOutParam.ToValue<int>();
+            Assert.AreEqual(246, intInput);
         }
 
     }

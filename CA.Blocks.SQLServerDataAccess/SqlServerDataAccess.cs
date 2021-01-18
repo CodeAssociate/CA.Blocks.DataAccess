@@ -72,7 +72,8 @@ namespace CA.Blocks.SQLServerDataAccess
 
         #region StoredProcedureHelpers
 
-        protected SqlCommand CreateBlankStoredProcedureCommand(string strStoredProcedureName)
+
+        protected SqlCommand CreateStoredProcedureCommand(string strStoredProcedureName)
         {
             SqlCommand sqlcmd = new SqlCommand
             {
@@ -80,6 +81,12 @@ namespace CA.Blocks.SQLServerDataAccess
                 CommandType = CommandType.StoredProcedure
             };
             return (sqlcmd);
+        }
+
+        [System.Obsolete("Use CreateStoredProcedureCommand")]
+        protected SqlCommand CreateBlankStoredProcedureCommand(string strStoredProcedureName)
+        {
+            return CreateStoredProcedureCommand(strStoredProcedureName);
         }
 
 

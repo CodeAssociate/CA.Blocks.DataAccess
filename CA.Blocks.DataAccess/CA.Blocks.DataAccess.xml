@@ -358,7 +358,8 @@
         </member>
         <member name="T:CA.Blocks.DataAccess.DI.HardCodedConnectionStringsResolver">
             <summary>
-            This is a hard coded Connection String Resolver.  This class is useful for providing examples and quick prototype code.  Typically you will not use this once rolling out the application. 
+            This is a hard coded Connection String Resolver.  This class is useful for providing examples and quick prototype code.  Typically you will not use this once rolling out the application.
+            The Configuration used is a Hosting app concern. See examples at :
             </summary>
         </member>
         <member name="M:CA.Blocks.DataAccess.DI.HardCodedConnectionStringsResolver.#ctor(System.String)">
@@ -397,9 +398,10 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
     </summary>
         </member>
         <member name="T:CA.Blocks.DataAccess.DI.JsonConfigConnectionStringsResolver">
-            <summary>
-            Uses the JsonConfig  this is common on .NET core frameworks 
-            </summary>
+             <summary>
+             Uses the JsonConfig  this is common on .NET core frameworks 
+             </summary>
+            
         </member>
         <member name="T:CA.Blocks.DataAccess.AssemblyDoc">
             <summary>

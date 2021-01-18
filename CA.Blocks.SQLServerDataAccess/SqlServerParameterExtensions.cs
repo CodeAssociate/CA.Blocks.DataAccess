@@ -101,7 +101,7 @@ namespace CA.Blocks.SQLServerDataAccess
         }
 
 
-        public static SqlParameter AsOutout(this SqlParameter sqlParameter)
+        public static SqlParameter AsOutput(this SqlParameter sqlParameter)
         {
             sqlParameter.Direction = ParameterDirection.Output;
             return sqlParameter;

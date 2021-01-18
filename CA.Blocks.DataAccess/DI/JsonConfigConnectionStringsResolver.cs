@@ -5,6 +5,8 @@ namespace CA.Blocks.DataAccess.DI
     /// <summary>
     /// Uses the JsonConfig  this is common on .NET core frameworks 
     /// </summary>
+    ///
+    [System.Obsolete("We are going remove class to reduce the number of dependencies taken on the CA.Blocks.DataAccess. The Configuration used is a Hosting app concern")]
     public class JsonConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
     {
         private readonly IConfiguration _configuration;
