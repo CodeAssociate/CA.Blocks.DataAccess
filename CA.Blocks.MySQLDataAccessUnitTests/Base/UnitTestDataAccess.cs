@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data;
 using System.Text;
 using CA.Blocks.DataAccess.DI;
-using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.DataAccess.Model.Paging;
+using CA.Blocks.MySQLDataAccess;
+using MySqlConnector;
 
-namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
+namespace CA.Blocks.MySQLDataAccessUnitTests.Base
 {
     /*
          <configuration>
@@ -16,12 +15,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
          </configuration>
          */
     // this class exposes the internal workings so we can test
-    public class UnitTestDataAccess : SqlServerDataAccess
+    public class UnitTestDataAccess : MySqlDataAccess
     {
         public UnitTestDataAccess() : base (
-            new DataAccessConfig("UnitTestDataAccess", new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" }, 
-            new AppDotConfigConnectionStringsResolver())
-        )
+            new DataAccessConfig("UnitTestDataAccess", 
+                new DataAccessConfigOptions { ConnectionStringKey = "notused" }, 
+                new MySQLTestDataAccessKeyToConnectionStringResolver())
+            )
         {
         }
 
@@ -31,18 +31,18 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 
         protected string DropTestTableSQL()
         {
-            return $"if exists (select * from sysobjects where xtype = 'U' and id = object_id(N'{unitTestTableName}')) begin drop table {unitTestTableName} end";
+            return $"DROP TABLE IF EXISTS {unitTestTableName};";
         }
 
         protected string CreateTestTable(string coltype)
         {
-            return $"Create table {unitTestTableName} (id int identity(1,1), col {coltype} )";
+            return $"CREATE TABLE {unitTestTableName} (id int NOT NULL AUTO_INCREMENT, col {coltype},  PRIMARY KEY (id) )";
 
         }
 
         protected string InsertTestDataSQL(string data)
         {
-            return  $"Insert into {unitTestTableName}  values ({data})";
+            return  $"Insert into {unitTestTableName} (col) values ({data})";
         }
 
         protected string SelectTestDataSQL()
@@ -55,17 +55,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
         //  this is a helper function and bypasses all the security features around the block.
         public void ExecuteNonQuery(string query)
         {
-            SqlCommand cmd = CreateTextCommand(query);
+            var cmd = CreateTextCommand(query);
             ExecuteNonQuery(cmd); 
         }
 
 
-        public new DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
+        public new DataTable ExecuteDataTable(MySqlCommand cmd, PagingRequest page)
         {
            return base.ExecuteDataTable(cmd, page);
         }
-
- 
 
 
         //public new IList<T> ExecuteToListOf<T>(SqlCommand cmd) where T : new()

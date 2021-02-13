@@ -14,7 +14,7 @@ namespace CA.Blocks.DataAccess
     }
 
     /// <summary>
-    /// Provide the code abstract classes for DataAccessCore and the base classes for extracting data out of the DataRow and IDataReader interfaces
+    /// This Namespace contains the abstract classes for DataAccessCore. You find the abstract class and DataHelper methods for extracting data out of the DataRow and IDataReader interfaces
     /// </summary>
     public static class NamespaceDoc
     {

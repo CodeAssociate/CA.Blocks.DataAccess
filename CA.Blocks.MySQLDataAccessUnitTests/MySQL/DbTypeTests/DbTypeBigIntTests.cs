@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using CA.Blocks.DataAccess.Translator.Basic;
-using CA.Blocks.SQLServerDataAccess;
-using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+﻿using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.MySQLDataAccess;
+using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
+namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
     [TestFixture]
     public class DbTypeBigIntTests : UnitTestDataAccess
@@ -87,10 +85,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             const long testvalue = 123;
             var t = new LongTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue")
-                .WithParameters(new List<SqlParameter>
-                {
-                    testvalue.ToSqlParameter("@testValue")
-                });
+                .WithParameter(testvalue.ToSqlParameter("@testValue"));
 
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));

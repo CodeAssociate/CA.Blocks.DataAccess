@@ -21,4 +21,5 @@ public class ExampleReadDataAsExecuteListOf : SqlServerDataAccess
 1. [Simple Select](./SimpleSelect.html)
 2. [Simple Select With Parameters](./SimpleSelectWithParameters.html)
 3. [Simple Single Row](./SimpleSingleRow.html)
-3. [Simple Single Value](./SimpleSingleRow.html)
+4. [Simple Single Value](./SimpleSingleRow.html)
+5. [Simple Single Value](./ExecuteStoredProcedure.html)

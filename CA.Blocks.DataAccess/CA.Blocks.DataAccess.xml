@@ -16,19 +16,52 @@
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.#ctor(CA.Blocks.DataAccess.DI.IDataAccessConfig,CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces.IDbRowTranslatorProvider)">
             <summary>
-            This is a protected constructor which must be called by the inheriting class, bu default it will get the configuration 
-            value stored in connectionStrings element of the configuration. This value can be overriden using the ResolveConnectionStringValue method. 
+            This is a protected constructor which must be called by the inheriting class, it will use config.Resolver to resolve the connectionStringKey to a valid connection string 
             </summary>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.WrapUp(System.Data.IDbConnection,System.Boolean)">
             <summary>
-            The WrapUp procedure is called when completing a database  call. It will establish 
+            The WrapUp procedure is called when completing a database call. It will establish 
             whether or not to close the connection pending the variable closeConnection which 
             would have been passed back from the PrepCommand. The PrepCommand and WrapUp work 
             in tandem when executing commands though this common class. 
             </summary>
-            <param name="conn"></param>
-            <param name="closeConnection"></param>
+            <param name="conn">the connection to close pending closeConnection</param>
+            <param name="closeConnection"> determines if conn should be closed on complete</param>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.PrepCommand(System.Data.IDbCommand)">
+            <summary>
+            The Prep Command is abstract method that must be implemented by the providers. The method will create the the provider specific connection setting the connection string, 
+            Opening the connection, set any context on the connection the assign the connection to the command for execution, it will also and indicate to the blocks if the connection
+            should be closed on complete execution. In most cases it is best to close the connection, at the provider will managed the connection pool.
+            </summary>
+            <param name="cmd">The command to assign the connection to</param>
+            <returns> a bool value to indicated if the blocks should close the connection when finished. </returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteNonQuery(System.Data.IDbCommand)">
+             <summary>
+             Will execute a value sql query that does not return any results back to the client. This is typically Data modification statements such as insert , update or delete or catalog operations  such as creating tables, indexes etc
+             </summary>
+             <param name="cmd">The command to execute, used the provider instance to create the Command to be executed</param>
+             <returns>For UPDATE, INSERT, and DELETE statements, the return value is the number of rows affected by the command. For all other types of statements, the return value is -1.</returns>
+             <example><code>
+            public int IncreasePriceBy10Percent()
+            {
+                /// This will Increase all Prices in the product table by 10%  and return the number of rows affected
+                var cmd = CreateTextCommand("update products set price = price * 1.1");
+                return ExecuteNonQuery(cmd);
+            }
+            </code></example>
+             <remarks>
+             Although the ExecuteNonQuery returns no rows, any output parameters or return values mapped to parameters are populated with data. This can useful when executing stored procedures. 
+             </remarks>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand)">
+            <summary>
+            Executes the command into a new Dataset 
+            </summary>
+            <param name="cmd"> A data set return, The first name name will be called Results the second will be called  Results1, third will be called Results2 etc</param>
+            <returns></returns>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteScalarAs``1(System.Data.IDbCommand)">
             <summary>
@@ -54,6 +87,14 @@
             </summary>
             <param name="cmd">The IDbCommand cmd to execute</param>
             <param name="nullDefault">If execute result is null this this value will be passed back. </param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.TranslateToListOf``1(System.Data.DataTable)">
+            <summary>
+            This is used when working with an existing DataTable. 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dt">The Source DataTable to translate</param>
             <returns></returns>
         </member>
         <member name="T:CA.Blocks.DataAccess.DataHelper">
@@ -323,7 +364,18 @@
             <param name="sColumnName">The Name of the Column in the DataRow</param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:CA.Blocks.DataAccess.DataRowExtensions" -->
+        <member name="T:CA.Blocks.DataAccess.DataRowExtensions">
+            <summary>
+            This is a helper class to add some semantic sugar to the DataHelper class using  extension methods
+            </summary>
+            <example>
+             <code>
+              var varName = DataHelper.GetValueFromRowAsInt(dr, "ColName");
+              //can become
+              var varName = dr.AsInt("ColName");
+            </code>
+            </example>
+        </member>
         <member name="T:CA.Blocks.DataAccess.DI.AppDotConfigConnectionStringsResolver">
             <summary>
             Uses the App.Config ConnectionStrings, this is common on .NET 1-4.8 frameworks. It will be using the App.config or web.config ConnectionStrings setting
@@ -411,7 +463,7 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
         </member>
         <member name="T:CA.Blocks.DataAccess.NamespaceDoc">
             <summary>
-            Provide the code abstract classes for DataAccessCore and the base classes for extracting data out of the DataRow and IDataReader interfaces
+            This Namespace contains the abstract classes for DataAccessCore. You find the abstract class and DataHelper methods for extracting data out of the DataRow and IDataReader interfaces
             </summary>
         </member>
         <member name="T:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1">

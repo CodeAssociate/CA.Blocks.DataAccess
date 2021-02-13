@@ -16,12 +16,11 @@ using CA.Blocks.DataAccess.Translator;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
-using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
+using System.Threading;
 
 namespace CA.Blocks.DataAccess
 {
@@ -37,7 +36,10 @@ namespace CA.Blocks.DataAccess
     {
         private readonly IDataAccessConfigOptions _options;
         private readonly IDbRowTranslatorProvider _dbRowTranslatorProvider;
-        
+
+        private const int TotalNumberOfTimesToTry = 4;
+        private const int RetryIntervalSeconds = 10;
+
         protected string ConnectionString { get; }
 
         #region private utility methods & constructors
@@ -45,8 +47,7 @@ namespace CA.Blocks.DataAccess
 
 
         /// <summary>
-        /// This is a protected constructor which must be called by the inheriting class, bu default it will get the configuration 
-        /// value stored in connectionStrings element of the configuration. This value can be overriden using the ResolveConnectionStringValue method. 
+        /// This is a protected constructor which must be called by the inheriting class, it will use config.Resolver to resolve the connectionStringKey to a valid connection string 
         /// </summary>
         protected DataAccessCore(IDataAccessConfig config, IDbRowTranslatorProvider dbRowTranslatorProvider)
         {
@@ -56,13 +57,13 @@ namespace CA.Blocks.DataAccess
         }
 
         /// <summary>
-        /// The WrapUp procedure is called when completing a database  call. It will establish 
+        /// The WrapUp procedure is called when completing a database call. It will establish 
         /// whether or not to close the connection pending the variable closeConnection which 
         /// would have been passed back from the PrepCommand. The PrepCommand and WrapUp work 
         /// in tandem when executing commands though this common class. 
         /// </summary>
-        /// <param name="conn"></param>
-        /// <param name="closeConnection"></param>
+        /// <param name="conn">the connection to close pending closeConnection</param>
+        /// <param name="closeConnection"> determines if conn should be closed on complete</param>
         protected void WrapUp(IDbConnection conn, bool closeConnection)
         {
             if (closeConnection)
@@ -85,7 +86,13 @@ namespace CA.Blocks.DataAccess
             System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         }
 
-        protected virtual void TraceDbError(IDbCommand cmd, Exception ex)
+        protected virtual void TraceDbError(IDbCommand cmd, DbException ex)
+        {
+            System.Diagnostics.Debug.WriteLine(cmd.CommandText);
+            System.Diagnostics.Debug.WriteLine(ex.Message);
+        }
+
+        protected virtual void TraceGenralError(IDbCommand cmd, Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(cmd.CommandText);
             System.Diagnostics.Debug.WriteLine(ex.Message);
@@ -98,24 +105,182 @@ namespace CA.Blocks.DataAccess
 
         protected abstract DbDataAdapter GetDataAdapter(IDbCommand cmd);
 
+
+        /// <summary>
+        /// The Prep Command is abstract method that must be implemented by the providers. The method will create the the provider specific connection setting the connection string, 
+        /// Opening the connection, set any context on the connection the assign the connection to the command for execution, it will also and indicate to the blocks if the connection
+        /// should be closed on complete execution. In most cases it is best to close the connection, at the provider will managed the connection pool.
+        /// </summary>
+        /// <param name="cmd">The command to assign the connection to</param>
+        /// <returns> a bool value to indicated if the blocks should close the connection when finished. </returns>
         protected abstract bool PrepCommand(IDbCommand cmd);
 
+
+        protected abstract bool IsTransientError(DbException dbEx);
         #endregion
 
         #region ExecuteNonQuery
 
+
+        private int InternalExecuteNonQuery(IDbCommand cmd)
+        {
+            bool success = false;
+            int rowCount = 0;
+            for (int tries = 0;  tries <= TotalNumberOfTimesToTry; tries++)
+            {
+                bool closeConnection = PrepCommand(cmd);
+                try
+                {
+                    if (tries > 0)
+                    {
+                        // if RetryIntervalSeconds = 10 seconds then
+                        // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
+                        Thread.Sleep(1000 * RetryIntervalSeconds * tries);
+                    }
+                   
+                    rowCount = cmd.ExecuteNonQuery();
+                    success = true;
+                    break;
+                }
+                catch (DbException dbEx)
+                {
+                    if (IsTransientError(dbEx))
+                    {
+                        if (tries < TotalNumberOfTimesToTry)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            // we tried TotalNumberOfTimesToTry times already to error
+                            TraceDbError(cmd, dbEx);
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        TraceDbError(cmd, dbEx);
+                        throw;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TraceGenralError(cmd, ex);
+                    throw;
+                }
+                finally
+                {
+                    WrapUp(cmd.Connection, closeConnection);
+                }
+            }
+
+            if (success)
+            {
+                return rowCount;
+            }
+            else
+            {
+                throw new ApplicationException("InternalExecuteNonQuery failed to find exit path");
+            }
+        }
+
+        /// <summary>
+        /// Will execute a value sql query that does not return any results back to the client. This is typically Data modification statements such as insert , update or delete or catalog operations  such as creating tables, indexes etc
+        /// </summary>
+        /// <param name="cmd">The command to execute, used the provider instance to create the Command to be executed</param>
+        /// <returns>For UPDATE, INSERT, and DELETE statements, the return value is the number of rows affected by the command. For all other types of statements, the return value is -1.</returns>
+        /// <example><code>
+        ///public int IncreasePriceBy10Percent()
+        ///{
+        ///    /// This will Increase all Prices in the product table by 10%  and return the number of rows affected
+        ///    var cmd = CreateTextCommand("update products set price = price * 1.1");
+        ///    return ExecuteNonQuery(cmd);
+        ///}
+        ///</code></example>
+        /// <remarks>
+        /// Although the ExecuteNonQuery returns no rows, any output parameters or return values mapped to parameters are populated with data. This can useful when executing stored procedures. 
+        /// </remarks>
         protected int ExecuteNonQuery(IDbCommand cmd)
         {
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            bool closeconection = PrepCommand(cmd);
-            int rowCount = cmd.ExecuteNonQuery();
-            WrapUp(cmd.Connection, closeconection);
-            return rowCount;
+            return InternalExecuteNonQuery(cmd);
         }
         #endregion ExecuteNonQuery
 
+
         #region ExecuteDataSet
+
+        private void InternalExecuteDataSet(IDbCommand cmd, DataSet ds, string sTableNames)
+        {
+            bool success = false;
+            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
+            {
+                bool closeConnection = PrepCommand(cmd);
+                try
+                {
+                    if (tries > 0)
+                    {
+                        // if RetryIntervalSeconds = 10 seconds then
+                        // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
+                        Thread.Sleep(1000 * RetryIntervalSeconds * tries);
+                    }
+
+                    string[] sTableNNameArray = sTableNames.Split(',');
+                    using (DbDataAdapter theDataAdapter = GetDataAdapter(cmd))
+                    {
+                        for (int i = 1; i < sTableNNameArray.Length; i++)
+                        {
+                            theDataAdapter.TableMappings.Add(sTableNNameArray[0].Trim() + Convert.ToString(i), sTableNNameArray[i].Trim());
+                        }
+                        theDataAdapter.Fill(ds, sTableNNameArray[0].Trim());
+                    }
+                    success = true;
+                    break;
+                }
+                catch (DbException dbEx)
+                {
+                    if (IsTransientError(dbEx))
+                    {
+                        if (tries < TotalNumberOfTimesToTry)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            // we tried TotalNumberOfTimesToTry times already to error
+                            TraceDbError(cmd, dbEx);
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        TraceDbError(cmd, dbEx);
+                        throw;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TraceGenralError(cmd, ex);
+                    throw;
+                }
+                finally
+                {
+                    WrapUp(cmd.Connection, closeConnection);
+                }
+            }
+
+            if (!success)
+            {
+                throw new ApplicationException("InternalExecuteDataSet failed to find exit path");
+            }
+        }
+        
+        /// <summary>
+        /// Executes the command into a new Dataset 
+        /// </summary>
+        /// <param name="cmd"> A data set return, The first name name will be called Results the second will be called  Results1, third will be called Results2 etc</param>
+        /// <returns></returns>
         protected DataSet ExecuteDataSet(IDbCommand cmd)
         {
             DataSet ds = new DataSet();
@@ -127,18 +292,7 @@ namespace CA.Blocks.DataAccess
             // full ownership of the connection
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            bool closeconection = PrepCommand(cmd);
-            string[] sTableNNameArray = sTableNames.Split(',');
-
-            using (DbDataAdapter theDataAdapter = GetDataAdapter(cmd))
-            {
-                for (int i = 1; i < sTableNNameArray.Length; i++)
-                {
-                    theDataAdapter.TableMappings.Add(sTableNNameArray[0].Trim() + Convert.ToString(i), sTableNNameArray[i].Trim());
-                }
-                theDataAdapter.Fill(ds, sTableNNameArray[0].Trim());
-            }
-            WrapUp(cmd.Connection, closeconection);
+            InternalExecuteDataSet(cmd, ds, sTableNames);
             return (ds);
         }
 
@@ -174,14 +328,74 @@ namespace CA.Blocks.DataAccess
 
         #region ExecuteScalar
 
+
+        private object InternalExecuteScalar(IDbCommand cmd)
+        {
+            bool success = false;
+            object result = null ;
+            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
+            {
+                bool closeConnection = PrepCommand(cmd);
+                try
+                {
+                    if (tries > 0)
+                    {
+                        // if RetryIntervalSeconds = 10 seconds then
+                        // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
+                        Thread.Sleep(1000 * RetryIntervalSeconds * tries);
+                    }
+
+                    result = cmd.ExecuteScalar();
+                    success = true;
+                    break;
+                }
+                catch (DbException dbEx)
+                {
+                    if (IsTransientError(dbEx))
+                    {
+                        if (tries < TotalNumberOfTimesToTry)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            // we tried TotalNumberOfTimesToTry times already to error
+                            TraceDbError(cmd, dbEx);
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        TraceDbError(cmd, dbEx);
+                        throw;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TraceGenralError(cmd, ex);
+                    throw;
+                }
+                finally
+                {
+                    WrapUp(cmd.Connection, closeConnection);
+                }
+            }
+
+            if (success)
+            {
+                return result;
+            }
+            else
+            {
+                throw new ApplicationException("InternalExecuteScalar failed to find exit path");
+            }
+        }
+
         protected object ExecuteScalar(IDbCommand cmd)
         {
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            PrepCommand(cmd);
-            object rv = (cmd.ExecuteScalar());
-            cmd.Connection.Close();
-            return rv;
+            return InternalExecuteScalar(cmd);
         }
 
         /// <summary>
@@ -270,12 +484,75 @@ namespace CA.Blocks.DataAccess
         #endregion ExecuteScalar
 
         #region ExecuteReader
+        private IDataReader InternalExecuteReader(IDbCommand cmd)
+        {
+            bool success = false;
+            IDataReader result = null;
+            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
+            {
+                PrepCommand(cmd);
+                try
+                {
+                    if (tries > 0)
+                    {
+                        // if RetryIntervalSeconds = 10 seconds then
+                        // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
+                        Thread.Sleep(1000 * RetryIntervalSeconds * tries);
+                    }
+
+                    result = (cmd.ExecuteReader(CommandBehavior.CloseConnection));
+                    success = true;
+                    break;
+                }
+                catch (DbException dbEx)
+                {
+                    if (IsTransientError(dbEx))
+                    {
+                        if (tries < TotalNumberOfTimesToTry)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            // we tried TotalNumberOfTimesToTry times already to error
+                            TraceDbError(cmd, dbEx);
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        TraceDbError(cmd, dbEx);
+                        throw;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TraceGenralError(cmd, ex);
+                    throw;
+                }
+                finally
+                {
+                   // the reader will close the connection
+                }
+            }
+
+            if (success)
+            {
+                return result;
+            }
+            else
+            {
+                throw new ApplicationException("InternalExecuteScalar failed to find exit path");
+            }
+        }
+
+
+  
         protected IDataReader ExecuteReader(IDbCommand cmd)
         {
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            PrepCommand(cmd);
-            return (cmd.ExecuteReader(CommandBehavior.CloseConnection));
+            return InternalExecuteReader(cmd);
         }
 
         #endregion ExecuteReader
@@ -302,8 +579,20 @@ namespace CA.Blocks.DataAccess
 
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd) where T : new()
         {
-            var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return translator.Translate(ExecuteDataTable(cmd));
+            return TranslateToListOf<T>(ExecuteDataTable(cmd));
         }
+
+        /// <summary>
+        /// This is used when working with an existing DataTable. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dt">The Source DataTable to translate</param>
+        /// <returns></returns>
+        protected IList<T> TranslateToListOf<T>(DataTable dt) where T : new()
+        {
+            var translator = _dbRowTranslatorProvider.Resolve<T>();
+            return translator.Translate(dt);
+        }
+
     }
 }

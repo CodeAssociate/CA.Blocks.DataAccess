@@ -15,6 +15,7 @@
 using System;
 using System.Data;
 using System.Diagnostics;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 
 namespace CA.Blocks.DataAccess
 {
@@ -549,7 +550,19 @@ namespace CA.Blocks.DataAccess
 
         public static bool? GetValueFromRowAsNullBool(DataRow dr, string sColumnName)
         {
-            return (bool?)GetValueFromRow(dr, sColumnName);
+            object value = GetValueFromRow(dr, sColumnName);
+            if (value != null)
+            {
+                if (value is bool b)
+                {
+                    return b;
+                }
+                else // not all database have bit.. ie in MySQL it will come back as a ulong or ushort... in this case we need to convert  the bool value. 
+                {
+                    return Convert.ToBoolean(value);
+                }
+            }
+            return null;
         }
 
         public static bool? GetValueFromRowAsNullBool(DataRow dr, int columnIndex)

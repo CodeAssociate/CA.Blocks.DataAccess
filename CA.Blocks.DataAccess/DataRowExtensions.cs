@@ -15,12 +15,15 @@ using System.Linq;
 namespace CA.Blocks.DataAccess
 {
     /// <summary>
-    /// This is a helper class to add some semantic sugar to the DataHelper class using  extention methods
-    /// So
-    /// var varName = DataHelper.GetValueFromRowAsInt(dr, "ColName");
-    // can become
-    /// var varName = dr.AsInt("ColName");
+    /// This is a helper class to add some semantic sugar to the DataHelper class using  extension methods
     /// </summary>
+    /// <example>
+    ///  <code>
+    ///   var varName = DataHelper.GetValueFromRowAsInt(dr, "ColName");
+    ///   //can become
+    ///   var varName = dr.AsInt("ColName");
+    /// </code>
+    /// </example>
     public static class DataRowExtensions
     {
         #region Binary

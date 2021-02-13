@@ -12,6 +12,7 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
@@ -65,6 +66,17 @@ namespace CA.Blocks.SQLServerDataAccess
             return true;
         }
 
+        protected virtual List<int> TransientErrorNumbers()
+        {
+            // https://docs.microsoft.com/en-us/azure/azure-sql/database/troubleshoot-common-errors-issues
+            return new List<int> { 4060, 40197, 40501, 40613, 49918, 49919, 49920, 4221, 11001 };
+        }
+
+        protected override bool IsTransientError(DbException dbEx)
+        {
+            return dbEx != null && TransientErrorNumbers().Contains(dbEx.ErrorCode);
+        }
+
         protected override DbDataAdapter GetDataAdapter(IDbCommand cmd)
         {
             return (new SqlDataAdapter((SqlCommand)cmd));
@@ -83,14 +95,14 @@ namespace CA.Blocks.SQLServerDataAccess
             return (sqlcmd);
         }
 
-        [System.Obsolete("Use CreateStoredProcedureCommand")]
+        [System.Obsolete("Use CreateStoredProcedureCommand", true)]
         protected SqlCommand CreateBlankStoredProcedureCommand(string strStoredProcedureName)
         {
             return CreateStoredProcedureCommand(strStoredProcedureName);
         }
 
 
-        [Obsolete("Replaced with the  sqlcmd.WithReturnParameter")]
+        [Obsolete("Replaced with the  sqlcmd.WithReturnParameter", true)]
         protected int GetStoredProcedureReturnValue(SqlCommand sqlcmd)
         {
             int result = -1;
@@ -293,7 +305,7 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             SqlDataAdapter result = new SqlDataAdapter();
             result.UpdateBatchSize = batchSize;
-            SqlCommand cmd = CreateBlankStoredProcedureCommand(storedProcedureName);
+            SqlCommand cmd = CreateStoredProcedureCommand(storedProcedureName);
             cmd.UpdatedRowSource = UpdateRowSource.None;
             result.InsertCommand = cmd;
             return result;

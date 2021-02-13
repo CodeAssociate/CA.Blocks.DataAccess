@@ -1,21 +1,21 @@
-﻿using System;
-using CA.Blocks.SQLServerDataAccess;
-using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+﻿using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.MySQLDataAccess;
+using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
+namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
     [TestFixture]
-    public class DbTypeSingleTests : UnitTestDataAccess
+    public class DbTypeIntTests : UnitTestDataAccess
     {
 
-        private class SingleDataType
+        private class IntDataType
         {
-            public Single Col { get; set; }
+            public int Col { get; set; }
         }
 
 
-        private void InsertTestDataSQL(float data)
+        private void InsertTestDataSQL(int data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
@@ -24,29 +24,30 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         public void Setup()
         {
             ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("real not null"));
-            InsertTestDataSQL((float)-1.2);
+            ExecuteNonQuery(CreateTestTable("int NOT NULL"));
+            InsertTestDataSQL(-1);
             InsertTestDataSQL(0);
-            InsertTestDataSQL((float)123.456);
+            InsertTestDataSQL(123);
+            InsertTestDataSQL(246);
             InsertTestDataSQL(int.MaxValue);
-            InsertTestDataSQL((float)123456789.987654321);
         }
 
         [TearDown]
         public void TearDown()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            //ExecuteNonQuery(DropTestTableSQL());
         }
 
         [Test]
         public void SelectAllData()
         {
             //Setup 
+            var t = new IntTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteDataTable(cmd);
+            var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            Assert.AreEqual(5, data.Rows.Count);
+            Assert.AreEqual(5, data.Count);
         }
 
 
@@ -56,22 +57,23 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteToListOf<SingleDataType>(cmd);
+            var data = this.ExecuteToListOf<IntDataType>(cmd);
             //Assert
             Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(-(float)1.2, data[0].Col);
+            Assert.AreEqual(-1, data[0].Col);
         }
 
         [Test]
         public void SelectAllDataFilter ()
         {
             //setup
-            const int testvalue = 123;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col > @testValue");
+            const int testvalue = 123; 
+            var t = new IntTranslator(UNIT_TEST_COL_NAME);
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = ExecuteToListOf<SingleDataType>(cmd);
+            var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
             Assert.AreEqual(3, data.Count);

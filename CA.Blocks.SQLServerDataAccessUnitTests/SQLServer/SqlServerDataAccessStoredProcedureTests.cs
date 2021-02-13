@@ -119,5 +119,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             Assert.AreEqual(246, intInput);
         }
 
+
+
     }
 }

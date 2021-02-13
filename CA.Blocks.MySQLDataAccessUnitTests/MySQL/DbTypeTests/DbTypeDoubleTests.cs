@@ -1,21 +1,21 @@
 ﻿using System;
-using CA.Blocks.SQLServerDataAccess;
-using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+using CA.Blocks.MySQLDataAccess;
+using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
+namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
     [TestFixture]
-    public class DbTypeSingleTests : UnitTestDataAccess
+    public class DbTypeDoubleTests : UnitTestDataAccess
     {
 
-        private class SingleDataType
+        private class DoubleDataType
         {
-            public Single Col { get; set; }
+            public Double Col { get; set; }
         }
 
 
-        private void InsertTestDataSQL(float data)
+        private void InsertTestDataSQL(double data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
@@ -24,12 +24,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         public void Setup()
         {
             ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("real not null"));
-            InsertTestDataSQL((float)-1.2);
+            ExecuteNonQuery(CreateTestTable("double not null"));
+            InsertTestDataSQL(-1.2);
             InsertTestDataSQL(0);
-            InsertTestDataSQL((float)123.456);
+            InsertTestDataSQL(123.456);
             InsertTestDataSQL(int.MaxValue);
-            InsertTestDataSQL((float)123456789.987654321);
+            InsertTestDataSQL(123456789.987654321);
         }
 
         [TearDown]
@@ -56,10 +56,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteToListOf<SingleDataType>(cmd);
+            var data = ExecuteToListOf<DoubleDataType>(cmd);
             //Assert
             Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(-(float)1.2, data[0].Col);
+            Assert.AreEqual(-1.2, data[0].Col);
+            Assert.AreEqual(123456789.987654321, data[4].Col);
         }
 
         [Test]
@@ -71,7 +72,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = ExecuteToListOf<SingleDataType>(cmd);
+            var data = ExecuteToListOf<DoubleDataType>(cmd);
 
             //Asert
             Assert.AreEqual(3, data.Count);

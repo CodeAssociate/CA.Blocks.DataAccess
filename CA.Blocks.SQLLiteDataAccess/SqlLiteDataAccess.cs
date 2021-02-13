@@ -66,6 +66,11 @@ namespace CA.Blocks.SQLLiteDataAccess
             return true;
         }
 
+        protected override bool IsTransientError(DbException dbEx)
+        {
+            return false; 
+        }
+
         protected override DbDataAdapter GetDataAdapter(IDbCommand cmd)
         {
             return new SqliteDataAdapter((SqliteCommand)cmd);

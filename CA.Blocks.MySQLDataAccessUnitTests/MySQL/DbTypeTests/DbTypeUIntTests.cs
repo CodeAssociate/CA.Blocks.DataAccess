@@ -1,21 +1,19 @@
-﻿using System;
-using CA.Blocks.SQLServerDataAccess;
-using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+﻿using CA.Blocks.MySQLDataAccess;
+using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
+namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
     [TestFixture]
-    public class DbTypeSingleTests : UnitTestDataAccess
+    public class DbTypeUIntTests : UnitTestDataAccess
     {
 
-        private class SingleDataType
+        private class UIntDataType
         {
-            public Single Col { get; set; }
+            public uint Col { get; set; }
         }
 
-
-        private void InsertTestDataSQL(float data)
+        private void InsertTestDataSQL(uint data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
@@ -24,12 +22,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         public void Setup()
         {
             ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("real not null"));
-            InsertTestDataSQL((float)-1.2);
+            ExecuteNonQuery(CreateTestTable("int UNSIGNED not null")); 
             InsertTestDataSQL(0);
-            InsertTestDataSQL((float)123.456);
-            InsertTestDataSQL(int.MaxValue);
-            InsertTestDataSQL((float)123456789.987654321);
+            InsertTestDataSQL(0);
+            InsertTestDataSQL(123);
+            InsertTestDataSQL(246);
+            InsertTestDataSQL(uint.MaxValue);
         }
 
         [TearDown]
@@ -49,29 +47,30 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(5, data.Rows.Count);
         }
 
-
         [Test]
         public void SelectAllDataToListOf()
         {
             //Setup 
+
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteToListOf<SingleDataType>(cmd);
+            var data = ExecuteToListOf<UIntDataType>(cmd);
             //Assert
             Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(-(float)1.2, data[0].Col);
+            Assert.AreEqual(uint.MaxValue, data[4].Col);
         }
 
+
         [Test]
-        public void SelectAllDataFilter ()
+        public void SelectAllDataWithFilter ()
         {
             //setup
             const int testvalue = 123;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col > @testValue");
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = ExecuteToListOf<SingleDataType>(cmd);
+            var data = ExecuteToListOf<UIntDataType>(cmd);
 
             //Asert
             Assert.AreEqual(3, data.Count);

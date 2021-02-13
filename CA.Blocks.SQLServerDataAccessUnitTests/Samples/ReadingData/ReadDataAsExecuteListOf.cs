@@ -37,8 +37,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
             public IList<ExampleSysObject> ReadSysObjectsOfType(string xtype)
             {
-                var cmd = CreateTextCommand("Select top 10 id as Id, name as Name, xtype as XType, crdate as CreateDate from sysobjects where xtype = @xtype");
-                cmd.Parameters.Add(xtype.ToSqlParameter("@xtype"));
+                var cmd = CreateTextCommand("Select top 10 id as Id, name as Name, xtype as XType, crdate as CreateDate from sysobjects where xtype = @xtype").WithParameter(xtype.ToSqlParameter("@xtype"));
                 return ExecuteToListOf<ExampleSysObject>(cmd);
             }
 
