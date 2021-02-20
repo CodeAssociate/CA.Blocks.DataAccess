@@ -56,7 +56,7 @@ Notes:
 5. The SQL is constructed internally as parameterized query this is a developer responsibility
 6. The conversion of .NET string to SQL parameter is done in .WithParameter(xtype.ToSqlParameter("@xtype"));  you can also use the connection object directly ie cmd.Parameters.Add(xtype.ToSqlParameter("@xtype"));
 7. The ToSqlParameter is a convention to taking a .NET type into a SQL server parameter. All .NET value types will have implementations of ToSqlParameter();
-8. The cmd is then passed into the ExecuteToListOf  method which returns the data as a Ilist of ExampleSysObjects. As we have 1-1 mapping the conversion is handled 100% by the Blocks.
+8. The cmd is then passed into the ExecuteToListOf  method which returns the data as a IList of ExampleSysObjects. As we have 1-1 mapping the conversion is handled 100% by the Blocks.
 
 Consuming this class: 
 ``` csharp
@@ -75,7 +75,7 @@ public void ExecuteToListOfDev()
 ```
 Notes:
 1. You construct the instance of the DataAccess ExampleReadDataAsExecuteListOf()
-2. You Call the method ReadSysObjectsOfType("U") The only methods you see are public ones from System.Object and the ReadSysObjectsOfType. This is by design guts of the DataAccess Class is Protected By Default. The Instance of the DataAccess can access the method, but the calling client only sees what is exposed. The calling code cannot call ExecuteToListOf
+2. You Call the method ReadSysObjectsOfType("U") The only methods you see are public ones from System.Object and the ReadSysObjectsOfType. This is by design the guts of the DataAccess class is protected By default. The Instance of the DataAccess can access the method, but the calling client only sees what is exposed. The calling code cannot call ExecuteToListOf
 <p align="center">
     <img src="_assets/ProtectedByDefaultExample.png" alt="ProtectedByDefault" />
 </p>

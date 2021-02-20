@@ -1,8 +1,9 @@
 ### JsonConfigConnectionStringsResolver
 
-This is a implementation of IDataAccessKeyToConnectionStringResolver that uses the Microsoft.Extensions.ConfigurationConfigurationManager class.  This is common with the .NET Core frameworks and designed using the dependency injection pattern.
+This is an example implementation of IDataAccessKeyToConnectionStringResolver that uses the Microsoft.Extensions.ConfigurationConfigurationManager class.  
+This is common with the .NET Core frameworks and designed using the dependency injection pattern. 
 
-Example config in appsettings.json 
+Example using Json and with config in appsettings.json and a ConnectionString named exampleName
 
 ``` json 
 {
@@ -12,10 +13,13 @@ Example config in appsettings.json
 }
 
 ```
-First you will need to add a reference to the package Microsoft.Extensions.Configuration 
-Create a class in your hosing application called JsonConfigConnectionStringsResolver, to resolve the Key to the connection string.  
+First you will need to add a reference to the package Microsoft.Extensions.Configuration
+Create a class in your code where you data access classes will live called JsonConfigConnectionStringsResolver, to resolve the Key to the connection string.  
 
 ``` csharp
+/// <summary>
+/// Uses the JsonConfig 
+/// </summary>
 public class JsonConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
 {
     private readonly IConfiguration _configuration;
@@ -27,6 +31,7 @@ public class JsonConfigConnectionStringsResolver : IDataAccessKeyToConnectionStr
 
     public string GetConnectionString(string connectionStringKey)
     {
+        // this is use the IConfiguration to get the configured value for connectionStringKey/
         return _configuration.GetConnectionString(connectionStringKey);
     }
 }
@@ -37,10 +42,10 @@ To use this in from the blocks we need to join the config up notice we are using
 ``` csharp
 public class MyDataAccess : SqlServerDataAccess
 {
-    public MyDataAccess() : base (
+    public MyDataAccess(IConfiguration configuration) : base (
             new DataAccessConfig("configName", 
             new DataAccessConfigOptions { ConnectionStringKey = "exampleName" }, 
-            new JsonConfigConnectionStringsResolver())
+            new JsonConfigConnectionStringsResolver(configuration))
         )
         {
         }

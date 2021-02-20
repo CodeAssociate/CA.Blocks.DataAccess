@@ -3,7 +3,7 @@
 The basic premise of the Data Access Blocks is to provide a simple interface to access a relational database. The blocks are split into three core components allowing flexible configurations.  
 1. The Model  - CA.Blocks.DataAccess.Model used for client access in multi tier architectures.
 2. The Core Abstract Data Access Logic - CA.Blocks.DataAccess used for abstract and shared non provider specific code.  
-3. The specific implementation - eg    CA.Blocks.SQLServerDataAccess or CA.Blocks.SQLLiteDataAccess
+3. The specific implementation - eg    CA.Blocks.SQLServerDataAccess or CA.Blocks.SQLLiteDataAccess or CA.Blocks.MySQLDataAccess
 
 <p align="center">
     <img src="_assets/DesignCA.Blocks.DataAccess.png" alt="Design CA.Blocks.DataAccess" />
@@ -14,6 +14,7 @@ The basic premise of the Data Access Blocks is to provide a simple interface to 
 The *model* represents the core design elements that you will need a client to specify. The client might not have access to the data access class as such the model is implemented in an independent assembly and will have no dependencies. An example is a the PagingRequest class. The paging request is a common element that is specified on the client and passed into the The specific implementation to execute. The paging class can then be shared on the client application allowing it to specify the paging request without having to have a reference to the  Data Access or any of the provider classes.  This would be typical in a web application, that access the service using  a web API. The CA.Blocks.DataAccess.Model has no dependencies. 
 
 #### The Core Abstract code
+
 The code in the CA.Blocks.DataAccess is abstract and common among all providers.  The assembly will have no dependencies on any specific provider. This assembly handles the connection, execution and translation, all of these elements are in System.Data namespace. It will work at the System.Data level you will not find any specific reference to to any provider at this level.
 
 #### The specific implementation 
@@ -29,6 +30,11 @@ PM> Install-Package CA.Blocks.SQLServerDataAccess -Version x.x.x
 To install for Microsoft.Data.Sqlite
 ```
 PM> Install-Package CA.Blocks.SQLLiteDataAccess -Version x.x.x
+```
+
+To install for MySqlConnector
+```
+PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
 ```
 
 

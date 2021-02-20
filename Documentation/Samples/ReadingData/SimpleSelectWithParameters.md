@@ -76,5 +76,5 @@ Or use the  .WithParameters extension method.
 ```
 
 
-[see full list of SQL server ToSqlParameter extensions](https://www.codeassociate.com/Blocks/DataAccess/api/class/CA.Blocks.SQLServerDataAccess.SqlServerParameterExtensions.html)
+[see full list of SQL server ToSqlParameter extensions](https://www.codeassociate.com/Blocks/DataAccess/Api/class/CA.Blocks.SQLServerDataAccess.SqlServerParameterExtensions.html)
  

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CA.Blocks.MySQLDataAccess</name>
+    </assembly>
+    <members>
+        <member name="T:CA.Blocks.MySQLDataAccess.MySqlDataAccess">
+            <summary>
+            Provides a MySql implementation for DataAccessCore
+            </summary>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="F:CA.Blocks.MySQLDataAccess.SpecificMySQLDateTimeType.Date">
+            <summary>
+            Will only store the date value of the DateTime Input, is is accurate to the day and uses 3 bytes of storage.
+            </summary>
+        </member>
+        <member name="F:CA.Blocks.MySQLDataAccess.SpecificMySQLDateTimeType.DateTime">
+            <summary>
+            Will only store the date and time value on the input, this is the default
+            </summary>
+        </member>
+    </members>
+</doc>

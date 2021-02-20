@@ -5,7 +5,7 @@ namespace CA.Blocks.DataAccess.DI
     /// <summary>
     /// Uses the App.Config ConnectionStrings, this is common on .NET 1-4.8 frameworks. It will be using the App.config or web.config ConnectionStrings setting
     /// </summary>
-    [System.Obsolete("We are going remove class to reduce the number of dependencies taken on the CA.Blocks.DataAccess. The Configuration used is a Hosting app concern")]
+    [System.Obsolete("We are going remove class to reduce the number of dependencies taken on the CA.Blocks.DataAccess. The Configuration used is a Hosting app concern see https://www.codeassociate.com/Blocks/DataAccess/Samples/Connection/UsingAppDotConfigConnectionStringsResolver.html for a fix")]
     public class AppDotConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
     {
         /// <summary>

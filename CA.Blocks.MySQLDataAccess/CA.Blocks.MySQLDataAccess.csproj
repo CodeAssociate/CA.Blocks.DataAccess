@@ -4,6 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.MySQLDataAccess\CA.Blocks.MySQLDataAccess.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="1.2.1" />
   </ItemGroup>
