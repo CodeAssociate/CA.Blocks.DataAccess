@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using NUnit.Framework;
@@ -49,6 +50,22 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             Assert.AreEqual((int)1, result);
         }
+
+
+        [Test]
+        public void ExecuteExecuteScalarIntAsync()
+        {
+            // Setup
+            var cmd = CreateTextCommand("Select Cast(1 as int) as col");
+            // act
+            var result = ExecuteScalarAsAsync<int>(cmd);
+            TestContext.WriteLine(result.Status);
+            result.Wait();
+            Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
+            //Assert
+            Assert.AreEqual((int)1, result.Result);
+        }
+
 
         [Test]
         public void ExecuteExecuteScalarNullInt()

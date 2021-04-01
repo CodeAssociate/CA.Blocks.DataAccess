@@ -66,7 +66,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataDateTimeWithFilter()
+        public void SelectAllDataTimeWithFilter()
         {
             //setup
             Guid testvalue = Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E");

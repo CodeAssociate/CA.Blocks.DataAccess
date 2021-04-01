@@ -11,7 +11,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 
         public override uint GetDataValue(IDataReader dr, string columnName)
         {
-            return dr.AsUShort(columnName);
+            return dr.AsUInt(columnName);
         }
     }
 

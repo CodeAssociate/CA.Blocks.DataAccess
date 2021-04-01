@@ -9,9 +9,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 {
     public class Db2ObjectTranslator<T> : IDbRowTranslator<T> where T : new()
     {
-
         private DbRowToObjectMappings _mappings;
-
 
         public Db2ObjectTranslator(DbRowToObjectMappings mappings)
         {
@@ -31,7 +29,6 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
                 item = new T();
                 Translate(dr, item);
             }
-
             return item;
         }
 
@@ -39,7 +36,39 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
         {
         }
 
+
+        #region DataReader
+
+
+        public T Translate(IDataReader dr)
+        {
+            T result = default(T);
+            if (dr != null && !dr.IsClosed)
+            {
+                result = new T();
+                Translate(dr, result);
+            }
+            return result;
+        }
+
+
+        protected virtual void CustomTranslate(IDataReader dr, T item)
+        {
+        }
+        #endregion
+
         private void Translate(DataRow dr, T item)
+        {
+            foreach (var mapping in _mappings.MappingSet)
+            {
+                object data = mapping.Converter.GetData(dr, mapping.SourceNameName);
+                PropertyInfo pi = item.GetType().GetProperty(mapping.DestinationName);
+                pi.SetValue(item, data, null);
+            }
+            CustomTranslate(dr, item);
+        }
+
+        private void Translate(IDataReader dr, T item)
         {
             foreach (var mapping in _mappings.MappingSet)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using CA.Blocks.DataAccess.DI;
 using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
@@ -39,6 +40,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             {
                 var cmd = CreateTextCommand("Select top 10 id as Id, name as Name, xtype as XType, crdate as CreateDate from sysobjects where xtype = @xtype").WithParameter(xtype.ToSqlParameter("@xtype"));
                 return ExecuteToListOf<ExampleSysObject>(cmd);
+            }
+
+            public IList<ExampleSysObject> ReadSysObjectsOfTypeUsingAsync(string xtype)
+            {
+                var cmd = CreateTextCommand("Select top 10 id as Id, name as Name, xtype as XType, crdate as CreateDate from sysobjects where xtype = @xtype").WithParameter(xtype.ToSqlParameter("@xtype"));
+                var result = ExecuteToListOfAsync<ExampleSysObject>(cmd);
+                result.Wait();
+                return result.Result;
             }
 
             public IList<ExampleSysObject> ReadSysObjectsOfType2(string xtype)
@@ -95,6 +104,70 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             var executeResult = target.GetSysObjectByName();
 
             TestContext.WriteLine($"{executeResult.id},{executeResult.name},{executeResult.refdate}");
+        }
+
+
+        private void printResultsOut(IList<ExampleSysObject>  results)
+        {
+            foreach (var o in results)
+            {
+                TestContext.WriteLine($"{o.Id},{o.Name},{o.XType},{o.CreateDate}");
+            }
+        }
+
+
+        private long GetSysObjectByNameSync(ExampleReadDataAsExecuteListOf target, bool printResults)
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            var executeResult = target.ReadSysObjectsOfType("U");
+            sw.Stop();
+            if (printResults)
+            {
+                printResultsOut(executeResult);
+            }
+            return sw.ElapsedTicks / 10;
+        }
+
+        private long GetSysObjectByNameAsyncSync(ExampleReadDataAsExecuteListOf target, bool printResults)
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            var executeResult = target.ReadSysObjectsOfTypeUsingAsync("U");
+            sw.Stop();
+            if (printResults)
+            {
+                printResultsOut(executeResult);
+            }
+
+            return sw.ElapsedTicks / 10;
+        }
+
+
+        [Test]
+        public void GetSysObjectByNameSyncVsrAsync()
+        {
+
+            var target = new ExampleReadDataAsExecuteListOf();
+            GetSysObjectByNameSync(target, true);
+            GetSysObjectByNameAsyncSync(target, true);
+
+            for (int i = 1; i < 10; i++)
+            {
+                var syncTime = GetSysObjectByNameSync(target, false);
+                var asyncTime = GetSysObjectByNameAsyncSync(target, false);
+
+                if (syncTime < asyncTime)
+                {
+                    TestContext.WriteLine($"try {i} SyncWinner - {syncTime} vrs {asyncTime}" );
+                }
+                else
+                {
+                    TestContext.WriteLine($"try {i} ASyncWinner - {syncTime} vrs {asyncTime}" );
+                }
+
+            }
+
         }
 
     }

@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CA.Blocks.DataAccess
 {
@@ -39,7 +40,6 @@ namespace CA.Blocks.DataAccess
 
         private const int TotalNumberOfTimesToTry = 4;
         private const int RetryIntervalSeconds = 10;
-
         protected string ConnectionString { get; }
 
         #region private utility methods & constructors
@@ -100,33 +100,12 @@ namespace CA.Blocks.DataAccess
 
         #endregion private utility methods & constructors
 
-        #region abstract methods that must me implemented
 
-
-        protected abstract DbDataAdapter GetDataAdapter(IDbCommand cmd);
-
-
-        /// <summary>
-        /// The Prep Command is abstract method that must be implemented by the providers. The method will create the the provider specific connection setting the connection string, 
-        /// Opening the connection, set any context on the connection the assign the connection to the command for execution, it will also and indicate to the blocks if the connection
-        /// should be closed on complete execution. In most cases it is best to close the connection, at the provider will managed the connection pool.
-        /// </summary>
-        /// <param name="cmd">The command to assign the connection to</param>
-        /// <returns> a bool value to indicated if the blocks should close the connection when finished. </returns>
-        protected abstract bool PrepCommand(IDbCommand cmd);
-
-
-        protected abstract bool IsTransientError(DbException dbEx);
-        #endregion
-
-        #region ExecuteNonQuery
-
-
-        private int InternalExecuteNonQuery(IDbCommand cmd)
+        #region ExecuteWithTransientErrorRetry
+        private T ExecuteWithTransientErrorRetry<T>(Func<T> action, IDbCommand cmd, bool autoCloseConnection = true)
         {
-            bool success = false;
-            int rowCount = 0;
-            for (int tries = 0;  tries <= TotalNumberOfTimesToTry; tries++)
+            var exceptions = new List<Exception>();
+            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
             {
                 bool closeConnection = PrepCommand(cmd);
                 try
@@ -137,10 +116,7 @@ namespace CA.Blocks.DataAccess
                         // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
                         Thread.Sleep(1000 * RetryIntervalSeconds * tries);
                     }
-                   
-                    rowCount = cmd.ExecuteNonQuery();
-                    success = true;
-                    break;
+                    return action();
                 }
                 catch (DbException dbEx)
                 {
@@ -148,6 +124,7 @@ namespace CA.Blocks.DataAccess
                     {
                         if (tries < TotalNumberOfTimesToTry)
                         {
+                            exceptions.Add(dbEx);
                             continue;
                         }
                         else
@@ -170,19 +147,94 @@ namespace CA.Blocks.DataAccess
                 }
                 finally
                 {
-                    WrapUp(cmd.Connection, closeConnection);
+                    if (autoCloseConnection) // if we executing a reader you can only close after you have read all the data
+                    {
+                        WrapUp(cmd.Connection, closeConnection);
+                    }
                 }
             }
-
-            if (success)
-            {
-                return rowCount;
-            }
-            else
-            {
-                throw new ApplicationException("InternalExecuteNonQuery failed to find exit path");
-            }
+            throw new AggregateException(exceptions);
         }
+
+        private async Task<T> ExecuteWithTransientErrorRetryAsync<T>(Func<Task<T>> action, IDbCommand cmd, bool autoCloseConnection = true)
+        {
+            var exceptions = new List<Exception>();
+            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
+            {
+                bool closeConnection = PrepCommand(cmd);
+                try
+                {
+                    if (tries > 0)
+                    {
+                        // if RetryIntervalSeconds = 10 seconds then
+                        // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
+                        await Task.Delay(1000 * RetryIntervalSeconds * tries);
+                    }
+                    return await action();
+                }
+                catch (DbException dbEx)
+                {
+                    if (IsTransientError(dbEx))
+                    {
+                        if (tries < TotalNumberOfTimesToTry)
+                        {
+                            exceptions.Add(dbEx);
+                            continue;
+                        }
+                        else
+                        {
+                            // we tried TotalNumberOfTimesToTry times already to error
+                            TraceDbError(cmd, dbEx);
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        TraceDbError(cmd, dbEx);
+                        throw;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TraceGenralError(cmd, ex);
+                    throw;
+                }
+                finally
+                {
+                    if (autoCloseConnection) // if we executing a reader you can only close after you have read all the data
+                    {
+                        WrapUp(cmd.Connection, closeConnection);
+                    }
+                }
+            }
+            throw new AggregateException(exceptions);
+        }
+
+        #endregion 
+
+
+
+        #region abstract methods that must me implemented
+
+
+        protected abstract DbDataAdapter GetDataAdapter(IDbCommand cmd);
+
+
+        /// <summary>
+        /// The Prep Command is abstract method that must be implemented by the providers. The method will create the the provider specific connection setting the connection string, 
+        /// Opening the connection, set any context on the connection the assign the connection to the command for execution, it will also and indicate to the blocks if the connection
+        /// should be closed on complete execution. In most cases it is best to close the connection, at the provider will managed the connection pool.
+        /// </summary>
+        /// <param name="cmd">The command to assign the connection to</param>
+        /// <returns> a bool value to indicated if the blocks should close the connection when finished. </returns>
+        protected abstract bool PrepCommand(IDbCommand cmd);
+
+
+        protected abstract bool IsTransientError(DbException dbEx);
+        #endregion
+
+        #region ExecuteNonQuery
+
 
         /// <summary>
         /// Will execute a value sql query that does not return any results back to the client. This is typically Data modification statements such as insert , update or delete or catalog operations  such as creating tables, indexes etc
@@ -204,8 +256,43 @@ namespace CA.Blocks.DataAccess
         {
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            return InternalExecuteNonQuery(cmd);
+            return ExecuteWithTransientErrorRetry(cmd.ExecuteNonQuery, cmd);
         }
+
+        /*
+        protected async Task<int> ExecuteNonQueryAsync(IDbCommand cmd)
+        {
+            DbCommand asynCmd = cmd as DbCommand;
+            if (asynCmd == null)
+            {
+                throw new InvalidCastException("To Execute Async command the provider by implement DbCommand");
+            }
+            int rowCount = 0;
+            bool closeConnection = PrepCommand(cmd);
+            try
+            {
+                rowCount =  await asynCmd.ExecuteNonQueryAsync();
+            }
+            catch (DbException dbEx)
+            {
+                
+                TraceDbError(cmd, dbEx);
+                throw;
+            
+            }
+            catch (Exception ex)
+            {
+                TraceGenralError(cmd, ex);
+                throw;
+            }
+            finally
+            {
+                WrapUp(cmd.Connection, closeConnection);
+            }
+
+            return rowCount;
+        }
+        */
         #endregion ExecuteNonQuery
 
 
@@ -328,75 +415,31 @@ namespace CA.Blocks.DataAccess
 
         #region ExecuteScalar
 
-
-        private object InternalExecuteScalar(IDbCommand cmd)
-        {
-            bool success = false;
-            object result = null ;
-            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
-            {
-                bool closeConnection = PrepCommand(cmd);
-                try
-                {
-                    if (tries > 0)
-                    {
-                        // if RetryIntervalSeconds = 10 seconds then
-                        // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
-                        Thread.Sleep(1000 * RetryIntervalSeconds * tries);
-                    }
-
-                    result = cmd.ExecuteScalar();
-                    success = true;
-                    break;
-                }
-                catch (DbException dbEx)
-                {
-                    if (IsTransientError(dbEx))
-                    {
-                        if (tries < TotalNumberOfTimesToTry)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            // we tried TotalNumberOfTimesToTry times already to error
-                            TraceDbError(cmd, dbEx);
-                            throw;
-                        }
-                    }
-                    else
-                    {
-                        TraceDbError(cmd, dbEx);
-                        throw;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    TraceGenralError(cmd, ex);
-                    throw;
-                }
-                finally
-                {
-                    WrapUp(cmd.Connection, closeConnection);
-                }
-            }
-
-            if (success)
-            {
-                return result;
-            }
-            else
-            {
-                throw new ApplicationException("InternalExecuteScalar failed to find exit path");
-            }
-        }
-
         protected object ExecuteScalar(IDbCommand cmd)
         {
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            return InternalExecuteScalar(cmd);
+            //return InternalExecuteScalar(cmd);
+            return ExecuteWithTransientErrorRetry(cmd.ExecuteScalar, cmd);
         }
+
+        protected Task<object> ExecuteScalarAsync(IDbCommand cmd)
+        {
+            DbCommand asynCmd = cmd as DbCommand;
+            if (asynCmd == null)
+            {
+                throw new InvalidCastException("To Execute Async command the provider by implement DbCommand");
+            }
+            if (_options.DebugTrace)
+                TraceDbStatement(cmd);
+
+            return ExecuteWithTransientErrorRetryAsync(asynCmd.ExecuteScalarAsync, cmd);
+            //return InternalExecuteScalarAsync(asynCmd);
+        }
+
+
+
+
 
         /// <summary>
         /// This will execute the cmd to a ScalarValue and cast the ScalarValue to the target Type. Use this command if you can know the data type on  the server.
@@ -409,6 +452,12 @@ namespace CA.Blocks.DataAccess
             Object result = ExecuteScalar(cmd);
             return  (result == null || result == DBNull.Value) ? default : (T)result;
             //return (T?) result ?? default;
+        }
+
+        protected async Task<T> ExecuteScalarAsAsync<T>(IDbCommand cmd)
+        {
+            Object result = await ExecuteScalarAsync(cmd);
+            return (result == null || result == DBNull.Value) ? default : (T)result;
         }
 
         /// <summary>
@@ -424,6 +473,13 @@ namespace CA.Blocks.DataAccess
             Object result = ExecuteScalar(cmd);
             return (result == null || result == DBNull.Value) ? default : (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());
         }
+
+        protected async Task<T> ExecuteScalarWithConvertAsAsync<T>(IDbCommand cmd)
+        {
+            Object result = await ExecuteScalarAsync(cmd);
+            return (result == null || result == DBNull.Value) ? default : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());
+        }
+
 
         /// <summary>
         /// This will execute the cmd to a ScalarValue and convert the ScalarValue to string value, There is a overload top control the value of the null passed back.
@@ -484,76 +540,30 @@ namespace CA.Blocks.DataAccess
         #endregion ExecuteScalar
 
         #region ExecuteReader
-        private IDataReader InternalExecuteReader(IDbCommand cmd)
-        {
-            bool success = false;
-            IDataReader result = null;
-            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
-            {
-                PrepCommand(cmd);
-                try
-                {
-                    if (tries > 0)
-                    {
-                        // if RetryIntervalSeconds = 10 seconds then
-                        // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
-                        Thread.Sleep(1000 * RetryIntervalSeconds * tries);
-                    }
 
-                    result = (cmd.ExecuteReader(CommandBehavior.CloseConnection));
-                    success = true;
-                    break;
-                }
-                catch (DbException dbEx)
-                {
-                    if (IsTransientError(dbEx))
-                    {
-                        if (tries < TotalNumberOfTimesToTry)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            // we tried TotalNumberOfTimesToTry times already to error
-                            TraceDbError(cmd, dbEx);
-                            throw;
-                        }
-                    }
-                    else
-                    {
-                        TraceDbError(cmd, dbEx);
-                        throw;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    TraceGenralError(cmd, ex);
-                    throw;
-                }
-                finally
-                {
-                   // the reader will close the connection
-                }
-            }
-
-            if (success)
-            {
-                return result;
-            }
-            else
-            {
-                throw new ApplicationException("InternalExecuteScalar failed to find exit path");
-            }
-        }
-
-
-  
         protected IDataReader ExecuteReader(IDbCommand cmd)
         {
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            return InternalExecuteReader(cmd);
+            //return InternalExecuteReader(cmd);
+            return ExecuteWithTransientErrorRetry(() => cmd.ExecuteReader(CommandBehavior.CloseConnection), cmd, false);
         }
+
+
+        protected Task<DbDataReader> ExecuteReaderAsync(IDbCommand cmd)
+        {
+            DbCommand asyncCmd = cmd as DbCommand;
+            if (asyncCmd == null)
+            {
+                throw new InvalidCastException("To Execute Async command the provider by implement DbCommand");
+            }
+
+            if (_options.DebugTrace)
+                TraceDbStatement(cmd);
+            //return InternalExecuteReader(cmd);
+            return ExecuteWithTransientErrorRetryAsync(() => asyncCmd.ExecuteReaderAsync(CommandBehavior.CloseConnection), cmd, false);
+        }
+
 
         #endregion ExecuteReader
 
@@ -573,14 +583,66 @@ namespace CA.Blocks.DataAccess
         // execute using a provider translator
         protected T ExecuteTo<T>(IDbCommand cmd) where T : new()
         {
+            T result; 
             var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return translator.Translate(ExecuteDataRow(cmd));
+            using (var dbReader = ExecuteReader(cmd))
+            {
+                dbReader.Read();
+                result = translator.Translate(dbReader);
+                dbReader.Close();
+            }
+            return result;
         }
 
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd) where T : new()
         {
-            return TranslateToListOf<T>(ExecuteDataTable(cmd));
+            IList<T> result = new List<T>();
+            var translator = _dbRowTranslatorProvider.Resolve<T>();
+            using (var dbReader = ExecuteReader(cmd))
+            {
+                while (dbReader.Read())
+                {
+                    result.Add(translator.Translate(dbReader));
+                }
+                dbReader.Close();
+            }
+            return result;
         }
+
+        protected async Task<T> ExecuteToAsync<T>(IDbCommand cmd) where T : new()
+        {
+            var dbResult = ExecuteReaderAsync(cmd);
+            var translator = _dbRowTranslatorProvider.Resolve<T>();
+            T result;
+            await dbResult;
+            using (var dbReader = dbResult.GetAwaiter().GetResult())
+            {
+                await dbReader.ReadAsync();
+                result = translator.Translate(dbReader);
+                dbReader.Close();
+            }
+            return result;
+        }
+
+        protected async Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd) where T : new()
+        {
+            var dbResult = ExecuteReaderAsync(cmd);
+            var translator = _dbRowTranslatorProvider.Resolve<T>();
+            IList<T> result = new List<T>();
+            await dbResult;
+            using (var dbReader = dbResult.GetAwaiter().GetResult())
+            {
+                while (await dbReader.ReadAsync())
+                {
+                    result.Add(translator.Translate(dbReader));
+                }
+                dbReader.Close();
+            }
+            return result;
+        }
+
+
+
 
         /// <summary>
         /// This is used when working with an existing DataTable. 
