@@ -1,4 +1,4 @@
-﻿using System.Configuration;
+﻿/*using System.Configuration;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests
@@ -25,6 +25,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
         {
         }
     }
-}
+}*/
 
 

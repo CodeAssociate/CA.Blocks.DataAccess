@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿/*using Microsoft.Extensions.Configuration;
 
 namespace CA.Blocks.DataAccess.DI
 {
@@ -21,4 +21,4 @@ namespace CA.Blocks.DataAccess.DI
             return _configuration.GetConnectionString(connectionStringKey);
         }
     }
-}
+}*/

@@ -8,6 +8,20 @@ using CA.Blocks.DataAccess.Model.Paging;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 {
+    
+    public class LocalSqlServerUnitTestStringsResolver : IDataAccessKeyToConnectionStringResolver
+    {
+        /// <summary>
+        /// Provides the mapping from the name in code to the name in the Connection string Stored in the app.config or web.config file
+        /// </summary>
+        /// <param name="connectionStringKey">The Connection string known to the code</param>
+        /// <returns> The Connection string to be used by the ADO.NET provider.</returns>
+        public string GetConnectionString(string connectionStringKey)
+        {
+            return "Server=(localdb)\\MSSQLLocalDB;Integrated Security = true";
+        }
+    }
+
     /*
          <configuration>
             <connectionStrings>    
@@ -20,7 +34,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
     {
         public UnitTestDataAccess() : base (
             new DataAccessConfig("UnitTestDataAccess", new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" }, 
-            new AppDotConfigConnectionStringsResolver())
+            new LocalSqlServerUnitTestStringsResolver())
         )
         {
         }

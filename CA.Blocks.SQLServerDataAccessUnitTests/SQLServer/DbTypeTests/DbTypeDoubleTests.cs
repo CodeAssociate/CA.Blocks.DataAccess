@@ -77,7 +77,5 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Asert
             Assert.AreEqual(3, data.Count);
         }
-
-
     }
 }

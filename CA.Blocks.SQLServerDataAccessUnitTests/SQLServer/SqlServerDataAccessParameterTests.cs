@@ -1,5 +1,6 @@
 ﻿using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
@@ -10,7 +11,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public SqlServerDataAccessParameterTests()
             : base(new DataAccessConfig("UnitTestDataAccess",
                 new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" },
-                new AppDotConfigConnectionStringsResolver()))
+                new LocalSqlServerUnitTestStringsResolver()))
         {
         }
 

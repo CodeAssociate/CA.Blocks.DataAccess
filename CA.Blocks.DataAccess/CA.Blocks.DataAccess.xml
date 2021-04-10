@@ -392,18 +392,6 @@
             </code>
             </example>
         </member>
-        <member name="T:CA.Blocks.DataAccess.DI.AppDotConfigConnectionStringsResolver">
-            <summary>
-            Uses the App.Config ConnectionStrings, this is common on .NET 1-4.8 frameworks. It will be using the App.config or web.config ConnectionStrings setting
-            </summary>
-        </member>
-        <member name="M:CA.Blocks.DataAccess.DI.AppDotConfigConnectionStringsResolver.GetConnectionString(System.String)">
-            <summary>
-            Provides the mapping from the name in code to the name in the Connection string Stored in the app.config or web.config file
-            </summary>
-            <param name="connectionStringKey">The Connection string known to the code</param>
-            <returns> The Connection string to be used by the ADO.NET provider.</returns>
-        </member>
         <member name="T:CA.Blocks.DataAccess.DI.IDataAccessConfigOptions">
             <summary>
             provides the interfaces and some common implementations for configuring the connection strings  
@@ -464,12 +452,6 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             <summary>
       interface to GetConnectionString
     </summary>
-        </member>
-        <member name="T:CA.Blocks.DataAccess.DI.JsonConfigConnectionStringsResolver">
-             <summary>
-             Uses the JsonConfig  this is common on .NET core frameworks 
-             </summary>
-            
         </member>
         <member name="T:CA.Blocks.DataAccess.AssemblyDoc">
             <summary>
