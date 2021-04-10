@@ -29,6 +29,31 @@
             <param name="conn">the connection to close pending closeConnection</param>
             <param name="closeConnection"> determines if conn should be closed on complete</param>
         </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.TraceDbStatement(System.Data.IDbCommand)">
+            <summary>
+            This method provided a method to trace the commands executed against a store. The Trace will happen just before the execute of the command.
+            The Design is such that you can override this method to implement your own logic.  
+            Note : If you are using SQL server then a SQL Server trace will be better option for global tracing.
+            This is method for data sources that do not have good builtin tracing tools or if you what to trace a specific data access class. This is designed for trouble shooting. 
+            </summary>
+            <param name="cmd"></param>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.TraceDbError(System.Data.IDbCommand,System.Data.Common.DbException)">
+            <summary>
+            When a error occurs in executing the DbCommand command this method will be called
+             The Design is such that you can override this method to implement your own logic, you you get the command and well as the DbException.
+            </summary>
+            <param name="cmd"></param>
+            <param name="ex"></param>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.TraceGenralError(System.Data.IDbCommand,System.Exception)">
+            <summary>
+            When a general occurs not related to the database such as network error this method will be called
+             The Design is such that you can override this method to implement your own logic, you you get the command and well as the Exception.
+            </summary>
+            <param name="cmd"></param>
+            <param name="ex"></param>
+        </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.PrepCommand(System.Data.IDbCommand)">
             <summary>
             The Prep Command is abstract method that must be implemented by the providers. The method will create the the provider specific connection setting the connection string, 
@@ -263,15 +288,6 @@
             </summary>
             <param name="dr">A Valid <see cref="T:System.Data.DataRow"/> DataRow</param>
             <param name="sColumnName">The Name of the Column in the DataRow</param>
-            <returns></returns>
-        </member>
-        <member name="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsBool(System.Data.DataRow,System.String,System.Boolean)">
-            <summary>
-            Will get a the data value from the data row as a bool. If a DB Null is found then it will return the default bool value defined in DefaultReturnValueIfNull
-            </summary>
-            <param name="dr">A Valid <see cref="T:System.Data.DataRow"/> DataRow</param>
-            <param name="sColumnName">The Name of the Column in the DataRow</param>
-            <param name="defaultReturnValueIfNull"> The default value in the event the DB col is null</param>
             <returns></returns>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsNullShort(System.Data.DataRow,System.String)">

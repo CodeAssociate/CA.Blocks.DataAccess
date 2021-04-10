@@ -11,22 +11,31 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
     {
         public string GetConnectionString(string connectionStringKey)
         {
-            return "Data Source=ca_blocks_unittest;Mode=Memory;Cache=Shared";
+            return "Data Source=ca_blocks_unittest;mode=memory;cache=shared";
         }
     }
 
     // this class exposes the internal workings so we can test
     public class UnitTestDataAccess : SqlLiteDataAccess
     {
+
         private SqliteConnection _dbcontext; 
 
-        public UnitTestDataAccess() : base (
-            new DataAccessConfig("SqlLiteUnitTesting", new DataAccessConfigOptions(), new UnitTRestInMemDBResolver()), null)
+        public UnitTestDataAccess() : this (new DataAccessConfigOptions())
+        {
+
+        }
+
+        public UnitTestDataAccess(DataAccessConfigOptions options) : base(
+            new DataAccessConfig("SqlLiteUnitTesting", options, new UnitTRestInMemDBResolver()), null)
         {
             // we need to hold a conneciton open for in mem
             _dbcontext = new SqliteConnection(ConnectionString);
             _dbcontext.Open();
+            // we do this so that we have a table in the schema
         }
+
+
 
 
         private const string unitTestTableName = "CA_BLOCKS_UNITTEST_TEMP_TESTTABLE";
@@ -39,7 +48,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
 
         protected string CreateTestTable(string coltype)
         {
-            return $"create table if not exists  {unitTestTableName} (id int identity(1,1), col {coltype} )";
+            return $"create table if not exists {unitTestTableName} (id int identity(1,1), col {coltype} )";
 
         }
 

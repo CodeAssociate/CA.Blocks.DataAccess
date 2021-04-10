@@ -79,19 +79,37 @@ namespace CA.Blocks.DataAccess
             }
         }
 
-        // If using sql then a SQL trace will be better, this is for data sources that do not have good tracing tools
-        // you will override this method and trace to your preferred tool.  the trace happens after execute
+
+        /// <summary>
+        /// This method provided a method to trace the commands executed against a store. The Trace will happen just before the execute of the command.
+        /// The Design is such that you can override this method to implement your own logic.  
+        /// Note : If you are using SQL server then a SQL Server trace will be better option for global tracing.
+        /// This is method for data sources that do not have good builtin tracing tools or if you what to trace a specific data access class. This is designed for trouble shooting. 
+        /// </summary>
+        /// <param name="cmd"></param>
         protected virtual void TraceDbStatement(IDbCommand cmd)
         {
             System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         }
 
+        /// <summary>
+        /// When a error occurs in executing the DbCommand command this method will be called
+        ///  The Design is such that you can override this method to implement your own logic, you you get the command and well as the DbException.
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="ex"></param>
         protected virtual void TraceDbError(IDbCommand cmd, DbException ex)
         {
             System.Diagnostics.Debug.WriteLine(cmd.CommandText);
             System.Diagnostics.Debug.WriteLine(ex.Message);
         }
 
+        /// <summary>
+        /// When a general occurs not related to the database such as network error this method will be called
+        ///  The Design is such that you can override this method to implement your own logic, you you get the command and well as the Exception.
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="ex"></param>
         protected virtual void TraceGenralError(IDbCommand cmd, Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(cmd.CommandText);
@@ -428,7 +446,7 @@ namespace CA.Blocks.DataAccess
             DbCommand asynCmd = cmd as DbCommand;
             if (asynCmd == null)
             {
-                throw new InvalidCastException("To Execute Async command the provider by implement DbCommand");
+                throw new InvalidCastException("To Execute Async command the provider must implement DbCommand");
             }
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
@@ -494,46 +512,50 @@ namespace CA.Blocks.DataAccess
         }
         #region Obsolete
 
-        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
+        /*[System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected int ExecuteScalarAsInt(IDbCommand cmd, int nullDefault = 0)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? int.Parse(result.ToString()) : nullDefault;
-        }
+        }*/
 
+        /*
         [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected short ExecuteScalarAsShort(IDbCommand cmd, short nullDefault = 0)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? short.Parse(result.ToString()) : nullDefault;
         }
+        */
 
-        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
+        /*[System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected byte ExecuteScalarAsByte(IDbCommand cmd, byte nullDefault = 0)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? byte.Parse(result.ToString()) : nullDefault;
-        }
+        }*/
 
+        /*
         [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected long ExecuteScalarAsLong(IDbCommand cmd, long nullDefault = 0)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? long.Parse(result.ToString()) : nullDefault;
         }
+        */
 
-        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
+        /*[System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected Guid ExecuteScalarAsGuid(IDbCommand cmd, Guid nullDefault)
         {
             Object result = ExecuteScalar(cmd);
             return result != null ? Guid.Parse(result.ToString()) : nullDefault;
-        }
+        }*/
 
-        [System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
+        /*[System.Obsolete("Use ExecuteScalarAs<int> or ExecuteScalarWithConvertAs<int>")]
         protected Guid ExecuteScalarAsGuid(IDbCommand cmd)
         {
             return ExecuteScalarAsGuid(cmd, Guid.Empty);
-        }
+        }*/
         #endregion
 
 
