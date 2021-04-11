@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -99,5 +100,17 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(3, data.Count);
         }
 
+        [Test]
+        public void SelectAllDataWithWithTranslator()
+        {
+            //setup
+            const long testvalue = 123;
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = 123");
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BigIntDataType>();
+            //Act
+            var data = t.Translate(ExecuteDataRow(cmd));
+            
+            Assert.AreEqual(123, data.Col);
+        }
     }
 }

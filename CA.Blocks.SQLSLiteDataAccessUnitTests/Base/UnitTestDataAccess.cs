@@ -11,8 +11,22 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Base
     {
         public string GetConnectionString(string connectionStringKey)
         {
-            return "Data Source=ca_blocks_unittest;mode=memory;cache=shared";
+            return connectionStringKey != "BAD_CONNECTION" ? 
+                  "Data Source=ca_blocks_unittest;mode=memory;cache=shared" 
+                : "Data Source=C\\BadPath\\badfile.db;Version=3;"; // used to simulate connection errors 
         }
+    }
+
+    public class UnitTestBadConnection : SqlLiteDataAccess
+    {
+        public UnitTestBadConnection() : 
+            base ( new DataAccessConfig( "BAD_CONNECTION", 
+                                        new DataAccessConfigOptions{TraceExceptions = true, ConnectionStringKey = "BAD_CONNECTION"}, 
+                                        new UnitTRestInMemDBResolver() ), 
+                null)
+        {
+
+        } 
     }
 
     // this class exposes the internal workings so we can test

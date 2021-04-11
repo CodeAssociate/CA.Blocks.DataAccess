@@ -11,15 +11,6 @@
             <remarks>
             </remarks>
         </member>
-        <member name="M:CA.Blocks.SQLServerDataAccess.SqlServerDataAccess.AddInputParamCommandAsByte(System.Data.SqlClient.SqlCommand,System.String,System.Nullable{System.Byte})">
-            <summary>
-            To be removed
-            </summary>
-            <param name="cmd">cmd params</param>
-            <param name="strParameterName"> name</param>
-            <param name="objParameterValue"> value</param>
-            <returns></returns>
-        </member>
         <member name="M:CA.Blocks.SQLServerDataAccess.SqlServerDataAccess.GetDBType(System.Type)">
             <summary>
             This is usefull when you dont know the sql datatype but you do know the physical type example is datatable

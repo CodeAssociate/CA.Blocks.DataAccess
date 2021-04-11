@@ -8,9 +8,9 @@ namespace CA.Blocks.DataAccess.DI
     /// </summary>
     public interface IDataAccessConfigOptions
     {
-        string ConnectionStringKey {get; set;}
-        bool DebugTrace { get; set; }
-        bool TraceExceptions { get; set; }
+        string ConnectionStringKey {get;}
+        bool DebugTrace { get;  }
+        bool TraceExceptions { get; }
     }
 
     /// <summary>

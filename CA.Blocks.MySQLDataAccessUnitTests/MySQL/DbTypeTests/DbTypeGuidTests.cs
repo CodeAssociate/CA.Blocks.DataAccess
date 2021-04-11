@@ -1,5 +1,6 @@
 ﻿using System;
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -71,18 +72,30 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
         {
             //setup
             Guid testvalue = Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E");
-            var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
-
-    
+            
             //Act
             var data = ExecuteTo<GuidDataType>(cmd);
-
+            
             //Asert
             Assert.AreEqual(testvalue, data.Col);
         }
 
+        
+        [Test]
+        public void SelectAllDataWithFilterWithTranslator()
+        {
+            //setup
+            Guid testvalue = Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E");
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
+            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<GuidDataType>();
+            //Act
+            var data = t.Translate(ExecuteDataRow(cmd));
 
+            //Asert
+            Assert.AreEqual(testvalue, data.Col);
+        }
     }
 }

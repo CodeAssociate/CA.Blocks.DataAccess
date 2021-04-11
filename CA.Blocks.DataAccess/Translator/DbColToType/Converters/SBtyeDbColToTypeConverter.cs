@@ -11,7 +11,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 
         public override sbyte GetDataValue(IDataReader dr, string columnName)
         {
-            return dr.AsSByte(columnName);
+            return dr.AsSbyte(columnName);
         }
     }
 
@@ -24,7 +24,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 
         public override sbyte? GetDataValue(IDataReader dr, string columnName)
         {
-            return dr.AsNullSByte(columnName);
+            return dr.AsNullSbyte(columnName);
         }
     }
 }

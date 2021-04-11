@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
@@ -62,7 +63,17 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
         }
 
-
+        [Test]
+        public void SelectAllDataWithWithTranslator()
+        {
+            //setup
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BinaryDataType>();
+            //Act
+            var data = t.Translate(ExecuteDataTable(cmd));
+            
+            Assert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
+        }
 
     }
 }

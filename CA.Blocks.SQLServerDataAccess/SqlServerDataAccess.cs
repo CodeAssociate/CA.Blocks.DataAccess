@@ -94,27 +94,7 @@ namespace CA.Blocks.SQLServerDataAccess
             };
             return (sqlcmd);
         }
-
-        [System.Obsolete("Use CreateStoredProcedureCommand", true)]
-        protected SqlCommand CreateBlankStoredProcedureCommand(string strStoredProcedureName)
-        {
-            return CreateStoredProcedureCommand(strStoredProcedureName);
-        }
-
-
-        [Obsolete("Replaced with the  sqlcmd.WithReturnParameter", true)]
-        protected int GetStoredProcedureReturnValue(SqlCommand sqlcmd)
-        {
-            int result = -1;
-            SqlParameter sqlparam = sqlcmd.Parameters["Return"];
-            if (sqlparam != null)
-            {
-                if (sqlparam.Value != null)
-                    result = (int)sqlparam.Value;
-            }
-            return result;
-        }
-
+        
 
         #endregion StoredProcedureHelpers
 
@@ -149,6 +129,7 @@ namespace CA.Blocks.SQLServerDataAccess
 
         #region ParemeterHelpers
 
+        /*
         [System.Obsolete("Please use the ToSqlParameter Extension Methods", true)]
         protected SqlParameter AddInputParamCommand(SqlCommand cmd, string strParameterName, object objParameterValue, DbType odbType, int maxParamSize)
         {
@@ -193,21 +174,7 @@ namespace CA.Blocks.SQLServerDataAccess
             return (sqlparam);
         }
 
-
-
-        /// <summary>
-        /// To be removed
-        /// </summary>
-        /// <param name="cmd">cmd params</param>
-        /// <param name="strParameterName"> name</param>
-        /// <param name="objParameterValue"> value</param>
-        /// <returns></returns>
-        [System.Obsolete("Please use the ToSqlParameter Extension Method", true)]
-        protected SqlParameter AddInputParamCommandAsByte(SqlCommand cmd, string strParameterName, byte? objParameterValue)
-        {
-            return AddInputParamCommand(cmd, strParameterName, objParameterValue, SqlDbType.TinyInt, 1);
-        }
-
+        
 
         protected SqlParameter AddOutputParamCommand(SqlCommand cmd, string strParameterName, DbType odbType, Int32 maxParamSize)
         {
@@ -261,6 +228,7 @@ namespace CA.Blocks.SQLServerDataAccess
                 AddAdapterInputParamCommand(cmd, strParameterName, strParameterName.Replace("@", string.Empty),
                                             sourceDataTable);
         }
+        */
 
         #endregion ParemeterHelpers 
 
@@ -299,72 +267,6 @@ namespace CA.Blocks.SQLServerDataAccess
 
         #endregion
 
-        #region SQL Bulk Update Methods
-
-        protected SqlDataAdapter CreateBulkInsertAdapter(string storedProcedureName, int batchSize)
-        {
-            SqlDataAdapter result = new SqlDataAdapter();
-            result.UpdateBatchSize = batchSize;
-            SqlCommand cmd = CreateStoredProcedureCommand(storedProcedureName);
-            cmd.UpdatedRowSource = UpdateRowSource.None;
-            result.InsertCommand = cmd;
-            return result;
-        }
-
-        // gets the first col which has an expression on.  
-        // This will need to be refactored if you have expressions based on expressions as you will need to be aware of dependency order
-        // if no expressions are found it will return null. 
-        private DataColumn GetColunmWithExpression(DataTable dt)
-        {
-            DataColumn result = null;
-            foreach (DataColumn dcloop in dt.Columns)
-            {
-                if (!string.IsNullOrEmpty(dcloop.Expression))
-                {
-                    result = dcloop;
-                    break;
-                }
-            }
-            return result;
-        }
-
-        protected void CementExpressionsAsValues(DataTable dt)
-        {
-            DataColumn colWithExpression = GetColunmWithExpression(dt);
-            int excapeCounter = 0;
-            while (colWithExpression != null && excapeCounter < dt.Columns.Count)
-            {
-
-                string tempColName = colWithExpression.ColumnName + Guid.NewGuid().ToString();
-                dt.Columns.Add(tempColName, colWithExpression.DataType);
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    dr[tempColName] = dr[colWithExpression.ColumnName];
-                }
-                dt.Columns.Remove(colWithExpression);
-                dt.Columns[tempColName].ColumnName = colWithExpression.ColumnName;
-
-                colWithExpression = GetColunmWithExpression(dt);
-                excapeCounter++;
-            }
-        }
-
-        protected void ExecuteBulkInsertAdapter(SqlDataAdapter bulkAdapter, DataTable dt)
-        {
-            try
-            {
-                PrepCommand(bulkAdapter.InsertCommand);
-                // possibly move this function out as it nos not really belong here 
-                CementExpressionsAsValues(dt);
-                bulkAdapter.Update(dt);
-            }
-            finally
-            {
-                WrapUp(bulkAdapter.InsertCommand.Connection, true);
-            }
-        }
-        #endregion SQL Bulk Update Methods
 
         #region 
 

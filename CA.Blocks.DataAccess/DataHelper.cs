@@ -23,15 +23,6 @@ namespace CA.Blocks.DataAccess
     /// </summary>
     public static class DataHelper
     {
-        private static void ThrowExceptionIfIsNull(object obj, string sColumnName, string typeDescription)
-        {
-            if (obj == null || obj == DBNull.Value)
-            {
-                throw new ArgumentNullException(
-                    $"Tried to get {sColumnName} from row as non-nullable {typeDescription}, however value is NULL.");
-            }
-        }
-        
         private static T ThrowExceptionIfIsNull<T>(T? obj, string sColumnName, string typeDescription)  where T : struct
         {
             if (obj == null)

@@ -26,6 +26,21 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             return result;
         }
         
+        private DataRow GetDataRow(int rowNumber, DataTable sourceDataTable)
+        {
+            return sourceDataTable.Rows[rowNumber];
+        }
+
+        private IDataReader GetDataReader(int rowNumber, DataTable sourceDataTable)
+        {
+            var datareader = sourceDataTable.CreateDataReader();
+            for (int i = 0; i <= rowNumber; i++)
+            {
+                datareader.Read();
+            }
+            return datareader;
+        }
+        
         private void AssertNullable<T>(Nullable<T> expected, Nullable<T> actual)  where T : struct 
         {
             if (expected.HasValue)
@@ -52,17 +67,16 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             {
                 expected = Encoding.ASCII.GetBytes(testValue);
             }
-
             var dt = CreateTestTable(typeof(byte[]), expected);
-
-            var actual = dt.Rows[rowNumber].AsBinary("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsBinary(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsBinary(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsBinary("col"));
+            Assert.AreEqual(expected, dataRow.AsBinary(1));
+            Assert.AreEqual(expected, dataRow.AsBinary(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsBinary("col"));
+            Assert.AreEqual(expected, dataReader.AsBinary(1));
         }
 
         [Test]
@@ -71,15 +85,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsBool(int rowNumber, bool expected)
         {
             var dt = CreateTestTable(typeof(bool), expected);
-
-            var actual = dt.Rows[rowNumber].AsBool("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsBool(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsBool(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsBool("col"));
+            Assert.AreEqual(expected, dataRow.AsBool(1));
+            Assert.AreEqual(expected, dataRow.AsBool(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsBool("col"));
+            Assert.AreEqual(expected, dataReader.AsBool(1));
         }
         
         [Test]
@@ -89,15 +103,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsBool_AsNullTests(int rowNumber, bool? expected)
         {
             var dt = CreateTestTable(typeof(bool), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullBool("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullBool(1);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
             
-            actual = dt.Rows[rowNumber].AsNullBool(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            AssertNullable(expected, dataRow.AsNullBool("col"));
+            AssertNullable(expected, dataRow.AsNullBool(1));
+            AssertNullable(expected, dataRow.AsNullBool(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullBool("col"));
+            AssertNullable(expected, dataReader.AsNullBool(1));
         }
 
         [Test]
@@ -106,15 +120,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsByte(int rowNumber, byte expected)
         {
             var dt = CreateTestTable(typeof(byte), expected);
-
-            var actual = dt.Rows[rowNumber].AsByte("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsByte(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsByte(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsByte("col"));
+            Assert.AreEqual(expected, dataRow.AsByte(1));
+            Assert.AreEqual(expected, dataRow.AsByte(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsByte("col"));
+            Assert.AreEqual(expected, dataReader.AsByte(1));
         }
         
         [Test]
@@ -124,15 +138,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsByte_AsNullTests(int rowNumber, byte? expected)
         {
             var dt = CreateTestTable(typeof(byte), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullByte("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullByte(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullByte(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullByte("col"));
+            AssertNullable(expected, dataRow.AsNullByte(1));
+            AssertNullable(expected, dataRow.AsNullByte(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullByte("col"));
+            AssertNullable(expected, dataReader.AsNullByte(1));
         }
         
         [Test]
@@ -141,15 +155,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsChar(int rowNumber, char expected)
         {
             var dt = CreateTestTable(typeof(char), expected);
-
-            var actual = dt.Rows[rowNumber].AsChar("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsChar(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsChar(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsChar("col"));
+            Assert.AreEqual(expected, dataRow.AsChar(1));
+            Assert.AreEqual(expected, dataRow.AsChar(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsChar("col"));
+            Assert.AreEqual(expected, dataReader.AsChar(1));
         }
         
         [Test]
@@ -159,15 +173,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsChar_AsNullTests(int rowNumber, char? expected)
         {
             var dt = CreateTestTable(typeof(char), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullChar("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullChar(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullChar(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullChar("col"));
+            AssertNullable(expected, dataRow.AsNullChar(1));
+            AssertNullable(expected, dataRow.AsNullChar(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullChar("col"));
+            AssertNullable(expected, dataReader.AsNullChar(1));
         }
 
         [Test]
@@ -192,15 +206,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             }
 
             var dt = CreateTestTable(typeof(DateTime), expected);
-
-            var actual = dt.Rows[rowNumber].AsDateTime("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsDateTime(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsDateTime(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsDateTime("col"));
+            Assert.AreEqual(expected, dataRow.AsDateTime(1));
+            Assert.AreEqual(expected, dataRow.AsDateTime(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsDateTime("col"));
+            Assert.AreEqual(expected, dataReader.AsDateTime(1));
         }
         
         [Test]
@@ -215,15 +229,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             }
 
             var dt = CreateTestTable(typeof(DateTime), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullDateTime("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullDateTime(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullDateTime(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullDateTime("col"));
+            AssertNullable(expected, dataRow.AsNullDateTime(1));
+            AssertNullable(expected, dataRow.AsNullDateTime(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullDateTime("col"));
+            AssertNullable(expected, dataReader.AsNullDateTime(1));
         }
 
         [Test]
@@ -231,15 +245,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsDecimal(int rowNumber, decimal expected)
         {
             var dt = CreateTestTable(typeof(decimal), expected);
-
-            decimal? actual = dt.Rows[rowNumber].AsDecimal("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsDecimal(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsDecimal(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsDecimal("col"));
+            Assert.AreEqual(expected, dataRow.AsDecimal(1));
+            Assert.AreEqual(expected, dataRow.AsDecimal(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsDecimal("col"));
+            Assert.AreEqual(expected, dataReader.AsDecimal(1));
         }
         
         [Test]
@@ -248,15 +262,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsDecimal_AsNullTests(int rowNumber, decimal? expected)
         {
             var dt = CreateTestTable(typeof(decimal), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullDecimal("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullDecimal(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullDecimal(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullDecimal("col"));
+            AssertNullable(expected, dataRow.AsNullDecimal(1));
+            AssertNullable(expected, dataRow.AsNullDecimal(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullDecimal("col"));
+            AssertNullable(expected, dataReader.AsNullDecimal(1));
         }
         
         [Test]
@@ -264,15 +278,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsDouble(int rowNumber, double expected)
         {
             var dt = CreateTestTable(typeof(double), expected);
-
-            double? actual = dt.Rows[rowNumber].AsDouble("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsDouble(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsDouble(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsDouble("col"));
+            Assert.AreEqual(expected, dataRow.AsDouble(1));
+            Assert.AreEqual(expected, dataRow.AsDouble(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsDouble("col"));
+            Assert.AreEqual(expected, dataReader.AsDouble(1));
         }
         
         [Test]
@@ -281,15 +295,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsDouble_AsNullTests(int rowNumber, double? expected)
         {
             var dt = CreateTestTable(typeof(double), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullDouble("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullDouble(1);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
             
-            actual = dt.Rows[rowNumber].AsNullDouble(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            AssertNullable(expected, dataRow.AsNullDouble("col"));
+            AssertNullable(expected, dataRow.AsNullDouble(1));
+            AssertNullable(expected, dataRow.AsNullDouble(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullDouble("col"));
+            AssertNullable(expected, dataReader.AsNullDouble(1));
         }
         
         [Test]
@@ -297,15 +311,16 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsFloat(int rowNumber, float expected)
         {
             var dt = CreateTestTable(typeof(float), expected);
-
-            float? actual = dt.Rows[rowNumber].AsFloat("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsFloat(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsFloat(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsFloat("col"));
+            Assert.AreEqual(expected, dataRow.AsFloat(1));
+            Assert.AreEqual(expected, dataRow.AsFloat(dt.Columns["col"]));
+            
+            // Single / float  a float is a single The use of "float" in C# seems to be a throwback to its C/C++ heritage. a float" still maps to the System.Single type in C# so use single where you can
+            Assert.AreEqual(expected, dataReader.AsSingle("col"));
+            Assert.AreEqual(expected, dataReader.AsSingle(1));
         }
 
         [Test]
@@ -314,15 +329,16 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsFloat_AsNullTests(int rowNumber, float? expected)
         {
             var dt = CreateTestTable(typeof(float), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullFloat("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullFloat(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullFloat(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullFloat("col"));
+            AssertNullable(expected, dataRow.AsNullFloat(1));
+            AssertNullable(expected, dataRow.AsNullFloat(dt.Columns["col"]));
+            
+            // Single / float  a float is a single The use of "float" in C# seems to be a throwback to its C/C++ heritage. a float" still maps to the System.Single type in C# so use single where you can
+            AssertNullable(expected, dataReader.AsNullSingle("col"));
+            AssertNullable(expected, dataReader.AsNullSingle(1));
         }
         
         [Test]
@@ -350,15 +366,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             }
 
             var dt = CreateTestTable(typeof(Guid), expected);
-
-            var actual = dt.Rows[rowNumber].AsGuid("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsGuid(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsGuid(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsGuid("col"));
+            Assert.AreEqual(expected, dataRow.AsGuid(1));
+            Assert.AreEqual(expected, dataRow.AsGuid(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsGuid("col"));
+            Assert.AreEqual(expected, dataReader.AsGuid(1));
         }
         
         [Test]
@@ -373,15 +389,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             }
 
             var dt = CreateTestTable(typeof(Guid), expected);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
 
-            var actual = dt.Rows[rowNumber].AsNullGuid("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullGuid(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullGuid(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            AssertNullable(expected, dataRow.AsNullGuid("col"));
+            AssertNullable(expected, dataRow.AsNullGuid(1));
+            AssertNullable(expected, dataRow.AsNullGuid(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullGuid("col"));
+            AssertNullable(expected, dataReader.AsNullGuid(1));
         }
 
         [Test]
@@ -391,15 +407,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsInt(int rowNumber, int expected)
         {
             var dt = CreateTestTable(typeof(int), expected);
-
-            int? actual = dt.Rows[rowNumber].AsInt("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsInt(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsInt(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsInt("col"));
+            Assert.AreEqual(expected, dataRow.AsInt(1));
+            Assert.AreEqual(expected, dataRow.AsInt(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsInt("col"));
+            Assert.AreEqual(expected, dataReader.AsInt(1));
         }
         
         [Test]
@@ -408,17 +424,17 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsInt_AsNullTests(int rowNumber, int? expected)
         {
             var dt = CreateTestTable(typeof(int), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullInt("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullInt(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullInt(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullInt("col"));
+            AssertNullable(expected, dataRow.AsNullInt(1));
+            AssertNullable(expected, dataRow.AsNullInt(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullInt("col"));
+            AssertNullable(expected, dataReader.AsNullInt(1));
         }
-
+        
         [Test]
         [TestCase(1, (long)1234567890)]
         [TestCase(1, long.MinValue)]
@@ -426,15 +442,16 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsLong(int rowNumber, long expected)
         {
             var dt = CreateTestTable(typeof(long), expected);
+            
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsLong("col"));
+            Assert.AreEqual(expected, dataRow.AsLong(1));
+            Assert.AreEqual(expected, dataRow.AsLong(dt.Columns["col"]));
 
-            var actual = dt.Rows[rowNumber].AsLong("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsLong(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsLong(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, dataReader.AsLong("col"));
+            Assert.AreEqual(expected, dataReader.AsLong(1));
         }
         
         [Test]
@@ -443,21 +460,17 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsLong_AsNullTests(int rowNumber, long? expected)
         {
             var dt = CreateTestTable(typeof(long), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullLong("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullLong(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullLong(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullLong("col"));
+            AssertNullable(expected, dataRow.AsNullLong(1));
+            AssertNullable(expected, dataRow.AsNullLong(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullLong("col"));
+            AssertNullable(expected, dataReader.AsNullLong(1));
         }
         
-        
-
-
-
         [Test]
         [TestCase(1, (sbyte)122)]
         [TestCase(1, sbyte.MinValue)]
@@ -465,15 +478,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsSbyte(int rowNumber, sbyte expected)
         {
             var dt = CreateTestTable(typeof(sbyte), expected);
-
-            var actual = dt.Rows[rowNumber].AsSbyte("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsSbyte(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsSbyte(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsSbyte("col"));
+            Assert.AreEqual(expected, dataRow.AsSbyte(1));
+            Assert.AreEqual(expected, dataRow.AsSbyte(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsSbyte("col"));
+            Assert.AreEqual(expected, dataReader.AsSbyte(1));
         }
 
 
@@ -484,15 +497,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsSbyte_AsNullTests(int rowNumber, sbyte? expected)
         {
             var dt = CreateTestTable(typeof(sbyte), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullSbyte("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullSbyte(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullSbyte(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullSbyte("col"));
+            AssertNullable(expected, dataRow.AsNullSbyte(1));
+            AssertNullable(expected, dataRow.AsNullSbyte(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullSbyte("col"));
+            AssertNullable(expected, dataReader.AsNullSbyte(1));
         }
         
         [Test]
@@ -502,14 +515,16 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsShort(int rowNumber, short expected)
         {
             var dt = CreateTestTable(typeof(short), expected);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
 
-            var actual = dt.Rows[rowNumber].AsShort("col");
+            var actual = dataRow.AsShort("col");
             Assert.AreEqual(expected, actual);
 
-            actual = dt.Rows[rowNumber].AsShort(1);
+            actual = dataRow.AsShort(1);
             Assert.AreEqual(expected, actual);
 
-            actual = dt.Rows[rowNumber].AsShort(dt.Columns["col"]);
+            actual = dataRow.AsShort(dt.Columns["col"]);
             Assert.AreEqual(expected, actual);
         }
 
@@ -521,15 +536,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsShort_AsNullTests(int rowNumber, short? expected)
         {
             var dt = CreateTestTable(typeof(short), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullShort("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullShort(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullShort(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullShort("col"));
+            AssertNullable(expected, dataRow.AsNullShort(1));
+            AssertNullable(expected, dataRow.AsNullShort(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullShort("col"));
+            AssertNullable(expected, dataReader.AsNullShort(1));
         }
         
         [Test]
@@ -539,15 +554,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsSingle(int rowNumber, float expected)
         {
             var dt = CreateTestTable(typeof(float), expected);
-
-            var actual = dt.Rows[rowNumber].AsSingle("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsSingle(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsSingle(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsSingle("col"));
+            Assert.AreEqual(expected, dataRow.AsSingle(1));
+            Assert.AreEqual(expected, dataRow.AsSingle(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsSingle("col"));
+            Assert.AreEqual(expected, dataReader.AsSingle(1));
         }
 
         [Test]
@@ -557,43 +572,66 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsShort_AsNullTests(int rowNumber, float? expected)
         {
             var dt = CreateTestTable(typeof(float), expected);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
 
-            var actual = dt.Rows[rowNumber].AsNullSingle("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullSingle(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullSingle(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            AssertNullable(expected, dataRow.AsNullSingle("col"));
+            AssertNullable(expected, dataRow.AsNullSingle(1));
+            AssertNullable(expected, dataRow.AsNullSingle(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullSingle("col"));
+            AssertNullable(expected, dataReader.AsNullSingle(1));
         }
 
         [Test]
-        [TestCase(0, null)]
         [TestCase(1, "")]
         [TestCase(1, "12345")]
         [TestCase(1, "734^%$%$^$^%")]
         public void GetValueFromRowAsString(int rowNumber, string expected)
         {
             var dt = CreateTestTable(typeof(string), expected);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsString("col"));
+            Assert.AreEqual(expected, dataRow.AsString(1));
+            Assert.AreEqual(expected, dataRow.AsString(dt.Columns["col"]));
+         
+            Assert.AreEqual(expected, dataReader.AsString("col"));
+            Assert.AreEqual(expected, dataReader.AsString(1));
+        }
+        
+        
+        [Test]
+        [TestCase(0, null)]
+        public void GetValueFromRowAsString_NullTests(int rowNumber, string data)
+        {
+            var dt = CreateTestTable(typeof(string), data);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.IsTrue(dataRow.AsString("col") == null);
+            Assert.IsTrue(dataRow.AsString(1) == null);
+            Assert.IsTrue(dataRow.AsString(dt.Columns["col"])  == null);
+            
+            Assert.IsTrue(dataReader.AsString("col") == null);
+            Assert.IsTrue(dataReader.AsString(1) == null);
+        }
+        
+        [Test]
+        [TestCase(0, null)]
+        public void GetValueFromRowAsString_NullTestsEmptyString(int rowNumber, string data)
+        {
+            var dt = CreateTestTable(typeof(string), data);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
 
-            var actual = dt.Rows[rowNumber].AsString("col");
-            if (expected != null)
-                Assert.AreEqual(expected, actual);
-            else
-                Assert.IsTrue(actual == null);
-
-            actual = dt.Rows[rowNumber].AsString(1);
-            if (expected != null)
-                Assert.AreEqual(expected, actual);
-            else
-                Assert.IsTrue(actual == null);
-
-            actual = dt.Rows[rowNumber].AsString(dt.Columns["col"]);
-            if (expected != null)
-                Assert.AreEqual(expected, actual);
-            else
-                Assert.IsTrue(actual == null);
+            Assert.IsTrue(dataRow.AsString("col", true) == string.Empty);
+            Assert.IsTrue(dataRow.AsString(1, true) == string.Empty);
+            Assert.IsTrue(dataRow.AsString(dt.Columns["col"], true)  == string.Empty);
+            
+            Assert.IsTrue(dataReader.AsString("col", true) == string.Empty);
+            Assert.IsTrue(dataReader.AsString(1, true) == string.Empty);
         }
 
         [Test]
@@ -616,15 +654,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             }
 
             var dt = CreateTestTable(typeof(TimeSpan), expected);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
 
-            var actual = dt.Rows[rowNumber].AsTimeSpan("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsTimeSpan(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsTimeSpan(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, dataRow.AsTimeSpan("col"));
+            Assert.AreEqual(expected, dataRow.AsTimeSpan(1));
+            Assert.AreEqual(expected, dataRow.AsTimeSpan(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsTimeSpan("col"));
+            Assert.AreEqual(expected, dataReader.AsTimeSpan(1));
         }
         
         [Test]
@@ -639,15 +677,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             }
 
             var dt = CreateTestTable(typeof(TimeSpan), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullTimeSpan("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullTimeSpan(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullTimeSpan(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullTimeSpan("col"));
+            AssertNullable(expected, dataRow.AsNullTimeSpan(1));
+            AssertNullable(expected, dataRow.AsNullTimeSpan(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullTimeSpan("col"));
+            AssertNullable(expected, dataReader.AsNullTimeSpan(1));
         }
         
         [Test]
@@ -657,15 +695,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsUInt(int rowNumber, uint expected)
         {
             var dt = CreateTestTable(typeof(uint), expected);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
 
-            var actual = dt.Rows[rowNumber].AsUInt("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsUInt(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsUInt(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, dataRow.AsUInt("col"));
+            Assert.AreEqual(expected, dataRow.AsUInt(1));
+            Assert.AreEqual(expected, dataRow.AsUInt(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsUInt("col"));
+            Assert.AreEqual(expected, dataReader.AsUInt(1));
         }
         
         [Test]
@@ -676,15 +714,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsUInt_AsNullTests(int rowNumber, uint? expected)
         {
             var dt = CreateTestTable(typeof(uint), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullUInt("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullUInt(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullUInt(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullUInt("col"));
+            AssertNullable(expected, dataRow.AsNullUInt(1));
+            AssertNullable(expected, dataRow.AsNullUInt(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullUInt("col"));
+            AssertNullable(expected, dataReader.AsNullUInt(1));
         }
 
         [Test]
@@ -694,15 +732,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsULong(int rowNumber, ulong expected)
         {
             var dt = CreateTestTable(typeof(ulong), expected);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
 
-            var actual = dt.Rows[rowNumber].AsULong("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsULong(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsULong(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, dataRow.AsULong("col"));
+            Assert.AreEqual(expected,  dataRow.AsULong(1));
+            Assert.AreEqual(expected, dataRow.AsULong(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsULong("col"));
+            Assert.AreEqual(expected,  dataReader.AsULong(1));
         }
         
         [Test]
@@ -713,15 +751,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsULong_AsNullTests(int rowNumber, ulong? expected)
         {
             var dt = CreateTestTable(typeof(ulong), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullULong("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullULong(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullULong(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullULong("col"));
+            AssertNullable(expected, dataRow.AsNullULong(1));
+            AssertNullable(expected, dataRow.AsNullULong(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullULong("col"));
+            AssertNullable(expected, dataReader.AsNullULong(1));
         }
         
         
@@ -732,15 +770,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsUShort(int rowNumber, ushort expected)
         {
             var dt = CreateTestTable(typeof(ushort), expected);
-
-            var actual = dt.Rows[rowNumber].AsUShort("col");
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsUShort(1);
-            Assert.AreEqual(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsUShort(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            Assert.AreEqual(expected, dataRow.AsUShort("col"));
+            Assert.AreEqual(expected, dataRow.AsUShort(1));
+            Assert.AreEqual(expected, dataRow.AsUShort(dt.Columns["col"]));
+            
+            Assert.AreEqual(expected, dataReader.AsUShort("col"));
+            Assert.AreEqual(expected, dataReader.AsUShort(1));
         }
         
         [Test]
@@ -751,15 +789,15 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
         public void GetValueFromRowAsULong_AsNullTests(int rowNumber, ushort? expected)
         {
             var dt = CreateTestTable(typeof(ushort), expected);
-
-            var actual = dt.Rows[rowNumber].AsNullUShort("col");
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullUShort(1);
-            AssertNullable(expected, actual);
-
-            actual = dt.Rows[rowNumber].AsNullUShort(dt.Columns["col"]);
-            AssertNullable(expected, actual);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+            
+            AssertNullable(expected, dataRow.AsNullUShort("col"));
+            AssertNullable(expected, dataRow.AsNullUShort(1));
+            AssertNullable(expected, dataRow.AsNullUShort(dt.Columns["col"]));
+            
+            AssertNullable(expected, dataReader.AsNullUShort("col"));
+            AssertNullable(expected, dataReader.AsNullUShort(1));
         }
         // this logic is not part of this  class it should be a string extension
         /*
@@ -780,7 +818,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             IList<short> actual;
             var dt = CreateTestTable(typeof(string), testDate);
 
-            actual = dt.Rows[rowNumber].AsShortList("col", delimiter);
+            actual = dataRow.AsShortList("col", delimiter);
             Assert.AreEqual(expected, actual);
         }
 
@@ -802,7 +840,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             IList<int> actual;
             var dt = CreateTestTable(typeof(string), testDate);
 
-            actual = dt.Rows[rowNumber].AsIntList("col", delimiter);
+            actual = dataRow.AsIntList("col", delimiter);
             Assert.AreEqual(expected, actual);
         }
 
@@ -824,7 +862,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             IList<long> actual;
             var dt = CreateTestTable(typeof(string), testDate);
 
-            actual = dt.Rows[rowNumber].AsLongList("col", delimiter);
+            actual = dataRow.AsLongList("col", delimiter);
             Assert.AreEqual(expected, actual);
         }
 
@@ -846,7 +884,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             IList<string> actual;
             var dt = CreateTestTable(typeof(string), testDate);
 
-            actual = dt.Rows[rowNumber].AsStringList("col", delimiter);
+            actual = dataRow.AsStringList("col", delimiter);
             Assert.AreEqual(expected, actual);
         }
 

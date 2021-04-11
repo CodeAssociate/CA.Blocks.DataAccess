@@ -18,25 +18,27 @@ namespace CA.Blocks.DataAccess
 
     public static class IDataReaderExtensions
     {
-        private static void ThrowExceptionIfIsNull(object obj, string sColumnName, string typeDescription)
+        
+        private static T ThrowExceptionIfIsNull<T>(T? obj, string sColumnName, string typeDescription)  where T : struct
         {
-            if (obj == null || obj == DBNull.Value)
+            if (obj == null)
             {
                 throw new ArgumentNullException(
                     $"Tried to get {sColumnName} from row as non-nullable {typeDescription}, however value is NULL.");
             }
+            return obj.Value;
         }
 
-        private static void ThrowExceptionIfIsNull(object obj, int columnIndex, string typeDescription)
+        private static T ThrowExceptionIfIsNull<T>(T? obj, int columnIndex, string typeDescription) where T : struct
         {
-            if (obj == null || obj == DBNull.Value)
+            if (obj == null)
             {
                 throw new ArgumentNullException(
                     $"Tried to get col in position {columnIndex} from row as non-nullable {typeDescription}, however value is NULL.");
             }
+            return obj.Value;
         }
-
-
+        
         //#region Binary
         //public static byte[] AsBinary(this DataRow dr, string colName)
         //{
@@ -59,17 +61,15 @@ namespace CA.Blocks.DataAccess
 
         public static bool AsBool(this IDataReader dr, string colName)
         {
-            bool? val = dr.AsNullBool(colName);
-            ThrowExceptionIfIsNull(val, colName, "bool");
-            return val.Value;
+            var val = dr.AsNullBool(colName);
+            return ThrowExceptionIfIsNull(val, colName, "bool");
         }
 
 
         public static bool AsBool(this IDataReader dr, int columnIndex)
         {
-            bool? val = dr.AsNullBool(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "bool");
-            return val.Value;
+            var val = dr.AsNullBool(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "bool");
         }
 
 
@@ -99,22 +99,16 @@ namespace CA.Blocks.DataAccess
         #region Byte
         public static byte AsByte(this IDataReader dr, string colName)
         {
-            byte? val = dr.AsNullByte(colName);
-            ThrowExceptionIfIsNull(val, colName, "byte");
-            return val.Value;
+            var val = dr.AsNullByte(colName);
+            return ThrowExceptionIfIsNull(val, colName, "byte");
         }
-
-
+        
         public static byte AsByte(this IDataReader dr, int columnIndex)
         {
-            byte? val = dr.AsNullByte(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "byte");
-            return val.Value;
+            var val = dr.AsNullByte(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "byte");
         }
-
-
-
-
+        
         // Nulls
         public static byte? AsNullByte(this IDataReader dr, string colName)
         {
@@ -161,24 +155,22 @@ namespace CA.Blocks.DataAccess
 
         #endregion
         #region SByte
-        public static sbyte AsSByte(this IDataReader dr, string colName)
+        public static sbyte AsSbyte(this IDataReader dr, string colName)
         {
-            sbyte? val = dr.AsNullSByte(colName);
-            ThrowExceptionIfIsNull(val, colName, "byte");
-            return val.Value;
+            var val = dr.AsNullSbyte(colName);
+            return ThrowExceptionIfIsNull(val, colName, "byte");
         }
 
 
-        public static sbyte AsSByte(this IDataReader dr, int columnIndex)
+        public static sbyte AsSbyte(this IDataReader dr, int columnIndex)
         {
-            sbyte? val = dr.AsNullSByte(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "byte");
-            return val.Value;
+            var val = dr.AsNullSbyte(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "byte");
         }
 
 
         // Nulls
-        public static sbyte? AsNullSByte(this IDataReader dr, string colName)
+        public static sbyte? AsNullSbyte(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
@@ -188,7 +180,7 @@ namespace CA.Blocks.DataAccess
             }
         }
 
-        public static sbyte? AsNullSByte(this IDataReader dr, int columnIndex)
+        public static sbyte? AsNullSbyte(this IDataReader dr, int columnIndex)
         {
             if (dr.IsDBNull(columnIndex))
                 return null;
@@ -203,17 +195,15 @@ namespace CA.Blocks.DataAccess
 
         public static char AsChar(this IDataReader dr, string colName)
         {
-            char? val = dr.AsNullChar(colName);
-            ThrowExceptionIfIsNull(val, colName, "char");
-            return val.Value;
+            var val = dr.AsNullChar(colName);
+            return ThrowExceptionIfIsNull(val, colName, "char");
         }
 
 
         public static char AsChar(this IDataReader dr, int columnIndex)
         {
-            char? val = dr.AsNullChar(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "char");
-            return val.Value;
+            var val = dr.AsNullChar(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "char");
         }
 
         // Nulls
@@ -243,17 +233,15 @@ namespace CA.Blocks.DataAccess
 
         public static DateTime AsDateTime(this IDataReader dr, string colName)
         {
-            DateTime? val = dr.AsNullDateTime(colName);
-            ThrowExceptionIfIsNull(val, colName, "DateTime");
-            return val.Value;
+            var val = dr.AsNullDateTime(colName);
+            return ThrowExceptionIfIsNull(val, colName, "DateTime");
         }
 
 
         public static DateTime AsDateTime(this IDataReader dr, int columnIndex)
         {
-            DateTime? val = dr.AsNullDateTime(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "DateTime");
-            return val.Value;
+            var val = dr.AsNullDateTime(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "DateTime");
         }
 
         // Nulls
@@ -283,17 +271,15 @@ namespace CA.Blocks.DataAccess
 
         public static double AsDouble(this IDataReader dr, string colName)
         {
-            double? val = dr.AsNullDouble(colName);
-            ThrowExceptionIfIsNull(val, colName, "double");
-            return val.Value;
+            var val = dr.AsNullDouble(colName);
+            return ThrowExceptionIfIsNull(val, colName, "double");
         }
 
 
         public static double AsDouble(this IDataReader dr, int columnIndex)
         {
-            double? val = dr.AsNullDouble(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "double");
-            return val.Value;
+            var val = dr.AsNullDouble(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "double");
         }
 
 
@@ -323,17 +309,15 @@ namespace CA.Blocks.DataAccess
 
         public static Single AsSingle(this IDataReader dr, string colName)
         {
-            Single? val = dr.AsNullSingle(colName);
-            ThrowExceptionIfIsNull(val, colName, "single");
-            return val.Value;
+            var val = dr.AsNullSingle(colName);
+            return ThrowExceptionIfIsNull(val, colName, "single");
         }
 
 
         public static Single AsSingle(this IDataReader dr, int columnIndex)
         {
-            Single? val = dr.AsNullSingle(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "single");
-            return val.Value;
+            var val = dr.AsNullSingle(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "single");
         }
 
 
@@ -363,17 +347,15 @@ namespace CA.Blocks.DataAccess
 
         public static decimal AsDecimal(this IDataReader dr, string colName)
         {
-            decimal? val = dr.AsNullDecimal(colName);
-            ThrowExceptionIfIsNull(val, colName, "decimal");
-            return val.Value;
+            var val = dr.AsNullDecimal(colName);
+            return ThrowExceptionIfIsNull(val, colName, "decimal");
         }
 
 
         public static decimal AsDecimal(this IDataReader dr, int columnIndex)
         {
-            decimal? val = dr.AsNullDecimal(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "decimal");
-            return val.Value;
+            var val = dr.AsNullDecimal(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "decimal");
         }
 
 
@@ -405,19 +387,15 @@ namespace CA.Blocks.DataAccess
 
         public static Guid AsGuid(this IDataReader dr, string colName)
         {
-            Guid? val = dr.AsNullGuid(colName);
-            ThrowExceptionIfIsNull(val, colName, "Guid");
-            return val.Value;
+            var val = dr.AsNullGuid(colName);
+            return ThrowExceptionIfIsNull(val, colName, "Guid");
         }
-
-
+        
         public static Guid AsGuid(this IDataReader dr, int columnIndex)
         {
-            Guid? val = dr.AsNullGuid(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "Guid");
-            return val.Value;
+            var val = dr.AsNullGuid(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "Guid");
         }
-
 
         // Nulls
         public static Guid? AsNullGuid(this IDataReader dr, string colName)
@@ -446,20 +424,17 @@ namespace CA.Blocks.DataAccess
 
         public static int AsInt(this IDataReader dr, string colName)
         {
-            int? val = dr.AsNullInt(colName);
-            ThrowExceptionIfIsNull(val, colName, "int");
-            return val.Value;
+            var val = dr.AsNullInt(colName);
+            return ThrowExceptionIfIsNull(val, colName, "int");
         }
 
 
         public static int AsInt(this IDataReader dr, int columnIndex)
         {
-            int? val = dr.AsNullInt(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "int");
-            return val.Value;
+            var val = dr.AsNullInt(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "int");
         }
-
-
+        
         // Nulls
         public static int? AsNullInt(this IDataReader dr, string colName)
         {
@@ -488,17 +463,15 @@ namespace CA.Blocks.DataAccess
 
         public static uint AsUInt(this IDataReader dr, string colName)
         {
-            uint? val = dr.AsNullUInt(colName);
-            ThrowExceptionIfIsNull(val, colName, "uint");
-            return val.Value;
+            var val = dr.AsNullUInt(colName);
+            return ThrowExceptionIfIsNull(val, colName, "uint");
         }
 
 
         public static uint AsUInt(this IDataReader dr, int columnIndex)
         {
-            uint? val = dr.AsNullUInt(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "uint");
-            return val.Value;
+            var val = dr.AsNullUInt(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "uint");
         }
 
 
@@ -530,17 +503,15 @@ namespace CA.Blocks.DataAccess
 
         public static long AsLong(this IDataReader dr, string colName)
         {
-            long? val = dr.AsNullLong(colName);
-            ThrowExceptionIfIsNull(val, colName, "long");
-            return val.Value;
+            var val = dr.AsNullLong(colName);
+            return ThrowExceptionIfIsNull(val, colName, "long");
         }
 
 
         public static long AsLong(this IDataReader dr, int columnIndex)
         {
-            long? val = dr.AsNullLong(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "long");
-            return val.Value;
+            var val = dr.AsNullLong(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "long");
         }
 
 
@@ -569,23 +540,17 @@ namespace CA.Blocks.DataAccess
 
         #region ulong
 
-
         public static ulong AsULong(this IDataReader dr, string colName)
         {
-            ulong? val = dr.AsNullUShort(colName);
-            ThrowExceptionIfIsNull(val, colName, "short");
-            return val.Value;
+            var val = dr.AsNullULong(colName);
+            return ThrowExceptionIfIsNull(val, colName, "short");
         }
-
-
+        
         public static ulong AsULong(this IDataReader dr, int columnIndex)
         {
-            ulong? val = dr.AsNullUShort(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "short");
-            return val.Value;
+            var val = dr.AsNullULong(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "short");
         }
-
-
         // Nulls
         public static ulong? AsNullULong(this IDataReader dr, string colName)
         {
@@ -649,17 +614,15 @@ namespace CA.Blocks.DataAccess
 
         public static short AsShort(this IDataReader dr, string colName)
         {
-            short? val = dr.AsNullShort(colName);
-            ThrowExceptionIfIsNull(val, colName, "short");
-            return val.Value;
+            var val = dr.AsNullShort(colName);
+            return ThrowExceptionIfIsNull(val, colName, "short");
         }
 
 
         public static short AsShort(this IDataReader dr, int columnIndex)
         {
-            short? val = dr.AsNullShort(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "short");
-            return val.Value;
+            var val = dr.AsNullShort(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "short");
         }
 
 
@@ -691,17 +654,15 @@ namespace CA.Blocks.DataAccess
 
         public static ushort AsUShort(this IDataReader dr, string colName)
         {
-            ushort? val = dr.AsNullUShort(colName);
-            ThrowExceptionIfIsNull(val, colName, "short");
-            return val.Value;
+            var val = dr.AsNullUShort(colName);
+            return ThrowExceptionIfIsNull(val, colName, "short");
         }
 
 
         public static ushort AsUShort(this IDataReader dr, int columnIndex)
         {
-            ushort? val = dr.AsNullUShort(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "short");
-            return val.Value;
+            var val = dr.AsNullUShort(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "short");
         }
 
 
@@ -763,17 +724,15 @@ namespace CA.Blocks.DataAccess
 
         public static TimeSpan AsTimeSpan(this IDataReader dr, string colName)
         {
-            TimeSpan? val = dr.AsNullTimeSpan(colName);
-            ThrowExceptionIfIsNull(val, colName, "TimeSpan");
-            return val.Value;
+            var val = dr.AsNullTimeSpan(colName);
+            return ThrowExceptionIfIsNull(val, colName, "TimeSpan");
         }
 
 
         public static TimeSpan AsTimeSpan(this IDataReader dr, int columnIndex)
         {
-            TimeSpan? val = dr.AsNullTimeSpan(columnIndex);
-            ThrowExceptionIfIsNull(val, columnIndex, "TimeSpan");
-            return val.Value;
+            var val = dr.AsNullTimeSpan(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "TimeSpan");
         }
 
 

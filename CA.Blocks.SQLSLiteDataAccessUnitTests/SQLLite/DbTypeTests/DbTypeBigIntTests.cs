@@ -81,6 +81,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.SQLLite.DbTypeTests
             //Asert
             Assert.AreEqual(3, data.Count);
         }
-
+        
+        
     }
 }

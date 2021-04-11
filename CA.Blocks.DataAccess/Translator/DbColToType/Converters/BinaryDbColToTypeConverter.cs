@@ -14,5 +14,4 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
             return dr.AsBinary(columnName);
         }
     }
-
 }

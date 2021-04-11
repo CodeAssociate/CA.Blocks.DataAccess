@@ -93,7 +93,68 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.SQLLite
             Assert.IsTrue(TraceCalled);
         }
 
+        
+        [Test]
+        public void GetsqliteMasterData_AssertTraceWithScalar()
+        {
+            TraceCalled = false;
+            var cmd = CreateTextCommand("Select name from sqlite_master where name = @tableName");
+            cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
+            var result = ExecuteScalarAs<string>(cmd);
+            Assert.AreEqual("CABLOCKS_TestMasterTable", result);
+            Assert.IsTrue(TraceCalled);
+        }
+        
+        [Test]
+        public void GetsqliteMasterData_AssertTraceWithScalarAsync()
+        {
+            TraceCalled = false;
+            var cmd = CreateTextCommand("Select name from sqlite_master where name = @tableName");
+            cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
+            var result = ExecuteScalarAsAsync<string>(cmd);
+            result.Wait();
+            Assert.AreEqual("CABLOCKS_TestMasterTable", result.Result);
+            Assert.IsTrue(TraceCalled);
+        }
 
+        [Test]
+        public void GetsqliteMasterData_ExecuteToAsync()
+        {
+            TraceCalled = false;
+            var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
+            cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
+            var result = ExecuteToAsync<sqliteMaster>(cmd);
+            result.Wait();
+            Assert.AreEqual("CABLOCKS_TestMasterTable", result.Result.name);
+            Assert.IsTrue(TraceCalled);
+        }
+        
+        
+        [Test]
+        public void GetsqliteMasterData_ExecuteToListOfAsync()
+        {
+            TraceCalled = false;
+            var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
+            cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
+            var result = ExecuteToListOfAsync<sqliteMaster>(cmd);
+            result.Wait();
+            Assert.AreEqual(1, result.Result.Count);
+            Assert.AreEqual("CABLOCKS_TestMasterTable", result.Result[0].name);
+            Assert.IsTrue(TraceCalled);
+        }
+        
+        [Test]
+        public void GetsqliteMasterData_AssertTraceWithExecuteScalarWithConvertAsAsync()
+        {
+            TraceCalled = false;
+            var cmd = CreateTextCommand("Select rootpage from sqlite_master where name = @tableName");
+            cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
+            // the data will be in from db return as string
+            var result = ExecuteScalarWithConvertAsAsync<string>(cmd);
+            result.Wait();
+            Assert.IsTrue(TraceCalled);
+        }
+        
         [Test]
         public void GetsqliteMasterData_AssertDbErrorCalled()
         {

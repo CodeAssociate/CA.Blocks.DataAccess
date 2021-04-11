@@ -125,9 +125,10 @@ namespace CA.Blocks.DataAccess
             var exceptions = new List<Exception>();
             for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
             {
-                bool closeConnection = PrepCommand(cmd);
+                bool closeConnection = true;
                 try
                 {
+                    closeConnection = PrepCommand(cmd);
                     if (tries > 0)
                     {
                         // if RetryIntervalSeconds = 10 seconds then
@@ -321,9 +322,10 @@ namespace CA.Blocks.DataAccess
             bool success = false;
             for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
             {
-                bool closeConnection = PrepCommand(cmd);
+                bool closeConnection = true;
                 try
                 {
+                    closeConnection = PrepCommand(cmd);
                     if (tries > 0)
                     {
                         // if RetryIntervalSeconds = 10 seconds then
@@ -437,7 +439,6 @@ namespace CA.Blocks.DataAccess
         {
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            //return InternalExecuteScalar(cmd);
             return ExecuteWithTransientErrorRetry(cmd.ExecuteScalar, cmd);
         }
 
@@ -452,7 +453,6 @@ namespace CA.Blocks.DataAccess
                 TraceDbStatement(cmd);
 
             return ExecuteWithTransientErrorRetryAsync(asynCmd.ExecuteScalarAsync, cmd);
-            //return InternalExecuteScalarAsync(asynCmd);
         }
 
 
@@ -582,7 +582,6 @@ namespace CA.Blocks.DataAccess
 
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            //return InternalExecuteReader(cmd);
             return ExecuteWithTransientErrorRetryAsync(() => asyncCmd.ExecuteReaderAsync(CommandBehavior.CloseConnection), cmd, false);
         }
 
