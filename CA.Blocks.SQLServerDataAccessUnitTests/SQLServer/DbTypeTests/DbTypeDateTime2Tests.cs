@@ -1,5 +1,6 @@
 ﻿using System;
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -27,8 +28,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("DateTime2 not null"));
 
-
-            _testDate = DateTime.Now;
+            DateTime dt = DateTime.Now;
+            _testDate  = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
             InsertTestDataSQL(_testDate);
             InsertTestDataSQL(_testDate.AddDays(1).Date);
             InsertTestDataSQL(_testDate.AddDays(-1).Date);
@@ -85,5 +86,17 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
 
+        [Test]
+        public void SelectAllDataWithWithTranslator()
+        {
+            //setup
+            var testValue = _testDate;
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DateTimeDataType>();
+            //Act
+            var data = t.Translate(ExecuteDataRow(cmd));
+            
+            Assert.AreEqual(testValue, data.Col);
+        }
     }
 }

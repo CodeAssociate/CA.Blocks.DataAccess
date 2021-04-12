@@ -1,4 +1,5 @@
 ﻿using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -51,7 +52,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(-128, data[0].Col);
             Assert.AreEqual(127, data[4].Col);
         }
-
+        
+        [Test]
+        public void SelectAllDataWithWithTranslator()
+        {
+            //setup
+            sbyte testValue = 127;
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<SByteDataType>();
+            //Act
+            var data = t.Translate(ExecuteDataRow(cmd));
+            
+            Assert.AreEqual(testValue, data.Col);
+        }
 
     }
 }

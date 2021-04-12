@@ -1,4 +1,6 @@
 ﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
 
@@ -13,7 +15,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Bar = 2,
             ForBar= 4,
         }
+        // in app you would write an extension for MyTestEnum called ToSqlParameter  telling it how you what to store the enum, short, int, string...
 
+        
         [OneTimeSetUp]
         public void Init()
         {
@@ -61,6 +65,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(MyTestEnum.Foo, data[0].Col);
             Assert.AreEqual(MyTestEnum.Bar, data[3].Col);
             Assert.AreEqual(MyTestEnum.ForBar, data[4].Col);
+        }
+        
+        [Test]
+        public void SelectAllDataWithWithTranslator()
+        {
+            //setup
+            const MyTestEnum testValue = MyTestEnum.Bar;
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToString().ToSqlParameter("@value"));
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringEnumDataType>();
+            //Act
+            var data = t.Translate(ExecuteDataRow(cmd));
+            
+            Assert.AreEqual(testValue, data.Col);
         }
     }
 }

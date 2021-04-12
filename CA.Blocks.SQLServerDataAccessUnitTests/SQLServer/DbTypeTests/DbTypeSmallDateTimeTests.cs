@@ -1,5 +1,6 @@
 ﻿using System;
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -87,7 +88,20 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Asert
             Assert.AreEqual(2, data.Count);
         }
+        
+        [Test]
+        public void SelectAllDataWithFilterWithTranslator ()
+        {
+            //setup
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DateTimeDataType>();
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
+            cmd.Parameters.Add(_testDate.ToSqlParameter("@testValue"));
+            //Act
+            var data = t.Translate(ExecuteDataTable(cmd));
+            //Asert
+            Assert.AreEqual(2, data.Count);
+        }
 
-
+        
     }
 }

@@ -420,7 +420,35 @@ namespace CA.Blocks.SQLServerDataAccess
         SqlDbType.NChar;
         SqlDbType.Real;
         SqlDbType.SmallDateTime;*/
+        
+        #region mapping type for sbyte  There is no Sbtye in sql so assuem we use SmallInt
+        private static SqlParameter ToSqlParameterSbtye(sbyte? input, string strParameterName)
+        {
+            // this is the smallet sql server type for the ranges -128-127 ie sbyte
+            var sqlparam = new SqlParameter(strParameterName, SqlDbType.SmallInt)
+            {
+                Direction = ParameterDirection.Input,
+                Size = 2,
+            };
+            if (input.HasValue)
+                sqlparam.Value = input;
+            else
+            {
+                sqlparam.Value = DBNull.Value;
+            }
+            return (sqlparam);
+        }
 
+        public static SqlParameter ToSqlParameter(this sbyte input, string strParameterName)
+        {
+            return ToSqlParameterSbtye(input, strParameterName);
+        }
+
+        public static SqlParameter ToSqlParameter(this sbyte? input, string strParameterName)
+        {
+            return ToSqlParameterSbtye(input, strParameterName);
+        }
+        #endregion
 
         #region SqlDbType.SmallInt  -> ( short, Int16)
         private static SqlParameter ToSqlParameterInt16(Int16? input, string strParameterName)
@@ -450,6 +478,8 @@ namespace CA.Blocks.SQLServerDataAccess
         }
         #endregion 
 
+        
+        
         /*
         SqlDbType.SmallMoney;
         SqlDbType.Structured;

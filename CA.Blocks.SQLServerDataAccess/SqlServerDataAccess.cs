@@ -74,7 +74,7 @@ namespace CA.Blocks.SQLServerDataAccess
 
         protected override bool IsTransientError(DbException dbEx)
         {
-            return dbEx != null && TransientErrorNumbers().Contains(dbEx.ErrorCode);
+            return dbEx is SqlException sqlexception && TransientErrorNumbers().Contains(sqlexception.Number);
         }
 
         protected override DbDataAdapter GetDataAdapter(IDbCommand cmd)

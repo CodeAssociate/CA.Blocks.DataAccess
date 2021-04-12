@@ -105,6 +105,18 @@ namespace CA.Blocks.DataAccess
         }
 
         /// <summary>
+        /// When a error occurs in executing the DbCommand command and the error is deemed to be a TransientError this method will be called
+        ///  The Design is such that you can override this method to implement your own logic, you you get the command and well as the DbException.
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="ex"></param>
+        protected virtual void TraceTransientErrorDbError(IDbCommand cmd, DbException ex)
+        {
+            System.Diagnostics.Debug.WriteLine(cmd.CommandText);
+            System.Diagnostics.Debug.WriteLine(ex.Message);
+        }
+        
+        /// <summary>
         /// When a general occurs not related to the database such as network error this method will be called
         ///  The Design is such that you can override this method to implement your own logic, you you get the command and well as the Exception.
         /// </summary>
@@ -144,11 +156,12 @@ namespace CA.Blocks.DataAccess
                         if (tries < TotalNumberOfTimesToTry)
                         {
                             exceptions.Add(dbEx);
+                            TraceTransientErrorDbError(cmd, dbEx);
                             continue;
                         }
                         else
                         {
-                            // we tried TotalNumberOfTimesToTry times already to error
+                            // we tried TotalNumberOfTimesToTry times already so report the error
                             TraceDbError(cmd, dbEx);
                             throw;
                         }

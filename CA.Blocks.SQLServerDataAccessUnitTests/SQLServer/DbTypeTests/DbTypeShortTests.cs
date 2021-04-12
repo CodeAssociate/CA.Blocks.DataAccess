@@ -1,4 +1,5 @@
 ﻿using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -78,7 +79,22 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Asert
             Assert.AreEqual(3, data.Count);
         }
+        
+        [Test]
+        public void SelectAllDataIntWithFilterWithTranslator ()
+        {
+            //setup
+            const int testvalue = 123; 
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<ShortDataType>();
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
+            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
+            //Act
+            var data = t.Translate(ExecuteDataTable(cmd));
+
+            //Asert
+            Assert.AreEqual(3, data.Count);
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -9,7 +10,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
     [TestFixture]
     public class DbTypeGuidTests : UnitTestDataAccess
     {
-
+        private const string TestGuidValue = "CE69B300-F9EA-4F3B-BBA8-676D12737E3E";
         private class GuidDataType
         {
             public Guid Col { get; set; }
@@ -30,7 +31,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             InsertTestDataSQL(Guid.NewGuid());
             InsertTestDataSQL(Guid.NewGuid());
             InsertTestDataSQL(Guid.NewGuid());
-            InsertTestDataSQL(Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E"));
+            InsertTestDataSQL(Guid.Parse(TestGuidValue));
         }
 
         [TearDown]
@@ -62,14 +63,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             var data = ExecuteToListOf<GuidDataType>(cmd);
             //Assert
             Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E"), data[4].Col);
+            Assert.AreEqual(Guid.Parse(TestGuidValue), data[4].Col);
         }
 
         [Test]
         public void SelectAllDataTimeWithFilter()
         {
             //setup
-            Guid testvalue = Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E");
+            Guid testvalue = Guid.Parse(TestGuidValue);
             var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
@@ -82,6 +83,17 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(testvalue, data.Col);
         }
 
-
+        [Test]
+        public void SelectAllDataWithWithTranslator()
+        {
+            //setup
+            Guid testValue = Guid.Parse(TestGuidValue);
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<GuidDataType>();
+            //Act
+            var data = t.Translate(ExecuteDataRow(cmd));
+            
+            Assert.AreEqual(testValue, data.Col);
+        }
     }
 }
