@@ -46,6 +46,14 @@
             <param name="cmd"></param>
             <param name="ex"></param>
         </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.TraceTransientErrorDbError(System.Data.IDbCommand,System.Data.Common.DbException)">
+            <summary>
+            When a error occurs in executing the DbCommand command and the error is deemed to be a TransientError this method will be called
+             The Design is such that you can override this method to implement your own logic, you you get the command and well as the DbException.
+            </summary>
+            <param name="cmd"></param>
+            <param name="ex"></param>
+        </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.TraceGenralError(System.Data.IDbCommand,System.Exception)">
             <summary>
             When a general occurs not related to the database such as network error this method will be called

@@ -26,7 +26,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
         public void Setup()
         {
             ExecuteNonQuery(DropTestTableSQL());
-            // My SQL  does not have a storage type for GUID best is char(36) to used as it or with binary sotrage 
+            // My SQL  does not have a storage type for GUID best is char(36) to used as it or with binary storage 
             ExecuteNonQuery(CreateTestTable("char(36) not null"));
             InsertTestDataSQL(Guid.Empty);
             InsertTestDataSQL(Guid.NewGuid());

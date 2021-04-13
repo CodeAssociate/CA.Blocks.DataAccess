@@ -11,6 +11,10 @@ namespace CA.Blocks.DataAccess.DI
         string ConnectionStringKey {get;}
         bool DebugTrace { get;  }
         bool TraceExceptions { get; }
+
+        int TransientErrorRetryTotalNumberOfTimesToTry { get; }
+
+        int TransientErrorRetryRetryIntervalSeconds { get; }
     }
 
     /// <summary>
@@ -26,11 +30,17 @@ namespace CA.Blocks.DataAccess.DI
             // Defaults
             DebugTrace = false;
             TraceExceptions = true;
-        }
+            TransientErrorRetryTotalNumberOfTimesToTry = 3;
+            TransientErrorRetryRetryIntervalSeconds = 10;
+    }
 
         public string ConnectionStringKey {get; set;}
         public bool DebugTrace { get; set; }
         public bool TraceExceptions { get; set; }
+
+        public int TransientErrorRetryTotalNumberOfTimesToTry { get; set; }
+
+        public int TransientErrorRetryRetryIntervalSeconds { get; set; }
     }
 
 

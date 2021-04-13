@@ -28,12 +28,5 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Mappings
             MappingSet.Add(new DbColToTypeMapping{DestinationName = propertyName, SourceNameName = propertyName, Converter = converter});
         }
 
-
-        //public void AddMapping(IIDbColToTypeMapping mapping)
-        //{
-
-        //}
-
-
     }
 }

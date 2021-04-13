@@ -38,8 +38,6 @@ namespace CA.Blocks.DataAccess
         private readonly IDataAccessConfigOptions _options;
         private readonly IDbRowTranslatorProvider _dbRowTranslatorProvider;
 
-        private const int TotalNumberOfTimesToTry = 4;
-        private const int RetryIntervalSeconds = 10;
         protected string ConnectionString { get; }
 
         #region private utility methods & constructors
@@ -135,7 +133,7 @@ namespace CA.Blocks.DataAccess
         private T ExecuteWithTransientErrorRetry<T>(Func<T> action, IDbCommand cmd, bool autoCloseConnection = true)
         {
             var exceptions = new List<Exception>();
-            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
+            for (int tries = 0; tries < _options.TransientErrorRetryTotalNumberOfTimesToTry; tries++)
             {
                 bool closeConnection = true;
                 try
@@ -145,7 +143,7 @@ namespace CA.Blocks.DataAccess
                     {
                         // if RetryIntervalSeconds = 10 seconds then
                         // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
-                        Thread.Sleep(1000 * RetryIntervalSeconds * tries);
+                        Thread.Sleep(1000 * _options.TransientErrorRetryRetryIntervalSeconds * tries);
                     }
                     return action();
                 }
@@ -153,8 +151,9 @@ namespace CA.Blocks.DataAccess
                 {
                     if (IsTransientError(dbEx))
                     {
-                        if (tries < TotalNumberOfTimesToTry)
+                        if (tries < _options.TransientErrorRetryTotalNumberOfTimesToTry - 1)
                         {
+                            // if we still have one more try
                             exceptions.Add(dbEx);
                             TraceTransientErrorDbError(cmd, dbEx);
                             continue;
@@ -191,7 +190,7 @@ namespace CA.Blocks.DataAccess
         private async Task<T> ExecuteWithTransientErrorRetryAsync<T>(Func<Task<T>> action, IDbCommand cmd, bool autoCloseConnection = true)
         {
             var exceptions = new List<Exception>();
-            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
+            for (int tries = 0; tries < _options.TransientErrorRetryTotalNumberOfTimesToTry; tries++)
             {
                 bool closeConnection = PrepCommand(cmd);
                 try
@@ -200,7 +199,7 @@ namespace CA.Blocks.DataAccess
                     {
                         // if RetryIntervalSeconds = 10 seconds then
                         // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
-                        await Task.Delay(1000 * RetryIntervalSeconds * tries);
+                        await Task.Delay(1000 * _options.TransientErrorRetryRetryIntervalSeconds * tries);
                     }
                     return await action();
                 }
@@ -208,9 +207,9 @@ namespace CA.Blocks.DataAccess
                 {
                     if (IsTransientError(dbEx))
                     {
-                        if (tries < TotalNumberOfTimesToTry)
+                        if (tries < _options.TransientErrorRetryTotalNumberOfTimesToTry - 1)
                         {
-                            exceptions.Add(dbEx);
+                            TraceTransientErrorDbError(cmd, dbEx);
                             continue;
                         }
                         else
@@ -333,7 +332,7 @@ namespace CA.Blocks.DataAccess
         private void InternalExecuteDataSet(IDbCommand cmd, DataSet ds, string sTableNames)
         {
             bool success = false;
-            for (int tries = 0; tries <= TotalNumberOfTimesToTry; tries++)
+            for (int tries = 0; tries < _options.TransientErrorRetryTotalNumberOfTimesToTry; tries++)
             {
                 bool closeConnection = true;
                 try
@@ -343,7 +342,7 @@ namespace CA.Blocks.DataAccess
                     {
                         // if RetryIntervalSeconds = 10 seconds then
                         // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
-                        Thread.Sleep(1000 * RetryIntervalSeconds * tries);
+                        Thread.Sleep(1000 * _options.TransientErrorRetryRetryIntervalSeconds * tries);
                     }
 
                     string[] sTableNNameArray = sTableNames.Split(',');
@@ -362,8 +361,9 @@ namespace CA.Blocks.DataAccess
                 {
                     if (IsTransientError(dbEx))
                     {
-                        if (tries < TotalNumberOfTimesToTry)
+                        if (tries < _options.TransientErrorRetryTotalNumberOfTimesToTry - 1)
                         {
+                            TraceTransientErrorDbError(cmd, dbEx);
                             continue;
                         }
                         else

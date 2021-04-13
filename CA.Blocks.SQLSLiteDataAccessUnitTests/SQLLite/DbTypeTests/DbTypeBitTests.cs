@@ -34,13 +34,13 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.SQLLite.DbTypeTests
            
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = this.ExecuteObjectList(cmd);
+            var data = ExecuteObjectList(cmd);
             //Assert
             Assert.AreEqual(2, data.Count);
         }
 
         [Test]
-        public void SelectAllDataBitIntWithFilter ()
+        public void SelectAllDataWithFilter ()
         {
             //setup
             const bool testvalue = true;

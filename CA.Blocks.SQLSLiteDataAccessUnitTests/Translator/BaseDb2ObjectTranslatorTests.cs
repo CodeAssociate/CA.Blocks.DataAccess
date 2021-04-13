@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using CA.Blocks.DataAccess.Translator;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator
@@ -32,7 +33,8 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator
         {
             // Setup
             var testData = CreateTestTable(typeof(String), new List<object> {"Test1", "Test2", "", null});
-            var target = new BaseDb2ObjectTranslator<TestStringClass>();
+            var target = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<TestStringClass>();
+            //var target = new BaseDb2ObjectTranslator<TestStringClass>();
             // Act
             var result = target.Translate(testData);
             // Assert
