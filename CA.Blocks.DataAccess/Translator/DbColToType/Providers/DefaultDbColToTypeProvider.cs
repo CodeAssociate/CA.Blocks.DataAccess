@@ -40,6 +40,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
             // int
             Add(new IntDbColToTypeConverter());
             Add(new NullIntDbColToTypeConverter());
+            Add(new IntListDbColToTypeConverter(','));
             // long
             Add(new LongDbColToTypeConverter());
             Add(new NullLongDbColToTypeConverter());

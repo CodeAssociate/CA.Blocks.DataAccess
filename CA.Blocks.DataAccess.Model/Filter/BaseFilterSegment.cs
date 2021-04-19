@@ -7,6 +7,11 @@ using System.Text;
 
 namespace CA.Blocks.DataAccess.Model.Filter
 {
+
+
+   
+
+
     public enum BaseFilterSegmentCondition
     {
         And,
@@ -16,7 +21,7 @@ namespace CA.Blocks.DataAccess.Model.Filter
     public abstract class BaseFilterSegment
     {
         private readonly BaseFilterSegmentCondition _condition;
-        readonly StringBuilder _filter = new StringBuilder();
+        private readonly StringBuilder _filter = new StringBuilder();
 
         protected BaseFilterSegment()
         {
@@ -73,10 +78,15 @@ namespace CA.Blocks.DataAccess.Model.Filter
         public string ToSQLFilter(bool includeWhere = false)
         {
             if (includeWhere && _filter.Length > 0)
-                return $"WHERE {_filter.ToString()}";
+                return $"WHERE {_filter}";
             else
                 return _filter.ToString();
-
         }
+
+
+
+
+
+
     }
 }

@@ -11,15 +11,6 @@
             <remarks>
             </remarks>
         </member>
-        <member name="M:CA.Blocks.SQLServerDataAccess.SqlServerDataAccess.GetDBType(System.Type)">
-            <summary>
-            This is usefull when you dont know the sql datatype but you do know the physical type example is datatable
-            DataColumn dc = ??
-             AddInputParamCommand(cmd, dc.ColumnName, dr[dc], GetDBType(dc.DataType), dc.MaxLength);
-            </summary>
-            <param name="theType"></param>
-            <returns></returns>
-        </member>
         <member name="T:CA.Blocks.SQLServerDataAccess.SpecificSQLDateTimeType">
             <summary>
             When going from the .NET world info the database we need to tell the database the the precision on which to store the DateTime.  SQL server exposes four levels

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using CA.Blocks.DataAccess;
 using NUnit.Framework;
@@ -799,30 +801,35 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullUShort("col"));
             AssertNullable(expected, dataReader.AsNullUShort(1));
         }
-        // this logic is not part of this  class it should be a string extension
+     
+        //[Test]
+        //[TestCase(0, null, ',')]
+        //[TestCase(1, "", ',')]
+        //[TestCase(1, "1,2,3,4", ',')]
+        //[TestCase(1, "1|2|5", '|')]
+        //[TestCase(1, "1;2;5", ';')]
+        //public void GetValueFromRowAsShortList(int rowNumber, string testDate, char delimiter)
+        //{
+        //    List<short> expected = new List<short>();
+        //    if (!string.IsNullOrWhiteSpace(testDate))
+        //    {
+        //        var sarray = testDate.Split(delimiter);
+        //        expected.AddRange(sarray.Select(short.Parse));
+        //    }
+
+        //    var dt = CreateTestTable(typeof(string), testDate);
+        //    var dataRow = GetDataRow(rowNumber, dt);
+        //    var dataReader = GetDataReader(rowNumber, dt);
+
+        //    Assert.AreEqual(expected, dataRow.AsShortList("col", delimiter));
+        //    Assert.AreEqual(expected, dataRow.AsShortList(1));
+        //    Assert.AreEqual(expected, dataRow.AsShortList(dt.Columns["col"]));
+
+        //    Assert.AreEqual(expected, dataReader.AsShortList("col"));
+        //    Assert.AreEqual(expected, dataReader.AsShortList(1));
+        //}
+
         /*
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, "")]
-        [TestCase(1, "1,2,3,4", ',')]
-        [TestCase(1, "1|2|5", '|')]
-        public void GetValueFromRowAsShortList(int rowNumber, string testDate, char delimiter)
-        {
-            List<short> expected = new List<short>();
-            if (!string.IsNullOrWhiteSpace(testDate))
-            {
-                var sarray = testDate.Split(delimiter);
-                expected.AddRange(sarray.Select(short.Parse));
-            }
-
-            IList<short> actual;
-            var dt = CreateTestTable(typeof(string), testDate);
-
-            actual = dataRow.AsShortList("col", delimiter);
-            Assert.AreEqual(expected, actual);
-        }
-
-
         [Test]
         [TestCase(0, null)]
         [TestCase(1, "")]

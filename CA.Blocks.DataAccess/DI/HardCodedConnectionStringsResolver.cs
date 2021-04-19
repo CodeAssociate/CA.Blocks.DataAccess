@@ -4,7 +4,7 @@ namespace CA.Blocks.DataAccess.DI
 {
     /// <summary>
     /// This is a hard coded Connection String Resolver.  This class is useful for providing examples and quick prototype code.  Typically you will not use this once rolling out the application.
-    /// The Configuration used is a Hosting app concern. See examples at :
+    /// The Configuration used is a Hosting app concern. See examples at : https://www.codeassociate.com/Blocks/DataAccess/Samples/Connection/Index.html
     /// </summary>
     public class HardCodedConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
     {

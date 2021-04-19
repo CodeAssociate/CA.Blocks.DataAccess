@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using CA.Blocks.SQLServerDataAccess;
 using NUnit.Framework;
 
@@ -84,6 +85,38 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@test", sqlparam.ParameterName);
             Assert.AreEqual("", sqlparam.Value);
+        }
+
+        [Test]
+        public void ToSqlParameterLong()
+        {
+            // Setup
+            long target = 123;
+            // Act
+            var sqlparam = target.ToSqlParameter("@target");
+            //Asert
+            Assert.AreEqual(DbType.Int64, sqlparam.DbType);
+            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
+            Assert.AreEqual(false, sqlparam.IsNullable);
+            Assert.AreEqual("@target", sqlparam.ParameterName);
+            Assert.AreEqual(8, sqlparam.Size);
+            Assert.AreEqual(target, sqlparam.Value);
+        }
+
+        [Test]
+        public void ToSqlParameterNullLong()
+        {
+            // Setup
+            long? target = null;
+            // Act
+            var sqlparam = target.ToSqlParameter("@target");
+            //Asert
+            Assert.AreEqual(DbType.Int64, sqlparam.DbType);
+            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
+            Assert.AreEqual(false, sqlparam.IsNullable);
+            Assert.AreEqual("@target", sqlparam.ParameterName);
+            Assert.AreEqual(8, sqlparam.Size);
+            Assert.AreEqual(DBNull.Value, sqlparam.Value);
         }
 
     }

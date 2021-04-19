@@ -7,7 +7,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
     /// <summary>
     /// EnumDbColToTypeConverter Docs 
     /// </summary>
-    /// <typeparam name="T"> wher doe this for</typeparam>
+    /// <typeparam name="T"> </typeparam>
     public class EnumDbColToTypeConverter<T> : BaseDbColToTypeConverter<T> where T : struct
     {
         private readonly bool _ignoreCase;

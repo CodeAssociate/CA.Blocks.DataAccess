@@ -13,7 +13,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -84,7 +83,6 @@ namespace CA.Blocks.SQLServerDataAccess
 
         #region StoredProcedureHelpers
 
-
         protected SqlCommand CreateStoredProcedureCommand(string strStoredProcedureName)
         {
             SqlCommand sqlcmd = new SqlCommand
@@ -117,12 +115,12 @@ namespace CA.Blocks.SQLServerDataAccess
 
         protected SqlCommand CreateTableSelectCommand(string tableName, string filter)
         {
-            return CreateTextCommand(string.Format("SELECT * FROM {0} {1}", tableName, filter));
+            return CreateTextCommand($"SELECT * FROM {tableName} {filter}");
         }
 
         protected SqlCommand CreateTableSelectCommand(string tableName, string filter, string orderBy)
         {
-            return CreateTextCommand(string.Format("SELECT * FROM {0} {1} Order By {2}", tableName, filter, orderBy));
+            return CreateTextCommand($"SELECT * FROM {tableName} {filter} Order By {orderBy}");
         }
 
         #endregion StoredProcedureHelpers
@@ -230,43 +228,7 @@ namespace CA.Blocks.SQLServerDataAccess
         }
         */
 
-        #endregion ParemeterHelpers 
-
-        #region SQLType Helpers
-
-        /// <summary>
-        /// This is usefull when you dont know the sql datatype but you do know the physical type example is datatable
-        /// DataColumn dc = ??
-        ///  AddInputParamCommand(cmd, dc.ColumnName, dr[dc], GetDBType(dc.DataType), dc.MaxLength);
-        /// </summary>
-        /// <param name="theType"></param>
-        /// <returns></returns>
-        protected SqlDbType GetDBType(Type theType)
-        {
-            SqlParameter p1 = new SqlParameter();
-            TypeConverter tc = TypeDescriptor.GetConverter(p1.DbType);
-            if (tc.CanConvertFrom(theType))
-            {
-                tc.ConvertFrom(theType.Name);
-                p1.DbType = (DbType)tc.ConvertFrom(theType.Name);
-            }
-            else
-            {
-                //Try brute force
-                try
-                {
-                    p1.DbType = (DbType)tc.ConvertFrom(theType.Name);
-                }
-                catch
-                {
-                    //Do Nothing
-                }
-            }
-            return p1.SqlDbType;
-        }
-
-        #endregion
-
+        #endregion ParemeterHelpers
 
         #region 
 

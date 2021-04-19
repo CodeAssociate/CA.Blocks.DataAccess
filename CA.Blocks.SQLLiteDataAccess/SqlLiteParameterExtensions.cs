@@ -186,7 +186,7 @@ namespace CA.Blocks.SQLLiteDataAccess
 
         public static SqliteParameter ToSqlParameter(this DateTime input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime)
         {
-            throw new NotSupportedException("SQL Lite does not support DateTime .. use the  date or datetime functions ie Where col = date('{testvalue:o}')");
+            throw new NotSupportedException("SQLite does not have a storage class set aside for storing dates and/or times. Instead, the built-in Date And Time Functions of SQLite are capable of storing dates and times as TEXT, REAL, or INTEGER values: see https://www.sqlite.org/lang_datefunc.html, Use the datetime('{data:o}') C# roundtrip function to get the string");
             //return ToSqlParameterDateTime(input, strParameterName, dbType);
         }
 
@@ -194,7 +194,7 @@ namespace CA.Blocks.SQLLiteDataAccess
 
         public static SqliteParameter ToSqlParameter(this DateTime? input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime)
         {
-            throw new NotSupportedException("SQL Lite does not support DateTime .. use the  date or datetime functions ie Where col = date('{testvalue:o}')");
+            throw new NotSupportedException("SQLite does not have a storage class set aside for storing dates and/or times. Instead, the built-in Date And Time Functions of SQLite are capable of storing dates and times as TEXT, REAL, or INTEGER values: see https://www.sqlite.org/lang_datefunc.html, Use the datetime('{data:o}') C# roundtrip function to get the string");
             //return ToSqlParameterDateTime(input, strParameterName, dbType);
         }
         #endregion
@@ -508,6 +508,11 @@ namespace CA.Blocks.SQLLiteDataAccess
 
         #endregion
 
+
+        //public static SqliteParameter ToSqlParameter(object input, string strParameterName)
+        //{
+        //    return NotImplementedException("TODO");
+        //}
         /*
        SqlDbType.Variant; // ?lets find a usage ? 
        SqlDbType.Xml;

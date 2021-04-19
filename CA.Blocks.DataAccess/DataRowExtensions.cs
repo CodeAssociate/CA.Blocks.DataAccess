@@ -371,19 +371,19 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullInt(dr, column);
         }
 
-        // As delimited List eg "1,2,3" will be a IList {1,2,3}
-        [System.Obsolete("This logic does not belong here it should be a string extension", true)]
-        public static IList<int> AsIntList(this DataRow dr, string columnName, char delimiter = ',')
-        {
-            var result = new List<int>();
-            var s = dr.AsString(columnName);
-            if (!string.IsNullOrWhiteSpace(s))
-            {
-                var sarray = s.Split(delimiter);
-                result.AddRange(sarray.Select(int.Parse));
-            }
-            return result;
-        }
+        //// As delimited List eg "1,2,3" will be a IList {1,2,3}
+        //[System.Obsolete("This logic does not belong here it should be a string extension", true)]
+        //public static IList<int> AsIntList(this DataRow dr, string columnName, char delimiter = ',')
+        //{
+        //    var result = new List<int>();
+        //    var s = dr.AsString(columnName);
+        //    if (!string.IsNullOrWhiteSpace(s))
+        //    {
+        //        var sarray = s.Split(delimiter);
+        //        result.AddRange(sarray.Select(int.Parse));
+        //    }
+        //    return result;
+        //}
 
         #endregion
 
@@ -455,18 +455,18 @@ namespace CA.Blocks.DataAccess
         }
 
         // AS List
-        [System.Obsolete("This logic does not belong here it should be a string extension", true)]
-        public static IList<long> AsLongList(this DataRow dr, string columnName, char delimiter = ',')
-        {
-            var result = new List<long>();
-            var s = dr.AsString(columnName);
-            if (!string.IsNullOrWhiteSpace(s))
-            {
-                var sarray = s.Split(delimiter);
-                result.AddRange(sarray.Select(long.Parse));
-            }
-            return result;
-        }
+        //[System.Obsolete("This logic does not belong here it should be a string extension", true)]
+        //public static IList<long> AsLongList(this DataRow dr, string columnName, char delimiter = ',')
+        //{
+        //    var result = new List<long>();
+        //    var s = dr.AsString(columnName);
+        //    if (!string.IsNullOrWhiteSpace(s))
+        //    {
+        //        var sarray = s.Split(delimiter);
+        //        result.AddRange(sarray.Select(long.Parse));
+        //    }
+        //    return result;
+        //}
         #endregion
 
         #region ulong
@@ -573,18 +573,19 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullShort(dr, column);
         }
         
-        [System.Obsolete("This logic does not belong here it should be a string extension", true)]
-        public static IList<short> AsShortList(this DataRow dr, string columnName, char delimiter = ',')
-        {
-            var result = new List<short>();
-            var s = dr.AsString(columnName);
-            if (!string.IsNullOrWhiteSpace(s))
-            {
-                var sarray = s.Split(delimiter);
-                result.AddRange(sarray.Select(short.Parse));
-            }
-            return result;
-        }
+
+
+        //public static IList<short> AsShortList(this DataRow dr, string columnName, char delimiter = ',')
+        //{
+        //    var result = new List<short>();
+        //    var s = dr.AsString(columnName);
+        //    if (!string.IsNullOrWhiteSpace(s))
+        //    {
+        //        var sarray = s.Split(delimiter);
+        //        result.AddRange(sarray.Select(short.Parse));
+        //    }
+        //    return result;
+        //}
 
         #endregion
 
@@ -636,21 +637,6 @@ namespace CA.Blocks.DataAccess
         public static string AsString(this DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
         {
             return DataHelper.GetValueFromRowAsString(dr, column, returnNullAsEmptyString);
-        }
-
-        // As list
-        // This needs more work to cater for the quotes and delimiters in  data..
-        [System.Obsolete("This logic does not belong here it should be a string extension", true)]
-        public static IList<string> AsStringList(this DataRow dr, string columnName, char delimiter)
-        {
-            var result = new List<string>();
-            var s = dr.AsString(columnName);
-            if (!string.IsNullOrWhiteSpace(s))
-            {
-                var sarray = s.Split(delimiter);
-                result.AddRange(sarray);
-            }
-            return result;
         }
 
         #endregion 
