@@ -716,6 +716,37 @@ namespace CA.Blocks.DataAccess
 
         }
 
+        /// <summary>
+        /// The AsToString is more forgiving of type conversions 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="colName"></param>
+        /// <param name="returnNullAsEmptyString"></param>
+        /// <returns></returns>
+        public static string AsToString(this IDataReader dr, string colName, bool returnNullAsEmptyString = false)
+        {
+            if (dr.IsDBNull(dr.GetOrdinal(colName)))
+                return returnNullAsEmptyString ? string.Empty : null;
+            else
+            {
+             
+                return dr[colName].ToString();
+            }
+        }
+
+
+        public static string AsToString(this IDataReader dr, int columnIndex, bool returnNullAsEmptyString = false)
+        {
+            if (dr.IsDBNull(columnIndex))
+                return returnNullAsEmptyString ? string.Empty : null;
+            else
+            {
+                return dr[columnIndex].ToString();
+            }
+
+        }
+
+
 
         #endregion
 

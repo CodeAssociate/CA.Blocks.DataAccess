@@ -122,6 +122,32 @@ namespace CA.Blocks.DataAccess
             return (string)result;
         }
 
+        // The AsToString is slower but will auto convert types to string like int 
+
+        public static string GetValueFromRowAsToString(DataRow dr, string sColumnName, bool returnNullAsEmptyString = false)
+        {
+            object result = GetValueFromRow(dr, sColumnName);
+            if (result == null && returnNullAsEmptyString)
+                result = string.Empty;
+            return result.ToString();
+        }
+
+        public static string GetValueFromRowAsToString(DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
+        {
+            object result = GetValueFromRow(dr, columnOrder);
+            if (result == null && returnNullAsEmptyString)
+                result = string.Empty;
+            return result.ToString();
+        }
+
+        public static string GetValueFromRowAsToString(DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
+        {
+            object result = GetValueFromRow(dr, column);
+            if (result == null && returnNullAsEmptyString)
+                result = string.Empty;
+            return result.ToString();
+        }
+
         /// <summary>
         /// Will get the data value from the row as a nullable int. The return value will be set to either null or the int value
         /// This procedure assumes that the data is an integer, if not a cast exception will be thrown.  

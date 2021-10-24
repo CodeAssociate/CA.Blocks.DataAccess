@@ -639,6 +639,19 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsString(dr, column, returnNullAsEmptyString);
         }
 
+        public static string AsToString(this DataRow dr, string colName, bool returnNullAsEmptyString = false)
+        {
+            return DataHelper.GetValueFromRowAsToString(dr, colName, returnNullAsEmptyString);
+        }
+        public static string AsToString(this DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
+        {
+            return DataHelper.GetValueFromRowAsToString(dr, columnOrder, returnNullAsEmptyString);
+        }
+        public static string AsToString(this DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
+        {
+            return DataHelper.GetValueFromRowAsToString(dr, column, returnNullAsEmptyString);
+        }
+
         #endregion 
 
         #region TimeSpan

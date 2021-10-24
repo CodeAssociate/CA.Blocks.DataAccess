@@ -472,6 +472,15 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             This Namespace contains the abstract classes for DataAccessCore. You find the abstract class and DataHelper methods for extracting data out of the DataRow and IDataReader interfaces
             </summary>
         </member>
+        <member name="M:CA.Blocks.DataAccess.IDataReaderExtensions.AsToString(System.Data.IDataReader,System.String,System.Boolean)">
+            <summary>
+            The AsToString is more forgiving of type conversions 
+            </summary>
+            <param name="dr"></param>
+            <param name="colName"></param>
+            <param name="returnNullAsEmptyString"></param>
+            <returns></returns>
+        </member>
         <member name="T:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1">
             <summary>
             What is the name of this 

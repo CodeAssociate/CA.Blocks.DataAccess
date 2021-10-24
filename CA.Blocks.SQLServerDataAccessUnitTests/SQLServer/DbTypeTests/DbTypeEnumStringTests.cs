@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
 {
     [TestFixture]
-    public class DbTypeStringEnumTests : UnitTestDataAccess
+    public class DbTypeEnumStringTests : UnitTestDataAccess
     {
         public enum MyTestEnum
         {

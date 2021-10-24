@@ -18,14 +18,14 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 
         public override T GetDataValue(DataRow dr, string columnName)
         {
-            string value = dr.AsString(columnName);
+            string value = dr.AsToString(columnName);
             Enum.TryParse<T>(value, _ignoreCase, out var result);
             return result;
         }
 
         public override T GetDataValue(IDataReader dr, string columnName)
         {
-            string value = dr.AsString(columnName);
+            string value = dr.AsToString(columnName);
             Enum.TryParse<T>(value, _ignoreCase, out var result);
             return result;
         }
@@ -42,7 +42,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 
         public override T? GetDataValue(DataRow dr, string columnName)
         {
-            var value = dr.AsString(columnName);
+            var value = dr.AsToString(columnName);
             if (string.IsNullOrWhiteSpace(value))
             {
                 return null;
@@ -56,7 +56,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 
         public override T? GetDataValue(IDataReader dr, string columnName)
         {
-            var value = dr.AsString(columnName);
+            var value = dr.AsToString(columnName);
             if (string.IsNullOrWhiteSpace(value))
             {
                 return null;
