@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using CA.Blocks.DataAccess.Translator;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;

@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data;
+using Microsoft.Data.SqlClient;
 using System.Text;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;

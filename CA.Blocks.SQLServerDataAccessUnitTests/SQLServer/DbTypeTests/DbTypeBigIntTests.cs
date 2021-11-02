@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;

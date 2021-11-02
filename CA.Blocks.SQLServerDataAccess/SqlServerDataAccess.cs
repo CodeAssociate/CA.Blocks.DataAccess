@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Text;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
@@ -44,6 +44,12 @@ namespace CA.Blocks.SQLServerDataAccess
             return null;
         }
 
+
+        protected virtual string GetConnectionToken()
+        {
+            return null;
+        }
+
         private void SetCommandContext(SqlConnection sqlConnection)
         {
             string context = GetConnectionContext();
@@ -56,9 +62,19 @@ namespace CA.Blocks.SQLServerDataAccess
             }
         }
 
+        private void SetAccessToken(SqlConnection sqlConnection)
+        {
+            string token = GetConnectionToken();
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                sqlConnection.AccessToken = token;
+            }
+        }
+
         protected override bool PrepCommand(IDbCommand cmd)
         {
             SqlConnection sqlConnection = new SqlConnection(ConnectionString);
+            SetAccessToken(sqlConnection);
             sqlConnection.Open();
             SetCommandContext(sqlConnection);
             cmd.Connection = sqlConnection;

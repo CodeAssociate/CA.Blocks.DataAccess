@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using CA.Blocks.DataAccess.Model.Paging;
 using NUnit.Framework;

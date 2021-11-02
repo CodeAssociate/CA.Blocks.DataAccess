@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using CA.Blocks.SQLServerDataAccessUnitTests.Translator.TestObjects;
