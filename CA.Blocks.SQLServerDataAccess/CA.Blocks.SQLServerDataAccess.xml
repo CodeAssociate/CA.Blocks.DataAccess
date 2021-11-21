@@ -4,6 +4,40 @@
         <name>CA.Blocks.SQLServerDataAccess</name>
     </assembly>
     <members>
+        <member name="M:CA.Blocks.SQLServerDataAccess.AzureSQL.AzureManagedIdentityConnectionTokenResolver.GetConnectionToken(System.String)">
+            <summary>
+            Get a new Azure Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CA.Blocks.SQLServerDataAccess.AzureSQL.AzureSqlServerDataAccess">
+            <summary>
+            This class provides a wrapper for Managed Identity authentication using tokens.  This is a common pattern used in Azure where you can authenticate using a Token. Other than that this is  just like the SqlServerDataAccess class 
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.AzureSQL.AzureSqlServerDataAccess.GetConnectionToken">
+            <summary>
+            Get the Token from the registered  IConnectionTokenResolver provider
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CA.Blocks.SQLServerDataAccess.AzureSQL.IConnectionTokenResolver">
+            <summary>
+            When connecting to a Azure Database we have the option of using a Token for Auth   
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.AzureSQL.IConnectionTokenResolver.GetConnectionToken(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CA.Blocks.SQLServerDataAccess.AzureSQL.NullConnectionTokenResolver">
+            <summary>
+            provides a class for Null Token. Ie don't use tokens.   at this point this will be the same as  using the SqlServerDataAccess to access the Azure SQL database
+            </summary>
+        </member>
         <member name="T:CA.Blocks.SQLServerDataAccess.SqlServerDataAccess">
             <summary>
             Provides a SQL server implementation for DataAccessCore
