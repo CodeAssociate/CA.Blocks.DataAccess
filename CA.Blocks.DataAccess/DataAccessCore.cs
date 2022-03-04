@@ -42,8 +42,6 @@ namespace CA.Blocks.DataAccess
 
         #region private utility methods & constructors
 
-
-
         /// <summary>
         /// This is a protected constructor which must be called by the inheriting class, it will use config.Resolver to resolve the connectionStringKey to a valid connection string 
         /// </summary>
@@ -290,40 +288,19 @@ namespace CA.Blocks.DataAccess
             return ExecuteWithTransientErrorRetry(cmd.ExecuteNonQuery, cmd);
         }
 
-        /*
-        protected async Task<int> ExecuteNonQueryAsync(IDbCommand cmd)
+        protected Task<int> ExecuteNonQueryAsync(IDbCommand cmd)
         {
             DbCommand asynCmd = cmd as DbCommand;
             if (asynCmd == null)
             {
                 throw new InvalidCastException("To Execute Async command the provider by implement DbCommand");
             }
-            int rowCount = 0;
-            bool closeConnection = PrepCommand(cmd);
-            try
-            {
-                rowCount =  await asynCmd.ExecuteNonQueryAsync();
-            }
-            catch (DbException dbEx)
-            {
-                
-                TraceDbError(cmd, dbEx);
-                throw;
-            
-            }
-            catch (Exception ex)
-            {
-                TraceGenralError(cmd, ex);
-                throw;
-            }
-            finally
-            {
-                WrapUp(cmd.Connection, closeConnection);
-            }
 
-            return rowCount;
+
+            if (_options.DebugTrace)
+                TraceDbStatement(cmd);
+            return ExecuteWithTransientErrorRetryAsync(() => asynCmd.ExecuteNonQueryAsync(), cmd);
         }
-        */
         #endregion ExecuteNonQuery
 
 
@@ -621,8 +598,7 @@ namespace CA.Blocks.DataAccess
             var translator = _dbRowTranslatorProvider.Resolve<T>();
             using (var dbReader = ExecuteReader(cmd))
             {
-                dbReader.Read();
-                result = translator.Translate(dbReader);
+                result = dbReader.Read() ? translator.Translate(dbReader) : default;
                 dbReader.Close();
             }
             return result;
@@ -651,8 +627,8 @@ namespace CA.Blocks.DataAccess
             await dbResult;
             using (var dbReader = dbResult.GetAwaiter().GetResult())
             {
-                await dbReader.ReadAsync();
-                result = translator.Translate(dbReader);
+                var hasDate = await dbReader.ReadAsync();
+                result = hasDate ? translator.Translate(dbReader) : default;
                 dbReader.Close();
             }
             return result;
@@ -674,8 +650,6 @@ namespace CA.Blocks.DataAccess
             }
             return result;
         }
-
-
 
 
         /// <summary>
