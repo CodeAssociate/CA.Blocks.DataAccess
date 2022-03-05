@@ -21,6 +21,7 @@ using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Model.Paging;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
+using CA.Blocks.SQLServerDataAccess.Model;
 
 namespace CA.Blocks.SQLServerDataAccess
 {
@@ -39,7 +40,14 @@ namespace CA.Blocks.SQLServerDataAccess
 
         }
 
+
+        [System.Obsolete(" If you using SQL server 2016 + it is best to migrate to GetSessionContext")]
         protected virtual string GetConnectionContext()
+        {
+            return null;
+        }
+
+        protected virtual IList<SqlServerSessionContext> GetSessionContext()
         {
             return null;
         }
@@ -50,6 +58,7 @@ namespace CA.Blocks.SQLServerDataAccess
             return null;
         }
 
+     
         private void SetCommandContext(SqlConnection sqlConnection)
         {
             string context = GetConnectionContext();
@@ -61,6 +70,24 @@ namespace CA.Blocks.SQLServerDataAccess
                 cmd.ExecuteNonQuery();
             }
         }
+
+        private void SetSessionContext(SqlConnection sqlConnection)
+        {
+            var context = GetSessionContext();
+            if (context != null && context.Count > 0)
+            {
+                foreach (var contextItem in context)
+                {
+                    var cmd = CreateTextCommand("EXEC sp_set_session_context @key, @value, @read_only;");
+                    cmd.Parameters.Add(contextItem.Key.ToSqlParameter("@Key", SpecificSQLStringType.NVarChar));
+                    cmd.Parameters.Add(contextItem.ValueAsSqlParameter("@value"));
+                    cmd.Parameters.Add(contextItem.ReadOnly.ToSqlParameter("@read_only"));
+                    cmd.Connection = sqlConnection;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
 
         private void SetAccessToken(SqlConnection sqlConnection)
         {
@@ -77,6 +104,7 @@ namespace CA.Blocks.SQLServerDataAccess
             SetAccessToken(sqlConnection);
             sqlConnection.Open();
             SetCommandContext(sqlConnection);
+            SetSessionContext(sqlConnection);
             cmd.Connection = sqlConnection;
             return true;
         }
