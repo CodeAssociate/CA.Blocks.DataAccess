@@ -19,7 +19,7 @@ Then you will be ready to work with the DataAccess Class
 #### Template example accessing SQL server  
 
 In this example we going to use the data from the local SQL server selecting the data from the sysobjects table and executing the results into the .NET class ExampleSysObjects below
-``` csharp
+<pre><code data-language="C#">
 public class ExampleSysObjects
 {
     public int Id { get; set; }
@@ -27,7 +27,7 @@ public class ExampleSysObjects
     public string XType { get; set; }
     public DateTime CreateDate { get; set; }
 }
-```
+</code></pre>
 
 Template code using SQL server. 
 ``` csharp

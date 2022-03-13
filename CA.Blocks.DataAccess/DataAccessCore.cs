@@ -598,8 +598,14 @@ namespace CA.Blocks.DataAccess
             var translator = _dbRowTranslatorProvider.Resolve<T>();
             using (var dbReader = ExecuteReader(cmd))
             {
-                result = dbReader.Read() ? translator.Translate(dbReader) : default;
-                dbReader.Close();
+                try
+                {
+                    result = dbReader.Read() ? translator.Translate(dbReader) : default;
+                }
+                finally
+                {
+                    dbReader.Close();
+                }
             }
             return result;
         }
@@ -610,11 +616,17 @@ namespace CA.Blocks.DataAccess
             var translator = _dbRowTranslatorProvider.Resolve<T>();
             using (var dbReader = ExecuteReader(cmd))
             {
-                while (dbReader.Read())
+                try
                 {
-                    result.Add(translator.Translate(dbReader));
+                    while (dbReader.Read())
+                    {
+                        result.Add(translator.Translate(dbReader));
+                    }
                 }
-                dbReader.Close();
+                finally 
+                {
+                    dbReader.Close();
+                }
             }
             return result;
         }
@@ -627,9 +639,15 @@ namespace CA.Blocks.DataAccess
             await dbResult;
             using (var dbReader = dbResult.GetAwaiter().GetResult())
             {
-                var hasDate = await dbReader.ReadAsync();
-                result = hasDate ? translator.Translate(dbReader) : default;
-                dbReader.Close();
+                try
+                {
+                    var hasDate = await dbReader.ReadAsync();
+                    result = hasDate ? translator.Translate(dbReader) : default;
+                }
+                finally 
+                {
+                    dbReader.Close();
+                }
             }
             return result;
         }
@@ -642,11 +660,17 @@ namespace CA.Blocks.DataAccess
             await dbResult;
             using (var dbReader = dbResult.GetAwaiter().GetResult())
             {
-                while (await dbReader.ReadAsync())
+                try
                 {
-                    result.Add(translator.Translate(dbReader));
+                    while (await dbReader.ReadAsync())
+                    {
+                        result.Add(translator.Translate(dbReader));
+                    }
                 }
-                dbReader.Close();
+                finally 
+                {
+                    dbReader.Close();
+                }
             }
             return result;
         }

@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
+using CA.Blocks.DataAccess.Translator.DbColToType.Exceptions;
 using CA.Blocks.SQLServerDataAccess;
 using Microsoft.Data.SqlClient;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
@@ -12,6 +14,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public int id { get; set; }
         public string name { get; set; }
     }
+
 
 
     [TestFixture]
@@ -86,7 +89,35 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             Assert.True(result == default);
         }
 
-        #endregion 
+
+
+        #endregion
+
+        #region BadTranslate 
+        [Test]
+        public void ExecuteToListOfBadTranslate()
+        {
+            SqlCommand cmd = CreateTextCommand("Select id as id2, name from sysobjects");
+            Assert.Throws<ConverterColumnNotFoundException>(() => ExecuteToListOf<temp>(cmd));
+        }
+
+
+        [Test]
+        public void ExecuteToListOfBadTranslateInvalidDateTypes()
+        {
+            SqlCommand cmd = CreateTextCommand("Select id as name, name as id from sysobjects");
+            Assert.Throws<ConverterColumnBadDataException>(() => ExecuteToListOf<temp>(cmd));
+        }
+
+        [Test]
+        public async Task ExecuteToListOfBadTranslateAsync()
+        {
+            SqlCommand cmd = CreateTextCommand("Select id as id2, name from sysobjects");
+            Assert.ThrowsAsync<ConverterColumnNotFoundException>(() => ExecuteToListOfAsync<temp>(cmd));
+        }
+
+        #endregion
+
     }
 
 }
