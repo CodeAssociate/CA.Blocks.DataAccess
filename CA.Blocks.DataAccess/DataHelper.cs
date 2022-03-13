@@ -43,6 +43,18 @@ namespace CA.Blocks.DataAccess
             return obj.Value;
         }
 
+        //private static ThrowExceptionColDoesNotExist(T? obj, string sColumnName, string typeDescription)
+        //{
+        //    if (obj == null)
+        //    {
+        //        throw new Mapp(
+        //            $"Tried to get {sColumnName} from row as non-nullable {typeDescription}, however value is NULL.");
+        //    }
+        //    return obj.Value;
+        //}
+
+
+
         /// <summary>
         /// Will get the data value from the row as an object retuning the .NET null value  in the event the data value is 
         /// null in the DataRow.

@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
+using CA.Blocks.DataAccess.Translator.DbColToType.Exceptions;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
 
 namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
@@ -15,11 +17,40 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 
         public object GetData(DataRow dr, string columnName)
         {
-            return GetDataValue(dr, columnName);
+            try
+            {
+                return GetDataValue(dr, columnName);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                throw new ConverterColumnNotFoundException($"The column '{columnName}' was expected in the result set but not found", ex);
+            }
+            catch (System.Exception ex)
+            {
+                throw new ConverterColumnBadDataException(
+                    $"The column '{columnName}' is expecting data for type {typeof(T).FullName} but was not able to convert source data. Convert error was {ex.Message}", ex);
+            }
         }
+
         public object GetData(IDataReader dr, string columnName)
         {
-            return GetDataValue(dr, columnName);
+            // A little slow as we get the Ordinal time,  
+            try
+            {
+                return GetDataValue(dr, columnName);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                throw new ConverterColumnNotFoundException(
+                    $"The column '{columnName}' was expected in the result set but not found", ex);
+            }
+            catch (System.Exception ex)
+            {
+                throw new ConverterColumnBadDataException(
+                    $"The column '{columnName}' is expecting data for type {typeof(T).FullName} but was not able to convert source data. Convert error was {ex.Message}", ex);
+            }
+
         }
+
     }
 }
