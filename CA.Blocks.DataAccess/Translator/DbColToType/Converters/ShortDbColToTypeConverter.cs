@@ -13,6 +13,16 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         {
             return dr.AsShort(columnName);
         }
+
+        public override short GetDataValue(DataRow dr, int columnIndex)
+        {
+            return dr.AsShort(columnIndex);
+        }
+
+        public override short GetDataValue(IDataReader dr, int columnIndex)
+        {
+            return dr.AsShort(columnIndex);
+        }
     }
 
     public class NullShortDbColToTypeConverter : BaseDbColToTypeConverter<short?>
@@ -25,6 +35,16 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         public override short? GetDataValue(IDataReader dr, string columnName)
         {
             return dr.AsNullShort(columnName);
+        }
+
+        public override short? GetDataValue(DataRow dr, int columnIndex)
+        {
+            return dr.AsNullShort(columnIndex);
+        }
+
+        public override short? GetDataValue(IDataReader dr, int columnIndex)
+        {
+            return dr.AsNullShort(columnIndex);
         }
     }
 }

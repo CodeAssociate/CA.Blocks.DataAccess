@@ -18,6 +18,9 @@ using System.Dynamic;
 
 namespace CA.Blocks.DataAccess.Translator
 {
+    /// <summary>
+    /// This returns an ExpandoObject which makes for very fast prototyping, if you know the structure you are after you should use the Db2ObjectTranslator 
+    /// </summary>
     public class DynamicDbRow2ObjectTranslator : SimpleDbRow2ObjectTranslator<dynamic>
     {
         public static DynamicDbRow2ObjectTranslator CurrentInstance = new DynamicDbRow2ObjectTranslator();

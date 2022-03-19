@@ -11,10 +11,20 @@
 //===============================================================================
 
 
+
+/*
+  All code in this file is in places for backward compatibility move to the  Db2ObjectTranslator solution 
+  We  started moving away  in 2.2.26 The code was officially  made Obsolete  in 3.0.34  we will be deleting this in next major version 4.X. 
+ *
+ *
+ */
+
+
 using System.Data;
 
 namespace CA.Blocks.DataAccess.Translator
 {
+    [System.Obsolete("Obsolete since 3.0.34")]
     public abstract class DatabaseToObjectMapping
     {
         public string DestinationName;
@@ -24,6 +34,7 @@ namespace CA.Blocks.DataAccess.Translator
 
     #region Bool
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingBool : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingBool(string commonName)
@@ -44,6 +55,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullBool : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullBool(string commonName)
@@ -68,6 +80,7 @@ namespace CA.Blocks.DataAccess.Translator
     #endregion
 
     #region Byte
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingByte : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingByte(string commonName)
@@ -88,6 +101,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullByte : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullByte(string commonName)
@@ -106,9 +120,10 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
     #endregion
-    
+
     #region Sbyte
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingSbyte : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingSbyte(string commonName)
@@ -129,6 +144,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullSbyte : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullSbyte(string commonName)
@@ -149,6 +165,7 @@ namespace CA.Blocks.DataAccess.Translator
     #endregion
 
     #region Short
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingShort : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingShort(string commonName)
@@ -167,7 +184,7 @@ namespace CA.Blocks.DataAccess.Translator
             return DataHelper.GetValueFromRowAsShort(dr, SourceNameName);
         }
     }
-
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullShort : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullShort(string commonName)
@@ -190,6 +207,7 @@ namespace CA.Blocks.DataAccess.Translator
     #endregion
 
     #region Int
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingInt : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingInt(string commonName)
@@ -209,6 +227,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullInt : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullInt(string commonName)
@@ -227,11 +246,12 @@ namespace CA.Blocks.DataAccess.Translator
             return DataHelper.GetValueFromRowAsNullInt(dr, SourceNameName);
         }
     }
-    
+
     #endregion
 
     #region Long
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingLong : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingLong(string commonName)
@@ -251,6 +271,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullLong : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullLong(string commonName)
@@ -273,6 +294,7 @@ namespace CA.Blocks.DataAccess.Translator
     #endregion
 
     #region Guid
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingGuid : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingGuid(string commonName)
@@ -291,7 +313,7 @@ namespace CA.Blocks.DataAccess.Translator
             return DataHelper.GetValueFromRowAsGuid(dr, SourceNameName);
         }
     }
-
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullGuid : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullGuid(string commonName)
@@ -313,6 +335,7 @@ namespace CA.Blocks.DataAccess.Translator
 
     #endregion
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     #region Decimal
     public class DatabaseToObjectMappingDecimal: DatabaseToObjectMapping
     {
@@ -333,6 +356,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullDecimal : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullDecimal(string commonName)
@@ -352,8 +376,9 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
     #endregion
-    
+
     #region Double
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingDouble : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingDouble(string commonName)
@@ -373,6 +398,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullDouble : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullDouble(string commonName)
@@ -395,6 +421,7 @@ namespace CA.Blocks.DataAccess.Translator
     #endregion
 
     #region DateTime
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingDateTime : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingDateTime(string commonName)
@@ -413,6 +440,8 @@ namespace CA.Blocks.DataAccess.Translator
             return DataHelper.GetValueFromRowAsDateTime(dr, SourceNameName);
         }
     }
+
+    [System.Obsolete("Obsolete since 3.0.34")]
 
     public class DatabaseToObjectMappingNullDateTime : DatabaseToObjectMapping
     {
@@ -435,6 +464,7 @@ namespace CA.Blocks.DataAccess.Translator
     #endregion
 
     #region Timespan
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingTimeSpan : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingTimeSpan(string commonName)
@@ -454,6 +484,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullTimeSpan : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullTimeSpan(string commonName)
@@ -476,6 +507,7 @@ namespace CA.Blocks.DataAccess.Translator
     #endregion
 
     #region Char
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingChar : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingChar(string commonName)
@@ -495,6 +527,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingNullChar : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingNullChar(string commonName)
@@ -513,10 +546,11 @@ namespace CA.Blocks.DataAccess.Translator
             return DataHelper.GetValueFromRowAsNullChar(dr, SourceNameName);
         }
     }
-    
+
     #endregion
 
     #region String
+    [System.Obsolete("Obsolete since 3.0.34")]
     public class DatabaseToObjectMappingString : DatabaseToObjectMapping
     {
         public DatabaseToObjectMappingString(string commonName)

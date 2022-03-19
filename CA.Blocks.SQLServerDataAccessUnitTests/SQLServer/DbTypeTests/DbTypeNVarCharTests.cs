@@ -16,10 +16,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         private const string  TEST_DATA = "nvarchar data";
+        private const string TEST_UTF8DATA = "语言处理"; //"语言处理" (which means "language processing" in Chinese):
 
         private void InsertTestDataAsBinarySQL(string data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data)));
+            ExecuteNonQuery(InsertTestDataSQL(string.Format("N'{0}'", data)));
         }
 
         [SetUp]
@@ -32,6 +33,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             InsertTestDataAsBinarySQL(Guid.NewGuid().ToString());
             InsertTestDataAsBinarySQL(Guid.NewGuid().ToString());
             InsertTestDataAsBinarySQL(Guid.NewGuid().ToString());
+            InsertTestDataAsBinarySQL(TEST_UTF8DATA); 
+
+
         }
 
         [TearDown]
@@ -41,7 +45,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataBinary()
+        public void SelectAllData()
         {
             //Setup 
             var t = new StringTranslator(UNIT_TEST_COL_NAME);
@@ -49,8 +53,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            Assert.AreEqual(5, data.Count);
+            Assert.AreEqual(6, data.Count);
             Assert.AreEqual(TEST_DATA, data[0]);
+            Assert.AreEqual(TEST_UTF8DATA, data[5]);
         }
 
 
@@ -63,8 +68,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Act
             var data = ExecuteToListOf<StringDataType>(cmd);
             //Assert
-            Assert.AreEqual(5, data.Count);
+            Assert.AreEqual(6, data.Count);
             Assert.AreEqual(TEST_DATA, data[0].Col);
+            Assert.AreEqual(TEST_UTF8DATA, data[5].Col);
         }
 
         [Test]
@@ -83,5 +89,21 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(1, data.Count);
         }
 
+
+        [Test]
+        public void SelectDataBinaryWithUTF8Filter()
+        {
+            //setup
+            const string testvalue = TEST_UTF8DATA;
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
+            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLStringType.NVarChar));
+
+            //Act
+            var data = t.Translate(ExecuteDataTable(cmd));
+
+            //Asert
+            Assert.AreEqual(1, data.Count);
+        }
     }
 }

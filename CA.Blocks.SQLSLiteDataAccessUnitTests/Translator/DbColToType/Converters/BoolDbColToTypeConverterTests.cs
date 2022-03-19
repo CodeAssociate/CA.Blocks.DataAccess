@@ -18,6 +18,9 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.DbColToType.Converters
             var target = new BoolDbColToTypeConverter();
             Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
             Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+
+            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
+            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
         }
 
         [Test]
@@ -33,6 +36,9 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.DbColToType.Converters
             var target = new NullBoolDbColToTypeConverter();
             Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
             Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+
+            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
+            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
         }
     }
 }

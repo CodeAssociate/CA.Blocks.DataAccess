@@ -1,19 +1,14 @@
 ﻿using System.Data;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbRowToObject;
 
 namespace CA.Blocks.DataAccess.Translator.Basic
 {
-
-    public class LongTranslator : SimpleDbRow2ObjectTranslator<long>
+    public class LongTranslator : Db2SingleNamedColumnTranslator<long>
     {
-        private readonly string _colName;
-        public LongTranslator(string colName)
+        public LongTranslator(string columnName) : base(new LongDbColToTypeConverter(), columnName)
         {
-            _colName = colName;
-        }
 
-        protected override long CustomTranslate(DataRow dr)
-        {
-            return dr.AsLong(_colName);
         }
     }
 }

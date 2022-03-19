@@ -17,4 +17,6 @@ namespace CA.Blocks.DataAccess.Translator.Basic
             return dr.AsDateTime(_colName);
         }
     }
+
+
 }

@@ -1,18 +1,15 @@
 ﻿using System.Data;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbRowToObject;
 
 namespace CA.Blocks.DataAccess.Translator.Basic
 {
-    public class IntTranslator : SimpleDbRow2ObjectTranslator<int>
+    public class IntTranslator : Db2SingleNamedColumnTranslator<int>
     {
-        private readonly string _colName;
-        public IntTranslator(string colName)
+        public IntTranslator(string columnName) : base(new IntDbColToTypeConverter(), columnName)
         {
-            _colName = colName;
+
         }
 
-        protected override int CustomTranslate(DataRow dr)
-        {
-            return dr.AsInt(_colName);
-        }
     }
 }

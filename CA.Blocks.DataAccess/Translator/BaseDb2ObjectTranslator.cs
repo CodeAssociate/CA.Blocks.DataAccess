@@ -20,7 +20,7 @@ using System.Reflection;
 namespace CA.Blocks.DataAccess.Translator
 {
 
-    [System.Obsolete("This Translator has been replaced with more flexible provider.  in place of t = new Db2ObjectTranslator() use t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>(); ")]
+    [System.Obsolete("This is in here for backwards compatibility only it and been replaced with more flexible provider this no longer supported.  in place of t = new Db2ObjectTranslator() use t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>(); ")]
     public class DatabaseToObjectMappings : List<DatabaseToObjectMapping>
     {
         public void RemoveByName(string propertyName)
@@ -29,7 +29,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
-    [System.Obsolete("This Translator has been replaced with more flexible provider.  in place of t = new BaseDb2ObjectTranslator<T>() use t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>(); ")]
+    [System.Obsolete("his is in here for backwards compatibility only and has been replaced with more flexible provider.  in place of t = new BaseDb2ObjectTranslator<T>() use t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>(); ")]
 
     public class BaseDb2ObjectTranslator<T> where T : new()
     {

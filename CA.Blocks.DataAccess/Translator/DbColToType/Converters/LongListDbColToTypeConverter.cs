@@ -37,5 +37,15 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         {
             return ToList(dr.AsString(columnName));
         }
+
+        public override IList<long> GetDataValue(DataRow dr, int columnIndex)
+        {
+            return ToList(dr.AsString(columnIndex));
+        }
+
+        public override IList<long> GetDataValue(IDataReader dr, int columnIndex)
+        {
+            return ToList(dr.AsString(columnIndex));
+        }
     }
 }

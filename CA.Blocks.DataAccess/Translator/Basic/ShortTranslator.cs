@@ -1,18 +1,14 @@
 ﻿using System.Data;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbRowToObject;
 
 namespace CA.Blocks.DataAccess.Translator.Basic
 {
-    public class ShortTranslator : SimpleDbRow2ObjectTranslator<short>
+    public class ShortTranslator : Db2SingleNamedColumnTranslator<short>
     {
-        private readonly string _colName;
-        public ShortTranslator(string colName)
+        public ShortTranslator(string columnName) : base(new ShortDbColToTypeConverter(), columnName)
         {
-            _colName = colName;
-        }
 
-        protected override short CustomTranslate(DataRow dr)
-        {
-            return dr.AsShort(_colName);
         }
     }
 }

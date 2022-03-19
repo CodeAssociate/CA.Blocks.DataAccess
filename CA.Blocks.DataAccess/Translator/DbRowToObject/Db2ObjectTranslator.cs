@@ -7,7 +7,6 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Mappings;
 
 namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 {
-
     public class Db2ObjectTranslator<T> : IDbRowTranslator<T> where T : new()
     {
         private DbRowToObjectMappings _mappings;
@@ -35,6 +34,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 
         protected virtual void CustomTranslate(DataRow dr, T item)
         {
+
         }
 
 
