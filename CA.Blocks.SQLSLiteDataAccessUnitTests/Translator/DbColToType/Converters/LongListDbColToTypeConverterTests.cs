@@ -26,6 +26,9 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.DbColToType.Converters
             var target = new LongListDbColToTypeConverter();
             Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
             Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+
+            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
+            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
         }
     }
 }

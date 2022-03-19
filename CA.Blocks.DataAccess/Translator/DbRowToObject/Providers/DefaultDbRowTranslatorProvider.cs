@@ -78,11 +78,24 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
 
             if (!_typeConverters.TryGetValue(key, out typeConverter))
             {
-                typeConverter = GenerateDefaultMappingsFor<T>();
-                Add<T>(key, (IDbRowTranslator<T>)typeConverter);
-
-               // let try register the default version with 100% 1-1 mapping. might fail but no worse that not having one registered
-               //throw new KeyNotFoundException($"No DbRow To Object Provider registered for {key}");
+                if (targetType.IsClass)
+                {
+                    typeConverter = GenerateDefaultMappingsFor<T>();
+                    Add<T>(key, (IDbRowTranslator<T>)typeConverter);
+                }
+                else
+                {
+                    var dbToTypeConverter = _colTypeConverters.Resolve(targetType);
+                    if (dbToTypeConverter != null)
+                    {
+                        typeConverter = new Db2SingleColumnTranslator<T>(dbToTypeConverter);
+                        Add<T>(key, (IDbRowTranslator<T>)typeConverter);
+                    }
+                    else
+                    {
+                        throw new KeyNotFoundException($"No DbRow To Object Provider registered for {key}");
+                    }
+                }
             }
 
             return typeConverter as IDbRowTranslator<T>;

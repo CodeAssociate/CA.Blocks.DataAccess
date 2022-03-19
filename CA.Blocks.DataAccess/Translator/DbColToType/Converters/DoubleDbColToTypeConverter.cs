@@ -14,6 +14,16 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         {
             return dr.AsDouble(columnName);
         }
+
+        public override Double GetDataValue(DataRow dr, int columnIndex)
+        {
+            return dr.AsDouble(columnIndex);
+        }
+
+        public override Double GetDataValue(IDataReader dr, int columnIndex)
+        {
+            return dr.AsDouble(columnIndex);
+        }
     }
 
     public class NullDoubleDbColToTypeConverter : BaseDbColToTypeConverter<Double?>
@@ -26,6 +36,15 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         public override Double? GetDataValue(IDataReader dr, string columnName)
         {
             return dr.AsNullDouble(columnName);
+        }
+        public override Double? GetDataValue(DataRow dr, int columnIndex)
+        {
+            return dr.AsNullDouble(columnIndex);
+        }
+
+        public override Double? GetDataValue(IDataReader dr, int columnIndex)
+        {
+            return dr.AsNullDouble(columnIndex);
         }
     }
 }

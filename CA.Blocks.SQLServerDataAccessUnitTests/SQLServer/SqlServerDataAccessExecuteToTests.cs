@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess.Translator.DbColToType.Exceptions;
 using CA.Blocks.SQLServerDataAccess;
@@ -54,6 +55,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             Assert.True(result == default);
         }
 
+
+        [Test]
+        public void ExecuteToListOfStrutList()
+        {
+            int defaulint = default;
+            SqlCommand cmd = CreateTextCommand("Select id from sysobjects where id <> @id").WithParameter(defaulint.ToSqlParameter("@id"));
+            var result = ExecuteToListOf<int>(cmd);
+            Assert.Greater(result.Count, 0);
+            var shouldBeEmpty = result.Where(x => x == defaulint).ToList();
+            Assert.AreEqual(0 ,shouldBeEmpty.Count);
+        }
+
+
         #region async Tests
 
         [Test]
@@ -88,6 +102,18 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var result = await ExecuteToAsync<temp>(cmd);
             Assert.True(result == default);
         }
+
+        [Test]
+        public async Task  ExecuteToListOfStrutListAsync()
+        {
+            int defaulInt = default;
+            SqlCommand cmd = CreateTextCommand("Select id from sysobjects where id <> @id").WithParameter(defaulInt.ToSqlParameter("@id"));
+            var result = await ExecuteToListOfAsync<int>(cmd);
+            Assert.Greater(result.Count, 0);
+            var shouldBeEmpty = result.Where(x => x == defaulInt).ToList();
+            Assert.AreEqual(0, shouldBeEmpty.Count);
+        }
+
 
 
 

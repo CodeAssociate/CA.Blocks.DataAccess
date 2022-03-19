@@ -7,6 +7,11 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Interfaces
         T GetDataValue(DataRow dr, string columnName);
 
         T GetDataValue(IDataReader dr, string columnName);
+
+        T GetDataValue(DataRow dr, int columnIndex);
+
+        // we do both DataRow and IDataReader so that we can switch between IdataReader and DataTable 
+        T GetDataValue(IDataReader dr, int columnIndex);
     }
 
     public interface IDbColToTypeConverter
@@ -15,5 +20,10 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Interfaces
 
         // we do both DataRow and IDataReader so that we can switch between IdataReader and DataTable 
         object GetData(IDataReader dr, string columnName);
+
+        object GetData(DataRow dr, int columnIndex);
+
+        // we do both DataRow and IDataReader so that we can switch between IdataReader and DataTable 
+        object GetData(IDataReader dr, int columnIndex);
     }
 }

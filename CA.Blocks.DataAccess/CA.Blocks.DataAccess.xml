@@ -493,5 +493,10 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             </summary>
             <typeparam name="T"> </typeparam>
         </member>
+        <member name="T:CA.Blocks.DataAccess.Translator.DynamicDbRow2ObjectTranslator">
+            <summary>
+            This returns an ExpandoObject which makes for very fast prototyping, if you know the structure you are after you should use the Db2ObjectTranslator 
+            </summary>
+        </member>
     </members>
 </doc>

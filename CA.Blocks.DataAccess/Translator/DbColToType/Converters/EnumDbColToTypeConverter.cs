@@ -29,6 +29,20 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
             Enum.TryParse<T>(value, _ignoreCase, out var result);
             return result;
         }
+
+        public override T GetDataValue(DataRow dr, int columnIndex)
+        {
+            string value = dr.AsToString(columnIndex);
+            Enum.TryParse<T>(value, _ignoreCase, out var result);
+            return result;
+        }
+
+        public override T GetDataValue(IDataReader dr, int columnIndex)
+        {
+            string value = dr.AsToString(columnIndex);
+            Enum.TryParse<T>(value, _ignoreCase, out var result);
+            return result;
+        }
     }
 
     public class NullEnumDbColToTypeConverter<T> : BaseDbColToTypeConverter<T?> where T : struct
@@ -57,6 +71,34 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         public override T? GetDataValue(IDataReader dr, string columnName)
         {
             var value = dr.AsToString(columnName);
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return null;
+            }
+            else
+            {
+                Enum.TryParse<T>(value, _ignoreCase, out var result);
+                return result;
+            }
+        }
+
+        public override T? GetDataValue(DataRow dr, int columnIndex)
+        {
+            var value = dr.AsToString(columnIndex);
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return null;
+            }
+            else
+            {
+                Enum.TryParse<T>(value, _ignoreCase, out var result);
+                return result;
+            }
+        }
+
+        public override T? GetDataValue(IDataReader dr, int columnIndex)
+        {
+            var value = dr.AsToString(columnIndex);
             if (string.IsNullOrWhiteSpace(value))
             {
                 return null;

@@ -28,11 +28,12 @@ namespace CA.Blocks.SQLServerDataAccess
         /// <summary>
         /// Will only store the date and time value on the input, this is the default, Expect this default to change to DateTime2 as DateTime is the legacy
         /// </summary>
-        DateTime, // The default
+        [System.Obsolete("Consider DateTime2 much higher precision, you can use DateTime2 in you code and the server will be backwards compatible, you will loose precision using DateTime vrs DateTime2 ")]
+        DateTime, 
         /// <summary>
         /// DateTime2 provides a much larger Date Range, in addition higher accuracy sorting down to the 100 nanoseconds level. Microsoft recommends datetime2 over datetime for new work.. but it usage is still catching up hence the default is still DateTime.
         /// </summary>
-        DateTime2,
+        DateTime2,// The default
         /// <summary>
         /// Will only store the date and time value on the input, this will be accurate up to the one minute. SmallDateTime is 4 bytes so has big storage advantages over big tables, however it is not SQL ANSI Compliant..
         /// </summary>
@@ -288,14 +289,14 @@ namespace CA.Blocks.SQLServerDataAccess
             return (sqlparam);
         }
 
-        public static SqlParameter ToSqlParameter(this DateTime input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime)
+        public static SqlParameter ToSqlParameter(this DateTime input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime2)
         {
             return ToSqlParameterDateTime(input, strParameterName, dbType);
         }
 
         // Default to DateTime
 
-        public static SqlParameter ToSqlParameter(this DateTime? input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime)
+        public static SqlParameter ToSqlParameter(this DateTime? input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime2)
         {
             return ToSqlParameterDateTime(input, strParameterName, dbType);
         }

@@ -45,7 +45,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         }
 
         [Test]
-        public void SelectAllDataDateTime()
+        public void SelectAll()
         {
             //Setup 
             var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
