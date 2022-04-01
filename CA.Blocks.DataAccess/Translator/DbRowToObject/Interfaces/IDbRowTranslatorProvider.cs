@@ -3,5 +3,7 @@
     public interface IDbRowTranslatorProvider
     {
         IDbRowTranslator<T> Resolve<T>(string byName = "") where T : new();
+
+        bool HasTranslatorFor<T>(string byName = "");
     }
 }
