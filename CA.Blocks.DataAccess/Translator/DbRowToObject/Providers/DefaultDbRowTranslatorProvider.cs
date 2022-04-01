@@ -100,5 +100,13 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
 
             return typeConverter as IDbRowTranslator<T>;
         }
+
+        public bool HasTranslatorFor<T>(string byName = "")
+        {
+            var targetType = typeof(T);
+            var key = GetKey(targetType, byName);
+
+            return _typeConverters.ContainsKey(key);
+        }
     }
 }

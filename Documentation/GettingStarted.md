@@ -1,25 +1,34 @@
-﻿## Getting Started
-
+﻿
 The CA.Blocks.DataAccess have been published to NuGet.  First thing that you need to decide is which provider we want to use. 
 
 For SQL server https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/
+
 ```
 PM> Install-Package CA.Blocks.SQLServerDataAccess -Version x.x.x.
 ```
 
 For SQL Microsoft.Data.Sqlite https://www.nuget.org/packages/CA.Blocks.SQLLiteDataAccess/
+
 ```
 PM> Install-Package CA.Blocks.SQLLiteDataAccess -Version x.x.x
 ```
 
-The second thing you need to do is setup a connection string see [Connection String Examples](./Samples/Connection/Index.html)
+
+For SQL MySQL https://www.nuget.org/packages/CA.Blocks.MySQLDataAccess/
+
+```
+PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
+```
+
+The second thing you need to do is setup a connection string see [Connection String Examples](#BLOCKDOCROOT#/Samples/Connection/Index)
 
 Then you will be ready to work with the DataAccess Class
 
-#### Template example accessing SQL server  
+### Template example accessing SQL server  
 
 In this example we going to use the data from the local SQL server selecting the data from the sysobjects table and executing the results into the .NET class ExampleSysObjects below
-<pre><code data-language="C#">
+
+``` csharp
 public class ExampleSysObjects
 {
     public int Id { get; set; }
@@ -27,7 +36,7 @@ public class ExampleSysObjects
     public string XType { get; set; }
     public DateTime CreateDate { get; set; }
 }
-</code></pre>
+```
 
 Template code using SQL server. 
 ``` csharp
@@ -50,13 +59,14 @@ public class ExampleReadDataAsExecuteListOf : SqlServerDataAccess
 ```
 Notes:
 1. The Class inherits from SqlServerDataAccess which is the SQL server provider. 
-2. The example above is using the provided HardCodedConnectionStringsResolver, this is provided for quick prototyping, samples and testing code allowing connection to be specified in line with the code. It is recommended you use an external connection string when working on something that is to be published. see [Connection String Examples](./Samples/Connection/Index.html)
+2. The example above is using the provided HardCodedConnectionStringsResolver, this is provided for quick prototyping, samples and testing code allowing connection to be specified in line with the code. It is recommended you use an external connection string when working on something that is to be published. see [Connection String Examples](#BLOCKDOCROOT#/Samples/Connection/Index)
 3. The ReadSysObjectsOfType method represents your DataAccess Method, the only input parameter exposed is xtype, and return type will be a IList of ExampleSysObjects 
 4. The CreateTextCommand will return a Interface to the SQL server implementation of the command
 5. The SQL is constructed internally as parameterized query this is a developer responsibility
 6. The conversion of .NET string to SQL parameter is done in .WithParameter(xtype.ToSqlParameter("@xtype"));  you can also use the connection object directly ie cmd.Parameters.Add(xtype.ToSqlParameter("@xtype"));
 7. The ToSqlParameter is a convention to taking a .NET type into a SQL server parameter. All .NET value types will have implementations of ToSqlParameter();
-8. The cmd is then passed into the ExecuteToListOf  method which returns the data as a IList of ExampleSysObjects. As we have 1-1 mapping the conversion is handled 100% by the Blocks.
+8. The cmd is then passed into the ExecuteToListOf  method which returns the data as a IList of ExampleSysObjects. As we have 1-1 mapping the conversion is handled 100% by the Blocks. 
+9. The property names as case sensitive, so this this example we have aliased  the columns on the query side ie id as Id. This Id is the property name on the target object.  You only have to do this is you using 100% automatic conversions
 
 Consuming this class: 
 ``` csharp
@@ -64,8 +74,8 @@ Consuming this class:
 [Test]
 public void ExecuteToListOfDev()
 {
-    var target = new ExampleReadDataAsExecuteListOf();
-    var executeResult = target.ReadSysObjectsOfType("U");
+    var target = new ExampleReadDataAsExecuteListOf(); 
+    var executeResult = target.ReadSysObjectsOfType("U"); 
 
     foreach (var o in executeResult)
     {
@@ -75,7 +85,7 @@ public void ExecuteToListOfDev()
 ```
 Notes:
 1. You construct the instance of the DataAccess ExampleReadDataAsExecuteListOf()
-2. You Call the method ReadSysObjectsOfType("U") The only methods you see are public ones from System.Object and the ReadSysObjectsOfType. This is by design the guts of the DataAccess class is protected By default. The Instance of the DataAccess can access the method, but the calling client only sees what is exposed. The calling code cannot call ExecuteToListOf
+2. You Call the method ReadSysObjectsOfType("U") The only methods you see are public ones from System.Object and the ReadSysObjectsOfType. This is by design the guts of the DataAccess class is **protected by default**. The Instance of the DataAccess can access the method, but the calling client only sees what is exposed. The calling code cannot call ExecuteToListOf
 <p align="center">
     <img src="_assets/ProtectedByDefaultExample.png" alt="ProtectedByDefault" />
 </p>

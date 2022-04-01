@@ -41,5 +41,44 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.DbColToType.Converters
             Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
             Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
         }
+
+
+
+        [Test]
+        [TestCase(1, int.MinValue)]
+        [TestCase(1, 123456)]
+        [TestCase(1, int.MaxValue)]
+        public void DbColToTypeConverterTestWithStringSource(int rowNumber, int expected)
+        {
+            var dt = CreateTestTable(typeof(string), expected.ToString());
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+
+            var target = new IntDbColToTypeConverter();
+            Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
+            Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+
+            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
+            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
+        }
+
+
+        [Test]
+        [TestCase(0, null)]
+        [TestCase(1, 123)]
+        public void NullDbColToTypeConverterTestWithStringSource(int rowNumber, int? expected)
+        {
+            var dt = CreateTestTable(typeof(string), expected);
+            var dataRow = GetDataRow(rowNumber, dt);
+            var dataReader = GetDataReader(rowNumber, dt);
+
+            var target = new NullIntDbColToTypeConverter();
+            Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
+            Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+
+            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
+            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
+        }
+
     }
 }
