@@ -472,6 +472,47 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             This Namespace contains the abstract classes for DataAccessCore. You find the abstract class and DataHelper methods for extracting data out of the DataRow and IDataReader interfaces
             </summary>
         </member>
+        <member name="T:CA.Blocks.DataAccess.Extensions.CompressionExtensions">
+            <summary>
+            A Extension class for to assist with compression of data for storage 
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.Compress(System.Byte[])">
+            <summary>
+            Will compress a byte array using the GZip algorithm.
+            The GZip algorithm is used as is is compatible with SQL server. THe opens up the possibility of Compressing and Decompressing at both
+            SQL server as as at Application level
+            </summary>
+            <param name="input"> The byte array as the source data</param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.Decompress(System.Byte[])">
+            <summary>
+            Will Decompress a byte array using the GZip algorithm.
+            The GZip algorithm is used as is is compatible with SQL server. THe opens up the possibility of Compressing and Decompressing at both
+            SQL server as as at Application level
+            </summary>
+            <param name="input">the decompressed Byte Array</param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.CompressString(System.String,System.Text.Encoding)">
+            <summary>
+            Will encode and compress a source string.
+            Note: Compression is intended to work on longer strings.
+            when the source is less that 100 characters in length  chances are the compressed result will be bigger than the source
+            </summary>
+            <param name="input"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.DecompressToString(System.Byte[],System.Text.Encoding)">
+            <summary>
+            Will decompress and decode an byte array to a string. The input stream must be in a known format to start with
+            </summary>
+            <param name="input"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
         <member name="M:CA.Blocks.DataAccess.IDataReaderExtensions.AsToString(System.Data.IDataReader,System.String,System.Boolean)">
             <summary>
             The AsToString is more forgiving of type conversions 

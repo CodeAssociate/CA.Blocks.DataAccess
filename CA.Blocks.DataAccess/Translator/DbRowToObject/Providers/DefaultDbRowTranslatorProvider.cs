@@ -14,7 +14,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
         private readonly IDbColToTypeProvider _colTypeConverters;
 
         private static object _syncLock = new object();
-        private readonly IDictionary<string, object> _typeConverters;
+        private readonly ConcurrentDictionary<string, object> _typeConverters;
 
         public static IDbRowTranslatorProvider DefaultInstance = new DefaultDbRowTranslatorProvider();
 
@@ -50,23 +50,27 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             return new Db2ObjectTranslator<T>(mappings);
         }
 
-        private void Add<T>(string key, IDbRowTranslator<T> translator, string byName = "")
+        private void TryAdd<T>(string key, IDbRowTranslator<T> translator, bool errorOnExists = true)
         {
             lock (_syncLock)
             {
-                if (_typeConverters.ContainsKey(key))
+                if (!_typeConverters.TryAdd(key, translator) && errorOnExists)
                 {
                     throw new ApplicationException($"There is already a IDbRowTranslator Type registered for {key} they must be unique");
                 }
-                _typeConverters.Add(key, translator);
             }
+        }
+
+        private void TryAdd<T>(IDbRowTranslator<T> translator, string byName = "", bool errorOnExists = true)
+        {
+            var targetType = typeof(T);
+            var key = GetKey(targetType, byName);
+            TryAdd(key, translator, errorOnExists);
         }
 
         public void Add<T>(IDbRowTranslator<T> translator, string byName = "")
         {
-            var targetType = typeof(T);
-            var key = GetKey(targetType, byName);
-            Add(key, translator, byName);
+            TryAdd(translator, byName, true);
         }
 
 
@@ -74,14 +78,13 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
         {
             var targetType = typeof(T);
             var key = GetKey(targetType, byName);
-            object typeConverter = null;
 
-            if (!_typeConverters.TryGetValue(key, out typeConverter))
+            if (!_typeConverters.TryGetValue(key, out var typeConverter))
             {
                 if (targetType.IsClass)
                 {
                     typeConverter = GenerateDefaultMappingsFor<T>();
-                    Add<T>(key, (IDbRowTranslator<T>)typeConverter);
+                    TryAdd<T>(key, (IDbRowTranslator<T>)typeConverter, false);
                 }
                 else
                 {
@@ -89,7 +92,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
                     if (dbToTypeConverter != null)
                     {
                         typeConverter = new Db2SingleColumnTranslator<T>(dbToTypeConverter);
-                        Add<T>(key, (IDbRowTranslator<T>)typeConverter);
+                        TryAdd<T>(key, (IDbRowTranslator<T>)typeConverter, false);
                     }
                     else
                     {
