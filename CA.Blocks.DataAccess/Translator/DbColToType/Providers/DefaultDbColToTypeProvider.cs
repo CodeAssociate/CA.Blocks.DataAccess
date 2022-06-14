@@ -9,7 +9,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
     public class DefaultDbColToTypeProvider : IDbColToTypeProvider
     {
         private static object _syncLock = new object();
-        private readonly IDictionary<string, object> _typeConverters;
+        private readonly ConcurrentDictionary<string, object> _typeConverters;
 
         public static IDbColToTypeProvider DefaultInstance = new DefaultDbColToTypeProvider();
         
@@ -77,24 +77,28 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
 
         }
 
-        public void Add<T>(IDbColToTypeConverter<T> typeConverter, string byName = "")
+        public void TryAdd<T>(IDbColToTypeConverter<T> typeConverter, string byName = "", bool errorOnExists = false)
         {
             var targetType = typeof(T);
             var key = GetKey(targetType, byName);
 
             lock (_syncLock)
             {
-                if (_typeConverters.ContainsKey(key))
+                if (!_typeConverters.TryAdd(key, typeConverter) && errorOnExists)
                 {
                     throw new ApplicationException($"There is already a ITypeConverter Type registered for {key} they must be unique");
                 }
-                _typeConverters.Add(key, typeConverter);
             }
         }
 
+        public void Add<T>(IDbColToTypeConverter<T> typeConverter, string byName = "")
+        {
+            TryAdd(typeConverter, byName, true);
+        }
+
+
         public IDbColToTypeConverter Resolve<T>(string byName = "")
         {
-
             var targetType = typeof(T);
             return Resolve(targetType, byName);
         }
