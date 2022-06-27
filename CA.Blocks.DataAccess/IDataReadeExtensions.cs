@@ -267,6 +267,41 @@ namespace CA.Blocks.DataAccess
 
         #endregion
 
+        #region DateTimeOffset
+        public static DateTimeOffset AsDateTimeOffset(this IDataReader dr, string colName)
+        {
+            var val = dr.AsNullDateTimeOffset(colName);
+            return ThrowExceptionIfIsNull(val, colName, "DateTimeOffSet");
+        }
+
+        public static DateTimeOffset AsDateTimeOffset(this IDataReader dr, int columnIndex)
+        {
+            var val = dr.AsNullDateTimeOffset(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "DateTimeOffSet");
+        }
+
+        // Nulls
+        public static DateTimeOffset? AsNullDateTimeOffset(this IDataReader dr, string colName)
+        {
+            if (dr.IsDBNull(dr.GetOrdinal(colName)))
+                return null;
+            else
+            {
+                return (DateTimeOffset)(dr[colName]);
+            }
+        }
+
+        public static DateTimeOffset? AsNullDateTimeOffset(this IDataReader dr, int columnIndex)
+        {
+            if (dr.IsDBNull(columnIndex))
+                return null;
+            else
+            {
+                return (DateTimeOffset)(dr[columnIndex]);
+            }
+        }
+        #endregion
+
         #region Double
 
         public static double AsDouble(this IDataReader dr, string colName)

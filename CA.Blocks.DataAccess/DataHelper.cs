@@ -789,7 +789,45 @@ namespace CA.Blocks.DataAccess
             DateTime? val = GetValueFromRowAsNullDateTime(dr, dc);
             return ThrowExceptionIfIsNull(val, dc.ColumnName, "DateTime");
         }
-        
+
+
+        // DateTimeOffset
+        public static DateTimeOffset? GetValueFromRowAsNullDateTimeOffset(DataRow dr, string sColumnName)
+        {
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (DateTimeOffset?)null : (DateTimeOffset)(dbValue);
+        }
+
+        public static DateTimeOffset? GetValueFromRowAsNullDateTimeOffset(DataRow dr, int columnIndex)
+        {
+            var dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? (DateTimeOffset?)null : (DateTimeOffset)(dbValue);
+        }
+
+        public static DateTimeOffset? GetValueFromRowAsNullDateTimeOffset(DataRow dr, DataColumn dc)
+        {
+            var dbValue = GetValueFromRow(dr, dc);
+            return dbValue == null ? (DateTimeOffset?)null : (DateTimeOffset)(dbValue);
+        }
+
+        public static DateTimeOffset GetValueFromRowAsDateTimeOffset(DataRow dr, string sColumnName)
+        {
+            DateTimeOffset? val = GetValueFromRowAsNullDateTimeOffset(dr, sColumnName);
+            return ThrowExceptionIfIsNull(val, sColumnName, "DateTimeOffset");
+        }
+
+        public static DateTimeOffset GetValueFromRowAsDateTimeOffset(DataRow dr, int columnIndex)
+        {
+            DateTimeOffset? val = GetValueFromRowAsNullDateTimeOffset(dr, columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "DateTimeOffset");
+        }
+
+        public static DateTimeOffset GetValueFromRowAsDateTimeOffset(DataRow dr, DataColumn dc)
+        {
+            DateTimeOffset? val = GetValueFromRowAsNullDateTimeOffset(dr, dc);
+            return ThrowExceptionIfIsNull(val, dc.ColumnName, "DateTimeOffset");
+        }
+
         public static TimeSpan? GetValueFromRowAsNullTimeSpan(DataRow dr, string sColumnName)
         {
             return (TimeSpan?)(GetValueFromRow(dr, sColumnName));

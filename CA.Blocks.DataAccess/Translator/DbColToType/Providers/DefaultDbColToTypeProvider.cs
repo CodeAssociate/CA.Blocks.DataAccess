@@ -71,9 +71,13 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
             // Binary
             Add(new BinaryDbColToTypeConverter());
 
-
+            //DateTime
             Add(new DateTimeDbColToTypeConverter());
             Add(new NullDateTimeDbColToTypeConverter());
+
+            //DateTimeOffSet
+            Add(new DateTimeOffSetDbColToTypeConverter());
+            Add(new NullDateTimeOffSetDbColToTypeConverter());
 
         }
 

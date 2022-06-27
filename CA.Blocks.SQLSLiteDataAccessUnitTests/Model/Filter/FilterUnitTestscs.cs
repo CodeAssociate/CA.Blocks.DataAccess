@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using CA.Blocks.SQLLiteDataAccess;
 using CA.Blocks.DataAccess.Model.Filter;
-using Microsoft.Data.Sqlite;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLLiteDataAccessUnitTests.Model.Filter

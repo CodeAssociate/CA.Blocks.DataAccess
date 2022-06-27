@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.DbColToType.Converters
 {
     [TestFixture]
-    public class DateTimeDbColToTypeConverterTests : BaseDbColToTypeConverterTests
+    public class DateTimeOffSetDbColToTypeConverterTests : BaseDbColToTypeConverterTests
     {
         [Test]
         [TestCase(1, "now")]
@@ -15,17 +15,17 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.DbColToType.Converters
         [TestCase(1, "2-Jan-2019 00:00:01.333")]
         public void DbColToTypeConverterTest(int rowNumber, string testDate)
         {
-            DateTime? expected = null;
+            DateTimeOffset? expected = null;
             if (!string.IsNullOrWhiteSpace(testDate))
             {
-                expected = testDate == "now" ? DateTime.Now : DateTime.Parse(testDate);
+                expected = testDate == "now" ? DateTimeOffset.Now : DateTimeOffset.Parse(testDate);
             }
 
-            var dt = CreateTestTable(typeof(DateTime), expected);
+            var dt = CreateTestTable(typeof(DateTimeOffset), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            var target = new DateTimeDbColToTypeConverter();
+            var target = new DateTimeOffSetDbColToTypeConverter();
             Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
             Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
 
@@ -39,17 +39,17 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.DbColToType.Converters
         [TestCase(1, "1-Jan-2019")]
         public void NullDbColToTypeConverterTest(int rowNumber, string testDate)
         {
-            DateTime? expected = null;
+            DateTimeOffset? expected = null;
             if (!string.IsNullOrWhiteSpace(testDate))
             {
-                expected = DateTime.Parse(testDate);
+                expected = DateTimeOffset.Parse(testDate);
             }
 
-            var dt = CreateTestTable(typeof(DateTime), expected);
+            var dt = CreateTestTable(typeof(DateTimeOffset), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            var target = new NullDateTimeDbColToTypeConverter();
+            var target = new NullDateTimeOffSetDbColToTypeConverter();
             Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
             Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
 
