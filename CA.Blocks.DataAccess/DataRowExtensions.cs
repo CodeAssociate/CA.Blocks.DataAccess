@@ -25,6 +25,12 @@ namespace CA.Blocks.DataAccess
     public static class DataRowExtensions
     {
         #region Binary
+        /// <summary>
+        /// Returns a DataRow column name as as byte[]
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="colName"></param>
+        /// <returns></returns>
         public static byte[] AsBinary(this DataRow dr, string colName)
         {
             return DataHelper.GetValueFromRowAsBinary(dr, colName);

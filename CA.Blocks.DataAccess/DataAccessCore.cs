@@ -3,7 +3,7 @@
 // DataAccessCore.cs
 //
 //===============================================================================
-// Copyright (C) 2002-2020 Ravin Enterprises Ltd. 
+// Copyright (C) 2002-2022 Ravin Enterprises Ltd. 
 // All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT

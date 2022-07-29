@@ -7,11 +7,6 @@ using System.Text;
 
 namespace CA.Blocks.DataAccess.Model.Filter
 {
-
-
-   
-
-
     public enum BaseFilterSegmentCondition
     {
         And,
@@ -20,6 +15,9 @@ namespace CA.Blocks.DataAccess.Model.Filter
 
     public abstract class BaseFilterSegment
     {
+        // When building a filter and we know it is not valid we need to put in place a filter that will not break the Segment 
+        private const string IGNORE_FILTER_STRING = " 1 = 1 ";
+
         private readonly BaseFilterSegmentCondition _condition;
         private readonly StringBuilder _filter = new StringBuilder();
 
@@ -31,6 +29,11 @@ namespace CA.Blocks.DataAccess.Model.Filter
         protected BaseFilterSegment(BaseFilterSegmentCondition condition)
         {
             _condition = condition;
+        }
+
+        public virtual bool IsValid()
+        {
+            return true;
         }
 
         protected void AddFilter(string filter)
@@ -47,7 +50,6 @@ namespace CA.Blocks.DataAccess.Model.Filter
             AddFilter(filter);
             AssignParameterValue(sqlparam);
         }
-
 
         protected void AssignParameterValue(IDataParameter sqlparam)
         {
@@ -72,21 +74,19 @@ namespace CA.Blocks.DataAccess.Model.Filter
             }
         }
 
-
         public IList<IDataParameter> Parameters { get; } = new List<IDataParameter>();
 
         public string ToSQLFilter(bool includeWhere = false)
         {
-            if (includeWhere && _filter.Length > 0)
-                return $"WHERE {_filter}";
+            
+            if (IsValid())
+            {
+                return includeWhere && _filter.Length > 0 ? $"WHERE {_filter}" : _filter.ToString();
+            }
             else
-                return _filter.ToString();
+            {
+                return includeWhere ? $"WHERE {IGNORE_FILTER_STRING}" : IGNORE_FILTER_STRING;
+            }
         }
-
-
-
-
-
-
     }
 }

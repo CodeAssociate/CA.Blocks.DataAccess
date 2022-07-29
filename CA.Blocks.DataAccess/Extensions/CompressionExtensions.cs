@@ -7,7 +7,7 @@ namespace CA.Blocks.DataAccess.Extensions
     /// <summary>
     /// A Extension class for to assist with compression of data for storage 
     /// </summary>
-    public static  class CompressionExtensions
+    public static class CompressionExtensions
     {
 
         /// <summary>
@@ -33,7 +33,6 @@ namespace CA.Blocks.DataAccess.Extensions
                     targetStream.Close();
                     sourceStream.Close();
                 }
-
             }
             return result;
         }
@@ -60,7 +59,6 @@ namespace CA.Blocks.DataAccess.Extensions
                     targetStream.Close();
                     sourceStream.Close();
                 }
-
             }
             return result;
         }
@@ -75,9 +73,7 @@ namespace CA.Blocks.DataAccess.Extensions
         /// <returns></returns>
         public static byte[] CompressString(this string input, Encoding encoding)
         {
-            if (string.IsNullOrWhiteSpace(input))
-                return null;
-            return Compress(encoding.GetBytes(input));
+            return string.IsNullOrWhiteSpace(input) ? null : Compress(encoding.GetBytes(input));
         }
 
         /// <summary>
@@ -88,9 +84,7 @@ namespace CA.Blocks.DataAccess.Extensions
         /// <returns></returns>
         public static string DecompressToString(this byte[] input, Encoding encoding)
         {
-            if (input.Length  == 0)
-                return null;
-            return encoding.GetString(Decompress(input));
+            return input.Length  == 0 ? null : encoding.GetString(Decompress(input));
         }
 
         //
@@ -112,6 +106,4 @@ namespace CA.Blocks.DataAccess.Extensions
             return input.DecompressToString(Encoding.Unicode);
         }
     }
-
-
 }
