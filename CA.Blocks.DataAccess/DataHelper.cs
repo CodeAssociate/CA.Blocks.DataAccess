@@ -3,7 +3,7 @@
 // DataHelper.cs
 //
 //===============================================================================
-// Copyright (C) 2002-2020 Ravin Enterprises Ltd. 
+// Copyright (C) 2002-2022 Ravin Enterprises Ltd. 
 // All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
@@ -42,18 +42,6 @@ namespace CA.Blocks.DataAccess
             }
             return obj.Value;
         }
-
-        //private static ThrowExceptionColDoesNotExist(T? obj, string sColumnName, string typeDescription)
-        //{
-        //    if (obj == null)
-        //    {
-        //        throw new Mapp(
-        //            $"Tried to get {sColumnName} from row as non-nullable {typeDescription}, however value is NULL.");
-        //    }
-        //    return obj.Value;
-        //}
-
-
 
         /// <summary>
         /// Will get the data value from the row as an object retuning the .NET null value  in the event the data value is 
@@ -96,28 +84,23 @@ namespace CA.Blocks.DataAccess
 
         /// <summary>
         /// Will get the data value from the row as a string. The return value will be set to either null or and empty string depending 
-        /// on the value of ReturnNullAsEmptyString  
+        /// on the value of returnNullAsEmptyString, 
         /// </summary>
+        /// <remarks>This method assumes the data comes from the data source as a string and will cast. This has the best performance but will not to conversion
+        /// if you need conversion example selecting an int as a string then use <see cref="GetValueFromRowAsToString(DataRow, string, bool)"/></remarks>
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName"> The Name of the Column in the DataRow </param>
         /// <param name="returnNullAsEmptyString">Sets the attribute on how an empty string will be treated, it true it will return string.empty else it will return null. </param>
         /// <returns></returns>
         public static string GetValueFromRowAsString(DataRow dr, string sColumnName, bool returnNullAsEmptyString = false)
         {
-            object result = GetValueFromRow(dr, sColumnName);
+            var result = GetValueFromRow(dr, sColumnName);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
             return (string)result;
         }
-        
-        /// <summary>
-        /// Will get the data value from the row as a string. The return value will be set to either null or and empty string depending 
-        /// on the value of ReturnNullAsEmptyString  
-        /// </summary>
-        /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
-        /// <param name="columnOrder"> The order of the Column in the DataRow </param>
-        /// <param name="returnNullAsEmptyString">Sets the attribute on how an empty string will be treated, it true it will return string.empty else it will return null. </param>
-        /// <returns></returns>
+
+        /// <inheritdoc cref="GetValueFromRowAsString(DataRow, string, bool)" />
         public static string GetValueFromRowAsString(DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
         {
             object result = GetValueFromRow(dr, columnOrder);
@@ -125,7 +108,8 @@ namespace CA.Blocks.DataAccess
                 result = string.Empty;
             return (string)result;
         }
-        
+
+        /// <inheritdoc cref="GetValueFromRowAsString(DataRow, string, bool)" />
         public static string GetValueFromRowAsString(DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
         {
             object result = GetValueFromRow(dr, column);
@@ -136,9 +120,16 @@ namespace CA.Blocks.DataAccess
 
         // The AsToString is slower but will auto convert types to string like int 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="sColumnName"></param>
+        /// <param name="returnNullAsEmptyString"></param>
+        /// <returns></returns>
         public static string GetValueFromRowAsToString(DataRow dr, string sColumnName, bool returnNullAsEmptyString = false)
         {
-            object result = GetValueFromRow(dr, sColumnName);
+            var result = GetValueFromRow(dr, sColumnName);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
             return result.ToString();

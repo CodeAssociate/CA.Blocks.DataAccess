@@ -165,21 +165,28 @@
         <member name="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsString(System.Data.DataRow,System.String,System.Boolean)">
             <summary>
             Will get the data value from the row as a string. The return value will be set to either null or and empty string depending 
-            on the value of ReturnNullAsEmptyString  
+            on the value of returnNullAsEmptyString, 
             </summary>
+            <remarks>This method assumes the data comes from the data source as a string and will cast. This has the best performance but will not to conversion
+            if you need conversion example selecting an int as a string then use <see cref="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsToString(System.Data.DataRow,System.String,System.Boolean)"/></remarks>
             <param name="dr">A Valid <see cref="T:System.Data.DataRow"/> DataRow</param>
             <param name="sColumnName"> The Name of the Column in the DataRow </param>
             <param name="returnNullAsEmptyString">Sets the attribute on how an empty string will be treated, it true it will return string.empty else it will return null. </param>
             <returns></returns>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsString(System.Data.DataRow,System.Int32,System.Boolean)">
+            <inheritdoc cref="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsString(System.Data.DataRow,System.String,System.Boolean)" />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsString(System.Data.DataRow,System.Data.DataColumn,System.Boolean)">
+            <inheritdoc cref="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsString(System.Data.DataRow,System.String,System.Boolean)" />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsToString(System.Data.DataRow,System.String,System.Boolean)">
             <summary>
-            Will get the data value from the row as a string. The return value will be set to either null or and empty string depending 
-            on the value of ReturnNullAsEmptyString  
+            
             </summary>
-            <param name="dr">A Valid <see cref="T:System.Data.DataRow"/> DataRow</param>
-            <param name="columnOrder"> The order of the Column in the DataRow </param>
-            <param name="returnNullAsEmptyString">Sets the attribute on how an empty string will be treated, it true it will return string.empty else it will return null. </param>
+            <param name="dr"></param>
+            <param name="sColumnName"></param>
+            <param name="returnNullAsEmptyString"></param>
             <returns></returns>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataHelper.GetValueFromRowAsNullInt(System.Data.DataRow,System.String)">
@@ -399,6 +406,14 @@
               var varName = dr.AsInt("ColName");
             </code>
             </example>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataRowExtensions.AsBinary(System.Data.DataRow,System.String)">
+            <summary>
+            Returns a DataRow column name as as byte[]
+            </summary>
+            <param name="dr"></param>
+            <param name="colName"></param>
+            <returns></returns>
         </member>
         <member name="T:CA.Blocks.DataAccess.DI.IDataAccessConfigOptions">
             <summary>
