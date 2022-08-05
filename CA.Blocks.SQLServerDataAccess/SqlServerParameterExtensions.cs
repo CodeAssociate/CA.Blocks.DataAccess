@@ -302,9 +302,32 @@ namespace CA.Blocks.SQLServerDataAccess
         }
         #endregion
 
-        /*TODO
-        SqlDbType.DateTimeOffset;
-        */
+        //DateTimeOffset
+        private static SqlParameter ToSqlParameterDateTimeOffset(DateTimeOffset? input, string strParameterName)
+        {
+            var sqlparam = new SqlParameter(strParameterName, SqlDbType.DateTimeOffset)
+            {
+                Direction = ParameterDirection.Input
+            };
+            if (input.HasValue)
+                sqlparam.Value = input;
+            else
+            {
+                sqlparam.Value = DBNull.Value;
+            }
+            return (sqlparam);
+        }
+
+        public static SqlParameter ToSqlParameter(this DateTimeOffset input, string strParameterName)
+        {
+            return ToSqlParameterDateTimeOffset(input, strParameterName);
+        }
+
+        public static SqlParameter ToSqlParameter(this DateTimeOffset? input, string strParameterName)
+        {
+            return ToSqlParameterDateTimeOffset(input, strParameterName);
+        }
+
         #region SqlDbType.Decimal  (Decimal, Money, SmallMoney)
 
         private static SqlDbType ToSqlDbType(SpecificSQLDecimalType dbType)

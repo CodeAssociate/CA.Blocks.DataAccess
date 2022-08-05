@@ -10,11 +10,11 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.SQLLite
     {
         public bool TraceErrorCalled = false;
 
-        protected override void TraceGenralError(IDbCommand cmd, Exception ex)
+        protected override void TraceGeneralError(IDbCommand cmd, Exception ex)
         {
             TestContext.WriteLine($"Error with cmd - {cmd.CommandText}");
             TestContext.WriteLine($"Error Detail - {ex.Message}");
-            base.TraceGenralError(cmd, ex); // to trigger code coverage
+            base.TraceGeneralError(cmd, ex); // to trigger code coverage
             TraceErrorCalled = true;
         }
 

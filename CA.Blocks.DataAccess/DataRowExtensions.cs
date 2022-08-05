@@ -181,6 +181,38 @@ namespace CA.Blocks.DataAccess
 
         #endregion
 
+        #region DateTimeOffset
+        public static DateTimeOffset AsDateTimeOffset(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsDateTimeOffset(dr, colName);
+        }
+
+        public static DateTimeOffset AsDateTimeOffset(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsDateTimeOffset(dr, columnIndex);
+        }
+
+        public static DateTimeOffset AsDateTimeOffset(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsDateTimeOffset(dr, column);
+        }
+        // Nulls
+        public static DateTimeOffset? AsNullDateTimeOffset(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsNullDateTimeOffset(dr, colName);
+        }
+
+        public static DateTimeOffset? AsNullDateTimeOffset(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsNullDateTimeOffset(dr, columnIndex);
+        }
+
+        public static DateTimeOffset? AsNullDateTimeOffset(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsNullDateTimeOffset(dr, column);
+        }
+        #endregion
+
         #region Double
         public static double AsDouble(this DataRow dr, string colName)
         {

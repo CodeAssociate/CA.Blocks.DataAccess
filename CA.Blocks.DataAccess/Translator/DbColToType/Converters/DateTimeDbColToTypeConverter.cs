@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
-using CA.Blocks.DataAccess;
-using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+
 
 namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 {
@@ -27,7 +26,6 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
             return dr.AsDateTime(columnIndex);
         }
     }
-}
 
     public class NullDateTimeDbColToTypeConverter : BaseDbColToTypeConverter<DateTime?>
     {
@@ -40,6 +38,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         {
             return dr.AsNullDateTime(columnName);
         }
+
         public override DateTime? GetDataValue(DataRow dr, int columnIndex)
         {
             return dr.AsNullDateTime(columnIndex);
@@ -49,4 +48,6 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         {
             return dr.AsNullDateTime(columnIndex);
         }
+    }
+
 }
