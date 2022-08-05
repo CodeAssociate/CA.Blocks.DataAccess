@@ -14,6 +14,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.DataAccess\CA.Blocks.DataAccess.xml</DocumentationFile>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="DI\IDataAccessKeyToConnectionStringResolverDocs.xml" />

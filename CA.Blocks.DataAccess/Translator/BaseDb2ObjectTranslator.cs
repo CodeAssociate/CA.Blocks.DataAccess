@@ -29,7 +29,7 @@ namespace CA.Blocks.DataAccess.Translator
         }
     }
 
-    [System.Obsolete("his is in here for backwards compatibility only and has been replaced with more flexible provider.  in place of t = new BaseDb2ObjectTranslator<T>() use t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>(); ")]
+    [System.Obsolete("This is in here for backwards compatibility only and has been replaced with more flexible provider.  in place of t = new BaseDb2ObjectTranslator<T>() use t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>(); ")]
 
     public class BaseDb2ObjectTranslator<T> where T : new()
     {

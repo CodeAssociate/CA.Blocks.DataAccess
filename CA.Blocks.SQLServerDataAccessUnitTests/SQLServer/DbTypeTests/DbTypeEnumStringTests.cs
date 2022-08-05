@@ -44,6 +44,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             InsertTestDataStringSQL("1");
             InsertTestDataStringSQL("2");
             InsertTestDataStringSQL("ForBar");
+
         }
 
         [TearDown]
@@ -72,7 +73,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         {
             //setup
             const MyTestEnum testValue = MyTestEnum.Bar;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToString().ToSqlParameter("@value"));
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToString().ToSqlParameter("@value", SpecificSQLStringType.NVarChar));
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringEnumDataType>();
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));

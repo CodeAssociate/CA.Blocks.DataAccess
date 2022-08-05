@@ -70,5 +70,10 @@
             Will only store the date and time value on the input, this will be accurate up to the one minute. SmallDateTime is 4 bytes so has big storage advantages over big tables, however it is not SQL ANSI Compliant..
             </summary>
         </member>
+        <member name="T:CA.Blocks.SQLServerDataAccess.SpecificSQLDecimalType">
+            <summary>
+            The SpecificSQLDecimalType to use this will default to Decimal if not specified
+            </summary>
+        </member>
     </members>
 </doc>

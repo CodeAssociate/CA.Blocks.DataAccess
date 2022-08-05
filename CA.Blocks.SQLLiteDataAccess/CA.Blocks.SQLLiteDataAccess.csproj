@@ -11,7 +11,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.SQLLiteDataAccess\CA.Blocks.SQLLiteDataAccess.xml</DocumentationFile>
+    <DocumentationFile>.\CA.Blocks.SQLLiteDataAccess.xml</DocumentationFile>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>

@@ -69,7 +69,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.TestObjects
     }
 
 
+#pragma warning disable CS0618 // Type or member is obsolete setill need to test code that is marked for obsolete
     public class CustomTestSysobjectsTranslator : BaseDb2ObjectTranslator<CustomTestSysobjects>
+#pragma warning restore CS0618 // Type or member is obsolete
     {
         public CustomTestSysobjectsTranslator()
         {

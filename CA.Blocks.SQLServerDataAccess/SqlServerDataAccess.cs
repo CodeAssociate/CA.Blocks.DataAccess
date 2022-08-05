@@ -112,7 +112,8 @@ namespace CA.Blocks.SQLServerDataAccess
         protected virtual List<int> TransientErrorNumbers()
         {
             // https://docs.microsoft.com/en-us/azure/azure-sql/database/troubleshoot-common-errors-issues
-            return new List<int> { 4060, 40197, 40501, 40613, 49918, 49919, 49920, 4221, 11001 };
+            // Add serverless paused and warming up errors to transient error lists //42108, 42109
+            return new List<int> { 4060, 42108, 42109, 40197, 40501, 40613, 49918, 49919, 49920, 4221, 11001,  };
         }
 
         protected override bool IsTransientError(DbException dbEx)

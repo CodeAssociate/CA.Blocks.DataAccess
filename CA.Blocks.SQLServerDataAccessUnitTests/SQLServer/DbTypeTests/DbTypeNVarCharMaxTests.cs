@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
@@ -7,19 +7,20 @@ using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
 {
-
-
-
     [TestFixture]
-    public class DbTypeNVarCharTests : UnitTestDataAccess
+    public class DbTypeNVarCharMaxTests : UnitTestDataAccess
     {
+        // https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/configuring-parameters-and-parameter-data-types
+
+        // This implicit conversion will fail if the string is larger than the maximum size of an NVarChar which is 4000 we testing above and below
+        
+        private string testDataValueForMax = string.Empty;
+        private string testDataValueShort = string.Empty; 
         private class StringDataType
         {
             public string Col { get; set; }
         }
 
-        private const string TEST_DATA = "nvarchar data";
-        private const string TEST_UTF8DATA = "语言处理"; //"语言处理" (which means "language processing" in Chinese):
 
         private void InsertTestDataAsText(string data)
         {
@@ -29,14 +30,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         [SetUp]
         public void Setup()
         {
+            testDataValueForMax = string.Concat(Enumerable.Repeat("0123456789→", 500)); // Create a string 5500 char long
+            testDataValueShort = string.Concat(Enumerable.Repeat("0123456789→", 300)); // Create a string 3300 char long
             ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("NVarChar(50) not null"));
-            InsertTestDataAsText(TEST_DATA);
-            InsertTestDataAsText(Guid.NewGuid().ToString());
-            InsertTestDataAsText(Guid.NewGuid().ToString());
-            InsertTestDataAsText(Guid.NewGuid().ToString());
-            InsertTestDataAsText(Guid.NewGuid().ToString());
-            InsertTestDataAsText(TEST_UTF8DATA);
+            ExecuteNonQuery(CreateTestTable("NVarChar(Max) not null"));
+            InsertTestDataAsText(testDataValueForMax);
+            InsertTestDataAsText(testDataValueShort);
         }
 
         [TearDown]
@@ -54,9 +53,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            Assert.AreEqual(6, data.Count);
-            Assert.AreEqual(TEST_DATA, data[0]);
-            Assert.AreEqual(TEST_UTF8DATA, data[5]);
+            Assert.AreEqual(2, data.Count);
+            Assert.AreEqual(testDataValueForMax, data[0] );
+            Assert.AreEqual(testDataValueShort, data[1]);
+
         }
 
 
@@ -69,19 +69,18 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Act
             var data = ExecuteToListOf<StringDataType>(cmd);
             //Assert
-            Assert.AreEqual(6, data.Count);
-            Assert.AreEqual(TEST_DATA, data[0].Col);
-            Assert.AreEqual(TEST_UTF8DATA, data[5].Col);
+            Assert.AreEqual(2, data.Count);
+            Assert.AreEqual(testDataValueForMax, data[0].Col);
+            Assert.AreEqual(testDataValueShort, data[1].Col);
         }
 
         [Test]
-        public void SelectDataBinaryWithFilter()
+        public void SelectDataWithLargeFilter()
         {
             //setup
-            const string testvalue = TEST_DATA;
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            cmd.Parameters.Add(testDataValueForMax.ToSqlParameter("@testValue"));
 
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
@@ -90,21 +89,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             Assert.AreEqual(1, data.Count);
         }
 
-
         [Test]
-        public void SelectDataBinaryWithUTF8Filter()
+        public void SelectDataWithLargeSmallFilter()
         {
             //setup
-            const string testvalue = TEST_UTF8DATA;
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLStringType.NVarChar));
-
+            cmd.Parameters.Add(testDataValueShort.ToSqlParameter("@testValue"));
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
             Assert.AreEqual(1, data.Count);
         }
+
     }
 }
