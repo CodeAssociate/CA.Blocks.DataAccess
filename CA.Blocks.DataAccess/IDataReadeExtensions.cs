@@ -8,7 +8,6 @@
 //===============================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace CA.Blocks.DataAccess
@@ -38,25 +37,6 @@ namespace CA.Blocks.DataAccess
             }
             return obj.Value;
         }
-        
-        //#region Binary
-        //public static byte[] AsBinary(this DataRow dr, string colName)
-        //{
-        //    return DataHelper.GetValueFromRowAsBinary(dr, colName);
-        //}
-
-        //public static byte[] AsBinary(this DataRow dr, int columnIndex)
-        //{
-        //    return DataHelper.GetValueFromRowAsBinary(dr, columnIndex);
-        //}
-
-        //public static byte[] AsBinary(this DataRow dr, DataColumn column)
-        //{
-        //    return DataHelper.GetValueFromRowAsBinary(dr, column);
-        //}
-
-        //#endregion
-
         #region bool
 
         public static bool AsBool(this IDataReader dr, string colName)
@@ -65,13 +45,11 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, colName, "bool");
         }
 
-
         public static bool AsBool(this IDataReader dr, int columnIndex)
         {
             var val = dr.AsNullBool(columnIndex);
             return ThrowExceptionIfIsNull(val, columnIndex, "bool");
         }
-
 
         // Nulls
         public static bool? AsNullBool(this IDataReader dr, string colName)
@@ -79,9 +57,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToBoolean(dr[colName]);
-            }
         }
 
         public static bool? AsNullBool(this IDataReader dr, int columnIndex)
@@ -89,11 +65,8 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToBoolean(dr[columnIndex]);
-            }
         }
-
         #endregion
 
         #region Byte
@@ -137,10 +110,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
-
                 return (byte[])(dr[colName]);
-            }
         }
 
         public static byte[] AsBinary(this IDataReader dr, int columnIndex)
@@ -148,10 +118,8 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return (byte[])(dr[columnIndex]);
-            }
-        }
+        }          
 
         #endregion
         #region SByte
@@ -175,9 +143,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToSByte(dr[colName]);
-            }
         }
 
         public static sbyte? AsNullSbyte(this IDataReader dr, int columnIndex)
@@ -185,10 +151,8 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToSByte(dr[columnIndex]);
             }
-        }
         #endregion
 
         #region Char
@@ -212,9 +176,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToChar(dr[colName]);
-            }
         }
 
         public static char? AsNullChar(this IDataReader dr, int columnIndex)
@@ -222,9 +184,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToChar(dr[columnIndex]);
-            }
         }
 
         #endregion
@@ -286,9 +246,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return (DateTimeOffset)(dr[colName]);
-            }
         }
 
         public static DateTimeOffset? AsNullDateTimeOffset(this IDataReader dr, int columnIndex)
@@ -296,20 +254,16 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return (DateTimeOffset)(dr[columnIndex]);
-            }
         }
         #endregion
 
         #region Double
-
         public static double AsDouble(this IDataReader dr, string colName)
         {
             var val = dr.AsNullDouble(colName);
             return ThrowExceptionIfIsNull(val, colName, "double");
         }
-
 
         public static double AsDouble(this IDataReader dr, int columnIndex)
         {
@@ -324,9 +278,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToDouble(dr[colName]);
-            }
         }
 
         public static double? AsNullDouble(this IDataReader dr, int columnIndex)
@@ -334,20 +286,16 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToDouble(dr[columnIndex]);
-            }
         }
         #endregion
 
         #region Single / float  a float is a single The use of "float" in C# seems to be a throwback to its C/C++ heritage. a float" still maps to the System.Single type in C# so use single where you can
-
         public static Single AsSingle(this IDataReader dr, string colName)
         {
             var val = dr.AsNullSingle(colName);
             return ThrowExceptionIfIsNull(val, colName, "single");
         }
-
 
         public static Single AsSingle(this IDataReader dr, int columnIndex)
         {
@@ -355,16 +303,13 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, columnIndex, "single");
         }
 
-
         // Nulls
         public static Single? AsNullSingle(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToSingle(dr[colName]);
-            }
         }
 
         public static Single? AsNullSingle(this IDataReader dr, int columnIndex)
@@ -372,20 +317,16 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToSingle(dr[columnIndex]);
-            }
         }
         #endregion
 
         #region Decimal
-
         public static decimal AsDecimal(this IDataReader dr, string colName)
         {
             var val = dr.AsNullDecimal(colName);
             return ThrowExceptionIfIsNull(val, colName, "decimal");
         }
-
 
         public static decimal AsDecimal(this IDataReader dr, int columnIndex)
         {
@@ -393,16 +334,13 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, columnIndex, "decimal");
         }
 
-
         // Nulls
         public static decimal? AsNullDecimal(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToDecimal(dr[colName]);
-            }
         }
 
         public static decimal? AsNullDecimal(this IDataReader dr, int columnIndex)
@@ -410,16 +348,11 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToDecimal(dr[columnIndex]);
-            }
         }
-
-
         #endregion
 
         #region Guid
-
         public static Guid AsGuid(this IDataReader dr, string colName)
         {
             var val = dr.AsNullGuid(colName);
@@ -438,9 +371,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return (Guid)(dr[colName]);
-            }
         }
 
         public static Guid? AsNullGuid(this IDataReader dr, int columnIndex)
@@ -448,9 +379,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return (Guid)(dr[columnIndex]);
-            }
         }
 
         #endregion
@@ -476,9 +405,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToInt32(dr[colName]);
-            }
         }
 
         public static int? AsNullInt(this IDataReader dr, int columnIndex)
@@ -486,39 +413,32 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToInt32(dr[columnIndex]);
-            }
         }
 
         #endregion
 
 
         #region UInt
-
         public static uint AsUInt(this IDataReader dr, string colName)
         {
             var val = dr.AsNullUInt(colName);
             return ThrowExceptionIfIsNull(val, colName, "uint");
         }
 
-
         public static uint AsUInt(this IDataReader dr, int columnIndex)
         {
             var val = dr.AsNullUInt(columnIndex);
             return ThrowExceptionIfIsNull(val, columnIndex, "uint");
         }
-
-
+        
         // Nulls
         public static uint? AsNullUInt(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToUInt32(dr[colName]);
-            }
         }
 
         public static uint? AsNullUInt(this IDataReader dr, int columnIndex)
@@ -526,16 +446,13 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToUInt32(dr[columnIndex]);
-            }
         }
 
         #endregion
 
 
         #region Long
-
         public static long AsLong(this IDataReader dr, string colName)
         {
             var val = dr.AsNullLong(colName);
@@ -549,16 +466,13 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, columnIndex, "long");
         }
 
-
         // Nulls
         public static long? AsNullLong(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToInt64(dr[colName]);
-            }
         }
 
         public static long? AsNullLong(this IDataReader dr, int columnIndex)
@@ -566,9 +480,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToInt64(dr[columnIndex]);
-            }
         }
 
         #endregion
@@ -592,9 +504,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToUInt64(dr[colName]);
-            }
         }
 
         public static ulong? AsNullULong(this IDataReader dr, int columnIndex)
@@ -602,57 +512,17 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToUInt64(dr[columnIndex]);
-            }
         }
 
         #endregion
 
-        //#region Sbyte
-
-
-        //public static sbyte AsSbyte(this DataRow dr, string colName)
-        //{
-        //    return DataHelper.GetValueFromRowAsSbyte(dr, colName);
-        //}
-
-        //public static sbyte AsSbyte(this DataRow dr, int columnIndex)
-        //{
-        //    return DataHelper.GetValueFromRowAsSbyte(dr, columnIndex);
-        //}
-
-        //public static sbyte AsSbyte(this DataRow dr, DataColumn column)
-        //{
-        //    return DataHelper.GetValueFromRowAsSbyte(dr, column);
-        //}
-
-        //// Nulls
-        //public static sbyte? AsNullSbyte(this DataRow dr, string colName)
-        //{
-        //    return DataHelper.GetValueFromRowAsNullSbyte(dr, colName);
-        //}
-
-        //public static sbyte? AsNullSbyte(this DataRow dr, int columnIndex)
-        //{
-        //    return DataHelper.GetValueFromRowAsNullSbyte(dr, columnIndex);
-        //}
-
-        //public static sbyte? AsNullSbyte(this DataRow dr, DataColumn column)
-        //{
-        //    return DataHelper.GetValueFromRowAsNullSbyte(dr, column);
-        //}
-
-        //#endregion
-
         #region Short
-
         public static short AsShort(this IDataReader dr, string colName)
         {
             var val = dr.AsNullShort(colName);
             return ThrowExceptionIfIsNull(val, colName, "short");
         }
-
 
         public static short AsShort(this IDataReader dr, int columnIndex)
         {
@@ -660,16 +530,13 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, columnIndex, "short");
         }
 
-
         // Nulls
         public static short? AsNullShort(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToInt16(dr[colName]);
-            }
         }
 
         public static short? AsNullShort(this IDataReader dr, int columnIndex)
@@ -677,22 +544,16 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToInt16(dr[columnIndex]);
-            }
         }
-
-
         #endregion
 
         #region UShort
-
         public static ushort AsUShort(this IDataReader dr, string colName)
         {
             var val = dr.AsNullUShort(colName);
             return ThrowExceptionIfIsNull(val, colName, "short");
         }
-
 
         public static ushort AsUShort(this IDataReader dr, int columnIndex)
         {
@@ -700,16 +561,13 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, columnIndex, "short");
         }
 
-
         // Nulls
         public static ushort? AsNullUShort(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return Convert.ToUInt16(dr[colName]);
-            }
         }
 
         public static ushort? AsNullUShort(this IDataReader dr, int columnIndex)
@@ -717,26 +575,27 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return Convert.ToUInt16(dr[columnIndex]);
-            }
         }
-
-
         #endregion
 
 
         #region String
 
+        /// <summary>
+        /// Get named column as a string. This string is returned as a cast string and assumes the underlying data is a native string it the data another type see
+        /// <see cref="AsToString(IDataReader, string, bool)"/>
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="colName"></param>
+        /// <param name="returnNullAsEmptyString"></param>
+        /// <returns></returns>
         public static string AsString(this IDataReader dr, string colName, bool returnNullAsEmptyString = false)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return returnNullAsEmptyString ? string.Empty : null;
             else
-            {
-                //TO DO CAST vrs convert? 
                 return (string)(dr[colName]);
-            }
         }
 
 
@@ -745,10 +604,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return returnNullAsEmptyString ? string.Empty : null;
             else
-            {
                 return (string)(dr[columnIndex]);
-            }
-
         }
 
         /// <summary>
@@ -763,10 +619,7 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return returnNullAsEmptyString ? string.Empty : null;
             else
-            {
-             
                 return dr[colName].ToString();
-            }
         }
 
 
@@ -775,25 +628,17 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return returnNullAsEmptyString ? string.Empty : null;
             else
-            {
                 return dr[columnIndex].ToString();
-            }
-
         }
-
-
 
         #endregion
 
         #region TimeSpan
-
-
         public static TimeSpan AsTimeSpan(this IDataReader dr, string colName)
         {
             var val = dr.AsNullTimeSpan(colName);
             return ThrowExceptionIfIsNull(val, colName, "TimeSpan");
         }
-
 
         public static TimeSpan AsTimeSpan(this IDataReader dr, int columnIndex)
         {
@@ -801,16 +646,13 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, columnIndex, "TimeSpan");
         }
 
-
         // Nulls
         public static TimeSpan? AsNullTimeSpan(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-            {
                 return (TimeSpan)(dr[colName]);
-            }
         }
 
         public static TimeSpan? AsNullTimeSpan(this IDataReader dr, int columnIndex)
@@ -818,40 +660,8 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-            {
                 return (TimeSpan)(dr[columnIndex]);
-            }
         }
-
-        //public static TimeSpan AsTimeSpan(this DataRow dr, string colName)
-        //{
-        //    return DataHelper.GetValueFromRowAsTimeSpan(dr, colName);
-        //}
-
-        //public static TimeSpan AsTimeSpan(this DataRow dr, int columnIndex)
-        //{
-        //    return DataHelper.GetValueFromRowAsTimeSpan(dr, columnIndex);
-        //}
-
-        //public static TimeSpan AsTimeSpan(this DataRow dr, DataColumn column)
-        //{
-        //    return DataHelper.GetValueFromRowAsTimeSpan(dr, column);
-        //}
-        //// Nulls
-        //public static TimeSpan? AsNullTimeSpan(this DataRow dr, string colName)
-        //{
-        //    return DataHelper.GetValueFromRowAsNullTimeSpan(dr, colName);
-        //}
-
-        //public static TimeSpan? AsNullTimeSpan(this DataRow dr, int columnIndex)
-        //{
-        //    return DataHelper.GetValueFromRowAsNullTimeSpan(dr, columnIndex);
-        //}
-
-        //public static TimeSpan? AsNullTimeSpan(this DataRow dr, DataColumn column)
-        //{
-        //    return DataHelper.GetValueFromRowAsNullTimeSpan(dr, column);
-        //}
         #endregion
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess;
@@ -10,7 +8,6 @@ using CA.Blocks.DataAccess.Translator.DbColToType.Exceptions;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbColToType.Mappings;
 using CA.Blocks.DataAccess.Translator.DbRowToObject;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Mappings;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
@@ -77,17 +74,54 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             Assert.AreEqual(singleResult.name, result[0].name);
         }
 
-
         [Test]
         public void ExecuteToListOfDevCustomTranslator()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects");
             var result = ExecuteToListOf<temp2>(cmd);
             Assert.Greater(result.Count, 0);
-            //foreach (var o in result)
-            //{
-            //    TestContext.WriteLine($"{o.id},{o.name}");
-            //}
+            SqlCommand cmdSingle = CreateTextCommand("Select id, name from sysobjects where id=@id").WithParameter(result[0].Id2.ToSqlParameter("@id"));
+            var singleResult = ExecuteTo<temp>(cmd);
+            Assert.AreEqual(singleResult.id, result[0].Id2);
+            Assert.AreEqual(singleResult.name, result[0].Name2);
+        }
+
+
+        [Test]
+        public void ExecuteToListOfDevCustomTranslatorUsingFunc()
+        {
+            SqlCommand cmd = CreateTextCommand("Select id, name  from sysobjects");
+            var result = ExecuteToListOf<temp2>(cmd, (IDataReader dr) =>
+            {
+                var rowObj = new temp2();
+                rowObj.Id2 = dr.AsInt("id");
+                rowObj.Name2 = dr.AsString("name");
+                return rowObj;
+            });
+            Assert.Greater(result.Count, 0);
+
+            SqlCommand cmdSingle = CreateTextCommand("Select id, name from sysobjects where id=@id").WithParameter(result[0].Id2.ToSqlParameter("@id"));
+            var singleResult = ExecuteTo<temp>(cmd);
+            Assert.AreEqual(singleResult.id, result[0].Id2);
+            Assert.AreEqual(singleResult.name, result[0].Name2);
+        }
+
+        private temp2 LocalTranslate(IDataReader dr)
+        {
+            var rowObj = new temp2();
+            rowObj.Id2 = dr.AsInt("id");
+            rowObj.Name2 = dr.AsString("name");
+            return rowObj;
+        }
+
+
+        [Test]
+        public void ExecuteToListOfDevCustomTranslatorUsingFunc1()
+        {
+            SqlCommand cmd = CreateTextCommand("Select id, name  from sysobjects");
+            var result = ExecuteToListOf<temp2>(cmd, LocalTranslate);
+            Assert.Greater(result.Count, 0);
+
             SqlCommand cmdSingle = CreateTextCommand("Select id, name from sysobjects where id=@id").WithParameter(result[0].Id2.ToSqlParameter("@id"));
             var singleResult = ExecuteTo<temp>(cmd);
             Assert.AreEqual(singleResult.id, result[0].Id2);

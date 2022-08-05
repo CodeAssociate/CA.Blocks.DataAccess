@@ -14,6 +14,11 @@
             </para>
             </summary>
         </member>
+        <member name="P:CA.Blocks.DataAccess.DataAccessCore.ConnectionString">
+            <summary>
+            ConnectionString Used for the provider. This is used in the provider blocks get get a connection string to use  
+            </summary>
+        </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.#ctor(CA.Blocks.DataAccess.DI.IDataAccessConfig,CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces.IDbRowTranslatorProvider)">
             <summary>
             This is a protected constructor which must be called by the inheriting class, it will use config.Resolver to resolve the connectionStringKey to a valid connection string 
@@ -31,10 +36,9 @@
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.TraceDbStatement(System.Data.IDbCommand)">
             <summary>
-            This method provided a method to trace the commands executed against a store. The Trace will happen just before the execute of the command.
-            The Design is such that you can override this method to implement your own logic.  
-            Note : If you are using SQL server then a SQL Server trace will be better option for global tracing.
-            This is method for data sources that do not have good builtin tracing tools or if you what to trace a specific data access class. This is designed for trouble shooting. 
+            This method provides a the ability to trace the commands executed against a store. The Trace will happen just before the execute of the command.
+            The Design is such that you can override this method to implement your own logic.   
+            Example you can hook this method up in app your application Insights to trace all the DB commands 
             </summary>
             <param name="cmd"></param>
         </member>
@@ -54,7 +58,7 @@
             <param name="cmd"></param>
             <param name="ex"></param>
         </member>
-        <member name="M:CA.Blocks.DataAccess.DataAccessCore.TraceGenralError(System.Data.IDbCommand,System.Exception)">
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.TraceGeneralError(System.Data.IDbCommand,System.Exception)">
             <summary>
             When a general occurs not related to the database such as network error this method will be called
              The Design is such that you can override this method to implement your own logic, you you get the command and well as the Exception.
@@ -89,12 +93,27 @@
              Although the ExecuteNonQuery returns no rows, any output parameters or return values mapped to parameters are populated with data. This can useful when executing stored procedures. 
              </remarks>
         </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteNonQueryAsync(System.Data.IDbCommand)">
+            <inheritdoc cref="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteNonQuery(System.Data.IDbCommand)" />
+        </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand)">
+            <inheritdoc cref="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand,System.Data.DataSet,System.String)" />
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand,System.Data.DataSet,System.String)" -->
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataTable(System.Data.IDbCommand)">
             <summary>
-            Executes the command into a new Dataset 
+            Executes to ExecuteDataSet and returns the first DataTable <see cref="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand,System.Data.DataSet,System.String)"/>
             </summary>
-            <param name="cmd"> A data set return, The first name name will be called Results the second will be called  Results1, third will be called Results2 etc</param>
+            <param name="cmd"></param>
             <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataRow(System.Data.IDbCommand)">
+            <summary>
+            Executes to ExecuteDataTable and returns the first row 
+            </summary>
+            <param name="cmd"></param>
+            <returns></returns>
+            <exception cref="T:System.Data.DataException"> This function expects one or zero results, it is get two more more it will throw an exception</exception>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteScalarAs``1(System.Data.IDbCommand)">
             <summary>
@@ -511,6 +530,16 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             </summary>
             <param name="input"></param>
             <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.IDataReaderExtensions.AsString(System.Data.IDataReader,System.String,System.Boolean)">
+            <summary>
+            Get named column as a string. This string is returned as a cast string and assumes the underlying data is a native string it the data another type see
+            <see cref="M:CA.Blocks.DataAccess.IDataReaderExtensions.AsToString(System.Data.IDataReader,System.String,System.Boolean)"/>
+            </summary>
+            <param name="dr"></param>
+            <param name="colName"></param>
+            <param name="returnNullAsEmptyString"></param>
             <returns></returns>
         </member>
         <member name="M:CA.Blocks.DataAccess.IDataReaderExtensions.AsToString(System.Data.IDataReader,System.String,System.Boolean)">
