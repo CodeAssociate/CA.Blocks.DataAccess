@@ -96,7 +96,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
 
-            //Asert
+            //Assert
             Assert.AreEqual(3, data.Count);
         }
 
@@ -105,7 +105,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer.DbTypeTests
         {
             //setup
             const long testvalue = 123;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = 123");
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testvalue").WithParameter(testvalue.ToSqlParameter("testvalue"));
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BigIntDataType>();
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));

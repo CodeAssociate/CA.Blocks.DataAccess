@@ -228,10 +228,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         }
 
         [Test]
-        public async Task ExecuteToListOfBadTranslateAsync()
+        public Task ExecuteToListOfBadTranslateAsync()
         {
             SqlCommand cmd = CreateTextCommand("Select id as id2, name from sysobjects");
             Assert.ThrowsAsync<ConverterColumnNotFoundException>(() => ExecuteToListOfAsync<temp>(cmd));
+            return Task.CompletedTask;
         }
 
         #endregion

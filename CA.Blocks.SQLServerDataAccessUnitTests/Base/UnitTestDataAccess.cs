@@ -17,7 +17,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
         /// <returns> The Connection string to be used by the ADO.NET provider.</returns>
         public string GetConnectionString(string connectionStringKey)
         {
-            return "Server=(localdb)\\MSSQLLocalDB;Integrated Security = true";
+            return "Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True";
         }
     }
 
