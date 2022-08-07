@@ -19,7 +19,7 @@ using System.Dynamic;
 namespace CA.Blocks.DataAccess.Translator
 {
     /// <summary>
-    /// This returns an ExpandoObject which makes for very fast prototyping, if you know the structure you are after you should use the Db2ObjectTranslator 
+    /// This returns an ExpandoObject which makes for very fast prototyping, if you know the structure you should be the dataTable Extensions 
     /// </summary>
     public class DynamicDbRow2ObjectTranslator : SimpleDbRow2ObjectTranslator<dynamic>
     {

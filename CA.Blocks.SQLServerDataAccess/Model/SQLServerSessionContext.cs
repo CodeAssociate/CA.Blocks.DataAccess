@@ -25,8 +25,6 @@ namespace CA.Blocks.SQLServerDataAccess.Model
         }
     }
 
-
-
     public class SqlServerStringSessionContext : SqlServerSessionContext
     {
         public string Value { get; set; }
@@ -46,7 +44,4 @@ namespace CA.Blocks.SQLServerDataAccess.Model
             return Value.ToSqlParameter(strParameterName);
         }
     }
-
 }
-
-

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -205,7 +206,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var shouldBeEmpty = result.Where(x => x == defaulInt).ToList();
             Assert.AreEqual(0, shouldBeEmpty.Count);
         }
-
 
 
 

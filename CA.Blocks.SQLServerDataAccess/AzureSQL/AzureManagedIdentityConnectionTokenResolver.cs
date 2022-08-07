@@ -33,7 +33,7 @@ namespace CA.Blocks.SQLServerDataAccess.AzureSQL
             }
             else
             {
-                // The connection string for a AzureManagedIdentityC must not contain a password and must be for a database in the realm  database.windows.net
+                // The connection string for a AzureManagedIdentityC must not contain a password and must be for a database in the realm database.windows.net
                 return null;
             }
         }

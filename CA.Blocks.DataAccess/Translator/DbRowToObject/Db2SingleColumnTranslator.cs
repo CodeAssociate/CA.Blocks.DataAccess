@@ -6,7 +6,7 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 
 namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 {
-    public class Db2SingleColumnTranslator<T> : IDbRowTranslator<T> 
+    public class Db2SingleColumnTranslator<T> : IDbRowTranslator<T>
     {
         private IDbColToTypeConverter _converter;
 

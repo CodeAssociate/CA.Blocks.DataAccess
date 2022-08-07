@@ -5,7 +5,6 @@
     /// </summary>
     public class NullConnectionTokenResolver : IConnectionTokenResolver
     {
-
         public string GetConnectionToken(string connectionString)
         {
             return null;
