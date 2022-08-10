@@ -632,6 +632,12 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             This returns an ExpandoObject which makes for very fast prototyping, if you know the structure you should be the dataTable Extensions 
             </summary>
         </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.Extensions.DataReaderExtensions.ExecuteToList``1(System.Data.IDataReader,System.Func{System.Data.IDataReader,``0})">
+            <summary>
+            This is a private function that that will execute ExecuteToList but does not close the reader.
+            The reader is loses with one of the public methods.
+            </summary>
+        </member>
         <member name="T:CA.Blocks.DataAccess.Translator.SimpleDbReader2ObjectTranslator`1">
             <summary>
             This allows up to build a simple Translator to deal with IDataReader.

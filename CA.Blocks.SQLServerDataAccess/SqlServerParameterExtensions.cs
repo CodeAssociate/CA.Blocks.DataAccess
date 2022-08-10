@@ -69,7 +69,7 @@ namespace CA.Blocks.SQLServerDataAccess
 
     public static class SqlServerParameterExtensions
     {
-        public static SqlCommand WithParameters(this SqlCommand cmd, IList<SqlParameter> parameters)
+        public static SqlCommand WithParameters(this SqlCommand cmd, IEnumerable<SqlParameter> parameters)
         {
             cmd.Parameters.AddRange(parameters.ToArray());
             return cmd;
@@ -83,11 +83,11 @@ namespace CA.Blocks.SQLServerDataAccess
 
         public static SqlCommand WithReturnResult(this SqlCommand cmd)
         {
-            SqlParameter sqlparam = cmd.CreateParameter();
-            sqlparam.ParameterName = "Return";
-            sqlparam.SqlDbType = SqlDbType.Int;
-            sqlparam.Direction = ParameterDirection.ReturnValue;
-            cmd.Parameters.Add(sqlparam);
+            var sqlParam = cmd.CreateParameter();
+            sqlParam.ParameterName = "Return";
+            sqlParam.SqlDbType = SqlDbType.Int;
+            sqlParam.Direction = ParameterDirection.ReturnValue;
+            cmd.Parameters.Add(sqlParam);
             return cmd;
         }
 

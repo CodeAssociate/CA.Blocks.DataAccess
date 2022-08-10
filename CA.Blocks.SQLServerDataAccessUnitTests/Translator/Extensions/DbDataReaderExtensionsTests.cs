@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
@@ -9,15 +10,15 @@ using NUnit.Framework;
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
 {
     [TestFixture]
-    public class DataReaderExtentionsTests : UnitTestDataAccess
+    public class DbDataReaderExtensionsTests : UnitTestDataAccess
     {
         [Test]
-        public void ExeucteDataReaderAsString()
+        public async Task ExeucteDataReaderAsString()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where name like @test")
                 .WithParameter("sys%".ToSqlParameter("@test"));
 
-            var result = ExecuteReader(cmd).ToSingleNamedColumnList<string>("Name");
+            var result = await (await ExecuteReaderAsync(cmd)).ToSingleNamedColumnListAsync<string>("Name");
 
             Assert.IsTrue(result.Count > 0);
 
@@ -27,8 +28,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             }
         }
 
-    
-
         public class sysobject
         {
             public int id { get; set; }
@@ -36,11 +35,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
         }
 
         [Test]
-        public void ExeucteDataReaderToResultsSet()
+        public async Task ExeucteDataReaderToResultsSetAsync()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects; Select * from sysindexes;");
 
-            var result = ExecuteReader(cmd).ToResultsSet<sysobject, sysobject>();
+            var result = await (await ExecuteReaderAsync(cmd)).ToResultsSetAsync<sysobject, sysobject>();
 
             Assert.IsTrue(result.Results1.Count > 0);
 
@@ -57,9 +56,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
                     {
                         break;
                     }
-                    Assert.Fail("The lists are the same, there should be two different datasets");
+                    Assert.Fail("The lists are the same, there should be two different data sets");
                 }
-
             }
             else
             {
@@ -67,8 +65,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             }
 
             Assert.IsTrue(result.Results1.Count != result.Results2.Count);
-
         }
-
     }
 }
