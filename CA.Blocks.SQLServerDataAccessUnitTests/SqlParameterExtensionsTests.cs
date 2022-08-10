@@ -21,7 +21,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
             Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@target", sqlparam.ParameterName);
-            Assert.AreEqual(4, sqlparam.Size);
             Assert.AreEqual(target, sqlparam.Value);
         }
 
@@ -37,7 +36,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
             Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@target", sqlparam.ParameterName);
-            Assert.AreEqual(4, sqlparam.Size);
             Assert.AreEqual(target, sqlparam.Value);
         }
 
@@ -49,7 +47,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             // Act
             var sqlparam = testdata.ToSqlParameter("@test");
             //Asert
-            Assert.AreEqual(DbType.AnsiString, sqlparam.DbType);
+            Assert.AreEqual(DbType.String, sqlparam.DbType);
             Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
             Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@test", sqlparam.ParameterName);
@@ -64,7 +62,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             // Act
             var sqlparam = testdata.ToSqlParameter("@test", trimInputTo:15);
             //Asert
-            Assert.AreEqual(DbType.AnsiString, sqlparam.DbType);
+            Assert.AreEqual(DbType.String, sqlparam.DbType);
             Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
             Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@test", sqlparam.ParameterName);
@@ -80,7 +78,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             // Act
             var sqlparam = testdata.ToSqlParameter("@test", trimInputTo: 15);
             //Asert
-            Assert.AreEqual(DbType.AnsiString, sqlparam.DbType);
+            Assert.AreEqual(DbType.String, sqlparam.DbType);
             Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
             Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@test", sqlparam.ParameterName);
@@ -99,7 +97,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
             Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@target", sqlparam.ParameterName);
-            Assert.AreEqual(8, sqlparam.Size);
             Assert.AreEqual(target, sqlparam.Value);
         }
 
@@ -115,9 +112,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
             Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@target", sqlparam.ParameterName);
-            Assert.AreEqual(8, sqlparam.Size);
             Assert.AreEqual(DBNull.Value, sqlparam.Value);
         }
-
     }
 }

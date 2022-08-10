@@ -99,7 +99,16 @@
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand)">
             <inheritdoc cref="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand,System.Data.DataSet,System.String)" />
         </member>
-        <!-- Badly formed XML comment ignored for member "M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand,System.Data.DataSet,System.String)" -->
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand,System.Data.DataSet,System.String)">
+            <summary>
+            Executes the command into a new DataSet using the DbDataAdapter.  Useful for app that need or what DatSet, DataTable and DataRows.  The ExecuteTo it more modern 
+            </summary>
+            <param name="cmd"> A data set return, The first name name will be called Results the second will be called  Results1, third will be called Results2 etc</param>
+            <remarks> This method is using the DbDataAdapter and DataTables, inside the data Adapter there is need to call Fill, there is currently no generic support FillAsync.
+            Using this is very robust but as the  DbDataAdapter is mostly limited to maintenance at this point.
+            </remarks>
+            <returns></returns>
+        </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataTable(System.Data.IDbCommand)">
             <summary>
             Executes to ExecuteDataSet and returns the first DataTable <see cref="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand,System.Data.DataSet,System.String)"/>
@@ -139,6 +148,24 @@
             </summary>
             <param name="cmd">The IDbCommand cmd to execute</param>
             <param name="nullDefault">If execute result is null this this value will be passed back. </param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteToListOf``1(System.Data.IDbCommand,System.Func{System.Data.IDataReader,``0})">
+            <summary>
+             This is a short cut method to <code>ExecuteReader<T>(cmd).ToListOf<T>(translate);</T></T></code>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cmd"></param>
+            <param name="translate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteToListOfAsync``1(System.Data.IDbCommand,System.Func{System.Data.IDataReader,``0})">
+            <summary>
+            This is a shortcut to <code> ExecuteReaderAsync(cmd).ToListOfAsync(); </code> "/>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cmd"></param>
+            <param name="translate"></param>
             <returns></returns>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.TranslateToListOf``1(System.Data.DataTable)">
@@ -547,6 +574,28 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             <param name="encoding"></param>
             <returns></returns>
         </member>
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.CompressToSQLVarcharString(System.String)">
+            <inheritdoc cref="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.CompressString(System.String,System.Text.Encoding)"/>
+            <remarks>The default string encoding is Encoding.ASCII, ASCII to be safe as we don't know the server encoding,
+            if you need a different encoding you can specify the Encoding
+            be aware you need to use the same collation on the server to read the data out  in a query on the server 
+            </remarks>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.DecompressToSQLVarcharString(System.Byte[])">
+            <inheritdoc cref="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.DecompressToString(System.Byte[],System.Text.Encoding)"/>
+            <remarks>The default string encoding is Encoding.ASCII, ASCII to be safe as we don't know the server encoding,
+            if you need a different encoding you can specify the Encoding
+            be aware you need to use the same collation on the server to read the data out  in a query on the server 
+            </remarks>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.CompressToSQLNVarcharString(System.String)">
+            <inheritdoc cref="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.CompressString(System.String,System.Text.Encoding)"/>
+            <remarks>The default string encoding is Encoding.Unicode</remarks>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.DecompressToSQLNVarcharString(System.Byte[])">
+            <inheritdoc cref="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.DecompressToString(System.Byte[],System.Text.Encoding)"/>
+            <remarks>The default string encoding is Encoding.Unicode</remarks>
+        </member>
         <member name="M:CA.Blocks.DataAccess.IDataReaderExtensions.AsString(System.Data.IDataReader,System.String,System.Boolean)">
             <summary>
             Get named column as a string. This string is returned as a cast string and assumes the underlying data is a native string it the data another type see
@@ -580,8 +629,22 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
         </member>
         <member name="T:CA.Blocks.DataAccess.Translator.DynamicDbRow2ObjectTranslator">
             <summary>
-            This returns an ExpandoObject which makes for very fast prototyping, if you know the structure you are after you should use the Db2ObjectTranslator 
+            This returns an ExpandoObject which makes for very fast prototyping, if you know the structure you should be the dataTable Extensions 
             </summary>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.Extensions.DataReaderExtensions.ExecuteToList``1(System.Data.IDataReader,System.Func{System.Data.IDataReader,``0})">
+            <summary>
+            This is a private function that that will execute ExecuteToList but does not close the reader.
+            The reader is loses with one of the public methods.
+            </summary>
+        </member>
+        <member name="T:CA.Blocks.DataAccess.Translator.SimpleDbReader2ObjectTranslator`1">
+            <summary>
+            This allows up to build a simple Translator to deal with IDataReader.
+            There are tow use cases for this
+            1) when you have a dare reaer  and you what to 
+            </summary>
+            <typeparam name="T"></typeparam>
         </member>
     </members>
 </doc>

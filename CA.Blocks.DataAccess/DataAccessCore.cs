@@ -22,6 +22,7 @@ using System.Data;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
+using CA.Blocks.DataAccess.Translator.Extensions;
 
 namespace CA.Blocks.DataAccess
 {
@@ -394,7 +395,7 @@ namespace CA.Blocks.DataAccess
 
 
         /// <summary>
-        /// Executes the command into a new DataSet using the DbDataAdapter.  Useful for app that need or what DatSet, DataTable and DataRows.  The ExecuteTo<> it more modern 
+        /// Executes the command into a new DataSet using the DbDataAdapter.  Useful for app that need or what DatSet, DataTable and DataRows.  The ExecuteTo it more modern 
         /// </summary>
         /// <param name="cmd"> A data set return, The first name name will be called Results the second will be called  Results1, third will be called Results2 etc</param>
         /// <remarks> This method is using the DbDataAdapter and DataTables, inside the data Adapter there is need to call Fill, there is currently no generic support FillAsync.
@@ -571,7 +572,6 @@ namespace CA.Blocks.DataAccess
             return ExecuteTo(cmd, translator.Translate);
         }
 
-
         protected T ExecuteTo<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
         {
             T result;
@@ -595,25 +595,16 @@ namespace CA.Blocks.DataAccess
             return ExecuteToListOf(cmd, translator.Translate);
         }
 
-
+        /// <summary>
+        ///  This is a short cut method to <code>ExecuteReader<T>(cmd).ToListOf<T>(translate);</T></T></code>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cmd"></param>
+        /// <param name="translate"></param>
+        /// <returns></returns>
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd, Func<IDataReader, T> translate)  where T : new()
         {
-            IList<T> result = new List<T>();
-            using (var dbReader = ExecuteReader(cmd))
-            {
-                try
-                {
-                    while (dbReader.Read())
-                    {
-                        result.Add(translate(dbReader));
-                    }
-                }
-                finally
-                {
-                    dbReader.Close();
-                }
-            }
-            return result;
+            return ExecuteReader(cmd).ToListOf<T>(translate);
         }
 
 
@@ -635,13 +626,15 @@ namespace CA.Blocks.DataAccess
                     var hasDate = await dbReader.ReadAsync();
                     result = hasDate ? translate(dbReader) : default;
                 }
-                finally 
+                finally
                 {
                     dbReader.Close();
                 }
             }
             return result;
         }
+
+
 
         protected Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd) where T : new()
         {
@@ -649,26 +642,17 @@ namespace CA.Blocks.DataAccess
             return ExecuteToListOfAsync<T>(cmd, translator.Translate);
         }
 
+        /// <summary>
+        /// This is a shortcut to <code> ExecuteReaderAsync(cmd).ToListOfAsync(); </code> "/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cmd"></param>
+        /// <param name="translate"></param>
+        /// <returns></returns>
         protected async Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
         {
-            var dbResult = ExecuteReaderAsync(cmd);
-            IList<T> result = new List<T>();
-            await dbResult;
-            using (var dbReader = dbResult.GetAwaiter().GetResult())
-            {
-                try
-                {
-                    while (await dbReader.ReadAsync())
-                    {
-                        result.Add(translate(dbReader));
-                    }
-                }
-                finally
-                {
-                    dbReader.Close();
-                }
-            }
-            return result;
+            var dbResult = await ExecuteReaderAsync(cmd);
+            return await dbResult.ToListOfAsync(translate);
         }
 
         /// <summary>

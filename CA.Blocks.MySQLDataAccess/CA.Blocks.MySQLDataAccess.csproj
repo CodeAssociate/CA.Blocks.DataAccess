@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,10 +6,15 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.MySQLDataAccess\CA.Blocks.MySQLDataAccess.xml</DocumentationFile>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySqlConnector" Version="1.2.1" />
+    <PackageReference Include="MySqlConnector" Version="2.1.11" />
   </ItemGroup>
 
   <ItemGroup>

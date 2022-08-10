@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -208,7 +209,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 
 
 
-
         #endregion
 
         #region BadTranslate 
@@ -228,10 +228,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         }
 
         [Test]
-        public async Task ExecuteToListOfBadTranslateAsync()
+        public Task ExecuteToListOfBadTranslateAsync()
         {
             SqlCommand cmd = CreateTextCommand("Select id as id2, name from sysobjects");
             Assert.ThrowsAsync<ConverterColumnNotFoundException>(() => ExecuteToListOfAsync<temp>(cmd));
+            return Task.CompletedTask;
         }
 
         #endregion

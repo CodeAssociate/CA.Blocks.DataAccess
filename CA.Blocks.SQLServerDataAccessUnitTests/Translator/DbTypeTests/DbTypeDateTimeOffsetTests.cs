@@ -1,0 +1,91 @@
+﻿using System;
+using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.SQLServerDataAccess;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+using NUnit.Framework;
+
+namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
+{
+    [TestFixture]
+    public class DbTypeDateTimeOffsetTests : UnitTestDataAccess
+    {
+        private DateTimeOffset _testDate;
+
+        private class DateTimeOffSetDataType
+        {
+            public DateTimeOffset Col { get; set; }
+        }
+
+        private void InsertTestDataSQL(DateTimeOffset data)
+        {
+            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data.ToString("yyyy MMMM dd HH:mm:ss zzz"))));
+        }
+
+        [SetUp]
+        public void Setup()
+        {
+            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(CreateTestTable("DateTimeOffSet not null"));
+
+            var dt = DateTimeOffset.Now;
+            _testDate = new DateTimeOffset(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Offset);
+            InsertTestDataSQL(_testDate);
+            InsertTestDataSQL(_testDate.AddDays(1).Date);
+            InsertTestDataSQL(_testDate.AddDays(-1).Date);
+            InsertTestDataSQL(_testDate.AddDays(100).Date);
+            InsertTestDataSQL(_testDate.AddDays(-100).Date);
+
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            ExecuteNonQuery(DropTestTableSQL());
+        }
+
+
+
+        [Test]
+        public void SelectAllDataToListOf()
+        {
+            //Setup 
+
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = ExecuteToListOf<DateTimeOffSetDataType>(cmd);
+            //Assert
+            Assert.AreEqual(5, data.Count);
+        }
+
+
+        [Test]
+        public void SelectAllDataDateTimeOffsetWithFilter()
+        {
+            //setup
+            var t = new DateTimeOffsetTranslator(UNIT_TEST_COL_NAME);
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col > @testValue");
+            cmd.Parameters.Add(_testDate.ToSqlParameter("@testValue"));
+
+            //Act
+            var data = t.Translate(ExecuteDataTable(cmd));
+
+            //Assert
+            Assert.AreEqual(2, data.Count);
+        }
+
+
+        [Test]
+        public void SelectAllDataWithWithTranslator()
+        {
+            //setup
+            var testValue = _testDate;
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DateTimeOffSetDataType>();
+            //Act
+            var data = t.Translate(ExecuteDataRow(cmd));
+
+            Assert.AreEqual(testValue, data.Col);
+        }
+    }
+}

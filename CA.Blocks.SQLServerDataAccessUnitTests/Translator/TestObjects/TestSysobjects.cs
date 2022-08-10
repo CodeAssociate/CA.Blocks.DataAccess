@@ -42,12 +42,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.TestObjects
 
         protected override TestSysobjects CustomTranslate(IDataReader dr)
         {
-            var result = new TestSysobjects();
+            var result = new TestSysobjects
+            {
+                id = dr.AsInt("id"),
+                name = dr.AsString("name"),
+                xtype = dr.AsString("xtype"),
+                crdate = dr.AsDateTime("crdate")
+            };
 
-            result.id = dr.AsInt("id");
-            result.name = dr.AsString("name");
-            result.xtype = dr.AsString("xtype");
-            result.crdate = dr.AsDateTime("crdate");
             return result;
         }
     }
@@ -69,7 +71,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.TestObjects
     }
 
 
+#pragma warning disable CS0618 // Type or member is obsolete setill need to test code that is marked for obsolete
     public class CustomTestSysobjectsTranslator : BaseDb2ObjectTranslator<CustomTestSysobjects>
+#pragma warning restore CS0618 // Type or member is obsolete
     {
         public CustomTestSysobjectsTranslator()
         {

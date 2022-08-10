@@ -16,6 +16,13 @@ using System.Data;
 
 namespace CA.Blocks.DataAccess.Translator
 {
+
+    /// <summary>
+    /// This allows up to build a simple Translator to deal with IDataReader.
+    /// There are tow use cases for this
+    /// 1) when you have a dare reaer  and you what to 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class SimpleDbReader2ObjectTranslator<T> 
     {
         public IList<T> Translate(IDataReader dr)
