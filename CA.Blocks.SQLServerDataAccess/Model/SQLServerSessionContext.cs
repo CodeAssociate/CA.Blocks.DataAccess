@@ -31,7 +31,7 @@ namespace CA.Blocks.SQLServerDataAccess.Model
 
         public override SqlParameter ValueAsSqlParameter(string strParameterName)
         {
-            return Value.ToSqlParameter(strParameterName, SpecificSQLStringType.NVarChar);
+            return Value.ToSqlParameter(strParameterName);
         }
     }
 

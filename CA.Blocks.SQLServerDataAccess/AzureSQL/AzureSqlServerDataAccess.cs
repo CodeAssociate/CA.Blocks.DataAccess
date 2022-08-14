@@ -10,7 +10,8 @@ namespace CA.Blocks.SQLServerDataAccess.AzureSQL
     {
         private readonly IConnectionTokenResolver _connectionTokenResolver;
 
-        public AzureSqlServerDataAccess(IDataAccessConfig config, IConnectionTokenResolver connectionTokenResolver, IDbRowTranslatorProvider dbRowTranslatorProvider = null) : base(config, dbRowTranslatorProvider)
+        public AzureSqlServerDataAccess(IDataAccessConfig config, IConnectionTokenResolver connectionTokenResolver, IDbRowTranslatorProvider dbRowTranslatorProvider = null) 
+            : base(config, dbRowTranslatorProvider)
         {
             _connectionTokenResolver = connectionTokenResolver;
         }

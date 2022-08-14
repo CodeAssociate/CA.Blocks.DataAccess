@@ -17,7 +17,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where name like @test")
                 .WithParameter("sys%".ToSqlParameter("@test"));
 
-            var result = ExecuteReader(cmd).ToSingleNamedColumnList<string>("Name");
+            var result = Execute(cmd).ToSingleNamedColumnList<string>("Name");
 
             Assert.IsTrue(result.Count > 0);
 
@@ -40,7 +40,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects; Select * from sysindexes;");
 
-            var result = ExecuteReader(cmd).ToResultsSet<sysobject, sysobject>();
+            var result = Execute(cmd).ToResultsSet<sysobject, sysobject>();
 
             Assert.IsTrue(result.Results1.Count > 0);
 
@@ -59,15 +59,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
                     }
                     Assert.Fail("The lists are the same, there should be two different datasets");
                 }
-
             }
             else
             {
                // we good they not the same lists as they are different sizes
             }
-
             Assert.IsTrue(result.Results1.Count != result.Results2.Count);
-
         }
 
     }

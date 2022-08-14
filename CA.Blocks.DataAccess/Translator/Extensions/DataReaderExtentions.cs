@@ -89,6 +89,10 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                     {
                         result.Results2 = ExecuteToList(dbReader, translate2);
                     }
+                    else
+                    {
+                        result.Results2 = new List<T2>();
+                    }
                 }
                 finally
                 {
@@ -130,6 +134,15 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                         {
                             result.Results3 = ExecuteToList(dbReader, translate3);
                         }
+                        else
+                        {
+                            result.Results3 = new List<T3>();
+                        }
+                    }
+                    else
+                    {
+                        result.Results2 = new List<T2>();
+                        result.Results3 = new List<T3>();
                     }
                 }
                 finally
@@ -178,7 +191,22 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                             {
                                 result.Results4 = ExecuteToList(dbReader, translate4);
                             }
+                            else
+                            {
+                                result.Results4 = new List<T4>();
+                            }
                         }
+                        else
+                        {
+                            result.Results3 = new List<T3>();
+                            result.Results4 = new List<T4>();
+                        }
+                    }
+                    else
+                    {
+                        result.Results2 = new List<T2>();
+                        result.Results3 = new List<T3>();
+                        result.Results4 = new List<T4>();
                     }
                 }
                 finally
@@ -235,8 +263,30 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                                 {
                                     result.Results5 = ExecuteToList(dbReader, translate5);
                                 }
+                                else
+                                {
+                                    result.Results5 = new List<T5>();
+                                }
+                            }
+                            else
+                            {
+                                result.Results4 = new List<T4>();
+                                result.Results5 = new List<T5>();
                             }
                         }
+                        else
+                        {
+                            result.Results3 = new List<T3>();
+                            result.Results4 = new List<T4>();
+                            result.Results5 = new List<T5>();
+                        }
+                    }
+                    else
+                    {
+                        result.Results2 = new List<T2>();
+                        result.Results3 = new List<T3>();
+                        result.Results4 = new List<T4>();
+                        result.Results5 = new List<T5>();
                     }
                 }
                 finally
@@ -244,6 +294,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                     dbReader.Close();
                 }
             }
+
             return result;
         }
 
