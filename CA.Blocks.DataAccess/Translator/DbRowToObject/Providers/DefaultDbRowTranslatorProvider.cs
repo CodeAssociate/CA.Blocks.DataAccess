@@ -25,12 +25,10 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             _typeConverters = new ConcurrentDictionary<string, object>();
         }
         
-
         private string GetKey(Type targetType, string byName = "")
         {
             return string.IsNullOrWhiteSpace(byName) ? $"{targetType}" : $"{targetType}-{byName}";
         }
-
 
         private IDbRowTranslator<T> GenerateDefaultMappingsFor<T>() where T : new()
         {
@@ -70,9 +68,8 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
 
         public void Add<T>(IDbRowTranslator<T> translator, string byName = "")
         {
-            TryAdd(translator, byName, true);
+            TryAdd(translator, byName);
         }
-
 
         public IDbRowTranslator<T> Resolve<T>(string byName = "") where T : new()
         {
@@ -100,7 +97,6 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
                     }
                 }
             }
-
             return typeConverter as IDbRowTranslator<T>;
         }
 

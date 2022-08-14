@@ -549,7 +549,19 @@ namespace CA.Blocks.DataAccess
             return ExecuteWithTransientErrorRetryAsync(() => asyncCmd.ExecuteReaderAsync(CommandBehavior.CloseConnection), cmd, false);
         }
 
+        protected async Task<DbDataReader> ExecuteAsync(IDbCommand cmd)
+        {
+            return await ExecuteReaderAsync(cmd);
+        }
+
+        protected IDataReader Execute(IDbCommand cmd)
+        {
+            return ExecuteReader(cmd);
+        }
+
         #endregion ExecuteReader
+
+
 
 
         protected dynamic ExecuteObject(IDbCommand cmd)

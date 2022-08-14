@@ -18,7 +18,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where name like @test")
                 .WithParameter("sys%".ToSqlParameter("@test"));
 
-            var result = await (await ExecuteReaderAsync(cmd)).ToSingleNamedColumnListAsync<string>("Name");
+            var result = await ExecuteAsync(cmd).ToSingleNamedColumnList<string>("Name");
 
             Assert.IsTrue(result.Count > 0);
 
@@ -39,7 +39,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects; Select * from sysindexes;");
 
-            var result = await (await ExecuteReaderAsync(cmd)).ToResultsSetAsync<sysobject, sysobject>();
+            var result = await ExecuteAsync(cmd).ToResultsSet<sysobject, sysobject>();
 
             Assert.IsTrue(result.Results1.Count > 0);
 
@@ -67,4 +67,5 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             Assert.IsTrue(result.Results1.Count != result.Results2.Count);
         }
     }
+
 }

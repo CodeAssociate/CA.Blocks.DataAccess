@@ -79,7 +79,7 @@ namespace CA.Blocks.SQLServerDataAccess
                 foreach (var contextItem in context)
                 {
                     var cmd = CreateTextCommand("EXEC sp_set_session_context @key, @value, @read_only;");
-                    cmd.Parameters.Add(contextItem.Key.ToSqlParameter("@Key", SpecificSQLStringType.NVarChar));
+                    cmd.Parameters.Add(contextItem.Key.ToSqlParameter("@Key"));
                     cmd.Parameters.Add(contextItem.ValueAsSqlParameter("@value"));
                     cmd.Parameters.Add(contextItem.ReadOnly.ToSqlParameter("@read_only"));
                     cmd.Connection = sqlConnection;

@@ -98,7 +98,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             const string testvalue = TEST_UTF8DATA;
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLStringType.NVarChar));
+            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
