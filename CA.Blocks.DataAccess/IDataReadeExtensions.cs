@@ -207,6 +207,9 @@ namespace CA.Blocks.DataAccess
         // Nulls
         public static DateTime? AsNullDateTime(this IDataReader dr, string colName)
         {
+            // benchmark  iw we only get the GetOrdinal once not twice
+            //return AsNullDateTime(dr, dr.GetOrdinal(colName));
+            //vrs 
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
@@ -592,10 +595,7 @@ namespace CA.Blocks.DataAccess
         /// <returns></returns>
         public static string AsString(this IDataReader dr, string colName, bool returnNullAsEmptyString = false)
         {
-            if (dr.IsDBNull(dr.GetOrdinal(colName)))
-                return returnNullAsEmptyString ? string.Empty : null;
-            else
-                return (string)(dr[colName]);
+            return AsString(dr, dr.GetOrdinal(colName), returnNullAsEmptyString);
         }
 
 
@@ -616,10 +616,7 @@ namespace CA.Blocks.DataAccess
         /// <returns></returns>
         public static string AsToString(this IDataReader dr, string colName, bool returnNullAsEmptyString = false)
         {
-            if (dr.IsDBNull(dr.GetOrdinal(colName)))
-                return returnNullAsEmptyString ? string.Empty : null;
-            else
-                return dr[colName].ToString();
+            return AsToString(dr, dr.GetOrdinal(colName), returnNullAsEmptyString);
         }
 
 

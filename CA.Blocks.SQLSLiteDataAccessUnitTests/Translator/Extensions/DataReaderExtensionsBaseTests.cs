@@ -15,7 +15,6 @@ public class DataReaderExtensionsBaseTests
         public string StringCol { get; set; }
         public Guid GuidCol { get; set; }
         public DateTime DateCol { get; set; }
-
     }
 
     protected DataTable GenerateTestData(int count)

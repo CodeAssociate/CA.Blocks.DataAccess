@@ -42,6 +42,12 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return result;
         }
 
+        public static Task<IList<T>> ToListOfAsync<T>(this DbDataReader dbReader) where T : new()
+        {
+            var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
+            return ToListOfAsync<T>(dbReader, translator1.Translate);
+        }
+
         public static async Task<IList<T>> ToListOf<T>(this Task<DbDataReader> dbReaderTask)
             where T : new()
         {
