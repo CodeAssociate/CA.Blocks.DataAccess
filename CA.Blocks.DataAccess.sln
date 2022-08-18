@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess", "CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj", "{253679BA-1267-4025-8868-258C6B6B2F3E}"
 EndProject
@@ -20,9 +20,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLLiteDataAccess
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLLiteDataAccessUnitTests", "CA.Blocks.SQLSLiteDataAccessUnitTests\CA.Blocks.SQLLiteDataAccessUnitTests.csproj", "{36389CB1-4528-4DFA-945D-2E9328272084}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.MySQLDataAccess", "CA.Blocks.MySQLDataAccess\CA.Blocks.MySQLDataAccess.csproj", "{A0F2F1C3-9FA1-4474-B306-C0B23B17F2A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.MySQLDataAccess", "CA.Blocks.MySQLDataAccess\CA.Blocks.MySQLDataAccess.csproj", "{A0F2F1C3-9FA1-4474-B306-C0B23B17F2A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.MySQLDataAccessUnitTests", "CA.Blocks.MySQLDataAccessUnitTests\CA.Blocks.MySQLDataAccessUnitTests.csproj", "{184A07D6-ABA2-46C2-AB31-258DD3C851C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.MySQLDataAccessUnitTests", "CA.Blocks.MySQLDataAccessUnitTests\CA.Blocks.MySQLDataAccessUnitTests.csproj", "{184A07D6-ABA2-46C2-AB31-258DD3C851C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.SQLServerDataAccessBenchmarks", "CA.Blocks.SQLServerDataAccessBenchmarks\CA.Blocks.SQLServerDataAccessBenchmarks.csproj", "{8DBD791A-4F27-4B24-9B51-E588AEBF6695}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,10 @@ Global
 		{184A07D6-ABA2-46C2-AB31-258DD3C851C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{184A07D6-ABA2-46C2-AB31-258DD3C851C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{184A07D6-ABA2-46C2-AB31-258DD3C851C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DBD791A-4F27-4B24-9B51-E588AEBF6695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DBD791A-4F27-4B24-9B51-E588AEBF6695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DBD791A-4F27-4B24-9B51-E588AEBF6695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DBD791A-4F27-4B24-9B51-E588AEBF6695}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
