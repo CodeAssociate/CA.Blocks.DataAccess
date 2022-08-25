@@ -4,20 +4,17 @@ using System.Linq;
 
 namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 {
-    public class ByteListDbColToTypeConverter : BaseDbColToTypeConverter<IList<byte>>
+    public class ByteListDbColToTypeConverter : DelimitedListDbColToTypeConverter<byte>
     {
-        private readonly char _delimiter;
         public ByteListDbColToTypeConverter() : this(',')
         {
-
         }
 
-        public ByteListDbColToTypeConverter(char delimiter)
+        public ByteListDbColToTypeConverter(char delimiter) : base(delimiter)
         {
-            _delimiter = delimiter;
         }
 
-        private IList<byte> ToList(string input)
+        protected override IList<byte> ToList(string input)
         {
             var result = new List<byte>();
             if (!string.IsNullOrWhiteSpace(input))
@@ -26,26 +23,6 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
                 result.AddRange(from s in inputStringArray where !string.IsNullOrWhiteSpace(s) select byte.Parse(s.Trim()));
             }
             return result;
-        }
-
-        public override IList<byte> GetDataValue(DataRow dr, string columnName)
-        {
-            return ToList(dr.AsString(columnName));
-        }
-
-        public override IList<byte> GetDataValue(IDataReader dr, string columnName)
-        {
-            return ToList(dr.AsString(columnName));
-        }
-
-        public override IList<byte> GetDataValue(DataRow dr, int columnIndex)
-        {
-            return ToList(dr.AsString(columnIndex));
-        }
-
-        public override IList<byte> GetDataValue(IDataReader dr, int columnIndex)
-        {
-            return ToList(dr.AsString(columnIndex));
         }
     }
 }

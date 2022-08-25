@@ -22,7 +22,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.DbColToType.Converters
             {
                 expected.AddRange(numbers);
             }
-
+            
             var target = new LongListDbColToTypeConverter();
             Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
             Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
