@@ -1,23 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 
 namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 {
-    public class LongListDbColToTypeConverter : BaseDbColToTypeConverter<IList<long>>
+    public class LongListDbColToTypeConverter : DelimitedListDbColToTypeConverter<long>
     {
-        private readonly char _delimiter;
         public LongListDbColToTypeConverter() : this(',')
         {
-
         }
 
-        public LongListDbColToTypeConverter(char delimiter)
+        public LongListDbColToTypeConverter(char delimiter) : base(delimiter)
         {
-            _delimiter = delimiter;
         }
 
-        private IList<long> ToList(string input)
+        protected override IList<long> ToList(string input)
         {
             var result = new List<long>();
             if (!string.IsNullOrWhiteSpace(input))
@@ -26,26 +22,6 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
                 result.AddRange(from s in inputStringArray where !string.IsNullOrWhiteSpace(s) select long.Parse(s.Trim()));
             }
             return result;
-        }
-
-        public override IList<long> GetDataValue(DataRow dr, string columnName)
-        {
-            return ToList(dr.AsString(columnName));
-        }
-
-        public override IList<long> GetDataValue(IDataReader dr, string columnName)
-        {
-            return ToList(dr.AsString(columnName));
-        }
-
-        public override IList<long> GetDataValue(DataRow dr, int columnIndex)
-        {
-            return ToList(dr.AsString(columnIndex));
-        }
-
-        public override IList<long> GetDataValue(IDataReader dr, int columnIndex)
-        {
-            return ToList(dr.AsString(columnIndex));
         }
     }
 }
