@@ -1,6 +1,4 @@
-﻿using System.Configuration;
-
-namespace CA.Blocks.DataAccess.DI
+﻿namespace CA.Blocks.DataAccess.DI
 {
     /// <summary>
     /// This is a hard coded Connection String Resolver.  This class is useful for providing examples and quick prototype code.  Typically you will not use this once rolling out the application.

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using CA.Blocks.DataAccess.Model.Results;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
@@ -10,19 +11,42 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 {
     public static class DataReaderExtensions
     {
+
         /// <summary>
-        /// This is a private function that that will execute ExecuteToList but does not close the reader.
-        /// The reader is loses with one of the public methods.
+        /// This allows direct execution of a reader to a Enumerable this allows streaming of the data without fetching the entire
+        /// rowset. It it important to note when using this method the caller is responsible for closing the reader when done.
+        /// The connection will remain open until the rowset is closed. Unless you are actively looking for streaming ability
+        /// it is best to use the ToListOf overrides which will manage the reader connection for you.
+        /// Also note whilst you can execute the linq lamdas on the IEnumerable this will typically result in the full read.
+        /// Best to use the IList.
+        /// Typical cases .Take()
+        /// FirstOrDefault ()
+        /// Single()
+        /// or streaming a very large set with millions of rows. (again with warning you holding the connection open while this is happening.
         /// </summary>
-        private static IList<T> ExecuteToList<T>(IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbReader"></param>
+        /// <param name="translate"></param>
+        /// <returns></returns>
+        private static IEnumerable<T> ExecuteToEnumerable<T>(IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
         {
             IList<T> result = new List<T>();
             while (dbReader.Read())
             {
-                result.Add(translate(dbReader));
+                yield return translate(dbReader);
             }
-            return result;
+            yield break;
         }
+        /// <summary>
+        /// This is a private function that that will execute ExecuteToList but does not close the reader.
+        /// The reader is used with one of the public methods.
+        /// </summary>
+        private static IList<T> ExecuteToList<T>(IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        {
+            return ExecuteToEnumerable(dbReader, translate).ToList();
+        }
+
+
 
         public static IList<T> ToListOf<T>(this IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
         {

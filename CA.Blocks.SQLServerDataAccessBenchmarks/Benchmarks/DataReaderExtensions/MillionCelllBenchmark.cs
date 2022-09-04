@@ -36,7 +36,6 @@ InvocationCount=1  UnrollFactor=1
     custom translator by index  +-56 ms
 */
 
-
     protected class TestDataObject
     {
         public int Id { get; set; }
@@ -140,8 +139,6 @@ InvocationCount=1  UnrollFactor=1
         public string StringCol98 { get; set; }
         public string StringCol99 { get; set; }
     }
-
-
 
     protected DataTable GenerateTestData()
     {

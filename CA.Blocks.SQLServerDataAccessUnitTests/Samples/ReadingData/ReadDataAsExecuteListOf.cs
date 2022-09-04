@@ -5,6 +5,8 @@ using System.Diagnostics;
 using CA.Blocks.DataAccess.DI;
 using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
+using System.Data;
+using CA.Blocks.DataAccess.Translator.Extensions;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
@@ -26,14 +28,72 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             public DateTime refdate { get; set; }
         }
 
+        public class SpWhoResult
+        {
+            public short spid { get; init; }
+            public short ecid { get; init; }
+            public string status { get; init; }
+            public string loginame { get; init; }
+            public string hostname { get; init; }
+            public string blk { get; init; }
+            public string? dbname { get; init; }
+            public string cmd { get; init; }
+            public int request_id { get; init; }
+        }
+
         public class ExampleReadDataAsExecuteListOf : SqlServerDataAccess
         {
-            public ExampleReadDataAsExecuteListOf() : base(
-                new DataAccessConfig("SampleConfig", new DataAccessConfigOptions { ConnectionStringKey = "notused" },
-                    new HardCodedConnectionStringsResolver("Server=(localdb)\\MSSQLLocalDB;Integrated Security = true"))
-            )
+            public ExampleReadDataAsExecuteListOf() : base( new SimpleConnectionStringDataAccessConfig("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
+            
             {
 
+            }
+            public IList<SpWhoResult> ExecSpWho()
+            {
+                var cmd = CreateStoredProcedureCommand("sp_Who");
+                return Execute(cmd).ToListOf<SpWhoResult>();
+            }
+
+            // Move to performance benchmark
+            public IList<SpWhoResult> ExecSpWhoAdonet()
+            {
+                var result = new List<SpWhoResult>();
+                using (var connection = new SqlConnection("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
+                {
+                    connection.Open();
+                    using (var command = new SqlCommand("Exec sp_who", connection))
+                    {
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                
+                                var product = new SpWhoResult
+                                {
+                                    spid = reader.GetInt16(reader.GetOrdinal("spid")),
+                                    ecid = reader.GetInt16(reader.GetOrdinal("ecid")),
+                                    status = reader.GetString(reader.GetOrdinal("status")),
+                                    loginame = reader.GetString(reader.GetOrdinal("loginame")),
+                                    hostname = reader.GetString(reader.GetOrdinal("hostname")),
+                                    blk = reader.GetString(reader.GetOrdinal("blk")),
+                                    dbname = reader.IsDBNull(reader.GetOrdinal("dbname")) ? null : reader.GetString(reader.GetOrdinal("dbname")),
+                                    cmd = reader.GetString(reader.GetOrdinal("cmd")),
+                                    request_id = reader.GetInt32(reader.GetOrdinal("request_id"))
+                                };
+                                result.Add(product);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+                return result;
+            }
+
+            public IList<SpWhoResult> ExecSpWho()
+            {
+                var cmd = CreateStoredProcedureCommand("sp_Who");
+                return Execute(cmd).ToListOf<SpWhoResult>();
             }
 
             public IList<ExampleSysObject> ReadSysObjectsOfType(string xtype)
@@ -73,6 +133,27 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
         }
 
+        [Test]
+        public void ExecuteSpWho()
+        {
+            var target = new ExampleReadDataAsExecuteListOf();
+            var executeResult = target.ExecSpWho();
+            foreach (var o in executeResult)
+            {
+                TestContext.WriteLine($"{o.spid},{o.ecid},{o.status},{o.loginame},{o.hostname},{o.blk},{o.dbname},{o.cmd},{o.request_id}");
+            }
+        }
+
+        [Test]
+        public void ExecuteSpWhoAdoNet()
+        {
+            var target = new ExampleReadDataAsExecuteListOf();
+            var executeResult = target.ExecSpWhoAdonet();
+            foreach (var o in executeResult)
+            {
+                TestContext.WriteLine($"{o.spid},{o.ecid},{o.status},{o.loginame},{o.hostname},{o.blk},{o.dbname},{o.cmd},{o.request_id}");
+            }
+        }
 
         [Test]
         public void ExecuteToListOfDev()

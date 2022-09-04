@@ -1,0 +1,319 @@
+{
+  "Pages": [
+    {
+      "Key": "samples\\index.md",
+      "Title": "Index",
+      "Tags": [],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\index.html"
+    },
+    {
+      "Key": "samples\\connection\\customconnectionstringresolver.md",
+      "Title": "Custom Connection String Resolver",
+      "Tags": [],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\connection\\customconnectionstringresolver.html"
+    },
+    {
+      "Key": "samples\\connection\\index.md",
+      "Title": "Index",
+      "Tags": [],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\connection\\index.html"
+    },
+    {
+      "Key": "samples\\connection\\usingappdotconfigconnectionstringsresolver.md",
+      "Title": "Using AppDot Config Connection Strings Resolver",
+      "Tags": [
+        "Samples"
+      ],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\connection\\usingappdotconfigconnectionstringsresolver.html"
+    },
+    {
+      "Key": "samples\\connection\\usingjsonconfigconnectionstringsresolver.md",
+      "Title": "UsingJsonConfigConnectionStringsResolver",
+      "Tags": [
+        "Samples"
+      ],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\connection\\usingjsonconfigconnectionstringsresolver.html"
+    },
+    {
+      "Key": "samples\\readingdata\\executestoredprocedure.md",
+      "Title": "ExecuteStoredProcedure",
+      "Tags": [
+        "Samples"
+      ],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\readingdata\\executestoredprocedure.html"
+    },
+    {
+      "Key": "samples\\readingdata\\index.md",
+      "Title": "Index",
+      "Tags": [
+        "Samples"
+      ],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\readingdata\\index.html"
+    },
+    {
+      "Key": "samples\\readingdata\\simpleselect.md",
+      "Title": "SimpleSelect",
+      "Tags": [
+        "Samples"
+      ],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\readingdata\\simpleselect.html"
+    },
+    {
+      "Key": "samples\\readingdata\\simpleselectwithparameters.md",
+      "Title": "SimpleSelectWithParameters",
+      "Tags": [
+        "Samples"
+      ],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\readingdata\\simpleselectwithparameters.html"
+    },
+    {
+      "Key": "samples\\readingdata\\simplesinglerow.md",
+      "Title": "SimpleSingleRow",
+      "Tags": [
+        "Samples"
+      ],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\readingdata\\simplesinglerow.html"
+    },
+    {
+      "Key": "samples\\readingdata\\simplesinglevalue.md",
+      "Title": "SimpleSingleValue",
+      "Tags": [
+        "Examples"
+      ],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "samples\\readingdata\\simplesinglevalue.html"
+    },
+    {
+      "Key": "index.md",
+      "Title": "Index",
+      "Tags": [],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "index.html"
+    },
+    {
+      "Key": "howto\\working-async.md",
+      "Title": "working-async",
+      "Tags": [],
+      "MenuOrderAsString": "0.00",
+      "TargetUrl": "howto\\working-async.html"
+    },
+    {
+      "Key": "design.md",
+      "Title": "Design",
+      "Description": "The Quick Overview of the CA.Blocks.DataAccess design",
+      "Tags": [],
+      "MenuOrder": 2.0,
+      "MenuOrderAsString": "2",
+      "TopNode": true,
+      "TargetUrl": "design.html"
+    },
+    {
+      "Key": "gettingstarted\\dependency-injection.md",
+      "Title": "dependency Injection",
+      "Tags": [],
+      "MenuOrder": 2.1,
+      "MenuOrderAsString": "2.10",
+      "Hide": true,
+      "TargetUrl": "gettingstarted\\dependency-injection.html"
+    },
+    {
+      "Key": "design\\overview.md",
+      "Title": "overview",
+      "Tags": [],
+      "MenuOrder": 2.2,
+      "MenuOrderAsString": "2.20",
+      "Hide": true,
+      "TargetUrl": "design\\overview.html"
+    },
+    {
+      "Key": "design\\protected-by-default.md",
+      "Title": "protected-by-default",
+      "Tags": [],
+      "MenuOrder": 2.2,
+      "MenuOrderAsString": "2.20",
+      "Hide": true,
+      "TargetUrl": "design\\protected-by-default.html"
+    },
+    {
+      "Key": "design\\sql-injection-attacks.md",
+      "Title": "sql-injection-attacks",
+      "Tags": [],
+      "MenuOrder": 2.6,
+      "MenuOrderAsString": "2.60",
+      "Hide": true,
+      "TargetUrl": "design\\sql-injection-attacks.html"
+    },
+    {
+      "Key": "design\\performance.md",
+      "Title": "performance",
+      "Tags": [],
+      "MenuOrder": 2.9,
+      "MenuOrderAsString": "2.90",
+      "Hide": true,
+      "TargetUrl": "design\\performance.html"
+    },
+    {
+      "Key": "gettingstarted\\getting-started.md",
+      "Title": "Getting Started",
+      "Description": "A quick guid on how to get setup and going",
+      "Tags": [],
+      "MenuOrder": 3.0,
+      "MenuOrderAsString": "3",
+      "TopNode": true,
+      "TargetUrl": "gettingstarted\\getting-started.html"
+    },
+    {
+      "Key": "gettingstarted\\simple-inline.md",
+      "Title": "simple-inline",
+      "Tags": [],
+      "MenuOrder": 3.1,
+      "MenuOrderAsString": "3.10",
+      "Hide": true,
+      "TargetUrl": "gettingstarted\\simple-inline.html"
+    },
+    {
+      "Key": "howto\\index.md",
+      "Title": "How To",
+      "Description": "Quick Hit how to guides for the CA.Blocks",
+      "Tags": [],
+      "MenuOrder": 4.0,
+      "MenuOrderAsString": "4",
+      "TopNode": true,
+      "TargetUrl": "howto\\index.html"
+    },
+    {
+      "Key": "howto\\selecting-scalar-values.md",
+      "Title": "Selecting Scalar Values",
+      "Description": "Examples of Selecting Scalar Values using CA.Blocks for example as single string or number or Date etc ",
+      "Tags": [
+        "Examples",
+        "Selecting Scalar Values",
+        "How To"
+      ],
+      "MenuOrder": 4.1,
+      "MenuOrderAsString": "4.10",
+      "TargetUrl": "howto\\selecting-scalar-values.html"
+    },
+    {
+      "Key": "howto\\selecting-single-rows.md",
+      "Title": "Selecting Single Rows",
+      "Description": "Execute to a single value",
+      "Tags": [
+        "Examples",
+        "Selecting Single Rows",
+        "How To"
+      ],
+      "MenuOrder": 4.2,
+      "MenuOrderAsString": "4.20",
+      "TargetUrl": "howto\\selecting-single-rows.html"
+    },
+    {
+      "Key": "howto\\selecting-multiple-rows.md",
+      "Title": "Selecting Multiple Rows",
+      "Tags": [
+        "Examples",
+        "Selecting Multiple Rows",
+        "How To"
+      ],
+      "MenuOrder": 4.3,
+      "MenuOrderAsString": "4.30",
+      "TargetUrl": "howto\\selecting-multiple-rows.html"
+    },
+    {
+      "Key": "howto\\selecting-multiple-sets.md",
+      "Title": "Selecting Multiple Sets",
+      "Tags": [
+        "Examples",
+        "Selecting Multiple Sets",
+        "How To"
+      ],
+      "MenuOrder": 4.4,
+      "MenuOrderAsString": "4.40",
+      "TargetUrl": "howto\\selecting-multiple-sets.html"
+    },
+    {
+      "Key": "howto\\execute-non-query.md",
+      "Title": "Execute Non Query",
+      "Tags": [
+        "Examples",
+        "Execute Non Query",
+        "How To"
+      ],
+      "MenuOrder": 4.5,
+      "MenuOrderAsString": "4.50",
+      "TargetUrl": "howto\\execute-non-query.html"
+    },
+    {
+      "Key": "howto\\working-with-parameters.md",
+      "Title": "Working With Parameters",
+      "Tags": [
+        "Examples",
+        "Working With Parameters",
+        "How To"
+      ],
+      "MenuOrder": 4.6,
+      "MenuOrderAsString": "4.60",
+      "TargetUrl": "howto\\working-with-parameters.html"
+    },
+    {
+      "Key": "howto\\execute-stored-procedures.md",
+      "Title": "Execute Stored Procedures",
+      "Tags": [
+        "Examples",
+        "Execute Stored Procedures",
+        "How To"
+      ],
+      "MenuOrder": 4.7,
+      "MenuOrderAsString": "4.70",
+      "TargetUrl": "howto\\execute-stored-procedures.html"
+    },
+    {
+      "Key": "howto\\custom-rowset-translators.md",
+      "Title": "Custom Rowset Translators",
+      "Tags": [
+        "Examples",
+        "Rowset Translators",
+        "How To"
+      ],
+      "MenuOrder": 4.8,
+      "MenuOrderAsString": "4.80",
+      "TargetUrl": "howto\\custom-rowset-translators.html"
+    },
+    {
+      "Key": "howto\\custom-column-translators.md",
+      "Title": "Custom Column Translators",
+      "Tags": [
+        "Examples",
+        "Column Translators",
+        "How To"
+      ],
+      "MenuOrder": 4.9,
+      "MenuOrderAsString": "4.90",
+      "TargetUrl": "howto\\custom-column-translators.html"
+    }
+  ],
+  "Tags": [
+    "Examples",
+    "Column Translators",
+    "How To",
+    "Rowset Translators",
+    "Execute Non Query",
+    "Execute Stored Procedures",
+    "Selecting Multiple Rows",
+    "Selecting Multiple Sets",
+    "Selecting Scalar Values",
+    "Selecting Single Rows",
+    "Working With Parameters",
+    "Samples"
+  ]
+}
