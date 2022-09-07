@@ -9,12 +9,14 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 {
     public class Db2ObjectTranslator<T> : IDbRowTranslator<T> where T : new()
     {
-        private DbRowToObjectMappings _mappings;
+        private readonly DbRowToObjectMappings _mappings;
 
         public Db2ObjectTranslator(DbRowToObjectMappings mappings)
         {
             _mappings = mappings;
         }
+
+        internal DbRowToObjectMappings Mappings => _mappings;
 
         public IList<T> Translate(DataTable dt)
         {

@@ -24,7 +24,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public string name { get; set; }
     }
 
+    internal class temp3
+    {
+        public int id { get; set; }
 
+        //[Description("StringDbColToTypeConverter")]
+        public string name { get; set; }
+    }
     public class temp2
     {
         public long Id2 { get; set; }
