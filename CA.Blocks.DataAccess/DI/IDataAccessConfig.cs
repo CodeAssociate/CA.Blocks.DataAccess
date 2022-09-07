@@ -23,4 +23,15 @@
         public IDataAccessKeyToConnectionStringResolver Resolver { get; }
         public IDataAccessConfigOptions Options { get; }
     }
+
+    public class SimpleConnectionStringDataAccessConfig : DataAccessConfig
+    {
+        public SimpleConnectionStringDataAccessConfig(string connectionString) : 
+            base("NotUsed", new DataAccessConfigOptions { ConnectionStringKey = "NotUsed" },
+                new HardCodedConnectionStringsResolver(connectionString))
+        {
+
+            
+        }
+    }
 }

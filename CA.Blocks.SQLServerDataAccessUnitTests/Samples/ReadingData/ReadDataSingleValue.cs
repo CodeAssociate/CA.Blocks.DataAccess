@@ -19,6 +19,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
             }
 
+            public object GetSysObjectsCountReturnObject()
+            {
+                var cmd = CreateTextCommand("Select count(*) from Sysobjects");
+                return ExecuteScalar(cmd);
+            }
+
             public int GetSysObjectsCount()
             {
                 var cmd = CreateTextCommand("Select count(*) from Sysobjects");
@@ -59,6 +65,16 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
             TestContext.WriteLine($"{executeResult}");
         }
+
+        [Test]
+        public void GetSysObjectsCountReturnObject()
+        {
+            var target = new ExampleReadDataSingleValue();
+            var executeResult = target.GetSysObjectsCountReturnObject();
+
+            TestContext.WriteLine($"{executeResult}");
+        }
+
 
         [Test]
         public void GetValueThatMightBeNull()

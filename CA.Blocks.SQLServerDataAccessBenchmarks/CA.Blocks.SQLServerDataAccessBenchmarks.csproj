@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Benchmarks\ReadVrsDapper\ReadDapper\" />
+    <Folder Include="Benchmarks\ReadVrsDapper\ReadBlocks\" />
     <Folder Include="Benchmarks\Translator\DbColToType\" />
   </ItemGroup>
 

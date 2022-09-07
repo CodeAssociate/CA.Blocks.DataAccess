@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using System.Threading.Tasks;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLLiteDataAccess;
 using CA.Blocks.SQLLiteDataAccessUnitTests.Base;
@@ -106,14 +107,14 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.SQLLite
         }
         
         [Test]
-        public void GetsqliteMasterData_AssertTraceWithScalarAsync()
+        public async Task GetsqliteMasterData_AssertTraceWithScalarAsync()
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select name from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
-            var result = ExecuteScalarAsAsync<string>(cmd);
-            result.Wait();
-            Assert.AreEqual("CABLOCKS_TestMasterTable", result.Result);
+            var result = await ExecuteScalarAsAsync<string>(cmd);
+        
+            Assert.AreEqual("CABLOCKS_TestMasterTable", result);
             Assert.IsTrue(TraceCalled);
         }
 
