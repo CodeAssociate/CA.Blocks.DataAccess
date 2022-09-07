@@ -90,12 +90,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
                 return result;
             }
 
-            public IList<SpWhoResult> ExecSpWho()
-            {
-                var cmd = CreateStoredProcedureCommand("sp_Who");
-                return Execute(cmd).ToListOf<SpWhoResult>();
-            }
-
             public IList<ExampleSysObject> ReadSysObjectsOfType(string xtype)
             {
                 var cmd = CreateTextCommand("Select top 10 id as Id, name as Name, xtype as XType, crdate as CreateDate from sysobjects where xtype = @xtype").WithParameter(xtype.ToSqlParameter("@xtype"));
