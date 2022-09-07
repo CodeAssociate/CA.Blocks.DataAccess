@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Security.Principal;
+using CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
+using CA.Blocks.DataAccess.Translator.DbColToType.Mappings;
 using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Mappings;
@@ -30,7 +34,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             return string.IsNullOrWhiteSpace(byName) ? $"{targetType}" : $"{targetType}-{byName}";
         }
 
-        private IDbRowTranslator<T> GenerateDefaultMappingsFor<T>() where T : new()
+        public DbRowToObjectMappings GenerateDefaultMappingsFor<T>() where T : new()
         {
             DbRowToObjectMappings mappings = new DbRowToObjectMappings();
             var myObjectFields = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -38,14 +42,47 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             {
                 if (pi.CanWrite)
                 {
-                    var dbToTypeConverter = _colTypeConverters.Resolve(pi.PropertyType);
+                    IDbColToTypeConverter dbToTypeConverter = null;
+                    if (Attribute.IsDefined(pi, typeof(DbColToTypeConverterAttribute)))
+                    {
+                        var customConverter = (DbColToTypeConverterAttribute)(pi.GetCustomAttributes(typeof(DbColToTypeConverterAttribute), false)).FirstOrDefault();
+                        if (customConverter != default)
+                        {
+                            dbToTypeConverter = (IDbColToTypeConverter)Activator.CreateInstance(customConverter.ConverterType, customConverter.ConverterParameters);
+                        }
+                    }
+                    else
+                    {
+                        dbToTypeConverter = _colTypeConverters.Resolve(pi.PropertyType);
+                    }
+
                     if (dbToTypeConverter != null)
                     {
-                        mappings.AddOneToOneMapping(pi.Name, dbToTypeConverter);
+                        if (Attribute.IsDefined(pi, typeof(DbColToSourceNameAttribute)))
+                        {
+                            var sourceFrom = (DbColToSourceNameAttribute)(pi.GetCustomAttributes(typeof(DbColToSourceNameAttribute), false)).FirstOrDefault();
+                            if (sourceFrom != default)
+                            {
+                                mappings.AddMapping(new DbColToTypeMapping
+                                {
+                                    DestinationName = pi.Name, 
+                                    SourceNameName = sourceFrom.SourceName, 
+                                    Converter = dbToTypeConverter
+                                });
+                            }
+                            else
+                            {
+                                mappings.AddOneToOneMapping(pi.Name, dbToTypeConverter);
+                            }
+                        }
+                        else
+                        {
+                            mappings.AddOneToOneMapping(pi.Name, dbToTypeConverter);
+                        }
                     }
                 }
             }
-            return new Db2ObjectTranslator<T>(mappings);
+            return mappings;
         }
 
         private void TryAdd<T>(string key, IDbRowTranslator<T> translator, bool errorOnExists = true)
@@ -80,7 +117,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             {
                 if (targetType.IsClass)
                 {
-                    typeConverter = GenerateDefaultMappingsFor<T>();
+                    typeConverter = new Db2ObjectTranslator<T>(GenerateDefaultMappingsFor<T>());
                     TryAdd<T>(key, (IDbRowTranslator<T>)typeConverter, false);
                 }
                 else
