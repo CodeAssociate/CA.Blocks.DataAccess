@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-using System.Net.WebSockets;
 using System.Threading.Tasks;
-using NUnit.Framework.Api;
+
 
 namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.Extensions;
 
@@ -19,7 +18,7 @@ public class DataReaderExtensionsBaseTests
 
     protected DataTable GenerateTestData(int count)
     {
-        return GenerateTestData(1, 10);
+        return GenerateTestData(1, count);
     }
 
     protected DataTable GenerateTestData(int start, int count)

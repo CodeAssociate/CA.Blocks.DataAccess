@@ -5,9 +5,9 @@ It was was designed to work with onion / layered and and CQRS type architectures
 
 At a high level you can create a class that inherits from the provider you what to use.  Once you have that class in place it is  a case of creating your data access methods. 
 
-Below is a very simple example that that will connect to the local sql sever use a trusted connectio. it then exposes two methods 
-1. ExecSpWho - this will execute the sp_who stored procedure and return the results int he POCO class called SpWhoResult.
-2. GetSysObjectsOfType - this will execute the query with a parameter and return the results in a class called SysObjectsResult. 
+Below is a simple example that that will connect to the local sql sever using a trusted connection. It then exposes two methods 
+1. **ExecSpWho** - this will execute the sp_who stored procedure and return the results int he POCO class called SpWhoResult.
+2. **GetSysObjectsOfType** - this will execute the query with a parameter and return the results in a class called SysObjectsResult. 
 
 ```CSharp
     public class YourDataAccessClass : SqlServerDataAccess
@@ -82,4 +82,4 @@ To install for MySqlConnector
 ```bash
 PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
 ```
-See [Getting Started](GettingStarted)
+See [Getting Started](GettingStarted/getting-started.md)

@@ -121,7 +121,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
             public ExampleSysObject2 GetSysObjectByName()
             {
-                var cmd = CreateTextCommand("Select * from Sysobjects where name = 'sysobjects'");
+                var cmd = CreateTextCommand("Select top 1 * from Sysobjects");
                 return ExecuteTo<ExampleSysObject2>(cmd);
             }
 
@@ -153,14 +153,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
         public void ExecuteToListOfDev()
         {
             var target = new ExampleReadDataAsExecuteListOf();
-            var executeResult = target.ReadSysObjectsOfType("U");
+            var executeResult = target.ReadSysObjectsOfType("S");
 
             foreach (var o in executeResult)
             {
                 TestContext.WriteLine($"{o.Id},{o.Name},{o.XType},{o.CreateDate}");
             }
 
-            var executeResult2 = target.ReadSysObjectsOfType2("U");
+            var executeResult2 = target.ReadSysObjectsOfType2("S");
 
             foreach (var o in executeResult)
             {
