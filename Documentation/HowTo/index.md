@@ -1,19 +1,26 @@
 ## The How to guide 
 The How to Section provides simple examples on how to work with blocks. If you looking at setting up the connection see the [Getting Started](../GettingStarted/getting-started.md) section
 
-All of the context in this section will be working within the methods inside your YourDataAccessClass.
+For the context on this section we will use the standard microsoft AdventureWorks database and use sql server provider.
+To get the version of the database you can use go to https://docs.microsoft.com/en-us/sql/samples/adventureworks-install-configure
 
+All of the content in this section will be working within the methods inside the example AdventureWorksDataAccess.
+
+ 
 
 ```Csharp
-    public class YourDataAccessClass : SqlServerDataAccess
+    public class AdventureWorksDataAccess : SqlServerDataAccess
     {
-        public YourDataAccessClass() : base( new SimpleConnectionStringDataAccessConfig("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
-        {}
-        
-        // The focus of the how to articles are the  methods that are here
+        public AdventureWorksDataAccess() :
+            base(new SimpleConnectionStringDataAccessConfig(
+                "Server=(local);Database=AdventureWorks2019;Integrated Security=SSPI;TrustServerCertificate=True"))
+        {
 
-        // Selecting Selecting Scalar Value 
+        }
+
     }
 ```
 
 * [Selecting Scalar Values](selecting-scalar-values.md)
+* [Selecting Rows Values](selecting-single-rows.md)
+* [Selecting multiple Values](selecting-multiple-rows.md)

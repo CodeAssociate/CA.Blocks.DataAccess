@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess.Model.Results;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
@@ -11,9 +12,18 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 
 namespace CA.Blocks.DataAccess.Translator.Extensions
 {
-    
     public static class DbDataReaderAsyncExtensions
     {
+        // TODO We need to target mutiple frameworks before we can expose this to the world. 
+        // In this case we will have code that will not on .NET core that will not run on .NET, the yield with async needs lang version 8+
+        //public static async Task<IEnumerable<T>> ExecuteToEnumerableAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        //{
+        //    while (await dbReader.ReadAsync())
+        //    {
+        //        yield return translate(dbReader);
+        //    }
+        //    yield break;
+        //}
 
         #region ToListOf
         private static async Task<IList<T>> ExecuteToListAsync<T>(this DbDataReader dbReader, Func<IDataReader, T> translate) where T : new()

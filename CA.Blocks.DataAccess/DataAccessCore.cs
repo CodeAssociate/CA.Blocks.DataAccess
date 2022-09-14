@@ -577,28 +577,22 @@ namespace CA.Blocks.DataAccess
         }
 
 
-        // execute using a provider translator
+        /// <summary>
+        ///  This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
+        /// </summary>
+        /// <returns></returns>
         protected T ExecuteTo<T>(IDbCommand cmd) where T : new()
         {
-            var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return ExecuteTo(cmd, translator.Translate);
+            return Execute(cmd).ToFirstOrDefault<T>();
         }
 
+        /// <summary>
+        ///  This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
+        /// </summary>
+        /// <returns></returns>
         protected T ExecuteTo<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
         {
-            T result;
-            using (var dbReader = ExecuteReader(cmd))
-            {
-                try
-                {
-                    result = dbReader.Read() ? translate(dbReader) : default;
-                }
-                finally
-                {
-                    dbReader.Close();
-                }
-            }
-            return result;
+            return Execute(cmd).ToFirstOrDefault<T>(translate);
         }
         
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd) where T : new()
@@ -628,6 +622,7 @@ namespace CA.Blocks.DataAccess
 
         protected async Task<T> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
         {
+            //ExecuteReaderAsync(cmd).
             var dbResult = ExecuteReaderAsync(cmd);
             T result;
             await dbResult;

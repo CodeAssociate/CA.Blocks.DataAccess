@@ -30,8 +30,6 @@
             base("NotUsed", new DataAccessConfigOptions { ConnectionStringKey = "NotUsed" },
                 new HardCodedConnectionStringsResolver(connectionString))
         {
-
-            
         }
     }
 }

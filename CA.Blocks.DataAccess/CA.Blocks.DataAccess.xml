@@ -150,6 +150,18 @@
             <param name="nullDefault">If execute result is null this this value will be passed back. </param>
             <returns></returns>
         </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteTo``1(System.Data.IDbCommand)">
+            <summary>
+             This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteTo``1(System.Data.IDbCommand,System.Func{System.Data.IDataReader,``0})">
+            <summary>
+             This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteToListOf``1(System.Data.IDbCommand,System.Func{System.Data.IDataReader,``0})">
             <summary>
              This is a short cut method to <code>ExecuteReader<T>(cmd).ToListOf<T>(translate);</T></T></code>

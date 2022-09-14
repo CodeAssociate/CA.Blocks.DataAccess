@@ -5,7 +5,7 @@ This is common with the .NET Core frameworks and designed using the dependency i
 
 Example using Json and with config in appsettings.json and a ConnectionString named exampleName
 
-``` json 
+``` JavaScript 
 {
     "ConnectionStrings": {
         "exampleName": "Server=(localdb)\\MSSQLLocalDB;Integrated Security = true"

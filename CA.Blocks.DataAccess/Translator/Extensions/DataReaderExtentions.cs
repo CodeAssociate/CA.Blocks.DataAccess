@@ -28,9 +28,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         /// <param name="dbReader"></param>
         /// <param name="translate"></param>
         /// <returns></returns>
-        private static IEnumerable<T> ExecuteToEnumerable<T>(IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        public static IEnumerable<T> ExecuteToEnumerable<T>(IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
         {
-            IList<T> result = new List<T>();
             while (dbReader.Read())
             {
                 yield return translate(dbReader);
@@ -69,6 +68,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             return ToListOf(dbReader, translator.Translate);
         }
+
 
 
         public static IList<T> ToSingleNamedColumnList<T>(this IDataReader dbReader, string colName, Func<IDataReader, string, T> converter)

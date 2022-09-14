@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.Extensions
 {
     [TestFixture]
-    public class DataReaderExtentionTests : DataReaderExtensionsBaseTests
+    public class DataReaderExtensionTests : DataReaderExtensionsBaseTests
     {
 
         [Test]
@@ -146,4 +146,6 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.Extensions
             Assert.AreEqual(0, result.Results4.Count);
         }
     }
+
+
 }
