@@ -1,11 +1,11 @@
 ## Selecting Single Rows
 
-Selecting single rows is a common task. There are two primary driving cases:
+Selecting single rows from a database is a common task. There are two primary driving cases:
 * Firstly selecting data involved with a unique index such as a primary key, where there can be zero or one rows returned. 
-* Secondly selecting the top row of a set with given order applied, for example selecting the person with the most sales, or selecting the most recent sale, In these cases there many be zero, one or more rows returned. 
+* Secondly selecting the top row from a set typically with an specified order , for example selecting the person with the most sales, or selecting a persons most recent sale, In these cases there many be zero, one or more rows returned. 
 
-Depending on how you want to work with the data that you retrieve there are a number of options when working with single row data, these option focus on who to you what to deal to the case where there are zero, rows, one row and many rows. 
-The default method is ExecuteTo<T>(cmd). This provides the default implementation of FirstOrDefault. 
+Depending on how you want to work with the data that you retrieve there are a number of options when working with single row data. These options focus on how to you what to deal with the cases where there are zero, rows, one row and many rows. 
+The default method is ExecuteTo&lt;T>(cmd). This provides the default implementation of FirstOrDefault. 
 
 
 
@@ -21,9 +21,9 @@ The default method is ExecuteTo<T>(cmd). This provides the default implementatio
 | [ExecuteObject(cmd)](#executeobjectcmd) | Use to return a dynamic object | |
 
 
-In examples below we wil be working with the Product table, and returning ProductSummary the projectId Is the Primary Key 
+In examples below we will be working with the Product table, and returning ProductSummary the projectId Is the Primary Key 
 
-### ExecuteTo<T>
+### ExecuteTo&lt;T>
 
 ```C#
     public ProductSummary GetProductSummary(int productId)
@@ -35,9 +35,9 @@ where ProductID = @productId";
         return ExecuteTo<ProductSummary>(cmd);
     }
 ```
-The code above is 
+The ExecuteTo&lt;T> is simply short form for Execute(cmd).ToFirstOrDefault<T>;
 
-### Execute(cmd).ToFirstOrDefault<T> 
+### Execute(cmd).ToFirstOrDefault&lt;T> 
 ```C#
     public ProductSummary GetProductSummary(int productId)
     {
@@ -45,11 +45,11 @@ The code above is
 From  [Production].[Product]
 where ProductID = @productId";
         var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
-        return Execute<cmd>.ToFirstOrDefault<ProductSummary>(cmd);
+        return Execute(cmd).ToFirstOrDefault<ProductSummary>();
     }
 ```
 
-### Execute(cmd).ToFirst<T> 
+### Execute(cmd).ToFirst&lt;T> 
 
 
 
@@ -61,18 +61,18 @@ where ProductID = @productId";
 From  [Production].[Product]
 where ProductID = @productId";
         var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
-        return Execute<cmd>.ToFirst<ProductSummary>(cmd);
+        return Execute(cmd).ToFirst<ProductSummary>();
     }
 ```
 
-#### Tips with the Execute(cmd).ToFirst<T>
+#### Tips with the Execute(cmd).ToFirst&lt;T>
 * Can you used this method when they may one more many records returned. 
 * If if there are many you can use restrict data on the database server using top x to get better performance  
 
 
 
 
-### Execute(cmd).ToSingleOrDefault<T>  
+### Execute(cmd).ToSingleOrDefault&lt;T>  
 ```C#
     public ProductSummary GetProductSummary(int productId)
     {
@@ -84,7 +84,7 @@ where ProductID = @productId";
     }
 ```
 
-#### Tips with the Execute(cmd).ToSingleOrDefault<T>  
+#### Tips with the Execute(cmd).ToSingleOrDefault&lt;T>  
 * Can you used this method when there is zero one ot many records returned. 
 * If if there are many you can use restrict data on the database server using top x to get better performance  
 
@@ -99,7 +99,7 @@ where ProductID = @productId";
         return Execute<cmd>.ToSingle<ProductSummary>(cmd);
     }
 ```
-#### Tips with the Execute(cmd).ToSingle<T>
+#### Tips with the Execute(cmd).ToSingle&lt;T>
 * The execute single is design to work you you are working with a Primary or unique key on a data set.
 * If you after raw performance the the ToFirst is faster as it skips the check for the second row 
 * If there are many row you can use restrict data on the database server using top x to get better performance  

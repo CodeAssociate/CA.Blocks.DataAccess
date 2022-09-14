@@ -5,12 +5,16 @@
     <AssemblyVersion>987.654.3210.0</AssemblyVersion>
     <FileVersion>987.654.3210.0</FileVersion>
     <Version>987.654.3210</Version>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
     <AssemblyName>CA.Blocks.DataAccess</AssemblyName>
     <RootNamespace>CA.Blocks.DataAccess</RootNamespace>
     <PackageLicenseUrl>https://licenses.nuget.org/MIT</PackageLicenseUrl>
     <Authors>Kevin Bosch</Authors>
     <Company>Ravin Enterprises Limited</Company>
+    <Title>CA.Blocks.DataAccess</Title>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.DataAccess\CA.Blocks.DataAccess.xml</DocumentationFile>
@@ -24,6 +28,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DI\IDataAccessKeyToConnectionStringResolverDocs.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CA.Blocks.DataAccess.Model\CA.Blocks.DataAccess.Model.csproj" />

@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41511523-16D7-470B-8C26-D1187FEEDF8A}"
 	ProjectSection(SolutionItems) = preProject
 		azure-pipelines.yml = azure-pipelines.yml
+		readme.md = readme.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLLiteDataAccess", "CA.Blocks.SQLLiteDataAccess\CA.Blocks.SQLLiteDataAccess.csproj", "{4D57BE0A-72F7-4261-AAEE-555E1FEEC0DC}"
@@ -24,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.MySQLDataAccess",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.MySQLDataAccessUnitTests", "CA.Blocks.MySQLDataAccessUnitTests\CA.Blocks.MySQLDataAccessUnitTests.csproj", "{184A07D6-ABA2-46C2-AB31-258DD3C851C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.SQLServerDataAccessBenchmarks", "CA.Blocks.SQLServerDataAccessBenchmarks\CA.Blocks.SQLServerDataAccessBenchmarks.csproj", "{8DBD791A-4F27-4B24-9B51-E588AEBF6695}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SQLServerDataAccessBenchmarks", "CA.Blocks.SQLServerDataAccessBenchmarks\CA.Blocks.SQLServerDataAccessBenchmarks.csproj", "{8DBD791A-4F27-4B24-9B51-E588AEBF6695}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

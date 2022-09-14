@@ -69,17 +69,17 @@ This code hooks in the specific provider implementation. So if you connecting to
 When using the DataAccess block to write a Data Access Class you only need to install the specific provider you need. For Examples:
 
 To install for SQL server
-```bash
+``` powershell
 PM> Install-Package CA.Blocks.SQLServerDataAccess -Version x.x.x
 ```
 
 To install for Microsoft.Data.Sqlite
-```bash
+``` powershell
 PM> Install-Package CA.Blocks.SQLLiteDataAccess -Version x.x.x
 ```
 
 To install for MySqlConnector
-```bash
+``` powershell
 PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
 ```
 See [Getting Started](GettingStarted/getting-started.md)

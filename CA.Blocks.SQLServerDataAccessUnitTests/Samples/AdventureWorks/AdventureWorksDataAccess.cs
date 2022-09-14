@@ -100,6 +100,13 @@ From  [Production].[Product]
             return Execute(cmd).ToListOf<ProductSummary>();
         }
 
+        public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
+        {
+            var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";
+            var cmd = CreateTextCommand(sql).WithParameter(searchTerm.ToSqlParameter("@searchTerm"));
+            return Execute(cmd).ToListOf<ProductSummary>();
+        }
+
 
 
     }

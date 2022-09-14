@@ -3,24 +3,24 @@ The CA.Blocks.DataAccess have been published to NuGet.  First thing that you nee
 
 For SQL server https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/
 
-``` bash
+``` powershell
 PM> Install-Package CA.Blocks.SQLServerDataAccess -Version x.x.x.
 ```
 
 For SQL Microsoft.Data.Sqlite https://www.nuget.org/packages/CA.Blocks.SQLLiteDataAccess/
 
-``` bash
+``` powershell
 PM> Install-Package CA.Blocks.SQLLiteDataAccess -Version x.x.x
 ```
 
 
 For SQL MySQL https://www.nuget.org/packages/CA.Blocks.MySQLDataAccess/
 
-``` bash
+``` powershell
 PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
 ```
 
-The second thing you need to do is setup a connection string see [Connection String Examples](#BLOCKDOCROOT#/Samples/Connection/Index)
+The second thing you need to do is setup a connection string see [Connection String Examples](../Samples/Connection/Index.md)
 
 Then you will be ready to work with the DataAccess Class
 
@@ -84,7 +84,7 @@ Notes:
 1. You construct the instance of the DataAccess YourDataAccessClass
 2. You Call the method ReadSysObjectsOfType("U") The only methods you see are public ones from System.Object and the ReadSysObjectsOfType. This is by design the guts of the DataAccess class is **protected by default**. The Instance of the DataAccess can access the method, but the calling client only sees what is exposed. The calling code cannot call ExecuteToListOf
 <p align="center">
-    <img src="_assets/ProtectedByDefaultExample.png" alt="ProtectedByDefault" />
+    <img src="../_assets/ProtectedByDefaultExample.png" alt="ProtectedByDefault" />
 </p>
 3. The result of the execute is the filled IList of ExampleSysObjects objects. All Types have been converted from the SQL world into the .NET world.
 4. Using the Result is use like any other Class in .NET.  In this case we duping the result to the Test console:

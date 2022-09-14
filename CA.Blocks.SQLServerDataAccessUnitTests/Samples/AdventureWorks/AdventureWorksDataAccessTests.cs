@@ -99,5 +99,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
                 TestContext.WriteLine(product.Print());
             }
         }
+
+        [Test]
+        public void GetProductSummaryContainingName()
+        {
+            var result = _adventureWorksDataAccess.GetProductSummaryContainingName("%Bike%");
+            foreach (var product in result)
+            {
+                TestContext.WriteLine(product.Print());
+            }
+        }
     }
 }
