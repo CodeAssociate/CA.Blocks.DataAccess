@@ -1,7 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+	  <TargetFramework>netstandard2.0</TargetFramework>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <AssemblyVersion>987.654.3210.0</AssemblyVersion>
+	  <FileVersion>987.654.3210.0</FileVersion>
+	  <Version>987.654.3210</Version>
+	  <RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
+	  <AssemblyName>CA.Blocks.MySQLDataAccess</AssemblyName>
+	  <RootNamespace>CA.Blocks.MySQLDataAccess</RootNamespace>
+	  <Authors>Kevin Bosch</Authors>
+	  <Company>Ravin Enterprises Limited</Company>
+	  <Title>CA.Blocks.MySQLDataAccess</Title>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
+	  <PackageReadmeFile>readme.md</PackageReadmeFile>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;mysql</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -12,6 +27,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="2.1.11" />

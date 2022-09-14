@@ -46,7 +46,7 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
     protected class TestDataObject
     {
         public int IntCol { get; set; }
-        public string StringCol { get; set; }
+        public string? StringCol { get; set; }
         public Guid GuidCol { get; set; }
         public DateTime DateCol { get; set; }
     }
@@ -107,7 +107,7 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
         return result;
     }
 
-    private IDataReader _syncTarget;
+    private IDataReader? _syncTarget;
 
     [IterationSetup(Targets = new[]
         { nameof(ToListOfSync), nameof(ToListOfSyncCustomTranslateByName), nameof(ToListOfSyncCustomTranslateById) })]
@@ -143,7 +143,7 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
 
     
 
-    private DbDataReader _asyncTarget;
+    private DbDataReader? _asyncTarget;
 
     [IterationSetup(Targets = new[]
         {  nameof(ToListOfAsync), nameof(ToListOfASyncCustomTranslateByName), nameof(ToListOfASyncCustomTranslateById) })]
@@ -180,7 +180,6 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
 
     public void IterationCleanup()
     {
-        _syncTarget = null;
-        _asyncTarget = null;
+     
     }
 }

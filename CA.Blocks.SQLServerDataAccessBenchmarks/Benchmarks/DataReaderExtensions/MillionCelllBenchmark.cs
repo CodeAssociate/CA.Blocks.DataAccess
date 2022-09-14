@@ -622,6 +622,6 @@ InvocationCount=1  UnrollFactor=1
     
     public void IterationCleanup()
     {
-        _target = null;
+        
     }
 }
