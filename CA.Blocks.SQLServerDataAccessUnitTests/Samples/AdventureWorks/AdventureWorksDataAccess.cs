@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
+using CA.Blocks.DataAccess.Model.Results;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.Models;
@@ -100,6 +102,32 @@ From  [Production].[Product]
             return Execute(cmd).ToListOf<ProductSummary>();
         }
 
+
+        public IList<ProductSummary> GetAllProductSummaryWithFunc()
+        {
+            var sql = ProductSummarySQL();
+            var cmd = CreateTextCommand(sql);
+            return Execute(cmd).ToListOf<ProductSummary>(reader => new ProductSummary
+            {
+                ProductID = reader.AsInt("ProductID"),
+                Name = reader.AsString("Name"),
+                ProductNumber = reader.AsString("ProductNumber"),
+                ReorderPoint = reader.AsShort("ReorderPoint"),
+                StandardCost = reader.AsDecimal("StandardCost"),
+                rowguid = reader.AsGuid("rowguid"),
+                ModifiedDate = reader.AsDateTime("ModifiedDate"),
+            });
+        }
+
+
+        public Task<IList<ProductSummary>> GetAllProductSummaryAsync()
+        {
+            var sql = ProductSummarySQL();
+            var cmd = CreateTextCommand(sql);
+            return ExecuteAsync(cmd).ToListOf<ProductSummary>();
+        }
+
+
         public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
         {
             var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";
@@ -107,7 +135,32 @@ From  [Production].[Product]
             return Execute(cmd).ToListOf<ProductSummary>();
         }
 
+        public ResultsSet<ProductCategory, ProductSubCategory, ProductNameAndNumber> GetProjectCategoryResultSet()
+        {
+            var sql = @"
+Select ProductCategoryID, Name from [Production].[ProductCategory];
+Select ProductCategoryID, ProductSubCategoryID, Name  from [Production].[ProductSubcategory];
+Select ProductID, ProductSubCategoryID, Name, ProductNumber from [Production].[Product] where ProductSubcategoryID is not null;
+";
+            var cmd = CreateTextCommand(sql);
+            return Execute(cmd).ToResultsSet<ProductCategory, ProductSubCategory, ProductNameAndNumber>();
+        }
 
+
+        public int CreateNewProductCategory(string name)
+        {
+            var sql = "Insert into [Production].[ProductCategory] (Name, rowguid, ModifiedDate) values (@name, NEWID(), GetDate())";
+            var cmd = CreateTextCommand(sql).WithParameter(name.ToSqlParameter("@name"));
+            return ExecuteNonQuery(cmd);
+        }
+
+
+        public int DeleteProductCategory(string name)
+        {
+            var sql = "Delete from [Production].[ProductCategory] where Name = @name";
+            var cmd = CreateTextCommand(sql).WithParameter(name.ToSqlParameter("@name"));
+            return ExecuteNonQuery(cmd);
+        }
 
     }
 }

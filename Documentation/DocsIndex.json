@@ -154,7 +154,7 @@
     {
       "Key": "samples\\connection\\usingjsonconfigconnectionstringsresolver.md",
       "Title": "Using Json Config Connection Strings Resolver",
-      "Description": "Connection comming from appsettings.json which is typically done with .Net Core that uses the Microsoft.Extensions.ConfigurationConfigurationManager class.",
+      "Description": "Connection coming from appsettings.json which is typically done with .Net Core that uses the Microsoft.Extensions.ConfigurationConfigurationManager class.",
       "Tags": [
         "Connection String",
         "Setup"
@@ -226,6 +226,7 @@
     {
       "Key": "howto\\selecting-multiple-rows.md",
       "Title": "Selecting Multiple Rows",
+      "Description": "Selecting Multiple Rows like a table view",
       "Tags": [
         "Examples",
         "Selecting Multiple Rows",
@@ -238,19 +239,26 @@
     {
       "Key": "howto\\selecting-multiple-sets.md",
       "Title": "Selecting Multiple Sets",
-      "Tags": [],
+      "Tags": [
+        "Examples",
+        "Selecting Multiple Sets",
+        "How To"
+      ],
       "MenuOrder": 4.4,
       "MenuOrderAsString": "4.40",
-      "Hide": true,
       "TargetUrl": "howto\\selecting-multiple-sets.html"
     },
     {
       "Key": "howto\\execute-non-query.md",
       "Title": "Execute Non Query",
-      "Tags": [],
+      "Description": "Used for Executing Insert, Update, delete commands",
+      "Tags": [
+        "Examples",
+        "Execute Non Query",
+        "How To"
+      ],
       "MenuOrder": 4.5,
       "MenuOrderAsString": "4.50",
-      "Hide": true,
       "TargetUrl": "howto\\execute-non-query.html"
     },
     {
@@ -265,19 +273,24 @@
     {
       "Key": "howto\\execute-stored-procedures.md",
       "Title": "Execute Stored Procedures",
-      "Tags": [],
+      "Tags": [
+        "Examples",
+        "Stored Procedures"
+      ],
       "MenuOrder": 4.7,
       "MenuOrderAsString": "4.70",
-      "Hide": true,
       "TargetUrl": "howto\\execute-stored-procedures.html"
     },
     {
       "Key": "howto\\custom-rowset-translators.md",
-      "Title": "Custom Rowset Translators",
-      "Tags": [],
+      "Title": "Working With RowSet Translators",
+      "Description": "Working with the Row set Translators",
+      "Tags": [
+        "Examples",
+        "RowSet Translators"
+      ],
       "MenuOrder": 4.8,
       "MenuOrderAsString": "4.80",
-      "Hide": true,
       "TargetUrl": "howto\\custom-rowset-translators.html"
     },
     {
@@ -293,8 +306,12 @@
   "Tags": [
     "Setup",
     "Examples",
-    "Selecting Multiple Rows",
+    "RowSet Translators",
+    "Execute Non Query",
     "How To",
+    "Stored Procedures",
+    "Selecting Multiple Rows",
+    "Selecting Multiple Sets",
     "Selecting Scalar Values",
     "Selecting Single Rows",
     "Connection String",

@@ -52,8 +52,6 @@ where ProductID = @productId";
 ### Execute(cmd).ToFirst&lt;T> 
 
 
-
-
 ```C#
     public ProductSummary GetProductSummary(int productId)
     {
@@ -68,8 +66,6 @@ where ProductID = @productId";
 #### Tips with the Execute(cmd).ToFirst&lt;T>
 * Can you used this method when they may one more many records returned. 
 * If if there are many you can use restrict data on the database server using top x to get better performance  
-
-
 
 
 ### Execute(cmd).ToSingleOrDefault&lt;T>  
