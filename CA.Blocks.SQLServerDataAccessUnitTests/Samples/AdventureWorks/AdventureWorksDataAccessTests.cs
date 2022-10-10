@@ -149,6 +149,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
                 TestContext.WriteLine(product.Name);
             }
         }
-        
+
+        [Test]
+        public void CreateTableExample()
+        {
+
+            var result = _adventureWorksDataAccess.CreateTableExample();
+            TestContext.WriteLine(result.ToString());
+        }
     }
 }

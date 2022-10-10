@@ -162,5 +162,17 @@ Select ProductID, ProductSubCategoryID, Name, ProductNumber from [Production].[P
             return ExecuteNonQuery(cmd);
         }
 
+        public bool CreateTableExample()
+        {
+            var sql = @"
+If exists (Select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'MyTable')
+BEGIN
+	drop  table MyTable 
+END;
+Create Table MyTable (Id int not null, Name varchar(10) not null);";
+            var cmd = CreateTextCommand(sql);
+            return ExecuteNonQuery(cmd) == -1;
+        }
+
     }
 }

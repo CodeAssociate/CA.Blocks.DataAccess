@@ -28,7 +28,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         /// <param name="dbReader"></param>
         /// <param name="translate"></param>
         /// <returns></returns>
-        public static IEnumerable<T> ExecuteToEnumerable<T>(IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        public static IEnumerable<T> ExecuteToEnumerable<T>(IDataReader dbReader, Func<IDataReader, T> translate)
         {
             while (dbReader.Read())
             {
@@ -40,14 +40,14 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         /// This is a private function that that will execute ExecuteToList but does not close the reader.
         /// The reader is used with one of the public methods.
         /// </summary>
-        private static IList<T> ExecuteToList<T>(IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        private static IList<T> ExecuteToList<T>(IDataReader dbReader, Func<IDataReader, T> translate)
         {
             return ExecuteToEnumerable(dbReader, translate).ToList();
         }
 
 
 
-        public static IList<T> ToListOf<T>(this IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        public static IList<T> ToListOf<T>(this IDataReader dbReader, Func<IDataReader, T> translate)
         {
             IList<T> result;
             {

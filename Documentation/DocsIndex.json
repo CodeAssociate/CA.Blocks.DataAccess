@@ -72,7 +72,8 @@
     },
     {
       "Key": "index.md",
-      "Title": "Index",
+      "Title": "CA.Blocks.DataAccess Home Page",
+      "Description": "The starting point to a great micro orm experience",
       "Tags": [],
       "MenuOrderAsString": "0.00",
       "TargetUrl": "index.html"

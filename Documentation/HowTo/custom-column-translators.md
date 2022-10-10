@@ -1,2 +1,1 @@
 ### Custom Column Translators  
-
