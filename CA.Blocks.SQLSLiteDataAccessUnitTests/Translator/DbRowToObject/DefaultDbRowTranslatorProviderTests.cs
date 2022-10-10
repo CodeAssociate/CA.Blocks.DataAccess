@@ -19,6 +19,7 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.Translator.DbRowToObject
 
         public class CustomClass2
         {
+            [DbColToTypeConverter(typeof(IntDbColToTypeConverter))]
             public int Id { get; set; }
 
             [DbColToSourceName("ListSource")]

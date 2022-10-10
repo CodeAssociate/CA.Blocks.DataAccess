@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
@@ -101,6 +102,27 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
         }
 
         [Test]
+        public void GetAllProductSummaryWithFunc()
+        {
+            var result = _adventureWorksDataAccess.GetAllProductSummaryWithFunc();
+            foreach (var product in result)
+            {
+                TestContext.WriteLine(product.Print());
+            }
+        }
+
+
+        [Test]
+        public async Task GetAllProductSummaryAsync()
+        {
+            var result = await _adventureWorksDataAccess.GetAllProductSummaryAsync();
+            foreach (var product in result)
+            {
+                TestContext.WriteLine(product.Print());
+            }
+        }
+
+        [Test]
         public void GetProductSummaryContainingName()
         {
             var result = _adventureWorksDataAccess.GetProductSummaryContainingName("%Bike%");
@@ -108,6 +130,32 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
             {
                 TestContext.WriteLine(product.Print());
             }
+        }
+
+        [Test]
+        public void GetProjectCategoryResultSet()
+        {
+            var result = _adventureWorksDataAccess.GetProjectCategoryResultSet();
+            foreach (var category in result.Results1)
+            {
+                TestContext.WriteLine(category.Name);
+            }
+            foreach (var subCategory in result.Results2)
+            {
+                TestContext.WriteLine(subCategory.Name);
+            }
+            foreach (var product in result.Results3)
+            {
+                TestContext.WriteLine(product.Name);
+            }
+        }
+
+        [Test]
+        public void CreateTableExample()
+        {
+
+            var result = _adventureWorksDataAccess.CreateTableExample();
+            TestContext.WriteLine(result.ToString());
         }
     }
 }

@@ -34,7 +34,7 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.DataReaderExtension
 
 
 
-        private IDataReader _target;
+        private IDataReader? _target;
         [GlobalSetup]
         public void GlobalSetup()
         {
@@ -78,7 +78,7 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.DataReaderExtension
         [GlobalCleanup]
         public void GlobalCleanup()
         {
-            _target.Dispose();
+            _target!.Dispose();
             // Disposing logic
         }
 

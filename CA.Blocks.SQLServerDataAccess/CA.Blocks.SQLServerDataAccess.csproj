@@ -1,17 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>987.654.3210.0</AssemblyVersion>
-    <FileVersion>987.654.3210.0</FileVersion>
-    <Version>987.654.3210</Version>
-    <Authors>Kevin Bosch</Authors>
-    <Company>Ravin Enterprises Limited</Company>
-    <Description>Simple fast framework for accessing a SQL server database using ADO.NET from .NET core</Description>
-    <Copyright>Copyright 2022</Copyright>
-    <PackageTags>CA.CoreBlocks.DataAcess</PackageTags>
-    <PackageId>CA.Blocks.SQLServerDataAccess</PackageId>
+	  <TargetFramework>netstandard2.0</TargetFramework>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <AssemblyVersion>987.654.3210.0</AssemblyVersion>
+	  <FileVersion>987.654.3210.0</FileVersion>
+	  <Version>987.654.3210</Version>
+	  <RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
+	  <AssemblyName>CA.Blocks.SQLServerDataAccess</AssemblyName>
+	  <RootNamespace>CA.Blocks.SQLServerDataAccess</RootNamespace>
+	  <Authors>Kevin Bosch</Authors>
+	  <Company>Ravin Enterprises Limited</Company>
+	  <Title>CA.Blocks.SQLServerDataAccess</Title>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageReadmeFile>readme.md</PackageReadmeFile>
+	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;sqlserver</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,6 +29,13 @@
     <WarningLevel>3</WarningLevel>
     <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.0" />

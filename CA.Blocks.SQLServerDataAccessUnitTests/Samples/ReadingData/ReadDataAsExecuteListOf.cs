@@ -36,7 +36,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             public string loginame { get; init; }
             public string hostname { get; init; }
             public string blk { get; init; }
-            public string? dbname { get; init; }
+            public string dbname { get; init; }
             public string cmd { get; init; }
             public int request_id { get; init; }
         }

@@ -22,4 +22,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.Models
             return $"{item.ProductID},{item.Name},{item.ProductNumber}";
         }
     }
+
+
+
 }
