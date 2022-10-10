@@ -26,7 +26,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         //}
 
         #region ToListOf
-        private static async Task<IList<T>> ExecuteToListAsync<T>(this DbDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        private static async Task<IList<T>> ExecuteToListAsync<T>(this DbDataReader dbReader, Func<IDataReader, T> translate) 
         {
             IList<T> result = new List<T>();
             while (await dbReader.ReadAsync())
@@ -36,7 +36,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return result;
         }
 
-        public static async Task<IList<T>> ToListOfAsync<T>(this DbDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        public static async Task<IList<T>> ToListOfAsync<T>(this DbDataReader dbReader, Func<IDataReader, T> translate)
         {
             IList<T> result;
             {
@@ -67,7 +67,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         }
 
         public static async Task<IList<T>> ToListOf<T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate)
-            where T : new()
         {
             var dbReader = await dbReaderTask;
             return await ToListOfAsync<T>(dbReader, translate);

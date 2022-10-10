@@ -2,6 +2,7 @@
 using CA.Blocks.SQLServerDataAccess;
 using System;
 using System.Data;
+using System.Threading.Tasks;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using NUnit.Framework;
@@ -99,7 +100,7 @@ Create Table CABLOCKS_PolymorphicReads_Example (Id INT not null  identity(1,1) p
         [OneTimeTearDown]
         public void TearDown()
         {
-           //ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
+           ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
         }
 
         private void InsertShape(Shape shape)
@@ -142,7 +143,18 @@ Create Table CABLOCKS_PolymorphicReads_Example (Id INT not null  identity(1,1) p
                 TestContext.WriteLine(shape.Describe);
                 TestContext.WriteLine(shape.Area());
             }
+        }
 
+        [Test, Order(3)]
+        public async Task ReadPolymorphicDataAsync()
+        {
+            var cmd = CreateTextCommand("Select * from CABLOCKS_PolymorphicReads_Example");
+            var shapes = await ExecuteAsync(cmd).ToListOf<Shape>(ReadPolymorphicData);
+            foreach (var shape in shapes)
+            {
+                TestContext.WriteLine(shape.Describe);
+                TestContext.WriteLine(shape.Area());
+            }
         }
 
     }
