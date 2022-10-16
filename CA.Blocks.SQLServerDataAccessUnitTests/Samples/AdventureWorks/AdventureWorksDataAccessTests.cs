@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using CA.Blocks.DataAccess.DI;
-using CA.Blocks.SQLServerDataAccess;
+﻿using System.Threading.Tasks;
 using CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.Models;
 using NUnit.Framework;
 
