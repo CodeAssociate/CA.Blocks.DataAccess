@@ -14,7 +14,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   Major: '3'
-  Minor: '0'
+  Minor: '1'
   Patch : $[counter(variables['BuildID'], 0)]
   SemanticVerion : $(Major).$(Minor).$(Patch)
 
@@ -65,6 +65,7 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
+        **\CA.Blocks.DataAccessUnitTests.dll    
         **\CA.Blocks.SQLLiteDataAccessUnitTests.dll
         !**\obj\**
     platform: '$(buildPlatform)'

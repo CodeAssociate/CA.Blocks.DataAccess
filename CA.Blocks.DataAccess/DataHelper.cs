@@ -819,6 +819,7 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, dc.ColumnName, "DateTimeOffset");
         }
 
+
         public static TimeSpan? GetValueFromRowAsNullTimeSpan(DataRow dr, string sColumnName)
         {
             return (TimeSpan?)(GetValueFromRow(dr, sColumnName));
@@ -968,5 +969,82 @@ namespace CA.Blocks.DataAccess
         {
             return (byte[])GetValueFromRow(dr, dc);
         }
+
+        // Below support for .NET6+ 
+#if NET6_0_OR_GREATER
+
+
+        public static DateOnly? GetValueFromRowAsNullDateOnly(DataRow dr, string sColumnName)
+        {
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)(dbValue));
+        }
+
+        public static DateOnly? GetValueFromRowAsNullDateOnly(DataRow dr, int columnIndex)
+        {
+            var dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)(dbValue));
+        }
+
+        public static DateOnly? GetValueFromRowAsNullDateOnly(DataRow dr, DataColumn dc)
+        {
+            var dbValue = GetValueFromRow(dr, dc);
+            return dbValue == null ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)(dbValue));
+        }
+
+        public static DateOnly GetValueFromRowAsDateOnly(DataRow dr, string sColumnName)
+        {
+            DateOnly? val = GetValueFromRowAsNullDateOnly(dr, sColumnName);
+            return ThrowExceptionIfIsNull(val, sColumnName, "DateOnly");
+        }
+
+        public static DateOnly GetValueFromRowAsDateOnly(DataRow dr, int columnIndex)
+        {
+            DateOnly? val = GetValueFromRowAsNullDateOnly(dr, columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "DateOnly");
+        }
+
+        public static DateOnly GetValueFromRowAsDateOnly(DataRow dr, DataColumn dc)
+        {
+            DateOnly? val = GetValueFromRowAsNullDateOnly(dr, dc);
+            return ThrowExceptionIfIsNull(val, dc.ColumnName, "DateOnly");
+        }
+
+        public static TimeOnly? GetValueFromRowAsNullTimeOnly(DataRow dr, string sColumnName)
+        {
+            var dbValue = GetValueFromRow(dr, sColumnName);
+            return dbValue == null ? (TimeOnly?)null : TimeOnly.FromTimeSpan((TimeSpan)(dbValue));
+        }
+
+        public static TimeOnly? GetValueFromRowAsNullTimeOnly(DataRow dr, int columnIndex)
+        {
+            var dbValue = GetValueFromRow(dr, columnIndex);
+            return dbValue == null ? (TimeOnly?)null : TimeOnly.FromTimeSpan((TimeSpan)(dbValue));
+        }
+
+        public static TimeOnly? GetValueFromRowAsNullTimeOnly(DataRow dr, DataColumn dc)
+        {
+            var dbValue = GetValueFromRow(dr, dc);
+            return dbValue == null ? (TimeOnly?)null : TimeOnly.FromTimeSpan((TimeSpan)(dbValue));
+        }
+
+        public static TimeOnly GetValueFromRowAsTimeOnly(DataRow dr, string sColumnName)
+        {
+            TimeOnly? val = GetValueFromRowAsNullTimeOnly(dr, sColumnName);
+            return ThrowExceptionIfIsNull(val, sColumnName, "TimeOnly");
+        }
+
+        public static TimeOnly GetValueFromRowAsTimeOnly(DataRow dr, int columnIndex)
+        {
+            TimeOnly? val = GetValueFromRowAsNullTimeOnly(dr, columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "TimeOnly");
+        }
+
+        public static TimeOnly GetValueFromRowAsTimeOnly(DataRow dr, DataColumn dc)
+        {
+            TimeOnly? val = GetValueFromRowAsNullTimeOnly(dr, dc);
+            return ThrowExceptionIfIsNull(val, dc.ColumnName, "TimeOnly");
+        }
+#endif
     }
 }

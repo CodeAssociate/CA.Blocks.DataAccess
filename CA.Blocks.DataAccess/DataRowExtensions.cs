@@ -243,9 +243,9 @@ namespace CA.Blocks.DataAccess
         {
             return DataHelper.GetValueFromRowAsNullDouble(dr, column);
         }
-        #endregion
+#endregion
 
-        #region Single / float 
+#region Single / float 
         public static float AsFloat(this DataRow dr, string colName)
         {
             return DataHelper.GetValueFromRowAsFloat(dr, colName);
@@ -306,9 +306,9 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullFloat(dr, column);
         }
 
-        #endregion
+#endregion
 
-        #region Decimal
+#region Decimal
 
         public static decimal AsDecimal(this DataRow dr, string colName)
         {
@@ -340,9 +340,9 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullDecimal(dr, column);
         }
 
-        #endregion
+#endregion
 
-        #region Guid
+#region Guid
 
         public static Guid AsGuid(this DataRow dr, string colName)
         {
@@ -374,9 +374,9 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullGuid(dr, column);
         }
 
-        #endregion
+#endregion
 
-        #region Int
+#region Int
         public static int AsInt(this DataRow dr, string colName)
         {
             return DataHelper.GetValueFromRowAsInt(dr, colName);
@@ -421,9 +421,9 @@ namespace CA.Blocks.DataAccess
         //    return result;
         //}
 
-        #endregion
+#endregion
 
-        #region uInt
+#region uInt
 
         public static uint AsUInt(this DataRow dr, string colName)
         {
@@ -456,9 +456,9 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullUInt(dr, column);
         }
 
-        #endregion
+#endregion
 
-        #region Long
+#region Long
 
         public static long AsLong(this DataRow dr, string colName)
         {
@@ -503,9 +503,9 @@ namespace CA.Blocks.DataAccess
         //    }
         //    return result;
         //}
-        #endregion
+#endregion
 
-        #region ulong
+#region ulong
 
         
         public static ulong AsULong(this DataRow dr, string colName)
@@ -539,9 +539,9 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullULong(dr, column);
         }
 
-        #endregion
+#endregion
 
-        #region Sbyte
+#region Sbyte
 
 
         public static sbyte AsSbyte(this DataRow dr, string colName)
@@ -575,9 +575,9 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullSbyte(dr, column);
         }
 
-        #endregion
+#endregion
 
-        #region Short
+#region Short
 
         public static short AsShort(this DataRow dr, string colName)
         {
@@ -623,9 +623,9 @@ namespace CA.Blocks.DataAccess
         //    return result;
         //}
 
-        #endregion
+#endregion
 
-        #region uInt
+#region uInt
 
 
         public static ushort AsUShort(this DataRow dr, string colName)
@@ -659,9 +659,9 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullUShort(dr, column);
         }
 
-        #endregion
+#endregion
 
-        #region String
+#region String
         public static string AsString(this DataRow dr, string colName, bool returnNullAsEmptyString = false)
         {
             return DataHelper.GetValueFromRowAsString(dr, colName, returnNullAsEmptyString);
@@ -688,9 +688,9 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsToString(dr, column, returnNullAsEmptyString);
         }
 
-        #endregion 
+#endregion
 
-        #region TimeSpan
+#region TimeSpan
 
         public static TimeSpan AsTimeSpan(this DataRow dr, string colName)
         {
@@ -722,5 +722,71 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullTimeSpan(dr, column);
         }
         #endregion
+
+#if NET6_0_OR_GREATER
+        #region DateOnly
+        public static DateOnly AsDateOnly(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsDateOnly(dr, colName);
+        }
+
+        public static DateOnly AsDateOnly(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsDateOnly(dr, columnIndex);
+        }
+
+        public static DateOnly AsDateOnly(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsDateOnly(dr, column);
+        }
+        // Nulls
+        public static DateOnly? AsNullDateOnly(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsNullDateOnly(dr, colName);
+        }
+
+        public static DateOnly? AsNullDateOnly(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsNullDateOnly(dr, columnIndex);
+        }
+
+        public static DateOnly? AsNullDateOnly(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsNullDateOnly(dr, column);
+        }
+        #endregion
+       
+        #region TimeOnly
+        public static TimeOnly AsTimeOnly(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsTimeOnly(dr, colName);
+        }
+
+        public static TimeOnly AsTimeOnly(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsTimeOnly(dr, columnIndex);
+        }
+
+        public static TimeOnly AsTimeOnly(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsTimeOnly(dr, column);
+        }
+        // Nulls
+        public static TimeOnly? AsNullTimeOnly(this DataRow dr, string colName)
+        {
+            return DataHelper.GetValueFromRowAsNullTimeOnly(dr, colName);
+        }
+
+        public static TimeOnly? AsNullTimeOnly(this DataRow dr, int columnIndex)
+        {
+            return DataHelper.GetValueFromRowAsNullTimeOnly(dr, columnIndex);
+        }
+
+        public static TimeOnly? AsNullTimeOnly(this DataRow dr, DataColumn column)
+        {
+            return DataHelper.GetValueFromRowAsNullTimeOnly(dr, column);
+        }
+        #endregion
+#endif
     }
 }

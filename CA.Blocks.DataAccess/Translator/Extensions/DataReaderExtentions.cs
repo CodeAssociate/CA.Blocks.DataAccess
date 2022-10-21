@@ -45,8 +45,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return ExecuteToEnumerable(dbReader, translate).ToList();
         }
 
-
-
         public static IList<T> ToListOf<T>(this IDataReader dbReader, Func<IDataReader, T> translate)
         {
             IList<T> result;
@@ -68,8 +66,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             return ToListOf(dbReader, translator.Translate);
         }
-
-
 
         public static IList<T> ToSingleNamedColumnList<T>(this IDataReader dbReader, string colName, Func<IDataReader, string, T> converter)
         {
