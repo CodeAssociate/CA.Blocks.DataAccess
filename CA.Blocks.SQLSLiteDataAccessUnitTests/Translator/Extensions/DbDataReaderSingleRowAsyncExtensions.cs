@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using NUnit.Framework;
 
@@ -35,7 +34,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
 
         var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
-            var result = await dataReader.ToSingleAsync<TestDataObject>();
+            _ = await dataReader.ToSingleAsync<TestDataObject>();
 
         });
         Assert.True(exception.Message.Contains("Expected Single Result"));
@@ -43,13 +42,13 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     }
 
     [Test]
-    public async Task DataReaderExtensions_ToSingle_InvalidNoRowTask()
+    public void DataReaderExtensions_ToSingle_InvalidNoRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(0);
 
         var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
-            var result = await dataReader.ToSingle<TestDataObject>();
+            _ = await dataReader.ToSingle<TestDataObject>();
 
         });
         Assert.True(exception.Message.Contains("Expected Single Result"));
@@ -64,7 +63,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
 
         var exception = Assert.ThrowsAsync<System.Data.DataException>(async() =>
         {
-            var result = await dataReader.ToSingleAsync<TestDataObject>();
+            _ = await dataReader.ToSingleAsync<TestDataObject>();
 
         });
         Assert.True(exception.Message.Contains("Expected Single Result"));
@@ -72,13 +71,13 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     }
 
     [Test]
-    public async Task DataReaderExtensions_ToSingle_InvalidMoreThanOneRowTask()
+    public void DataReaderExtensions_ToSingle_InvalidMoreThanOneRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(2);
 
         var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
-            var result = await dataReader.ToSingle<TestDataObject>();
+            _ = await dataReader.ToSingle<TestDataObject>();
 
         });
         Assert.True(exception.Message.Contains("Expected Single Result"));
@@ -130,7 +129,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
 
         var exception = Assert.ThrowsAsync<System.Data.DataException>(async () => 
         {
-            var result = await dataReader.ToSingleOrDefaultAsync<TestDataObject>();
+            _ = await dataReader.ToSingleOrDefaultAsync<TestDataObject>();
 
         });
         Assert.True(exception.Message.Contains("Expected Single Result"));
@@ -138,13 +137,13 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     }
 
     [Test]
-    public async Task DataReaderExtensions_ToSingleOrDefault_InvalidMoreThanOneRowTask()
+    public void DataReaderExtensions_ToSingleOrDefault_InvalidMoreThanOneRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(2);
 
         var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
-            var result = await dataReader.ToSingleOrDefault<TestDataObject>();
+            _ = await dataReader.ToSingleOrDefault<TestDataObject>();
 
         });
         Assert.True(exception.Message.Contains("Expected Single Result"));
@@ -179,7 +178,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
 
         var exception = Assert.ThrowsAsync<System.Data.DataException>(async () => 
         {
-            var result = await dataReader.ToFirstAsync<TestDataObject>();
+            _ = await dataReader.ToFirstAsync<TestDataObject>();
 
         });
         Assert.True(exception.Message.Contains("Expected Single Result"));
@@ -187,13 +186,13 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     }
 
     [Test]
-    public async Task DataReaderExtensions_ToFirst_InvalidNoRowTask()
+    public void DataReaderExtensions_ToFirst_InvalidNoRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(0);
 
         var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
-            var result = await dataReader.ToFirst<TestDataObject>();
+            _ = await dataReader.ToFirst<TestDataObject>();
 
         });
         Assert.True(exception.Message.Contains("Expected Single Result"));

@@ -119,14 +119,14 @@ namespace CA.Blocks.SQLLiteDataAccessUnitTests.SQLLite
         }
 
         [Test]
-        public void GetsqliteMasterData_ExecuteToAsync()
+        public async Task GetsqliteMasterData_ExecuteToAsync()
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
-            var result = ExecuteToAsync<sqliteMaster>(cmd);
-            result.Wait();
-            Assert.AreEqual("CABLOCKS_TestMasterTable", result.Result.name);
+            var result = await ExecuteToAsync<sqliteMaster>(cmd);
+    
+            Assert.AreEqual("CABLOCKS_TestMasterTable", result.name);
             Assert.IsTrue(TraceCalled);
         }
         
