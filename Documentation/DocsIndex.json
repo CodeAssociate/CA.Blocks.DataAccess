@@ -125,10 +125,11 @@
     {
       "Key": "design\\sql-injection-attacks.md",
       "Title": "Sql Injection Attacks",
-      "Tags": [],
+      "Tags": [
+        "Working With Parameters"
+      ],
       "MenuOrder": 2.6,
       "MenuOrderAsString": "2.60",
-      "Hide": true,
       "TargetUrl": "design\\sql-injection-attacks.html"
     },
     {
@@ -265,10 +266,11 @@
     {
       "Key": "howto\\working-with-parameters.md",
       "Title": "Working With Parameters",
-      "Tags": [],
+      "Tags": [
+        "Working With Parameters"
+      ],
       "MenuOrder": 4.6,
       "MenuOrderAsString": "4.60",
-      "Hide": true,
       "TargetUrl": "howto\\working-with-parameters.html"
     },
     {
@@ -305,6 +307,7 @@
     }
   ],
   "Tags": [
+    "Working With Parameters",
     "Setup",
     "Examples",
     "RowSet Translators",
@@ -316,7 +319,6 @@
     "Selecting Scalar Values",
     "Selecting Single Rows",
     "Connection String",
-    "Stored Procedure",
-    "Working With Parameters"
+    "Stored Procedure"
   ]
 }

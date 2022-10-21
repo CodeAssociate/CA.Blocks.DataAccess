@@ -7,9 +7,9 @@ The Row Translators have the responsibility of mapping the Table structure which
 
 <div style="text-align:center;">
 <span style="min-height:128px;display:inline-flex;align-items:center;border: 1px solid aqua;background-color:white;" >
-    <img src="../_assets/table.svg" alt="Table" width=128 /> 
+    <img src="../_assets/Table.svg" alt="Table" width=128 /> 
     ==➤
-    <img src="../_assets/class.svg" alt="Table" width=128 />
+    <img src="../_assets/Class.svg" alt="class" width=128 />
 </span>
 </div>
 
