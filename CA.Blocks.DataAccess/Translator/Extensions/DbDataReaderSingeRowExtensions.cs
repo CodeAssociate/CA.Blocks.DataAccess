@@ -18,9 +18,14 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             }
             finally
             {
+
+#if NET6_0_OR_GREATER
+                await dbReader.CloseAsync();
+#else
                 dbReader.Close();
+#endif
             }
-            
+
             return result;
         }
 
@@ -141,6 +146,5 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             var dbReader = await dbReaderTask;
             return await ToSingleAsync(dbReader, translate);
         }
-
     }
 }

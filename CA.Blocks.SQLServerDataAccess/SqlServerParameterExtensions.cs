@@ -284,6 +284,7 @@ namespace CA.Blocks.SQLServerDataAccess
             return ToSqlParameterDateTimeOffset(input, strParameterName);
         }
 
+
         #region SqlDbType.Decimal  (Decimal, Money, SmallMoney)
 
         private static SqlDbType ToSqlDbType(SpecificSQLDecimalType dbType)
@@ -326,9 +327,9 @@ namespace CA.Blocks.SQLServerDataAccess
             return ToSqlParameterDecimal(input, strParameterName, dbType);
         }
 
-        #endregion
+#endregion
 
-        #region SqlDbType.Float  (System.Double)
+#region SqlDbType.Float  (System.Double)
 
         private static SqlParameter ToSqlParameterDouble(Double? input, string strParameterName)
         {
@@ -346,12 +347,12 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return ToSqlParameterDouble(input, strParameterName);
         }
-        #endregion
+#endregion
 
         /*
         SqlDbType.Image;
         */
-        #region SqlDbType.Int  ( int, Int32 )
+#region SqlDbType.Int  ( int, Int32 )
 
         private static SqlParameter ToSqlParameterInt(int? input, string strParameterName)
         {
@@ -369,14 +370,14 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return ToSqlParameterInt(input, strParameterName);
         }
-        #endregion 
+#endregion
         /*
         SqlDbType.Money;
         SqlDbType.NChar;
         SqlDbType.Real;
         SqlDbType.SmallDateTime;*/
         
-        #region mapping type for sbyte  There is no Sbtye in sql so assuem we use SmallInt
+#region mapping type for sbyte  There is no Sbtye in sql so assuem we use SmallInt
         private static SqlParameter ToSqlParameterSbtye(sbyte? input, string strParameterName)
         {
             // this is the smallet sql server type for the ranges -128-127 ie sbyte
@@ -394,9 +395,9 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return ToSqlParameterSbtye(input, strParameterName);
         }
-        #endregion
+#endregion
 
-        #region SqlDbType.SmallInt  -> ( short, Int16)
+#region SqlDbType.SmallInt  -> ( short, Int16)
         private static SqlParameter ToSqlParameterInt16(Int16? input, string strParameterName)
         {
             var sqlparam = new SqlParameter(strParameterName, SqlDbType.SmallInt);
@@ -413,7 +414,7 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return ToSqlParameterInt16(input, strParameterName);
         }
-        #endregion 
+#endregion
 
         
         
@@ -421,7 +422,7 @@ namespace CA.Blocks.SQLServerDataAccess
         SqlDbType.SmallMoney;
         SqlDbType.Structured;
          */
-        #region SqlDbType.Time ( System.TimeSpan )
+#region SqlDbType.Time ( System.TimeSpan )
 
         private static SqlParameter ToSqlParameterTimeSpan(TimeSpan? input, string strParameterName)
         {
@@ -440,12 +441,12 @@ namespace CA.Blocks.SQLServerDataAccess
             return ToSqlParameterTimeSpan(input, strParameterName);
         }
 
-        #endregion 
+#endregion
 
         /*
         SqlDbType.Timestamp;*/
 
-        #region SqlDbType.TinyInt ( Byte ) 
+#region SqlDbType.TinyInt ( Byte ) 
         private static SqlParameter ToSqlParameterByte(byte? input, string strParameterName)
         {
             var sqlparam = new SqlParameter(strParameterName, SqlDbType.TinyInt);
@@ -462,12 +463,12 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return ToSqlParameterByte(input, strParameterName);
         }
-        #endregion 
+#endregion
 
         /*
         SqlDbType.Udt;
          */
-        #region SqlDbType.UniqueIdentifier ( System.Guid)
+#region SqlDbType.UniqueIdentifier ( System.Guid)
         private static SqlParameter ToSqlParameterGuid(Guid? input, string strParameterName)
         {
             var sqlparam = new SqlParameter(strParameterName, SqlDbType.UniqueIdentifier);
@@ -484,13 +485,13 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return ToSqlParameterGuid(input, strParameterName);
         }
-        #endregion
+#endregion
 
         /*
         SqlDbType.VarBinary; // use Binary
         */
 
-        #region SqlDbType.VarChar;
+#region SqlDbType.VarChar;
         private static SqlDbType ToSqlDbType(SpecificSQLStringType input)
         {
             switch (input)
@@ -540,9 +541,47 @@ namespace CA.Blocks.SQLServerDataAccess
         }
         #endregion
 
-       /*
-       SqlDbType.Variant; // ?lets find a usage ? 
-       SqlDbType.Xml;
-       */
+        /*
+        SqlDbType.Variant; // ?lets find a usage ? 
+        SqlDbType.Xml;
+        */
+
+
+#if NET6_0_OR_GREATER
+        private static SqlParameter ToSqlParameterDateOnly(DateOnly? input, string strParameterName)
+        {
+            var sqlparam = new SqlParameter(strParameterName, SqlDbType.Date);
+            sqlparam.Value = input.HasValue ? (object)(input.Value.ToDateTime(new TimeOnly(0))) : (object)DBNull.Value;
+            return (sqlparam);
+        }
+
+        public static SqlParameter ToSqlParameter(this DateOnly input, string strParameterName)
+        {
+            return ToSqlParameterDateOnly(input, strParameterName);
+        }
+
+        public static SqlParameter ToSqlParameter(this DateOnly? input, string strParameterName)
+        {
+            return ToSqlParameterDateOnly(input, strParameterName);
+        }
+
+    
+        private static SqlParameter ToSqlParameterTimeOnly(TimeOnly? input, string strParameterName)
+        {
+            var sqlparam = new SqlParameter(strParameterName, SqlDbType.Time);
+            sqlparam.Value = input.HasValue ? (object)(input.Value.ToTimeSpan()) : (object)DBNull.Value;
+            return (sqlparam);
+        }
+
+        public static SqlParameter ToSqlParameter(this TimeOnly input, string strParameterName)
+        {
+            return ToSqlParameterTimeOnly(input, strParameterName);
+        }
+
+        public static SqlParameter ToSqlParameter(this TimeOnly? input, string strParameterName)
+        {
+            return ToSqlParameterTimeOnly(input, strParameterName);
+        }
+#endif
     }
 }

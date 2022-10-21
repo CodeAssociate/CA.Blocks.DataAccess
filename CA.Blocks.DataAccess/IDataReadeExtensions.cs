@@ -261,6 +261,8 @@ namespace CA.Blocks.DataAccess
         }
         #endregion
 
+
+
         #region Double
         public static double AsDouble(this IDataReader dr, string colName)
         {
@@ -660,5 +662,70 @@ namespace CA.Blocks.DataAccess
                 return (TimeSpan)(dr[columnIndex]);
         }
         #endregion
+
+#if NET6_0_OR_GREATER
+        #region DateOnly
+        public static DateOnly AsDateOnly(this IDataReader dr, string colName)
+        {
+            var val = dr.AsNullDateOnly(colName);
+            return ThrowExceptionIfIsNull(val, colName, "DateOnly");
+        }
+
+        public static DateOnly AsDateOnly(this IDataReader dr, int columnIndex)
+        {
+            var val = dr.AsNullDateOnly(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "DateOnly");
+        }
+
+        // Nulls
+        public static DateOnly? AsNullDateOnly(this IDataReader dr, string colName)
+        {
+            if (dr.IsDBNull(dr.GetOrdinal(colName)))
+                return null;
+            else
+                return DateOnly.FromDateTime((DateTime)(dr[colName]));
+        }
+
+        public static DateOnly? AsNullDateOnly(this IDataReader dr, int columnIndex)
+        {
+            if (dr.IsDBNull(columnIndex))
+                return null;
+            else
+                return DateOnly.FromDateTime((DateTime)(dr[columnIndex]));
+        }
+        #endregion
+
+        #region TimeOnly
+        public static TimeOnly AsTimeOnly(this IDataReader dr, string colName)
+        {
+            var val = dr.AsNullTimeOnly(colName);
+            return ThrowExceptionIfIsNull(val, colName, "TimeOnly");
+        }
+
+        public static TimeOnly AsTimeOnly(this IDataReader dr, int columnIndex)
+        {
+            var val = dr.AsNullTimeOnly(columnIndex);
+            return ThrowExceptionIfIsNull(val, columnIndex, "TimeOnly");
+        }
+
+        // Nulls
+        public static TimeOnly? AsNullTimeOnly(this IDataReader dr, string colName)
+        {
+            if (dr.IsDBNull(dr.GetOrdinal(colName)))
+                return null;
+            else
+                return TimeOnly.FromTimeSpan((TimeSpan)(dr[colName]));
+        }
+
+        public static TimeOnly? AsNullTimeOnly(this IDataReader dr, int columnIndex)
+        {
+            if (dr.IsDBNull(columnIndex))
+                return null;
+            else
+                return TimeOnly.FromTimeSpan((TimeSpan)(dr[columnIndex]));
+        }
+        #endregion
+#endif
+
     }
 }

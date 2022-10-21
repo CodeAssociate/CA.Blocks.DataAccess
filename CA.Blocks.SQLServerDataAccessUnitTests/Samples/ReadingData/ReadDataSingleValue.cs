@@ -13,7 +13,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
         {
             public ExampleReadDataSingleValue() : base(
                 new DataAccessConfig("SampleConfig", new DataAccessConfigOptions { ConnectionStringKey = "notused" },
-                    new HardCodedConnectionStringsResolver("Server=(localdb)\\MSSQLLocalDB;Integrated Security = true"))
+                    new HardCodedConnectionStringsResolver(TestConnectionStrings.LOCAL_TEMP_DB))
             )
             {
 

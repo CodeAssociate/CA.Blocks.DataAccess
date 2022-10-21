@@ -43,7 +43,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
         public class ExampleReadDataAsExecuteListOf : SqlServerDataAccess
         {
-            public ExampleReadDataAsExecuteListOf() : base( new SimpleConnectionStringDataAccessConfig("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
+            public ExampleReadDataAsExecuteListOf() : base( new SimpleConnectionStringDataAccessConfig(TestConnectionStrings.LOCAL_TEMP_DB))
             
             {
 

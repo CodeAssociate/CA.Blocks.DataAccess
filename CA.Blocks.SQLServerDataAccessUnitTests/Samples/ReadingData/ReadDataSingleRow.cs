@@ -22,7 +22,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
         {
             public ExampleReadDataSingleRow() : base(
                 new DataAccessConfig("SampleConfig", new DataAccessConfigOptions { ConnectionStringKey = "notused" },
-                    new HardCodedConnectionStringsResolver("Server=(localdb)\\MSSQLLocalDB;Integrated Security = true"))
+                    new HardCodedConnectionStringsResolver(TestConnectionStrings.LOCAL_TEMP_DB))
             )
             {
 
@@ -31,13 +31,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
             public ExampleSysObject2 GetSysObjectByName()
             {
-                var cmd = CreateTextCommand("Select  id, name, refdate  from Sysobjects where name = 'sysobjects'");
+                var cmd = CreateTextCommand("Select top 1 id, name, refdate  from Sysobjects");
                 return ExecuteTo<ExampleSysObject2>(cmd);
             }
 
             public ExampleSysObject2 GetSysObjectByName2()
             {
-                var cmd = CreateTextCommand("Select *from Sysobjects where name = 'sysobjects'");
+                var cmd = CreateTextCommand("Select top 1 * from Sysobjects");
                 return ExecuteTo<ExampleSysObject2>(cmd);
             }
         }

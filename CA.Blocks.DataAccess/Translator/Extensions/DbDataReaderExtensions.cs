@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess.Model.Results;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
@@ -14,18 +12,54 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 {
     public static class DbDataReaderAsyncExtensions
     {
-        // TODO We need to target mutiple frameworks before we can expose this to the world. 
-        // In this case we will have code that will not on .NET core that will not run on .NET, the yield with async needs lang version 8+
-        //public static async Task<IEnumerable<T>> ExecuteToEnumerableAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate) where T : new()
-        //{
-        //    while (await dbReader.ReadAsync())
-        //    {
-        //        yield return translate(dbReader);
-        //    }
-        //    yield break;
-        //}
 
         #region ToListOf
+
+#if NET6_0_OR_GREATER
+
+        /// <summary>
+        /// This allows direct execution of a reader to a IAsyncEnumerable this allows streaming of the data without fetching the entire
+        /// rowset. This is C# 8.0+ feature so you need .net 6 or greater to use
+        /// It it important to note when using this method the caller is responsible for closing the reader when done.
+        /// The connection will remain open until the rowset is closed. Unless you are actively looking for streaming ability
+        /// it is best to use the ToListOf overrides which will manage the reader connection for you.
+        /// Also note whilst you can execute the linq lamdas on the IEnumerable this will typically result in the full read.
+        /// Best to use the IList.
+        /// Typical cases .Take()
+        /// FirstOrDefault ()
+        /// Single()
+        /// or streaming a very large set with millions of rows. (again with warning you holding the connection open while this is happening.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbReader"></param>
+        /// <param name="translate"></param>
+        /// <returns></returns>
+        public static async IAsyncEnumerable<T> ExecuteToEnumerableAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate)
+        {
+            while (await dbReader.ReadAsync())
+            {
+                yield return translate(dbReader);
+            }
+            yield break;
+        }
+
+        /// <summary>
+        /// This is a private function that that will execute ExecuteToList but does not close the reader.
+        /// The reader is used with one of the public methods.
+        /// </summary>
+        private static async Task<IList<T>> ExecuteToListAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate)
+        {
+            var result = new List<T>();
+            await foreach (var item in ExecuteToEnumerableAsync(dbReader, translate))
+            {
+                result.Add(item);
+            }
+            return result;
+        }
+#else
+        // Asynchronous streams will be part of .Net Standard 2.1, as we target .Net Standard 2.0 for support for the Framework 4.8 or older we cannot use Asynchronous streams 
+        // You can use the Sync version
+
         private static async Task<IList<T>> ExecuteToListAsync<T>(this DbDataReader dbReader, Func<IDataReader, T> translate) 
         {
             IList<T> result = new List<T>();
@@ -35,6 +69,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             }
             return result;
         }
+#endif
+
 
         public static async Task<IList<T>> ToListOfAsync<T>(this DbDataReader dbReader, Func<IDataReader, T> translate)
         {
@@ -46,7 +82,11 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                 }
                 finally
                 {
-                    dbReader.Close();
+#if NET6_0_OR_GREATER
+                await dbReader.CloseAsync();
+#else
+                dbReader.Close();
+#endif
                 }
             }
             return result;
@@ -72,9 +112,9 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return await ToListOfAsync<T>(dbReader, translate);
         }
 
-        #endregion
+#endregion
 
-        #region ToSingleNamedColumnList
+#region ToSingleNamedColumnList
         public static async Task<IList<T>> ToSingleNamedColumnListAsync<T>(this DbDataReader dbReader, string colName, Func<IDataReader, string, T> converter)
         {
             IList<T> result = new List<T>();
@@ -115,9 +155,9 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         }
 
 
-        #endregion
+#endregion
 
-        #region Multi Result Sets
+#region Multi Result Sets
         //2
         public static async Task<ResultsSet<T1, T2>> ToResultsSetAsync<T1, T2>(this DbDataReader dbReader,
             Func<IDataReader, T1> translate1,
@@ -416,6 +456,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return await ToResultsSetAsync<T1, T2, T3, T4, T5>(dbReader, translate1, translate2, translate3, translate4, translate5);
         }
 
-        #endregion
+#endregion
     }
 }
