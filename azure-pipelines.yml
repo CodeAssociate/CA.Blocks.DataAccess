@@ -65,6 +65,7 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
+        **\CA.Blocks.DataAccessUnitTests.dll    
         **\CA.Blocks.SQLLiteDataAccessUnitTests.dll
         !**\obj\**
     platform: '$(buildPlatform)'
