@@ -97,7 +97,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
 
         });
         Assert.That(exception!.Message, Does.Contain("Expected Single Result"));
-        Assert.That(exception!.Message, Does.Contain("no Row"));
+        Assert.That(exception!.Message, Does.Contain("No row"));
     }
 
     [Test]
