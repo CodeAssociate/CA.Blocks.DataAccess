@@ -22,6 +22,7 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using CA.Blocks.SqliteDataAccess.Adapters;
 using Microsoft.Data.Sqlite;
 
+
 namespace CA.Blocks.SqliteDataAccess
 {
     /// <summary>
