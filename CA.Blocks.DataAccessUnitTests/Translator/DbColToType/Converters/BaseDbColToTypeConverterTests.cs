@@ -4,7 +4,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
     public class BaseDbColToTypeConverterTests
     {
-        protected DataTable CreateTestTable(Type dbType, object testData)
+        protected DataTable CreateTestTable(Type dbType, object? testData)
         {
             DataTable result = new DataTable();
             DataColumn dcKey = new DataColumn("key", typeof(int));

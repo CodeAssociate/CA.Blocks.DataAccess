@@ -10,7 +10,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
         public class CustomClass1
         {
             public int Id { get; set; }
-            public string Name { get; set; }
+            public string? Name { get; set; }
             public int IgnoreMe  { get;}
         }
 
@@ -21,7 +21,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
 
             [DbColToSourceName("ListSource")]
             [DbColToTypeConverter(typeof(IntListDbColToTypeConverter), ',')]
-            public string ListOfNumbers { get; set; }
+            public string? ListOfNumbers { get; set; }
             public int IgnoreMe { get; }
         }
 
@@ -31,9 +31,9 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
         {
             var result = new DefaultDbRowTranslatorProvider();
             var mappingSet = result.GenerateDefaultMappingsFor<CustomClass1>();
-            Assert.AreEqual(mappingSet.MappingSet.Count, 2);
-            Assert.AreEqual("Id", mappingSet.MappingSet[0].DestinationName);
-            Assert.AreEqual("Name", mappingSet.MappingSet[1].DestinationName);
+            Assert.That(mappingSet.MappingSet.Count, Is.EqualTo(2));
+            Assert.That(mappingSet.MappingSet[0].DestinationName, Is.EqualTo("Id"));
+            Assert.That(mappingSet.MappingSet[1].DestinationName, Is.EqualTo("Name"));
         }
 
         [Test]
@@ -41,11 +41,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
         {
             var result = new DefaultDbRowTranslatorProvider();
             var mappingSet = result.GenerateDefaultMappingsFor<CustomClass2>();
-            Assert.AreEqual(2, mappingSet.MappingSet.Count);
-            Assert.AreEqual("Id", mappingSet.MappingSet[0].DestinationName);
-            Assert.AreEqual("ListOfNumbers", mappingSet.MappingSet[1].DestinationName);
-            Assert.AreEqual("ListSource", mappingSet.MappingSet[1].SourceNameName);
-            Assert.AreEqual(typeof(IntListDbColToTypeConverter).FullName, mappingSet.MappingSet[1].Converter.GetType().FullName);
+            Assert.That(mappingSet.MappingSet.Count, Is.EqualTo(2));
+            Assert.That(mappingSet.MappingSet[0].DestinationName, Is.EqualTo("Id"));
+            Assert.That(mappingSet.MappingSet[1].DestinationName, Is.EqualTo("ListOfNumbers"));
+            Assert.That(mappingSet.MappingSet[1].SourceNameName, Is.EqualTo("ListSource"));
+            Assert.That(mappingSet.MappingSet[1].Converter.GetType().FullName, Is.EqualTo(typeof(IntListDbColToTypeConverter).FullName));
         }
     }
 }

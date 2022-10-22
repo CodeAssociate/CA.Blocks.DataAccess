@@ -1,6 +1,4 @@
 ﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
-using CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters;
-using NUnit.Framework;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
@@ -18,11 +16,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new CharDbColToTypeConverter();
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
 
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
+            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
         }
 
         [Test]
@@ -37,11 +35,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new NullCharDbColToTypeConverter();
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
 
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
+            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
         }
     }
 }

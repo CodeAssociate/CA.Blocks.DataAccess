@@ -18,9 +18,9 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             var dataReader = GenerateTestDataReader(numberOfRecords);
 
             var result = dataReader.ToListOf<TestDataObject>();
-            Assert.AreEqual(numberOfRecords, result.Count);
-            Assert.AreEqual(result[numberOfRecords -1].IntCol, numberOfRecords);
-            Assert.AreEqual(0, result.Count(x => x.DateCol < testDate));
+            Assert.That(result.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(numberOfRecords, Is.EqualTo(result[numberOfRecords -1].IntCol));
+            Assert.That(result.Count(x => x.DateCol < testDate), Is.EqualTo(0));
         }
 
         [Test]
@@ -30,8 +30,8 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             var dataReader = GenerateTestDataReader(numberOfRecords);
 
             var result = dataReader.ToSingleNamedColumnList<string>("StringCol");
-            Assert.AreEqual(numberOfRecords, result.Count);
-            Assert.True(result[numberOfRecords - 1].Contains(numberOfRecords.ToString()));
+            Assert.That(result.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result[numberOfRecords - 1].Contains(numberOfRecords.ToString()), Is.True);
         }
 
 
@@ -42,8 +42,8 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             var dataReader = GenerateTestDataReader(numberOfRecords);
 
             var result = dataReader.ToSingleNamedColumnList<int>("intCol");
-            Assert.AreEqual(numberOfRecords, result.Count);
-            Assert.AreEqual(numberOfRecords, result[numberOfRecords -1]);
+            Assert.That(result.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result[numberOfRecords -1], Is.EqualTo(numberOfRecords));
         }
 
 
@@ -54,11 +54,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             var dataReader = GenerateTestDataSetReader(2, 10);
 
             var result = dataReader.ToResultsSet<TestDataObject, TestDataObject>();
-            Assert.AreEqual(numberOfRecords, result.Results1.Count);
-            Assert.AreEqual(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
 
-            Assert.AreEqual(numberOfRecords, result.Results2.Count);
-            Assert.AreEqual(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
         }
 
 
@@ -69,15 +69,15 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             var dataReader = GenerateTestDataSetReader(3, 10);
 
             var result = dataReader.ToResultsSet<TestDataObject, TestDataObject, TestDataObject>();
-            Assert.AreEqual(numberOfRecords, result.Results1.Count);
-            Assert.AreEqual(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
 
-            Assert.AreEqual(numberOfRecords, result.Results2.Count);
-            Assert.AreEqual(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
 
 
-            Assert.AreEqual(numberOfRecords, result.Results3.Count);
-            Assert.AreEqual(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
         }
 
 
@@ -88,18 +88,18 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             var dataReader = GenerateTestDataSetReader(4, 10);
 
             var result = dataReader.ToResultsSet<TestDataObject, TestDataObject, TestDataObject, TestDataObject>();
-            Assert.AreEqual(numberOfRecords, result.Results1.Count);
-            Assert.AreEqual(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
 
-            Assert.AreEqual(numberOfRecords, result.Results2.Count);
-            Assert.AreEqual(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
 
 
-            Assert.AreEqual(numberOfRecords, result.Results3.Count);
-            Assert.AreEqual(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
 
-            Assert.AreEqual(numberOfRecords, result.Results4.Count);
-            Assert.AreEqual(numberOfRecords * 4, result.Results4[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results4.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results4[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 4));
         }
 
         [Test]
@@ -109,21 +109,21 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             var dataReader = GenerateTestDataSetReader(5, 10);
 
             var result = dataReader.ToResultsSet<TestDataObject, TestDataObject, TestDataObject, TestDataObject, TestDataObject>();
-            Assert.AreEqual(numberOfRecords, result.Results1.Count);
-            Assert.AreEqual(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
 
-            Assert.AreEqual(numberOfRecords, result.Results2.Count);
-            Assert.AreEqual(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
 
 
-            Assert.AreEqual(numberOfRecords, result.Results3.Count);
-            Assert.AreEqual(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
 
-            Assert.AreEqual(numberOfRecords, result.Results4.Count);
-            Assert.AreEqual(numberOfRecords * 4, result.Results4[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results4.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results4[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 4));
 
-            Assert.AreEqual(numberOfRecords, result.Results5.Count);
-            Assert.AreEqual(numberOfRecords * 5, result.Results5[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results5.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results5[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 5));
         }
 
 
@@ -134,17 +134,17 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             var dataReader = GenerateTestDataSetReader(3, 10);
 
             var result = dataReader.ToResultsSet<TestDataObject, TestDataObject, TestDataObject, TestDataObject>();
-            Assert.AreEqual(numberOfRecords, result.Results1.Count);
-            Assert.AreEqual(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
 
-            Assert.AreEqual(numberOfRecords, result.Results2.Count);
-            Assert.AreEqual(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
 
 
-            Assert.AreEqual(numberOfRecords, result.Results3.Count);
-            Assert.AreEqual(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
+            Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
 
-            Assert.AreEqual(0, result.Results4.Count);
+            Assert.That(result.Results4.Count, Is.EqualTo(0));
         }
     }
 

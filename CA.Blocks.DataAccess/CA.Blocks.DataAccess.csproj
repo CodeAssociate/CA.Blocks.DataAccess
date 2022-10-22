@@ -24,6 +24,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="DI\IDataAccessKeyToConnectionStringResolverDocs.xml" />
   </ItemGroup>

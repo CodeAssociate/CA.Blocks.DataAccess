@@ -1,7 +1,5 @@
-﻿using System.Globalization;
-using CA.Blocks.DataAccess.Translator.Extensions;
-using CA.Blocks.DataAccessUnitTests.Translator.Extensions;
-using NUnit.Framework;
+﻿using CA.Blocks.DataAccess.Translator.Extensions;
+
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions;
 
@@ -14,7 +12,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToSingle<TestDataObject>();
         Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -24,11 +22,12 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
 
         var exception = Assert.Throws<System.Data.DataException>(() =>
         {
-            var result = dataReader.ToSingle<TestDataObject>(); 
+            _ = dataReader.ToSingle<TestDataObject>(); 
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        Assert.That(exception, Is.Not.Null);
+        Assert.That(exception!.Message, Does.Contain("Expected Single Result"));
+        Assert.That(exception!.Message, Does.Contain("No row"));
     }
 
     [Test]
@@ -38,11 +37,11 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
 
         var exception = Assert.Throws<System.Data.DataException>(() =>
         {
-            var result = dataReader.ToSingle<TestDataObject>();
+            _ = dataReader.ToSingle<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("more"));
+        Assert.That(exception!.Message, Does.Contain("Expected Single Result"));
+        Assert.That(exception!.Message, Does.Contain("more"));
     }
 
 
@@ -52,7 +51,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToSingleOrDefault<TestDataObject>();
         Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -60,7 +59,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
     {
         var dataReader = GenerateTestDataReader(0);
         var result = dataReader.ToSingleOrDefault<TestDataObject>();
-        Assert.AreEqual(default(TestDataObject), result);
+        Assert.That(result, Is.EqualTo(default(TestDataObject)));
     }
 
     [Test]
@@ -73,8 +72,8 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
             var result = dataReader.ToSingleOrDefault<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("more"));
+        Assert.That(exception!.Message, Does.Contain("Expected Single Result"));
+        Assert.That(exception!.Message, Does.Contain("more"));
     }
 
     #region First 
@@ -84,7 +83,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToFirst<TestDataObject>();
         Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -97,8 +96,8 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
             var result = dataReader.ToFirst<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        Assert.That(exception!.Message, Does.Contain("Expected Single Result"));
+        Assert.That(exception!.Message, Does.Contain("no Row"));
     }
 
     [Test]
@@ -108,7 +107,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
 
         var result = dataReader.ToFirst<TestDataObject>();
         Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
     #endregion
 
@@ -119,7 +118,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToFirstOrDefault<TestDataObject>();
         Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -127,7 +126,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
     {
         var dataReader = GenerateTestDataReader(0);
         var result = dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.AreEqual(default(TestDataObject), result);
+        Assert.That(result, Is.EqualTo(default(TestDataObject)));
     }
 
     [Test]
@@ -137,7 +136,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
 
         var result = dataReader.ToFirstOrDefault<TestDataObject>();
         Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
     #endregion 
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
-using CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters;
-using NUnit.Framework;
+﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
@@ -19,11 +16,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new LongDbColToTypeConverter();
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
 
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
+            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
         }
 
         [Test]
@@ -36,11 +33,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new NullLongDbColToTypeConverter();
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
 
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
+            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
         }
     }
 }

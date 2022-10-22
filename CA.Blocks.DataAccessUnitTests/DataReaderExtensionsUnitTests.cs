@@ -65,10 +65,10 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsByte("col");
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
 
                 actual = dr.AsByte(1);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
             }
             else
             {
@@ -357,10 +357,10 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsDateTime("col");
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
 
                 actual = dr.AsDateTime(1);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
             }
             else
             {
@@ -388,10 +388,10 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected != null)
             {
                 actual = dr.AsString("col");
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
 
                 actual = dr.AsString(1);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
             }
             else
             {
@@ -402,10 +402,10 @@ namespace CA.Blocks.DataAccessUnitTests
                 Assert.IsNull(actual);
 
                 actual = dr.AsString("col", true);
-                Assert.AreEqual(actual, string.Empty);
+                Assert.That(actual, Is.EqualTo(string.Empty));
 
                 actual = dr.AsString(1, true);
-                Assert.AreEqual(actual, string.Empty);
+                Assert.That(actual, Is.EqualTo(string.Empty));
             }
         }
 

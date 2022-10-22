@@ -19,11 +19,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new ULongDbColToTypeConverter();
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
 
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
+            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
         }
 
         [Test]
@@ -36,11 +36,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new NullULongDbColToTypeConverter();
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, "col"));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, "col"));
+            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
 
-            Assert.AreEqual(expected, target.GetDataValue(dataRow, 1));
-            Assert.AreEqual(expected, target.GetDataValue(dataReader, 1));
+            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
+            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
         }
     }
 }

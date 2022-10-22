@@ -8,7 +8,7 @@ public class DataReaderExtensionsBaseTests
     protected class TestDataObject
     {
         public int IntCol { get; set; }
-        public string StringCol { get; set; }
+        public string? StringCol { get; set; }
         public Guid GuidCol { get; set; }
         public DateTime DateCol { get; set; }
     }

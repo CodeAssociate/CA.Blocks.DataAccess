@@ -13,8 +13,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = await GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToSingleAsync<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -22,8 +22,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToSingle<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -92,8 +92,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = await GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToSingleOrDefaultAsync<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -101,8 +101,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToSingleOrDefault<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -157,8 +157,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = await GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToFirstAsync<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -166,8 +166,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToFirst<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -204,8 +204,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
         var dataReader = await GenerateTestDataReaderAsync(2);
 
         var result = await dataReader.ToFirstAsync<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
 
@@ -215,8 +215,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
         var dataReader = GenerateTestDataReaderAsync(2);
 
         var result = await dataReader.ToFirst<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
     #endregion
 
@@ -226,8 +226,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = await GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToFirstOrDefaultAsync<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -235,8 +235,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
 
@@ -262,8 +262,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
         var dataReader = await GenerateTestDataReaderAsync(2);
 
         var result = await dataReader.ToFirstOrDefaultAsync<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
     [Test]
@@ -272,8 +272,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
         var dataReader = GenerateTestDataReaderAsync(2);
 
         var result = await dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.NotNull(result);
-        Assert.AreEqual(result.IntCol, 1);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.IntCol, Is.EqualTo(1));
     }
     #endregion 
 }
