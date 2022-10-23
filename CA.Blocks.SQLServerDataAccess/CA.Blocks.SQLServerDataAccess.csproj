@@ -22,12 +22,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>.\CA.Blocks.SQLServerDataAccess.xml</DocumentationFile>
     <WarningLevel>3</WarningLevel>
-    <NoWarn>1701;1702</NoWarn>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>3</WarningLevel>
-    <NoWarn>1701;1702</NoWarn>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

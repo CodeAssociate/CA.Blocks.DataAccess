@@ -398,6 +398,8 @@ namespace CA.Blocks.DataAccess
         /// Executes the command into a new DataSet using the DbDataAdapter.  Useful for app that need or what DatSet, DataTable and DataRows.  The ExecuteTo it more modern 
         /// </summary>
         /// <param name="cmd"> A data set return, The first name name will be called Results the second will be called  Results1, third will be called Results2 etc</param>
+        /// <param name="sTableNames"> LIst of table tables</param>>
+        /// <param name="ds"> DataSet </param>>
         /// <remarks> This method is using the DbDataAdapter and DataTables, inside the data Adapter there is need to call Fill, there is currently no generic support FillAsync.
         /// Using this is very robust but as the  DbDataAdapter is mostly limited to maintenance at this point.
         /// </remarks>

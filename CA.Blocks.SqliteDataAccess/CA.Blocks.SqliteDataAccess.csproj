@@ -1,54 +1,63 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>987.654.3210.0</AssemblyVersion>
-    <FileVersion>987.654.3210.0</FileVersion>
-    <Version>987.654.3210</Version>
-    <RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
-    <AssemblyName>CA.Blocks.DataAccess</AssemblyName>
-    <RootNamespace>CA.Blocks.DataAccess</RootNamespace>
-	<Authors>Kevin Bosch</Authors>
-    <Company>Ravin Enterprises Limited</Company>
-    <Title>CA.Blocks.DataAccess</Title>
-    <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>data;micro-orm;sql;ca.blocks;ado.net</PackageTags>
+	  <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <AssemblyVersion>987.654.3210.0</AssemblyVersion>
+	  <FileVersion>987.654.3210.0</FileVersion>
+	  <Version>987.654.3210</Version>
+	  <RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
+	  <AssemblyName>CA.Blocks.SqliteDataAccess</AssemblyName>
+	  <RootNamespace>CA.Blocks.SqliteDataAccess</RootNamespace>
+	  <Authors>Kevin Bosch</Authors>
+	  <Company>Ravin Enterprises Limited</Company>
+	  <Title>CA.Blocks.SQLLiteDataAccess</Title>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageReadmeFile>readme.md</PackageReadmeFile>
+	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;sqlite</PackageTags>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.DataAccess\CA.Blocks.DataAccess.xml</DocumentationFile>
+    <DocumentationFile>.\CA.Blocks.SqliteDataAccess.xml</DocumentationFile>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="DI\IDataAccessKeyToConnectionStringResolverDocs.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DI\IDataAccessKeyToConnectionStringResolverDocs.xml" />
-  </ItemGroup>
+
   <ItemGroup>
     <None Include="..\readme.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.10" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\CA.Blocks.DataAccess.Model\CA.Blocks.DataAccess.Model.csproj" />
+    <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
   </ItemGroup>
+
 </Project>

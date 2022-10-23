@@ -38,8 +38,8 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SQLLiteDataAccess\'
-    script: '((Get-Content -path CA.Blocks.SQLLiteDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SQLLiteDataAccess.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SqliteDataAccess\'
+    script: '((Get-Content -path CA.Blocks.SqliteDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SqliteDataAccess.csproj'
 
 - task: PowerShell@2
   inputs:
@@ -60,13 +60,13 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-# WE have a dependency on SQL so only run the SQLLite tests
+# WE have a dependency on SQL so only run the DataAccessUnitTests and SqliteDataAccessUnitTests tests which can run in memory
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
         **\CA.Blocks.DataAccessUnitTests.dll    
-        **\CA.Blocks.SQLLiteDataAccessUnitTests.dll
+        **\CA.Blocks.SqliteDataAccessUnitTests.dll
         !**\obj\**
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'

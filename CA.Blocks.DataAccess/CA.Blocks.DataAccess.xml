@@ -104,6 +104,8 @@
             Executes the command into a new DataSet using the DbDataAdapter.  Useful for app that need or what DatSet, DataTable and DataRows.  The ExecuteTo it more modern 
             </summary>
             <param name="cmd"> A data set return, The first name name will be called Results the second will be called  Results1, third will be called Results2 etc</param>
+            <param name="sTableNames"> LIst of table tables</param>>
+            <param name="ds"> DataSet </param>>
             <remarks> This method is using the DbDataAdapter and DataTables, inside the data Adapter there is need to call Fill, there is currently no generic support FillAsync.
             Using this is very robust but as the  DbDataAdapter is mostly limited to maintenance at this point.
             </remarks>
@@ -629,15 +631,139 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
         </member>
         <member name="T:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1">
             <summary>
-            What is the name of this 
+            The abstract col Converter, this is defines the common interface for extracting a Table Cell value to a given type
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T"> The Type of data to extract to</typeparam>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1.GetDataValue(System.Data.DataRow,System.String)">
+            <summary>
+            Get a value as specified type from a DataRow specified by column Name
+            </summary>
+            <param name="dr"> Target DataRow</param>
+            <param name="columnName">Name of columnName in Data row</param>
+            <returns> The Data as Type T</returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1.GetDataValue(System.Data.IDataReader,System.String)">
+            <summary>
+            Get a value as specified type from a IDataReader specified by the column Name 
+            </summary>
+            <param name="dr"> Target IDataReader</param>
+            <param name="columnName">Name of the column in the IDataReader  </param>
+            <returns> The Data as Type T</returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1.GetDataValue(System.Data.DataRow,System.Int32)">
+            <summary>
+            Get a value as specified type from a DataRow specified by the column Index 
+            </summary>
+            <param name="dr"> Target DataRow</param>
+            <param name="columnIndex">Index of the column in the DataRow  </param>
+            <returns> The Data as Type T</returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1.GetDataValue(System.Data.IDataReader,System.Int32)">
+            <summary>
+            Get a value as specified type from a IDataReader specified by the column Index 
+            </summary>
+            <param name="dr"> Target IDataReader</param>
+            <param name="columnIndex">Index of the column in the IDataReader  </param>
+            <returns> The Data as Type T</returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1.GetData(System.Data.DataRow,System.String)">
+            <summary>
+            Get a value as as object from a DataRow specified by column Name
+            </summary>
+            <param name="dr"> Target DataRow</param>
+            <param name="columnName">Name of columnName in Data row</param>
+            <returns> object </returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1.GetData(System.Data.IDataReader,System.String)">
+            <summary>
+            Get a value as object from a IDataReader specified by the column Name 
+            </summary>
+            <param name="dr"> Target IDataReader</param>
+            <param name="columnName">Name of the column in the IDataReader  </param>
+            <returns> object </returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1.GetData(System.Data.DataRow,System.Int32)">
+            <summary>
+            Get a value as object from a DataRow specified by the column Index 
+            </summary>
+            <param name="dr"> Target DataRow</param>
+            <param name="columnIndex">Index of the column in the DataRow  </param>
+            <returns> object </returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1.GetData(System.Data.IDataReader,System.Int32)">
+            <summary>
+            Get a value as object from a IDataReader specified by the column Index 
+            </summary>
+            <param name="dr"> Target IDataReader</param>
+            <param name="columnIndex">Index of the column in the IDataReader  </param>
+            <returns> object </returns>
         </member>
         <member name="T:CA.Blocks.DataAccess.Translator.DbColToType.Converters.EnumDbColToTypeConverter`1">
             <summary>
             EnumDbColToTypeConverter Docs 
             </summary>
             <typeparam name="T"> </typeparam>
+        </member>
+        <member name="T:CA.Blocks.DataAccess.Translator.DbColToType.Converters.ULongDbColToTypeConverter">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.ULongDbColToTypeConverter.GetDataValue(System.Data.DataRow,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.ULongDbColToTypeConverter.GetDataValue(System.Data.IDataReader,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.ULongDbColToTypeConverter.GetDataValue(System.Data.DataRow,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.ULongDbColToTypeConverter.GetDataValue(System.Data.IDataReader,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullULongDbColToTypeConverter">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullULongDbColToTypeConverter.GetDataValue(System.Data.DataRow,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullULongDbColToTypeConverter.GetDataValue(System.Data.IDataReader,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullULongDbColToTypeConverter.GetDataValue(System.Data.DataRow,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullULongDbColToTypeConverter.GetDataValue(System.Data.IDataReader,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:CA.Blocks.DataAccess.Translator.DbColToType.Converters.UShortDbColToTypeConverter">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.UShortDbColToTypeConverter.GetDataValue(System.Data.DataRow,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.UShortDbColToTypeConverter.GetDataValue(System.Data.IDataReader,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.UShortDbColToTypeConverter.GetDataValue(System.Data.DataRow,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.UShortDbColToTypeConverter.GetDataValue(System.Data.IDataReader,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullUShortDbColToTypeConverter">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullUShortDbColToTypeConverter.GetDataValue(System.Data.DataRow,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullUShortDbColToTypeConverter.GetDataValue(System.Data.IDataReader,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullUShortDbColToTypeConverter.GetDataValue(System.Data.DataRow,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.DbColToType.Converters.NullUShortDbColToTypeConverter.GetDataValue(System.Data.IDataReader,System.Int32)">
+            <inheritdoc />
         </member>
         <member name="T:CA.Blocks.DataAccess.Translator.DynamicDbRow2ObjectTranslator">
             <summary>

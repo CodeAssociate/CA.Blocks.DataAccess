@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 
 namespace CA.Blocks.DataAccessUnitTests.Base
 {
@@ -76,8 +75,7 @@ namespace CA.Blocks.DataAccessUnitTests.Base
               (resultSet.Rows[currentPosition][i] == null));
         }
 
-        public long
-          GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        public long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
         {
             throw new NotSupportedException();
         }
@@ -160,8 +158,7 @@ namespace CA.Blocks.DataAccessUnitTests.Base
             throw new NotSupportedException();
         }
 
-        public long
-          GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
+        public long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
         {
             throw new NotSupportedException();
         }

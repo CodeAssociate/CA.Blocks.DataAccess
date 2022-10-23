@@ -61,7 +61,9 @@ namespace CA.Blocks.SQLServerDataAccess
      
         private void SetCommandContext(SqlConnection sqlConnection)
         {
+#pragma warning disable CS0618
             string context = GetConnectionContext();
+#pragma warning restore CS0618
             if (!string.IsNullOrWhiteSpace(context))
             {
                 var cmd = CreateTextCommand("SET CONTEXT_INFO @AppContext");

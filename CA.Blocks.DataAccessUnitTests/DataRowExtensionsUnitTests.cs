@@ -12,7 +12,7 @@ namespace CA.Blocks.DataAccessUnitTests
         /// <summary>
         /// Create a test table with the first row as null and the second row as the testData value for type dbType
         /// </summary>
-        private DataTable CreateTestTable(Type dbType, object testData)
+        private DataTable CreateTestTable(Type dbType, object? testData)
         {
             DataTable result = new DataTable();
             DataColumn dcKey = new DataColumn("key", typeof(int));
@@ -33,24 +33,24 @@ namespace CA.Blocks.DataAccessUnitTests
 
         private IDataReader GetDataReader(int rowNumber, DataTable sourceDataTable)
         {
-            var datareader = sourceDataTable.CreateDataReader();
+            var dataReader = sourceDataTable.CreateDataReader();
             for (int i = 0; i <= rowNumber; i++)
             {
-                datareader.Read();
+                dataReader.Read();
             }
-            return datareader;
+            return dataReader;
         }
         
         private void AssertNullable<T>(Nullable<T> expected, Nullable<T> actual)  where T : struct 
         {
             if (expected.HasValue)
             {
-                Assert.IsNotNull(actual);
-                Assert.AreEqual(expected, actual.Value);
+                Assert.That(actual, Is.Not.Null);
+                Assert.That(actual!.Value, Is.EqualTo(expected));
             }
             else
             {
-                Assert.IsFalse(actual.HasValue);
+                Assert.That(actual.HasValue, Is.False);
             }
         }
         
@@ -71,12 +71,12 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
             
-            Assert.AreEqual(expected, dataRow.AsBinary("col"));
-            Assert.AreEqual(expected, dataRow.AsBinary(1));
-            Assert.AreEqual(expected, dataRow.AsBinary(dt.Columns["col"]));
+            Assert.That(dataRow.AsBinary("col"), Is.EqualTo(expected));
+            Assert.That(dataRow.AsBinary(1), Is.EqualTo(expected));
+            Assert.That(dataRow.AsBinary(dt.Columns["col"]), Is.EqualTo(expected));
             
-            Assert.AreEqual(expected, dataReader.AsBinary("col"));
-            Assert.AreEqual(expected, dataReader.AsBinary(1));
+            Assert.That(dataReader.AsBinary("col"), Is.EqualTo(expected));
+            Assert.That(dataReader.AsBinary(1), Is.EqualTo(expected));
         }
 
         [Test]
@@ -88,12 +88,12 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
             
-            Assert.AreEqual(expected, dataRow.AsBool("col"));
-            Assert.AreEqual(expected, dataRow.AsBool(1));
-            Assert.AreEqual(expected, dataRow.AsBool(dt.Columns["col"]));
+            Assert.That(dataRow.AsBool("col"), Is.EqualTo(expected));
+            Assert.That(dataRow.AsBool(1), Is.EqualTo(expected));
+            Assert.That(dataRow.AsBool(dt.Columns["col"]), Is.EqualTo(expected));
             
-            Assert.AreEqual(expected, dataReader.AsBool("col"));
-            Assert.AreEqual(expected, dataReader.AsBool(1));
+            Assert.That(dataReader.AsBool("col"), Is.EqualTo(expected));
+            Assert.That(dataReader.AsBool(1), Is.EqualTo(expected));
         }
         
         [Test]
@@ -123,12 +123,12 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
             
-            Assert.AreEqual(expected, dataRow.AsByte("col"));
-            Assert.AreEqual(expected, dataRow.AsByte(1));
-            Assert.AreEqual(expected, dataRow.AsByte(dt.Columns["col"]));
+            Assert.That(dataRow.AsByte("col"), Is.EqualTo(expected));
+            Assert.That(dataRow.AsByte(1), Is.EqualTo(expected));
+            Assert.That(dataRow.AsByte(dt.Columns["col"]), Is.EqualTo(expected));
             
-            Assert.AreEqual(expected, dataReader.AsByte("col"));
-            Assert.AreEqual(expected, dataReader.AsByte(1));
+            Assert.That(dataReader.AsByte("col"), Is.EqualTo(expected));
+            Assert.That(dataReader.AsByte(1), Is.EqualTo(expected));
         }
         
         [Test]
@@ -281,12 +281,12 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
             
-            Assert.AreEqual(expected, dataRow.AsDouble("col"));
-            Assert.AreEqual(expected, dataRow.AsDouble(1));
-            Assert.AreEqual(expected, dataRow.AsDouble(dt.Columns["col"]));
+            Assert.That(dataRow.AsDouble("col"), Is.EqualTo(expected));
+            Assert.That(dataRow.AsDouble(1), Is.EqualTo(expected));
+            Assert.That(dataRow.AsDouble(dt.Columns["col"]), Is.EqualTo(expected));
             
-            Assert.AreEqual(expected, dataReader.AsDouble("col"));
-            Assert.AreEqual(expected, dataReader.AsDouble(1));
+            Assert.That(dataReader.AsDouble("col"), Is.EqualTo(expected));
+            Assert.That(dataReader.AsDouble(1), Is.EqualTo(expected));
         }
         
         [Test]

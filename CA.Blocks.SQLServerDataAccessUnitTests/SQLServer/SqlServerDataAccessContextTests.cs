@@ -19,7 +19,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 
         // To pass the context simply override the GetConnectionContext and return the string value you what to pass in.
         // from within SQL you can then use Select Cast(CONTEXT_INFO() as varchar(100)) to get the value backout
+#pragma warning disable CS0672
         protected override string GetConnectionContext()
+#pragma warning restore CS0672
         {
             return _randomContext;
         }
