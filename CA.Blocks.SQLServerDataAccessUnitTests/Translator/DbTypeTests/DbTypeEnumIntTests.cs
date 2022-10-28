@@ -1,5 +1,5 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+﻿using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -14,14 +14,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             Foo = 1,
             Bar = 2,
             ForBar= 4,
-        }
-        // in app you would write an extension for MyTestEnum called ToSqlParameter  telling it how you what to store the enum, short, int, string...
-
-        
-        [OneTimeSetUp]
-        public void Init()
-        {
-            CA.Blocks.DataAccess.Translator.DbColToType.Providers.DefaultDbColToTypeProvider.DefaultInstance.Add(new EnumDbColToTypeConverter<MyTestEnum>());
         }
 
         private class StringEnumDataType
@@ -57,7 +49,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = this.ExecuteToListOf<StringEnumDataType>(cmd);
+            var data = Execute(cmd).ToListOf<StringEnumDataType>();
             //Assert
             Assert.AreEqual(3, data.Count);
             Assert.AreEqual(MyTestEnum.Foo, data[0].Col);

@@ -101,6 +101,20 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
             }
         }
 
+        private void TryAddGeneratedType(IDbColToTypeConverter typeConverter, Type targetType, string byName = "", bool errorOnExists = false)
+        {
+            var key = GetKey(targetType, byName);
+
+            lock (_syncLock)
+            {
+                if (!_typeConverters.TryAdd(key, typeConverter) && errorOnExists)
+                {
+                    throw new ApplicationException($"There is already a ITypeConverter Type registered for {key} they must be unique");
+                }
+            }
+        }
+
+
         public void Add<T>(IDbColToTypeConverter<T> typeConverter, string byName = "")
         {
             TryAdd(typeConverter, byName, true);
@@ -113,6 +127,28 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
             return Resolve(targetType, byName);
         }
 
+
+        private IDbColToTypeConverter CreateEnumTypeConverterFor(Type targetType)
+        {
+            IDbColToTypeConverter result = null;
+
+            Type concreteConverter;
+            if (Nullable.GetUnderlyingType(targetType) != null)
+            {
+                Type genericConverter = typeof(NullEnumDbColToTypeConverter<>);
+                concreteConverter = genericConverter.MakeGenericType(Nullable.GetUnderlyingType(targetType));
+            }
+            else
+            {
+                Type genericConverter = typeof(EnumDbColToTypeConverter<>);
+                concreteConverter = genericConverter.MakeGenericType(targetType);
+            }
+            result = (IDbColToTypeConverter)Activator.CreateInstance(concreteConverter, true);
+
+            return result;
+
+        }
+
         public IDbColToTypeConverter Resolve(Type targetType,  string byName = "")
         {
 
@@ -121,7 +157,27 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
             if (!_typeConverters.TryGetValue(key, out var typeConverter))
             {
 
-                throw new KeyNotFoundException($"No DbCol To Type Converter registered for {key}");
+                // if it is a enum we can create converter and register
+                if (targetType.IsEnum || (targetType.IsGenericType 
+                                          && targetType.GenericTypeArguments != null 
+                                          && targetType.GenericTypeArguments.Length == 1 
+                                          && targetType.GenericTypeArguments[0].IsEnum))
+                {
+                    var newTypeConverter = CreateEnumTypeConverterFor(targetType);
+                    if (newTypeConverter != null)
+                    {
+                        TryAddGeneratedType(newTypeConverter, targetType);
+                        typeConverter = newTypeConverter;
+                    }
+                    else
+                    {
+                        throw new KeyNotFoundException($"No DbCol To Type Converter registered for {key}");
+                    }
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"No DbCol To Type Converter registered for {key}");
+                }
             }
 
             return typeConverter as IDbColToTypeConverter;

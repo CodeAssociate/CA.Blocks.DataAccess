@@ -1,5 +1,5 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+﻿using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -7,43 +7,38 @@ using NUnit.Framework;
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
     [TestFixture]
-    public class DbTypeShortEnumTests : UnitTestDataAccess
+    public class DbTypeEnumShortTests : UnitTestDataAccess
     {
         public enum MyTestEnum
         {
             Foo = 1,
             Bar = 2,
-            ForBar= 4,
-        }
-        // in app you would write an extension for MyTestEnum called ToSqlParameter  telling it how you what to store the enum, short, int, string...
-
-        
-        [OneTimeSetUp]
-        public void Init()
-        {
-            CA.Blocks.DataAccess.Translator.DbColToType.Providers.DefaultDbColToTypeProvider.DefaultInstance.Add(new EnumDbColToTypeConverter<MyTestEnum>());
+            ForBar = 4,
         }
 
-        private class StringEnumDataType
+        private class ShortEnumDataType
         {
             public MyTestEnum Col { get; set; }
         }
 
-        private void InsertTestDataStringSQL(string data)
+        private class NullShortEnumDataType
         {
-            ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
+            public MyTestEnum? Col { get; set; }
+        }
+
+        private void InsertTestDataSQL(short data)
+        {
+            ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
 
         [SetUp]
         public void Setup()
         {
             ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("varchar(32) not null"));
-            InsertTestDataStringSQL("Foo");
-            InsertTestDataStringSQL("Bar");
-            InsertTestDataStringSQL("1");
-            InsertTestDataStringSQL("2");
-            InsertTestDataStringSQL("ForBar");
+            ExecuteNonQuery(CreateTestTable("smallint not null"));
+            InsertTestDataSQL(1);
+            InsertTestDataSQL(2);
+            InsertTestDataSQL(4);
         }
 
         [TearDown]
@@ -59,24 +54,39 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = this.ExecuteToListOf<StringEnumDataType>(cmd);
+            var data = Execute(cmd).ToListOf<ShortEnumDataType>();
             //Assert
-            Assert.AreEqual(5, data.Count);
+            Assert.AreEqual(3, data.Count);
             Assert.AreEqual(MyTestEnum.Foo, data[0].Col);
-            Assert.AreEqual(MyTestEnum.Bar, data[3].Col);
-            Assert.AreEqual(MyTestEnum.ForBar, data[4].Col);
+            Assert.AreEqual(MyTestEnum.Bar, data[1].Col);
+            Assert.AreEqual(MyTestEnum.ForBar, data[2].Col);
         }
-        
+
+        [Test]
+        public void SelectAllDataToListOfNull()
+        {
+            //Setup 
+            var cmd = CreateTextCommand(SelectTestDataSQL());
+            //Act
+            var data = Execute(cmd).ToListOf<NullShortEnumDataType>();
+            //Assert
+            Assert.AreEqual(3, data.Count);
+            Assert.AreEqual(MyTestEnum.Foo, data[0].Col);
+            Assert.AreEqual(MyTestEnum.Bar, data[1].Col);
+            Assert.AreEqual(MyTestEnum.ForBar, data[2].Col);
+        }
+
+
         [Test]
         public void SelectAllDataWithWithTranslator()
         {
             //setup
             const MyTestEnum testValue = MyTestEnum.Bar;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToString().ToSqlParameter("@value"));
-            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringEnumDataType>();
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(((short)(testValue)).ToSqlParameter("@value"));
+            var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<ShortEnumDataType>();
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
-            
+
             Assert.AreEqual(testValue, data.Col);
         }
     }

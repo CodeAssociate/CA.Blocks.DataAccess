@@ -11,9 +11,14 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
     public class EnumDbColToTypeConverter<T> : BaseDbColToTypeConverter<T> where T : struct
     {
         private readonly bool _ignoreCase;
-        public EnumDbColToTypeConverter(bool ignoreCase = true)
+        public EnumDbColToTypeConverter(bool ignoreCase)
         {
             _ignoreCase = ignoreCase;
+        }
+
+        public EnumDbColToTypeConverter() : this ( true)
+        {
+          
         }
 
         public override T GetDataValue(DataRow dr, string columnName)
@@ -48,11 +53,15 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
     public class NullEnumDbColToTypeConverter<T> : BaseDbColToTypeConverter<T?> where T : struct
     {
         private readonly bool _ignoreCase;
-        public NullEnumDbColToTypeConverter(bool ignoreCase = true)
+        public NullEnumDbColToTypeConverter(bool ignoreCase)
         {
             _ignoreCase = ignoreCase;
         }
 
+        public NullEnumDbColToTypeConverter() : this(true)
+        {
+
+        }
 
         public override T? GetDataValue(DataRow dr, string columnName)
         {
