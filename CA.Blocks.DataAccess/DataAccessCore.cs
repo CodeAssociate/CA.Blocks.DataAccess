@@ -40,6 +40,12 @@ namespace CA.Blocks.DataAccess
         private readonly IDbRowTranslatorProvider _dbRowTranslatorProvider;
 
         /// <summary>
+        /// This sets the default CommandBehavior for the DataReader, The Default assumes connection pooling however with with embedded databases there is no pooling
+        /// so it Likely you will want overrider this
+        /// </summary>
+        protected virtual CommandBehavior DefaultCommandBehavior => CommandBehavior.CloseConnection;
+
+        /// <summary>
         /// ConnectionString Used for the provider. This is used in the provider blocks get get a connection string to use  
         /// </summary>
         protected string ConnectionString { get; }
@@ -536,7 +542,7 @@ namespace CA.Blocks.DataAccess
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
             //return InternalExecuteReader(cmd);
-            return ExecuteWithTransientErrorRetry(() => cmd.ExecuteReader(CommandBehavior.CloseConnection), cmd, false);
+            return ExecuteWithTransientErrorRetry(() => cmd.ExecuteReader(DefaultCommandBehavior), cmd, false);
         }
 
         protected Task<DbDataReader> ExecuteReaderAsync(IDbCommand cmd)
@@ -548,7 +554,7 @@ namespace CA.Blocks.DataAccess
 
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            return ExecuteWithTransientErrorRetryAsync(() => asyncCmd.ExecuteReaderAsync(CommandBehavior.CloseConnection), cmd, false);
+            return ExecuteWithTransientErrorRetryAsync(() => asyncCmd.ExecuteReaderAsync(DefaultCommandBehavior), cmd, false);
         }
 
         protected async Task<DbDataReader> ExecuteAsync(IDbCommand cmd)

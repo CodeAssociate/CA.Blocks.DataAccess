@@ -14,6 +14,12 @@
             </para>
             </summary>
         </member>
+        <member name="P:CA.Blocks.DataAccess.DataAccessCore.DefaultCommandBehavior">
+            <summary>
+            This sets the default CommandBehavior for the DataReader, The Default assumes connection pooling however with with embedded databases there is no pooling
+            so it Likely you will want overrider this
+            </summary>
+        </member>
         <member name="P:CA.Blocks.DataAccess.DataAccessCore.ConnectionString">
             <summary>
             ConnectionString Used for the provider. This is used in the provider blocks get get a connection string to use  
