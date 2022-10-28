@@ -26,7 +26,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
                     }
                     else
                     {
-                        throw new ApplicationException($"Connectoin string not set in ${secretsFileName}");
+                        throw new ApplicationException($"Connection String string not set in ${secretsFileName}");
                         
                     }
 

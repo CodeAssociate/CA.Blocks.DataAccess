@@ -1,38 +1,14 @@
 ﻿using System.Data;
 using System.Text;
 using CA.Blocks.DataAccess.DI;
-using Microsoft.Data.Sqlite;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.Base
 {
-
-    public class UnitTRestInMemDBResolver : IDataAccessKeyToConnectionStringResolver
-    {
-        public string GetConnectionString(string connectionStringKey)
-        {
-            return connectionStringKey != "BAD_CONNECTION" ? 
-                  "Data Source=ca_blocks_unittest;mode=memory;cache=shared" 
-                : "Data Source=C\\BadPath\\badfile.db;Version=3;"; // used to simulate connection errors 
-        }
-    }
-
-    public class UnitTestBadConnection : SqliteDataAccess.SqliteDataAccess
-    {
-        public UnitTestBadConnection() : 
-            base ( new DataAccessConfig( "BAD_CONNECTION", 
-                                        new DataAccessConfigOptions{TraceExceptions = true, ConnectionStringKey = "BAD_CONNECTION"}, 
-                                        new UnitTRestInMemDBResolver() ), 
-                null)
-        {
-
-        } 
-    }
-
     // this class exposes the internal workings so we can test
     public class UnitTestDataAccess : SqliteDataAccess.SqliteDataAccess
     {
 
-        private SqliteConnection _dbcontext; 
 
         public UnitTestDataAccess() : this (new DataAccessConfigOptions())
         {
@@ -42,10 +18,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Base
         public UnitTestDataAccess(DataAccessConfigOptions options) : base(
             new DataAccessConfig("SqlLiteUnitTesting", options, new UnitTRestInMemDBResolver()), null)
         {
-            // we need to hold a conneciton open for in mem
-            _dbcontext = new SqliteConnection(ConnectionString);
-            _dbcontext.Open();
-            // we do this so that we have a table in the schema
+
         }
 
 

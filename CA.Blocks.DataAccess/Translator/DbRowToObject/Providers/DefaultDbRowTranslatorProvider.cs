@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security.Principal;
 using CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbColToType.Mappings;

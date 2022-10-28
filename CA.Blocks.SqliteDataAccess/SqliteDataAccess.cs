@@ -3,7 +3,7 @@
 // DataAccessCore.cs
 //
 //===============================================================================
-// Copyright (C) 2002-2019 Ravin Enterprises Ltd. 
+// Copyright (C) 2002-2012 Ravin Enterprises Ltd. 
 // All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
@@ -14,7 +14,6 @@
 using System;
 using System.Data;
 using System.Data.Common;
-using System.Text;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Model.Paging;
@@ -30,15 +29,34 @@ namespace CA.Blocks.SqliteDataAccess
     /// </summary>
     /// <remarks>
     /// </remarks>
-    public class SqliteDataAccess : DataAccessCore
+    public class SqliteDataAccess : DataAccessCore, IDisposable
     {
 
         public const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
 
-        public SqliteDataAccess(IDataAccessConfig config, IDbRowTranslatorProvider dbRowTranslatorProvider) : base(config, dbRowTranslatorProvider)
+        private readonly SqliteConnection _dbConnection;
+
+
+        public SqliteDataAccess(IDataAccessConfig config, IDbRowTranslatorProvider dbRowTranslatorProvider = null) : base(config, dbRowTranslatorProvider)
         {
+            _dbConnection = new SqliteConnection(ConnectionString);
 
         }
+        // with Sqlite we do not use connection pooling we keep a connection with in the class.
+        protected override CommandBehavior DefaultCommandBehavior => CommandBehavior.Default;
+
+        public void Dispose()
+        {
+            if (_dbConnection != null
+                && (_dbConnection.State == ConnectionState.Open
+                    || _dbConnection.State == ConnectionState.Executing
+                    || _dbConnection.State == ConnectionState.Fetching)
+               )
+            {
+                _dbConnection.Close();
+            }
+        }
+
 
         protected virtual string GetConnectionContext()
         {
@@ -47,23 +65,45 @@ namespace CA.Blocks.SqliteDataAccess
 
         private void SetCommandContext(SqliteConnection sqlConnection)
         {
-            string context = GetConnectionContext();
-            if (!string.IsNullOrWhiteSpace(context))
-            {
-                var cmd = CreateTextCommand("SET CONTEXT_INFO @AppContext");
-                cmd.Parameters.Add(Encoding.ASCII.GetBytes(context).ToSqlParameter("@AppContext"));
-                cmd.Connection = sqlConnection;
-                cmd.ExecuteNonQuery();
-            }
+          
+        }
+
+        public void BeginTransaction()
+        {
+            var cmd = CreateTextCommand("begin");
+            ExecuteNonQuery(cmd);
+        }
+
+        public void CommitTransaction()
+        {
+            var cmd = CreateTextCommand("commit");
+            ExecuteNonQuery(cmd);
+        }
+
+        public void RollBackTransaction()
+        {
+            var cmd = CreateTextCommand("rollback");
+            ExecuteNonQuery(cmd);
         }
 
         protected override bool PrepCommand(IDbCommand cmd)
         {
-            SqliteConnection sqlConnection = new SqliteConnection(ConnectionString);
-            sqlConnection.Open();
-            SetCommandContext(sqlConnection);
-            cmd.Connection = sqlConnection;
-            return true;
+            if (_dbConnection == null)
+            {
+                SqliteConnection sqlConnection = new SqliteConnection(ConnectionString);
+                sqlConnection.Open();
+                cmd.Connection = sqlConnection;
+                return true;
+            }
+            else
+            {
+                if (_dbConnection.State == ConnectionState.Closed)
+                {
+                    _dbConnection.Open();
+                }
+                cmd.Connection = _dbConnection;
+                return false;
+            }
         }
 
         protected override bool IsTransientError(DbException dbEx)
@@ -76,41 +116,6 @@ namespace CA.Blocks.SqliteDataAccess
             return new SqliteDataAdapter((SqliteCommand)cmd);
         }
 
-        #region StoredProcedureHelpers
-
-        protected SqliteCommand CreateBlankStoredProcedureCommand(string strStoredProcedureName, bool bolIncludeReturnValue = false)
-        {
-            SqliteCommand sqlcmd = new SqliteCommand
-            {
-                CommandText = strStoredProcedureName,
-                CommandType = CommandType.StoredProcedure
-            };
-            if (bolIncludeReturnValue)
-            {
-                var sqlparam = sqlcmd.CreateParameter();
-                sqlparam.ParameterName = "Return";
-                sqlparam.SqliteType = SqliteType.Integer;
-                sqlparam.Direction = ParameterDirection.ReturnValue;
-                sqlcmd.Parameters.Add(sqlparam);
-            }
-            return (sqlcmd);
-        }
-
-
-        protected int GetStoredProcedureReturnValue(SqliteCommand sqlcmd)
-        {
-            int result = -1;
-            var sqlparam = sqlcmd.Parameters["Return"];
-            if (sqlparam != null)
-            {
-                if (sqlparam.Value != null)
-                    result = (int)sqlparam.Value;
-            }
-            return result;
-        }
-
-
-        #endregion StoredProcedureHelpers
 
         #region TextCommandType Helpers
         protected SqliteCommand CreateTextCommand(string sql)
@@ -143,16 +148,6 @@ namespace CA.Blocks.SqliteDataAccess
 
        
         #region SQL Bulk Update Methods
-
-        //protected SqlDataAdapter CreateBulkInsertAdapter(string storedProcedureName, int batchSize)
-        //{
-        //    SqlDataAdapter result = new SqlDataAdapter();
-        //    result.UpdateBatchSize = batchSize;
-        //    SqlCommand cmd = CreateBlankStoredProcedureCommand(storedProcedureName, false);
-        //    cmd.UpdatedRowSource = UpdateRowSource.None;
-        //    result.InsertCommand = cmd;
-        //    return result;
-        //}
 
         // gets the first col which has an expression on.  
         // This will need to be refactored if you have expressions based on expressions as you will need to be aware of dependency order
@@ -193,60 +188,11 @@ namespace CA.Blocks.SqliteDataAccess
             }
         }
 
-        //protected void ExecuteBulkInsertAdapter(SqlDataAdapter bulkAdapter, DataTable dt)
-        //{
-        //    try
-        //    {
-        //        PrepCommand(bulkAdapter.InsertCommand);
-        //        // possibly move this function out as it nos not really belong here 
-        //        CementExpressionsAsValues(dt);
-        //        bulkAdapter.Update(dt);
-        //    }
-        //    finally
-        //    {
-        //        WrapUp(bulkAdapter.InsertCommand.Connection, true);
-        //    }
-        //}
         #endregion SQL Bulk Update Methods
 
         #region 
 
-        // With SQL 2012 we can use syntax OFFSET x ROWS FETCH NEXT y ROWS ONLY.. but this will only work with 2012. for now leave as is. 
-        public DataTable ExecuteDataTable(SqliteCommand cmd, PagingRequest page)
-        {
-            // this is sql server specific and only for direct quries
+        #endregion
 
-            string sortOrder = page.GetOrderBy();
-            string sqlSelect = $" ROW_NUMBER() Over (Order By {sortOrder}) As RowNumber, ";
-            cmd.CommandText = WrapPagingQuery(cmd.CommandText, sqlSelect);
-            cmd.Parameters.Add((page.Skip + 1).ToSqlParameter("@PagingRowNumberFrom"));
-            cmd.Parameters.Add((page.Skip + page.Take).ToSqlParameter("@PagingRowNumberTo"));
-            return ExecuteDataTable(cmd);
-        }
-
-        protected string WrapPagingQuery(string sourceQuery, string orderOver)
-        {
-            sourceQuery = sourceQuery.Trim();
-            if (sourceQuery.StartsWith("Select", StringComparison.CurrentCultureIgnoreCase))
-            {
-                sourceQuery = "Select " + orderOver + sourceQuery.Substring(6);
-                string pagingWrapperSQL = @"With PagingWrapper As 
-                            (
-                              {0}
-                            ) 
-                        Select PagingWrapper.*
-                        from PagingWrapper
-                        Where PagingWrapper.RowNumber Between @PagingRowNumberFrom AND @PagingRowNumberTo
-                        Order By PagingWrapper.RowNumber Asc";
-
-                return string.Format(pagingWrapperSQL, sourceQuery);
-            }
-            else
-            {
-                throw new ApplicationException("To Execute ExecuteDataTable using a PagingRequest the Command must be text query and start with 'Select'   ");
-            }
-        }
-
-        #endregion 
     }
 }
