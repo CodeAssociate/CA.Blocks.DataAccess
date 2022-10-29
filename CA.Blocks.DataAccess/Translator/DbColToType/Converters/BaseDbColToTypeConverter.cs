@@ -57,9 +57,14 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
             {
                 return GetDataValue(dr, columnName);
             }
-            catch (IndexOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
                 throw new ConverterColumnNotFoundException($"The column '{columnName}' was expected in the result set but not found", ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                throw new ConverterColumnNotFoundException(
+                    $"The column '{columnName}' was expected in the result set but not found", ex);
             }
             catch (Exception ex)
             {
@@ -80,6 +85,11 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
             try
             {
                 return GetDataValue(dr, columnName);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ConverterColumnNotFoundException(
+                    $"The column '{columnName}' was expected in the result set but not found", ex);
             }
             catch (IndexOutOfRangeException ex)
             {

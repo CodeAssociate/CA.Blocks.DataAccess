@@ -27,9 +27,9 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions
             string testData = $"{Guid.NewGuid()}-{Guid.NewGuid()}-{Guid.NewGuid()}";
             testData += testData;
 
-            var compressedData = testData.CompressToSQLNVarcharString();
+            var compressedData = testData.CompressToSqlNVarcharString();
 
-            var decompressResult = compressedData.DecompressToSQLNVarcharString();
+            var decompressResult = compressedData.DecompressToSqlNVarcharString();
             Assert.True(compressedData.Length < testData.Length);
             Assert.That(decompressResult, Is.EqualTo(testData));
         }

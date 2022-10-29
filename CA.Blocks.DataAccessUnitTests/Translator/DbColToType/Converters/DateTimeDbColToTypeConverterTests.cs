@@ -3,6 +3,8 @@
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
+
+
     [TestFixture]
     public class DateTimeDbColToTypeConverterTests : BaseDbColToTypeConverterTests
     {

@@ -608,11 +608,11 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             be aware you need to use the same collation on the server to read the data out  in a query on the server 
             </remarks>
         </member>
-        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.CompressToSQLNVarcharString(System.String)">
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.CompressToSqlNVarcharString(System.String)">
             <inheritdoc cref="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.CompressString(System.String,System.Text.Encoding)"/>
             <remarks>The default string encoding is Encoding.Unicode</remarks>
         </member>
-        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.DecompressToSQLNVarcharString(System.Byte[])">
+        <member name="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.DecompressToSqlNVarcharString(System.Byte[])">
             <inheritdoc cref="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.DecompressToString(System.Byte[],System.Text.Encoding)"/>
             <remarks>The default string encoding is Encoding.Unicode</remarks>
         </member>
@@ -828,8 +828,6 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
         <member name="T:CA.Blocks.DataAccess.Translator.SimpleDbReader2ObjectTranslator`1">
             <summary>
             This allows up to build a simple Translator to deal with IDataReader.
-            There are tow use cases for this
-            1) when you have a data reader  and you what to Translate
             </summary>
             <typeparam name="T"></typeparam>
         </member>

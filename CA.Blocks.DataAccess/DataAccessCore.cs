@@ -122,12 +122,6 @@ namespace CA.Blocks.DataAccess
         }
 
 
-        [System.Obsolete(" Please use TraceGeneralError(IDbCommand, Exception) ")]
-        protected virtual void TraceGenralError(IDbCommand cmd, Exception ex)
-        {
-            TraceGeneralError(cmd, ex);
-        }
-
         /// <summary>
         /// When a general occurs not related to the database such as network error this method will be called
         ///  The Design is such that you can override this method to implement your own logic, you you get the command and well as the Exception.
@@ -139,8 +133,6 @@ namespace CA.Blocks.DataAccess
             System.Diagnostics.Debug.WriteLine(cmd.CommandText);
             System.Diagnostics.Debug.WriteLine(ex.Message);
         }
-
-
         #endregion private utility methods & constructors
 
 
@@ -171,7 +163,6 @@ namespace CA.Blocks.DataAccess
                             // if we still have one more try
                             exceptions.Add(dbEx);
                             TraceTransientErrorDbError(cmd, dbEx);
-                            continue;
                         }
                         else
                         {
@@ -225,7 +216,6 @@ namespace CA.Blocks.DataAccess
                         if (tries < _options.TransientErrorRetryTotalNumberOfTimesToTry - 1)
                         {
                             TraceTransientErrorDbError(cmd, dbEx);
-                            continue;
                         }
                         else
                         {
@@ -359,7 +349,6 @@ namespace CA.Blocks.DataAccess
                         if (tries < _options.TransientErrorRetryTotalNumberOfTimesToTry - 1)
                         {
                             TraceTransientErrorDbError(cmd, dbEx);
-                            continue;
                         }
                         else
                         {
@@ -600,7 +589,7 @@ namespace CA.Blocks.DataAccess
         /// <returns></returns>
         protected T ExecuteTo<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
         {
-            return Execute(cmd).ToFirstOrDefault<T>(translate);
+            return Execute(cmd).ToFirstOrDefault(translate);
         }
         
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd) where T : new()
@@ -618,14 +607,14 @@ namespace CA.Blocks.DataAccess
         /// <returns></returns>
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd, Func<IDataReader, T> translate)  where T : new()
         {
-            return ExecuteReader(cmd).ToListOf<T>(translate);
+            return ExecuteReader(cmd).ToListOf(translate);
         }
 
 
         protected Task<T> ExecuteToAsync<T>(IDbCommand cmd) where T : new()
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return ExecuteToAsync<T>(cmd, translator.Translate);
+            return ExecuteToAsync(cmd, translator.Translate);
         }
 
         protected async Task<T> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
@@ -643,18 +632,20 @@ namespace CA.Blocks.DataAccess
                 }
                 finally
                 {
-                    dbReader.Close();
+#if NET6_0_OR_GREATER
+                    await dbReader.CloseAsync();
+#else
+                   dbReader.Close();
+#endif
                 }
             }
             return result;
         }
 
-
-
         protected Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd) where T : new()
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return ExecuteToListOfAsync<T>(cmd, translator.Translate);
+            return ExecuteToListOfAsync(cmd, translator.Translate);
         }
 
         /// <summary>

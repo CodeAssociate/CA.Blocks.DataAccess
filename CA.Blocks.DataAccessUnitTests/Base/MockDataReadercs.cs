@@ -1,7 +1,9 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CA.Blocks.DataAccessUnitTests.Base
 {
+    [ExcludeFromCodeCoverage]
     public class MockDataReader : IDataReader
     {
         private bool open = true;

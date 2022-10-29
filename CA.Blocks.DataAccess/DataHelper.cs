@@ -132,7 +132,7 @@ namespace CA.Blocks.DataAccess
             var result = GetValueFromRow(dr, sColumnName);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
-            return result.ToString();
+            return result?.ToString();
         }
 
         public static string GetValueFromRowAsToString(DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
@@ -140,7 +140,7 @@ namespace CA.Blocks.DataAccess
             object result = GetValueFromRow(dr, columnOrder);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
-            return result.ToString();
+            return result?.ToString();
         }
 
         public static string GetValueFromRowAsToString(DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
@@ -148,7 +148,7 @@ namespace CA.Blocks.DataAccess
             object result = GetValueFromRow(dr, column);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
-            return result.ToString();
+            return result?.ToString();
         }
 
         /// <summary>
