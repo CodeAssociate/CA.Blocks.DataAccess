@@ -7,10 +7,10 @@ For SQL server https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/
 PM> Install-Package CA.Blocks.SQLServerDataAccess -Version x.x.x.
 ```
 
-For SQL Microsoft.Data.Sqlite https://www.nuget.org/packages/CA.Blocks.SQLLiteDataAccess/
+For SQL Microsoft.Data.Sqlite https://www.nuget.org/packages/CA.Blocks.SqliteDataAccess/
 
 ``` powershell
-PM> Install-Package CA.Blocks.SQLLiteDataAccess -Version x.x.x
+PM> Install-Package CA.Blocks.SqliteDataAccess -Version x.x.x
 ```
 
 
