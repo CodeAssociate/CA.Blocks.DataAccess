@@ -113,6 +113,7 @@ namespace CA.Blocks.MySQLDataAccess
         }
 
         #region MySqlDbType.BigInt ( long, Int64 ) 
+
         private static MySqlParameter ToSqlParameterBigInt(long? input, string strParameterName)
         {
             var sqlparam = new MySqlParameter(strParameterName, MySqlDbType.Int64)

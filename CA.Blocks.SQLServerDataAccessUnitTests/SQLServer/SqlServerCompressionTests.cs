@@ -34,7 +34,7 @@ END";
             {
                 var result = new TestDataObj();
                 result.Id = dr.AsInt("Id");
-                result.dataValue = dr.AsBinary("DataValue").DecompressToSQLNVarcharString();
+                result.dataValue = dr.AsBinary("DataValue").DecompressToSqlNVarcharString();
                 return result;
             }
         }
@@ -65,7 +65,7 @@ END";
             // Act
             var cmd = CreateTextCommand(InsertData);
             cmd.Parameters.Add(1.ToSqlParameter("@id"));
-            cmd.Parameters.Add(testData.CompressToSQLNVarcharString().ToSqlParameter("@data"));
+            cmd.Parameters.Add(testData.CompressToSqlNVarcharString().ToSqlParameter("@data"));
             ExecuteNonQuery(cmd);
 
             // Read data as binary

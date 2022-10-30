@@ -1,12 +1,15 @@
 ﻿using CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions;
 using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
 {
     [TestFixture]
     public class DefaultDbRowTranslatorProviderTests
     {
+        //We only need the structure to generate the mapping
+        [ExcludeFromCodeCoverage()]
         public class CustomClass1
         {
             public int Id { get; set; }
@@ -14,6 +17,8 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
             public int IgnoreMe  { get;}
         }
 
+        //We only need the structure to generate the mapping
+        [ExcludeFromCodeCoverage()]
         public class CustomClass2
         {
             [DbColToTypeConverter(typeof(IntDbColToTypeConverter))]

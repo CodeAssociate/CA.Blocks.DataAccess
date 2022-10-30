@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
+using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
@@ -94,7 +95,31 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             Assert.IsTrue(TraceCalled);
         }
 
-        
+
+        private sqliteMaster CustomReader(IDataReader dr)
+        {
+            var result = new sqliteMaster
+            {
+                name = dr.AsString("name"),
+                rootpage = dr.AsInt("rootpage"),
+                sql = dr.AsString("sql"),
+                type = dr.AsString("type")
+            };
+
+            return result;
+
+        }
+
+        [Test]
+        public void GetsqliteMasterData_AssertTrace1()
+        {
+            TraceCalled = false;
+            var cmd = CreateTextCommand("Select * from sqlite_master limit 1");
+            var result = ExecuteTo<sqliteMaster>(cmd, CustomReader);
+            Assert.IsTrue(TraceCalled);
+        }
+
+
         [Test]
         public void GetsqliteMasterData_AssertTraceWithScalar()
         {

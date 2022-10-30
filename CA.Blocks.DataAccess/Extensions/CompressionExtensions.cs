@@ -109,7 +109,7 @@ namespace CA.Blocks.DataAccess.Extensions
 
         /// <inheritdoc cref="CompressString(string, Encoding)"/>
         /// <remarks>The default string encoding is Encoding.Unicode</remarks>
-        public static byte[] CompressToSQLNVarcharString(this string input)
+        public static byte[] CompressToSqlNVarcharString(this string input)
         {
             return input.CompressString(Encoding.Unicode);
         }
@@ -117,7 +117,7 @@ namespace CA.Blocks.DataAccess.Extensions
 
         /// <inheritdoc cref="DecompressToString(byte[], Encoding)"/>
         /// <remarks>The default string encoding is Encoding.Unicode</remarks>
-        public static string DecompressToSQLNVarcharString(this byte[] input)
+        public static string DecompressToSqlNVarcharString(this byte[] input)
         {
             return input.DecompressToString(Encoding.Unicode);
         }

@@ -19,8 +19,6 @@ namespace CA.Blocks.DataAccess.Translator
 
     /// <summary>
     /// This allows up to build a simple Translator to deal with IDataReader.
-    /// There are tow use cases for this
-    /// 1) when you have a data reader  and you what to Translate
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class SimpleDbReader2ObjectTranslator<T> 
