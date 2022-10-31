@@ -82,7 +82,7 @@ steps:
     versionEnvVar : SemanticVerion
     includesymbols: true
 
-#- task: NuGetAuthenticate@0
+#- task: NuGetAuthenticate@0 
 #  displayName: 'NuGet Authenticate'
 
 #- task: NuGetCommand@2
