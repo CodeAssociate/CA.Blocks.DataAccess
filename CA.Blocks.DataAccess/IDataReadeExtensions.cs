@@ -54,10 +54,8 @@ namespace CA.Blocks.DataAccess
         // Nulls
         public static bool? AsNullBool(this IDataReader dr, string colName)
         {
-            if (dr.IsDBNull(dr.GetOrdinal(colName)))
-                return null;
-            else
-                return Convert.ToBoolean(dr[colName]);
+            var columnIndex = dr.GetOrdinal(colName);
+            return AsNullBool(dr, columnIndex);
         }
 
         public static bool? AsNullBool(this IDataReader dr, int columnIndex)
@@ -65,7 +63,14 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-                return Convert.ToBoolean(dr[columnIndex]);
+            {
+                var value = dr[columnIndex];
+                if (value is bool b)
+                {
+                    return b;
+                }
+                return Convert.ToBoolean(value);
+            }
         }
         #endregion
 

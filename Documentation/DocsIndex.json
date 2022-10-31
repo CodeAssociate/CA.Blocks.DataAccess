@@ -299,10 +299,12 @@
     {
       "Key": "howto\\custom-column-translators.md",
       "Title": "Custom Column Translators",
-      "Tags": [],
+      "Tags": [
+        "Examples",
+        "Column Translators"
+      ],
       "MenuOrder": 4.9,
       "MenuOrderAsString": "4.90",
-      "Hide": true,
       "TargetUrl": "howto\\custom-column-translators.html"
     }
   ],
@@ -310,6 +312,7 @@
     "Working With Parameters",
     "Setup",
     "Examples",
+    "Column Translators",
     "RowSet Translators",
     "Execute Non Query",
     "How To",

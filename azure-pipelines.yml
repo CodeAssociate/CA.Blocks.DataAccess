@@ -80,6 +80,7 @@ steps:
     packDirectory: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: byEnvVar
     versionEnvVar : SemanticVerion
+    includesymbols: true
 
 #- task: NuGetAuthenticate@0
 #  displayName: 'NuGet Authenticate'
