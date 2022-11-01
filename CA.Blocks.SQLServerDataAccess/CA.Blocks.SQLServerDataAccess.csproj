@@ -17,6 +17,8 @@
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageReadmeFile>readme.md</PackageReadmeFile>
 	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;sqlserver</PackageTags>
+	  <IncludeSymbols>True</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -16,6 +16,8 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>data;micro-orm;sql;ca.blocks;ado.net</PackageTags>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\GitHub\CA.Blocks.DataAccess\CA.Blocks.DataAccess\CA.Blocks.DataAccess.xml</DocumentationFile>
