@@ -14,6 +14,8 @@ variables:
   value: '**/*.sln'
 - name: buildPlatform
   value: 'Any CPU'
+- name: buildConfiguration
+  value: 'Release'
 - name: Major
   value: '3'
 - name: Minor
