@@ -30,7 +30,6 @@ variables:
 
 steps:
 - script: echo $(SemanticVerion)
-steps:
 - script: echo $(SemanticVerionPack)
 
 #Set the assembly file and version numbers to be the build number
