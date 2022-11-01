@@ -10,13 +10,22 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-  Major: '3'
-  Minor: '1'
-  Patch : $[counter(variables['BuildID'], 0)]
-  SemanticVerion : $(Major).$(Minor).$(Patch)
+- name: solution
+  value: '**/*.sln'
+- name: buildPlatform
+  value: 'Any CPU'
+- name: Major
+  value: '3'
+- name: Minor
+  value: '1'
+- name: Patch
+  value: $[counter(variables['BuildID'], 0)]
+
+- name: SemanticVerion
+  ${{ if ne( variables['Build.Reason'], 'PullRequest' ) }}: 
+    value: $(Major).$(Minor).$(Patch)
+  ${{ if eq( variables['Build.Reason'], 'PullRequest' ) }}: 
+    value: $(Major).$(Minor).$(Patch).PreRelease
 
 steps:
 - script: echo $(SemanticVerion)
