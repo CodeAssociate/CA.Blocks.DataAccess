@@ -20,16 +20,18 @@ variables:
   value: '1'
 - name: Patch
   value: $[counter(variables['BuildID'], 0)]
-
 - name: SemanticVerion
+  value: $(Major).$(Minor).$(Patch)
+- name: SemanticVerionPack
   ${{ if ne( variables['Build.Reason'], 'PullRequest' ) }}: 
     value: $(Major).$(Minor).$(Patch)
   ${{ if eq( variables['Build.Reason'], 'PullRequest' ) }}: 
-    value: $(Major).$(Minor).$(Patch).PreRelease
+    value: $(Major).$(Minor).$(Patch)-prerelease
 
 steps:
 - script: echo $(SemanticVerion)
-
+steps:
+- script: echo $(SemanticVerionPack)
 
 #Set the assembly file and version numbers to be the build number
 - task: PowerShell@2
@@ -88,7 +90,7 @@ steps:
     packagesToPack: '**/*.csproj;!**/*Tests.csproj;!**/*Benchmarks.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: byEnvVar
-    versionEnvVar : SemanticVerion
+    versionEnvVar : SemanticVerionPack
     includesymbols: true
 
 #- task: NuGetAuthenticate@0 
