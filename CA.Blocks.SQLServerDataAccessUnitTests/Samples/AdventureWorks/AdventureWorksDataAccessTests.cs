@@ -13,6 +13,22 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
             _adventureWorksDataAccess = new AdventureWorksDataAccess();
         }
 
+        [SetUp]
+        public void Init()
+        {
+            try
+            {
+                if (!_adventureWorksDataAccess.DBExists())
+                {
+                    Assert.Ignore("The AdventureWorks database does not  exist");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Assert.Ignore("The AdventureWorks database does not exist");
+            }
+        }
+
 
         [Test]
         public void GetProductionProductCount()
