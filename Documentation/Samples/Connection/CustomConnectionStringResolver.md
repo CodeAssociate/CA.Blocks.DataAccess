@@ -1,6 +1,6 @@
 ### CustomConnectionStringResolver
 
-Although the app.config and appsettings.json will cater for a large number of cases there are times when you might need custom logic to resolve the connection string.  This common in application that have sharded  databases. This is easily achieved by implementing the  IDataAccessKeyToConnectionStringResolver interface. 
+Although the app.config and appsettings.json will cater to a large number of cases there are times when you might need custom logic to resolve the connection string.  This is common in applications that work with sharded databases. This is easily achieved by implementing the  IDataAccessKeyToConnectionStringResolver interface. 
 
 Example custom resolver
 
@@ -15,15 +15,14 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
 }
 ```
 
-To use this in from the blocks we need to join the config up this is done by used by using the ExampleConnectionStringResolver in the constructor of the DataAccess class
+To use this in from the blocks we need to join the config up. This is done in the this is done in the DataAccessConfigOptions by used by using the ExampleConnectionStringResolver in the constructor of the DataAccess class
 
 ``` csharp
 public class MyDataAccess : SqlServerDataAccess
 {
     public MyDataAccess() : base (
             new DataAccessConfig("configName", 
-            new DataAccessConfigOptions { ConnectionStringKey = "exampleName" }, 
-            new ExampleConnectionStringResolver())
+            new DataAccessConfigOptions { ConnectionStringKey = "exampleName" }, new ExampleConnectionStringResolver())
         )
         {
         }

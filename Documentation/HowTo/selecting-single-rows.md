@@ -1,10 +1,10 @@
 ## Selecting Single Rows
 
 Selecting single rows from a database is a common task. There are two primary driving cases:
-* Firstly selecting data involved with a unique index such as a primary key, where there can be zero or one rows returned. 
-* Secondly selecting the top row from a set typically with an specified order , for example selecting the person with the most sales, or selecting a persons most recent sale, In these cases there many be zero, one or more rows returned. 
+* Firstly selecting data involved with a unique index such as a primary key, where there can be zero or one row returned. 
+* Secondly select the top row from a database with a specified order, for example selecting the person with the most sales, or selecting a person's most recent sale, In these cases, there may be zero, one or more rows returned. 
 
-Depending on how you want to work with the data that you retrieve there are a number of options when working with single row data. These options focus on how to you what to deal with the cases where there are zero, rows, one row and many rows. 
+Depending on how you want to work with the data that you retrieve there are several options when working with single-row data. These options focus on how you want to deal with the cases where there are zero, rows, one row and many rows. 
 The default method is ExecuteTo&lt;T>(cmd). This provides the default implementation of FirstOrDefault. 
 
 
@@ -21,7 +21,7 @@ The default method is ExecuteTo&lt;T>(cmd). This provides the default implementa
 | [ExecuteObject(cmd)](#executeobjectcmd) | Use to return a dynamic object | |
 
 
-In examples below we will be working with the Product table, and returning ProductSummary the projectId Is the Primary Key 
+The examples below: we will be working with the Product table, and returning ProductSummary, The ProductID is the Primary Key to the Product Table.
 
 ### ExecuteTo&lt;T>
 
@@ -64,9 +64,8 @@ where ProductID = @productId";
 ```
 
 #### Tips with the Execute(cmd).ToFirst&lt;T>
-* Can you used this method when they may one more many records returned. 
-* If if there are many you can use restrict data on the database server using top x to get better performance  
-
+* Use this method when there are one or many records returned from the database.
+* If there are many records you can get the database to restrict data on the server using top x,  This results in better performance  
 
 ### Execute(cmd).ToSingleOrDefault&lt;T>  
 ```C#
@@ -81,8 +80,8 @@ where ProductID = @productId";
 ```
 
 #### Tips with the Execute(cmd).ToSingleOrDefault&lt;T>  
-* Can you used this method when there is zero one ot many records returned. 
-* If if there are many you can use restrict data on the database server using top x to get better performance  
+* Use this method when there is zero or one record returned from the database.
+* If there are many you can use restricted data on the database server using top x to get better performance  
 
 ### Execute(cmd).ToSingle<T>
 ```C#
@@ -96,21 +95,21 @@ where ProductID = @productId";
     }
 ```
 #### Tips with the Execute(cmd).ToSingle&lt;T>
-* The execute single is design to work you you are working with a Primary or unique key on a data set.
-* If you after raw performance the the ToFirst is faster as it skips the check for the second row 
-* If there are many row you can use restrict data on the database server using top x to get better performance  
+* The execute single is designed to work you you are working with a Primary or unique key on a data set.
+* If you are after the best performance the ToFirst is faster as it skips the check for the second row 
+* If there are many rows you can use restricted data on the database server using top x to get better performance  
 
 ### ExecuteDataRow(cmd)
 
-This method will return a DataRow, the data row can be passed into the translator.  This method is executed using a DbDataAdapter as such there is not Async support. 
+This method will return a DataRow, the data row can be passed into the translator.  This method is executed using a DbDataAdapter as such there is no Async support. 
 
 
 ### ExecuteObject(cmd) 
 
-This will execute to to dynamic object.  This is useful for quick prototyping but has no type safety. 
+This will execute to a dynamic object.  This is useful for quick prototyping but provides no "Type Safty". 
 
 ### Tips 
-If you using this method it is best to understand the the underlying sql. When selecting via a unique key with no joins there can be zero or one rows returned. however when data is involved with joins or data is involved selecting sets to get the best performance you need to using the SQL top or limit syntax.  
+If you using this method it is best to understand the underlying SQL. When selecting via a unique key with no joins there can be zero or one row returned. however, when data is involved with joins or data is involved in selecting sets to get the best performance you need to use the SQL "top" or "limit" syntax.  
 * If you using First, or FirstOrDefault you can use Top 1  or LIMIT 1 depending on the database. 
 * If you are using Single or SingleOrDefault and what to check for no second data you can use Top 2 or LIMIT 2 depending on the database. 
-* Using Single with Top 1 will yield the same behaviour as First
+* Using Single with Top 1 will yield the same behavior as First

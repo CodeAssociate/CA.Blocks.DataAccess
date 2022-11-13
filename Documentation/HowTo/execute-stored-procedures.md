@@ -1,6 +1,6 @@
 ### execute Stored procedures
 
-Working with stored procedures is very easy with the blocks.  You set the procedure name in the CreateStoredProcedureCommand, the execute like any other command.
+Working with stored procedures is very easy with the blocks.  You set the procedure name in the CreateStoredProcedureCommand, then execute it like any other command.
 
 
 ```C#

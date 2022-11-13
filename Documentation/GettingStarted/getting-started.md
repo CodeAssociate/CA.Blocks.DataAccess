@@ -1,5 +1,5 @@
 ﻿
-The CA.Blocks.DataAccess have been published to NuGet.  First thing that you need to decide is which provider we want to use. 
+The CA.Blocks.DataAccess has been published to NuGet.  The first thing that you need to decide is which provider you want to use. 
 
 For SQL server https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/
 
@@ -20,13 +20,13 @@ For SQL MySQL https://www.nuget.org/packages/CA.Blocks.MySQLDataAccess/
 PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
 ```
 
-The second thing you need to do is setup a connection string see [Connection String Examples](../Samples/Connection/Index.md)
+The second thing you need to do is set up a connection string see [Connection String Examples](../Samples/Connection/Index.md)
 
 Then you will be ready to work with the DataAccess Class
 
 ### Template example accessing SQL server  
 
-In this example we going to use the data from the local SQL server selecting the data from the sysobjects table and executing the results into the .NET class ExampleSysObjects below
+In this example, we going to use the data from the local SQL server selecting the data from the sysobjects table and executing the results into the .NET class calledExampleSysObjects below
 
 ``` csharp
     public class ExampleSysObjects
@@ -57,13 +57,13 @@ Template code using SQL server.
 Notes:
 1. The Class inherits from SqlServerDataAccess which is the SQL server provider. 
 2. The example above is using the provided SimpleConnectionStringDataAccessConfig, this is provided for quick prototyping, samples and testing code allowing connection to be specified in line with the code. It is recommended you use an external connection string when working on something that is to be published. see [Connection String Examples](../Samples/Connection/Index.md)
-3. The ReadSysObjectsOfType method represents your DataAccess Method, the only input parameter exposed is xtype, and return type will be a IList of ExampleSysObjects 
-4. The CreateTextCommand will return a Interface to the SQL server implementation of the command
-5. The SQL is constructed internally as parameterized query this is the developers responsibility
-6. The conversion of .NET string to SQL parameter is done in .WithParameter(xtype.ToSqlParameter("@xtype"));  you can also use the connection object directly ie cmd.Parameters.Add(xtype.ToSqlParameter("@xtype"));
+3. The ReadSysObjectsOfType method represents your DataAccess Method, the only input parameter exposed is xtype as a string, and the return type will be an IList of ExampleSysObjects 
+4. The CreateTextCommand will return an Interface to the SQL server implementation of the command
+5. The SQL is constructed internally as parameterized query this is the developer's responsibility
+6. The conversion of .NET string to SQL parameter is done using the WithParameter(type.ToSqlParameter("@xtype"));  you can also use the connection object directly ie cmd.Parameters.Add(xtype.ToSqlParameter("@xtype"));
 7. The ToSqlParameter is a convention used for taking a .NET type into a SQL server parameter. All .NET value types will have implementations of ToSqlParameter();
-8. The cmd is then passed into the ExecuteToListOf  method which returns the data as a IList of ExampleSysObjects. As we have 1-1 mapping the conversion is handled 100% by the Blocks. 
-9. The property names are case sensitive, so in this this example we have aliased the columns on the query side ie id as Id. This Id is the property name on the target object.  You only have to do this is you using 100% automatic conversions
+8. The cmd is then passed into the ExecuteToListOf method which returns the data as n IList of ExampleSysObjects. As we have 1-1 mapping the conversion is handled 100% by the Blocks. 
+9. The property names are case sensitive, so in this example, we have aliased the columns on the query side ie id as Id. This Id is the property name on the target object.  You only have to do this if you using 100% automatic conversions
 
 Consuming this class: 
 ``` csharp
@@ -86,8 +86,8 @@ Notes:
 <p align="center">
     <img src="../_assets/ProtectedByDefaultExample.png" alt="ProtectedByDefault" />
 </p>
-3. The result of the execute is the filled IList of ExampleSysObjects objects. All Types have been converted from the SQL world into the .NET world.
-4. Using the Result is use like any other Class in .NET.  In this case we duping the result to the Test console:
+3. The result of the execution is the filled IList of ExampleSysObjects objects. All Types have been converted from the SQL world into the .NET world.
+4. Using the Result is like any other Class in .NET.  In this case, we are dumping the result to the Test console:
 
 The dump result
 ```

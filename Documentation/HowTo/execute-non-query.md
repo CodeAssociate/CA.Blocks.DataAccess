@@ -1,9 +1,9 @@
-### Execute Non Query 
+### Execute Non-Query 
 
-THe Execute Non Query is for commands that do not return any results.  These are generally grouped into three sets of statements DDL (Data Definition Language)  the DML (Data Manipulation Language) and the DCL (Data Control Language).
+The Execute Non-Query is for commands that do not return any results.  These are generally grouped into three sets of statements DDL (Data Definition Language) DML (Data Manipulation Language) and DCL (Data Control Language).
 
 #### DDL (Data Definition Language)
- Data Definition Language actually consists of the SQL commands that can be used to define the database schema. It simply deals with descriptions of the database schema and is used to create and modify the structure of database objects in the database. DDL is a set of SQL commands used to create, modify, and delete database structures but not the data.  Examples include:
+ Data Definition Language consists of the SQL commands that can be used to define the database schema. It simply deals with descriptions of the database schema and is used to create and modify the structure of database objects in the database. DDL is a set of SQL commands used to create, modify, and delete database structures but not the data.  Examples include:
 
 * CREATE
 * DROP
@@ -16,7 +16,7 @@ The Data Control Language includes commands that deal with the rights, permissio
 
 #### DML (Data Manipulation Language)
 
-The Data Manipulation Language are the SQL commands that deal with the manipulation of data present in the database. 
+The Data Manipulation Language is the SQL command that deals with the manipulation of data present in the database. 
 Examples of DML commands include: 
 
 * INSERT 
@@ -24,9 +24,9 @@ Examples of DML commands include:
 * DELETE 
 
 
-As far as the blocks are concerned all of these  of these groups can be execute through the ExecuteNonQuery command, The only slight difference in the return value. For a DML statement the Execute Non Query returns an int, representing the number of rows affected by the successful completion of the command. So in the query affected  20 rows you will get 20. For the DDL and DCL statements the return will be -1. The -1 represents no data was returned, -1 is used as it is different from zero records returned.
+As far as the blocks are concerned all of these groups can be executed through the ExecuteNonQuery command, The only slight difference is the return value. For a DML statement, the Execute Non-Query returns an int, representing the number of rows affected by the successful completion of the command. So in the query affected  20 rows you will get 20. For the DDL and DCL statements, the return will be -1. The -1 represents no data was returned, -1 is used as it is different from zero records returned.
 
-Any syntax error or other DB error from the database will we raise a DbException.
+Any syntax error or other DB error from the database will raise a DbException.
 
 
 The example below will return 1 as only one row is created
@@ -39,7 +39,7 @@ The example below will return 1 as only one row is created
     }
 ```
 
-IN the example below we are deleting a DeleteProductCategory by name, the name has a unique index on so if the Product Category exists as it deleted the function will return 1, if no Product Category exists the result will be 0. 
+In the example below the method, DeleteProductCategory will delete a row by name, as the name has a unique index if the Product Category exists and is deleted the function will return 1 if no Product Category exists the result will be 0. 
 
 ```C#
     public int DeleteProductCategory(string name)
