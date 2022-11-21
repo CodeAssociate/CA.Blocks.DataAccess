@@ -17,6 +17,8 @@
 	  <PackageReadmeFile>readme.md</PackageReadmeFile>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;mysql</PackageTags>
+	  <IncludeSymbols>True</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -59,5 +61,8 @@
     <ProjectReference Include="..\CA.Blocks.DataAccess.Model\CA.Blocks.DataAccess.Model.csproj" />
     <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
   </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0" PrivateAssets="All"/>
+	</ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 ### Custom Row Translators  
 
-A core part of the CA.Blocks.DataAccess functionality is reducing the object–relational impedance mismatch that exists between the relational world and the object world of .NET.   In the relational world the data structures revolve around sets of tables. These are setup each table having rows and columns, each intersection of a row with a column has a cell value. Cells come from a finite number of simple data types, like strings, numbers dates. The tables are all linked with primary and foreign keys.  In the object world the data structures are far more rich with objects having properties, a property can be any value including other objects. The properties themselves reflect the relationships between objects, as such ther is no real concept of foreign keys.    
+A core part of the CA.Blocks.DataAccess functionality is reducing the object-relational impedance mismatch that exists between the relational world and the object world of .NET.   In the relational world, the data structures revolve around sets of tables with each table having rows and columns. Each intersection of a row with a column has a cell value. Cells come from a finite number of simple data types, like strings, numbers dates. The tables are all linked with primary and foreign keys.  In the object world, the data structures are far richer with objects having properties, a property can be any value including other objects. The properties themselves reflect the relationships between objects, as such, there is no real concept of foreign keys.    
 
-The Row Translators have the responsibility of mapping the Table structure which is rows, columns and cells into the class structure of class, and properties.  The focus on the Row Translators is at the structure level.  See the column translators for the cell mappings. 
+The Row Translators have the responsibility of mapping the Table structure which is rows, columns and cells into the class structure with properties.  The focus on the Row Translators is at the structure level.  See the column translators for the cell mappings. 
 
 
 <div style="text-align:center;">
@@ -13,10 +13,10 @@ The Row Translators have the responsibility of mapping the Table structure which
 </span>
 </div>
 
-### One to one mapping
+### One-to-one mapping
 
-In this case we going to look at the case where the table structure is aligned with the class structure 
-The SQL Table Structure
+In this case, we going to look at the case where the table structure is aligned with the class structure 
+With a  SQL Table Structure as 
 ```sql
     Create TABLE MyTable (
         [Id]  int not null,
@@ -26,7 +26,7 @@ The SQL Table Structure
         [Modified] Datetime2(7) null
     )
 ```
-The .NET Class Structure
+The Table data need to be mapped into the  .NET Class Structure
 ``` Csharp
     public class MyClass
     {
@@ -38,7 +38,7 @@ The .NET Class Structure
     }
 ```
 
-Using the Blocks as this is a 1-1 mapping with matching dataTypes we can simply call execute the command and Translate the object direct from the reader to the class.  
+This setup, is a simple 1-1 mapping you can simply call execute passing in the command object. The mapping is done using the ToListOf method which will work with the  IDataReader reader object returning the list of MyClass objects as follows:
 
 ```C#
     public IList<MyClass> GetMyClassFromMyTable()
@@ -47,11 +47,12 @@ Using the Blocks as this is a 1-1 mapping with matching dataTypes we can simply 
         return Execute(cmd).ToListOf<MyClass>();
     }
 ```
-This setups the command that will be executed. The command in the case is 'Select * From MyTable'  this will come back from the source as a DataReader The Reader can then read the rows, getting the columns as the command was setup there is knowledge of the expected columns returned ie the code knowns and expects there will be a column called 'Name' in the reader.  
 
-with with command you can almost read what the code is going to do in the translator if if we break down the statement 'Execute(cmd).ToListOf<MyClass>();'
+In this setup,  the command will be executed. The command, in this case, is 'Select * From MyTable'. Once executed this will come back as a DataReader. The Reader can then read the rows, getting the columns as the command was set up there is knowledge of the expected columns returned ie the code knowns and expects there will be a column called 'Name' in the reader. 
 
-We saying execute this command "Select * From MyTable", to a List Of MyClass objects, in this case you not getting back a Table structure with rows and columns and cells  byt are getting back a IList of MyClass this has been converted into the .NET world ov objects.
+With with command you can almost read what the code is going to do in the translator if we break down the statement 'Execute(cmd).ToListOf<MyClass>();'
+
+We saying execute this command "Select * From MyTable", to a List Of MyClass objects, in this example you not getting back a Table structure with rows and columns and cells byt are getting back a IList of MyClass this has been converted into the .NET world ov objects.
 
 #### Notes
 1) The Names have to match and are case sensitive. 

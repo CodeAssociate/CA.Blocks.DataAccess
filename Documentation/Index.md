@@ -1,9 +1,9 @@
 ﻿## Welcome to CA.Blocks.DataAccess Help Guide
 
-This site is for developers who want to learn how to use the CA.Blocks.DataAccess a micro ORM.
+This site is for developers who want to learn how to use the CA.Blocks.DataAccess micro ORM.
 
 ## What is CA.Blocks.DataAccess 
-The CA.Blocks.DataAccess is a lightweight .NET library build on top of ADO.NET designed specifically for Onion and CQRS type architectures working working with relational databases. It's core functionality focuses on reducing the object–relational impedance mismatch that exists between the relational world and the object world of .NET. Developers in the .NET world don't want to spend hours writing code to map results from ADO.NET data readers to instances of those objects, or focusing on basic repeated connection details.   CA.Blocks.DataAccess was written by Kevin Bosch and has been released as open source project under the MIT licence. 
+The CA.Blocks.DataAccess is a lightweight .NET library built on top of ADO.NET designed specifically for Onion and CQRS-type architectures working with relational databases. Its core functionality focuses on reducing the object-relational impedance mismatch that exists between the relational world and the object world of dotNET. Developers in the .NET world don't want to spend hours writing code to map results from ADO.NET data readers to instances of those objects, or focusing on basic repeated connection details.   CA.Blocks.DataAccess was written by Kevin Bosch and has been released as an open-source project under the MIT license. 
 
 ## Is CA.Blocks.DataAccess an ORM? 
  The short answer is no and it is not trying to be one. CA.Blocks.DataAccess falls into a family of tools known as micro-ORMs. These tools perform only a subset of the functionality of full-blown Object Relations Mappers, such as Entity Framework Core or NHibernate. Features vary by product. The following table provides a general idea of the capabilities that you can expect to find in a micro ORM compared to an ORM:
@@ -20,12 +20,12 @@ The CA.Blocks.DataAccess is a lightweight .NET library build on top of ADO.NET d
 | Unit of work support               | ❌ | ✅ |
 | Database migrations                | ❌| ✅ |
 
-The debate is never ending on the merits of ORM's. In general Micro ORM's usually perform faster than a ORM they generally have no expectation about the schema of your database, whilst the projections are loosely coupled there is no direct coupling to the underlying tables. 
+The debate is never ending on the merits of an ORM. In general Micro ORMs usually perform faster than an ORM, and generally have no expectation about the schema of your database, whilst the projections are loosely coupled there is no direct coupling to the underlying tables. 
 
-To get the most out of any Micro ORM you will have to good Understanding of SQL, Row Sets, and parameters. The CA.Blocks.DataAccess is no different. If you don’t want to work with SQL then this is not the library for you. The vast majority of performance problems with the CA.Blocks.DataAccess boil down to the underlying SQL, parameters or row sets transferred.The Blocks allow you to work directly with the SQL code whilst providing a good structure to *reduce* the *impedance mismatch* between the two technologies allowing a developer to move from the C# types into SQL parameters and then SQL into the C# types.
+To get the most out of any Micro ORM you will have to good Understanding of SQL, Row Sets, and parameters. The CA.Blocks.DataAccess is no different. If you don’t want to work with SQL then this is not the library for you. The vast majority of performance problems with the CA.Blocks.DataAccess boils down to the underlying SQL, parameters or row sets transferred. The Blocks allow you to work directly with the SQL code whilst providing a good structure to *reduce* the *impedance mismatch* between the two technologies allowing a developer to move from the C# types into SQL parameters and then SQL into the C# types.
 
 ## What does the CA.Blocks.DataAccess do
-The blocks is build on ADO.NET, Whilst ADO.NET is a great technology, it is very low level and verbose, it is dealing with connections, commands and readers, while they are very fast the interfaces lead to a lot of boiler plate code.
+The blocks are built on ADO.NET, Whilst ADO.NET is a great technology, it is very low-level and verbose, it is dealing with connections, commands and readers, while they are very fast the interfaces lead to a lot of boilerplate code.
 
 If we consider the task of executing the result SQL server sp_who procedure into the following class:
 
@@ -44,7 +44,7 @@ If we consider the task of executing the result SQL server sp_who procedure into
     }
 ```
 
-Here is the standard ADO.NET code for retrieving data from a database and materialising it as a list of SpWhoResult objects:
+Here is the standard ADO.NET code for retrieving data from a database and materializing it as a list of SpWhoResult objects:
 
 ```Csharp
     public IList<SpWhoResult> ExecSpWhoUsingAdonet()
@@ -96,26 +96,26 @@ Using the Blocks we can reduce the code above to the code below:
         }
     }
 ```
-By design the blocks wraps your data access method into class which  is inherited from a base provider. The Connection is setup in the constructor.  The blocks will support inline use as above as well as dependency injection.  
+By design, the blocks wrap your data access methods into a class that is inherited from a base provider. The Connection is set up in the constructor.  The blocks will support inline use as above as well as dependency injection.  
 
-Once setup the typical data access method will involve 
+Once set up the typical data access method will involve 
 1) Constructing a command
 2) Executing the command 
 3) Mapping the command to the object results ie the O and M of ORM - Object Mapping.
 
-The underlying connection is fully managed we 
+The underlying connection is fully managed.
 
 
 ## Benefits
 
 1. The bulk of the conversion to and from ADO structures is abstracted using translators
-2. The translators are extendable so you can use you own converters The design allows for a flexible configuration, mingling core functions with your own customisations.    
-3. Direct working with the SQL layer. If you like controlling exactly what the SQL does this is a good framework, as you are 100% in the control of the SQL.
-4. Easy setup and Go with providers for SQL light and SQL server, and MySQL.
-5. Works with multiple concurrent Async requests.
+2. The translators are extendable so you can use custom converters if needed. The design allows for a flexible configuration, mingling core functions with your customizations.    
+3. Direct working with the SQL layer. If you like controlling exactly what the SQL does this is a good framework, as you are 100% in control of the SQL generated.
+4. Easy setup and Go with providers for  SQL server, Sqlight, and MySQL.
+5. Is non-blocking and Works with multiple concurrent Async requests.
 
 
 ## History
-CA.Blocks.DataAccess has been release as open source by Kevin Bosch. Whilst it was only release on Nuget around 2016 Kevin has been using blocks since 2003, they are well used and tested under different conditions. They have evolved as the .NET framework as evolved.  After trying to switch to Entity framework and n-Hibernate I came back to the CA.Blocks.DataAccess as my defacto for the simple reason it was lightweight and far more predictable with far more control.  In most cases I was fighting with the ORM frameworks. 
+CA.Blocks.DataAccess has been released as open source by Kevin Bosch. Whilst it was only released on Nuget around 2016 Kevin has been using blocks since 2003, they are well-used and tested under different conditions. They have evolved as the .NET framework has evolved.  Kevin tried using Entity framework and n-Hibernate and primarty dataaccess but switched back to the Blocks as the defacto for the simple reason it was lightweight and far more predictable with far more control.  In most cases, I was fighting with the ORM frameworks. The abstractions in a full-blown ORM result in tightly coupled code with the database, with average caching, unit of work, and some very SQL generation strategies
 
- I found that whilst the Entity framework and n-Hibernate excel at CRUD type applications I was doing a lot of workarounds and conversions trying use and them in either CQRS, layered onion, or repository type Architectures.  I have seen many code bases use Entity framework for data access in a Repository Pattern, any most cases you end up writing more code in the object world to avoid working to a few SQL statements.  A tell-tale sign is you using reflection or mapping to copy objects of similar structures across boundaries.  You simply replacing one impedance mismatch with another.  
+ I found that whilst the Entity framework and n-Hibernate excel at CRUD-type applications ( where mostly 1-1 mappings are required) I was doing a lot of workarounds and conversions trying to use them in either CQRS, layered onion, or repository type Architectures.  I have seen many code bases use Entity framework for data access in a Repository Pattern, and in most cases, you end up writing more code in the object world to avoid working to a few SQL statements.  A tell-tale sign is you using reflection or mapping to copy objects of similar structures across boundaries.  In these designs, You simply replace one impedance mismatch with another.  

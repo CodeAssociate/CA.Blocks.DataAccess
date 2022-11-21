@@ -18,6 +18,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
 
         }
 
+        public bool DBExists()
+        {
+            var cmd = CreateTextCommand("Select name from master..sysdatabases where name = 'AdventureWorks2019'");
+            return ExecuteScalarAs<string>(cmd) == "AdventureWorks2019";
+        }
+
 
         public int GetProductionProductCount()
         {

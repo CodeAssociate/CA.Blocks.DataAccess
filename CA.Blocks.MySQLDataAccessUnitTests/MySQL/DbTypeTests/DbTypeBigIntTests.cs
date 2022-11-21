@@ -1,5 +1,4 @@
 ﻿using CA.Blocks.DataAccess.Translator.Basic;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using NUnit.Framework;

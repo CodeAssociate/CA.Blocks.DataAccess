@@ -18,6 +18,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
 
         }
 
+        // need to tidy up this pattern // is was a bad idea to exist sexisting schema. need to refactor to to a setup and seed.
+        public bool DBExists()
+        {
+            var cmd = CreateTextCommand("Select name from master..sysdatabases where name = 'AdventureWorks2019'");
+            return ExecuteScalarAs<string>(cmd) == "AdventureWorks2019";
+        }
+
+
         // This method is private it provide the allow list, this list can be hard coded or dynamic 
         private IList<string> GetAllowedListFor(string schema)
         {

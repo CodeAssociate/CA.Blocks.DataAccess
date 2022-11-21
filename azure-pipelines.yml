@@ -10,17 +10,29 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-  Major: '3'
-  Minor: '1'
-  Patch : $[counter(variables['BuildID'], 0)]
-  SemanticVerion : $(Major).$(Minor).$(Patch)
+- name: solution
+  value: '**/*.sln'
+- name: buildPlatform
+  value: 'Any CPU'
+- name: buildConfiguration
+  value: 'Release'
+- name: Major
+  value: '3'
+- name: Minor
+  value: '1'
+- name: Patch
+  value: $[counter(variables['BuildID'], 0)]
+- name: SemanticVerion
+  value: $(Major).$(Minor).$(Patch)
+- name: SemanticVerionPack
+  ${{ if ne( variables['Build.Reason'], 'PullRequest' ) }}: 
+    value: $(Major).$(Minor).$(Patch)
+  ${{ if eq( variables['Build.Reason'], 'PullRequest' ) }}: 
+    value: $(Major).$(Minor).$(Patch)-prerelease
 
 steps:
 - script: echo $(SemanticVerion)
-
+- script: echo $(SemanticVerionPack)
 
 #Set the assembly file and version numbers to be the build number
 - task: PowerShell@2
@@ -79,10 +91,10 @@ steps:
     packagesToPack: '**/*.csproj;!**/*Tests.csproj;!**/*Benchmarks.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: byEnvVar
-    versionEnvVar : SemanticVerion
+    versionEnvVar : SemanticVerionPack
     includesymbols: true
 
-#- task: NuGetAuthenticate@0
+#- task: NuGetAuthenticate@0 
 #  displayName: 'NuGet Authenticate'
 
 #- task: NuGetCommand@2
@@ -97,3 +109,12 @@ steps:
   displayName: 'Publish Artifact: drop'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
+
+
+- task: NuGetCommand@2
+  displayName: 'NuGet Push'
+  inputs:
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+    nuGetFeedType: external
+    publishFeedCredentials: CA.Blocks.NugetFeed 
