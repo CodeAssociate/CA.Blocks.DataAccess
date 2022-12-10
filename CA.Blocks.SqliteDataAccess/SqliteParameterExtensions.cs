@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using CA.Blocks.DataAccess;
 using Microsoft.Data.Sqlite;
 
 namespace CA.Blocks.SqliteDataAccess
@@ -289,18 +290,10 @@ namespace CA.Blocks.SqliteDataAccess
 
         private static SqliteParameter ToSqlParameterInt(int? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.Int)
+            return new SqliteParameter(strParameterName, SqliteType.Integer, 4)
             {
-                Direction = ParameterDirection.Input,
-                Size = 4,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static SqliteParameter ToSqlParameter(this int input, string strParameterName)

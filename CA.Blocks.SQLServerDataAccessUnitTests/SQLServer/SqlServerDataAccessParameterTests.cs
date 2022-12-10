@@ -121,5 +121,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             SqlDbType.Variant;
             SqlDbType.Xml;
             */
+
     }
 }

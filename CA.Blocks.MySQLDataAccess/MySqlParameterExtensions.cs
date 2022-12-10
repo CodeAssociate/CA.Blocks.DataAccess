@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using CA.Blocks.DataAccess;
 using MySqlConnector;
 
 namespace CA.Blocks.MySQLDataAccess
@@ -354,18 +355,10 @@ namespace CA.Blocks.MySQLDataAccess
 
         private static MySqlParameter ToSqlParameterInt(int? input, string strParameterName)
         {
-            var sqlparam = new MySqlParameter(strParameterName, MySqlDbType.Int32)
+            return new MySqlParameter(strParameterName, MySqlDbType.Int32)
             {
-                Direction = ParameterDirection.Input,
-                Size = 4,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static MySqlParameter ToSqlParameter(this int input, string strParameterName)

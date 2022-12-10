@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Model.Filter;
 using CA.Blocks.DataAccess.Model.Paging;
 using Microsoft.Data.SqlClient;
@@ -41,8 +42,6 @@ namespace CA.Blocks.SQLServerDataAccess.Extensions
                 pr.Skip.ToSqlParameter("@PagingSkip"), pr.Take.ToSqlParameter("@PagingTake")
             };
         }
-
-
     }
 
 

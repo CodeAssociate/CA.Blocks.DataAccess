@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
+using CA.Blocks.DataAccess;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+using Microsoft.Data.SqlClient;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer

@@ -481,6 +481,15 @@
             <param name="colName"></param>
             <returns></returns>
         </member>
+        <member name="M:CA.Blocks.DataAccess.DataTableHelpers.DataTableHelpers.ToValueDataTable``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            When working with parameters, some providers they allow you to send in a datatable as a parameter,
+            this is useful when working on bulk operations, or passing in sets of values as a parameter 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:CA.Blocks.DataAccess.DI.IDataAccessConfigOptions">
             <summary>
             provides the interfaces and some common implementations for configuring the connection strings  
@@ -634,6 +643,12 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             <param name="colName"></param>
             <param name="returnNullAsEmptyString"></param>
             <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.ParameterHelper.ToDbParameterValue``1(System.Nullable{``0})">
+            <summary>
+            Deals with Null value from the .NET world into DBNull.Value
+            </summary>
+            <returns> object to set in the Parameter</returns>
         </member>
         <member name="T:CA.Blocks.DataAccess.Translator.DbColToType.Converters.BaseDbColToTypeConverter`1">
             <summary>
