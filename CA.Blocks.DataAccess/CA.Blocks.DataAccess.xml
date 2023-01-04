@@ -483,7 +483,7 @@
         </member>
         <member name="M:CA.Blocks.DataAccess.DataTableHelpers.DataTableHelpers.ToValueDataTable``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
-            When working with parameters, some providers they allow you to send in a datatable as a parameter,
+            When working with parameters, some providers they allow you to send in a dataTable as a parameter,
             this is useful when working on bulk operations, or passing in sets of values as a parameter 
             </summary>
             <typeparam name="T"></typeparam>
@@ -625,17 +625,17 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             <inheritdoc cref="M:CA.Blocks.DataAccess.Extensions.CompressionExtensions.DecompressToString(System.Byte[],System.Text.Encoding)"/>
             <remarks>The default string encoding is Encoding.Unicode</remarks>
         </member>
-        <member name="M:CA.Blocks.DataAccess.IDataReaderExtensions.AsString(System.Data.IDataReader,System.String,System.Boolean)">
+        <member name="M:CA.Blocks.DataAccess.DataReaderExtensions.AsString(System.Data.IDataReader,System.String,System.Boolean)">
             <summary>
             Get named column as a string. This string is returned as a cast string and assumes the underlying data is a native string it the data another type see
-            <see cref="M:CA.Blocks.DataAccess.IDataReaderExtensions.AsToString(System.Data.IDataReader,System.String,System.Boolean)"/>
+            <see cref="M:CA.Blocks.DataAccess.DataReaderExtensions.AsToString(System.Data.IDataReader,System.String,System.Boolean)"/>
             </summary>
             <param name="dr"></param>
             <param name="colName"></param>
             <param name="returnNullAsEmptyString"></param>
             <returns></returns>
         </member>
-        <member name="M:CA.Blocks.DataAccess.IDataReaderExtensions.AsToString(System.Data.IDataReader,System.String,System.Boolean)">
+        <member name="M:CA.Blocks.DataAccess.DataReaderExtensions.AsToString(System.Data.IDataReader,System.String,System.Boolean)">
             <summary>
             The AsToString is more forgiving of type conversions 
             </summary>

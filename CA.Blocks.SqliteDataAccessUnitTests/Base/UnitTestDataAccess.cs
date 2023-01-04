@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using System.Text;
 using CA.Blocks.DataAccess.DI;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.Base
 {
@@ -22,8 +21,6 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Base
         }
 
 
-
-
         private const string unitTestTableName = "CA_BLOCKS_UNITTEST_TEMP_TESTTABLE";
         public const string UNIT_TEST_COL_NAME = "col";
 
@@ -34,7 +31,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Base
 
         protected string CreateTestTable(string coltype)
         {
-            return $"create table if not exists {unitTestTableName} (id int identity(1,1), col {coltype} )";
+            return $"create table if not exists {unitTestTableName} (col {coltype} )";
 
         }
 

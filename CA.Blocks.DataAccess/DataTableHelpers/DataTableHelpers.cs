@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 
 namespace CA.Blocks.DataAccess.DataTableHelpers
 {
@@ -16,6 +17,47 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
         {
             target.Columns.Add("Value", type);
         }
+
+        private static void PopulateObjectRowFrom<T>(DataRow target, T source)
+        {
+
+            var propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var pi in propertyInfos)
+            {
+                if (pi.CanRead)
+                {
+                    // // create test on allowed types we only deal with simple types // need to be more specific on this on we not deal
+                    if (pi.PropertyType.IsGenericParameter || pi.PropertyType.IsArray)
+                    {
+                        continue;
+                    }
+                    target[pi.Name] = pi.GetValue(source);
+                }
+            }
+        }
+
+        private static void SetupObjectDataTableColumns(DataTable target, Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("The type cannot be null");
+            }
+            var propertyInfos = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var pi in propertyInfos)
+            {
+                if (pi.CanRead)
+                {
+                    // // create test on allowed types we only deal with simple types 
+                    if (pi.PropertyType.IsGenericParameter || pi.PropertyType.IsArray)
+                    {
+                        continue;
+                    }
+                    target.Columns.Add(pi.Name, pi.PropertyType);
+                }
+
+            }
+        }
+
 
         public static DataTable ToObjectDataTable<T>(this IEnumerable<T> input,
             Action<DataTable, Type> setupDataTableColumns,
@@ -34,6 +76,9 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
             result.AcceptChanges();
             return result;
         }
+
+
+
 
         // Overload to ToObjectDataTable when calling code does not need to know typeof(T) 
         public static DataTable ToObjectDataTable<T>(this IEnumerable<T> input,
@@ -54,10 +99,14 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
             return result;
         }
 
+        public static DataTable ToObjectDataTable<T>(this IEnumerable<T> input)
+        {
+            return ToObjectDataTable(input, SetupObjectDataTableColumns, PopulateObjectRowFrom);
+        }
 
 
         /// <summary>
-        /// When working with parameters, some providers they allow you to send in a datatable as a parameter,
+        /// When working with parameters, some providers they allow you to send in a dataTable as a parameter,
         /// this is useful when working on bulk operations, or passing in sets of values as a parameter 
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -67,9 +116,6 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
         {
             return ToObjectDataTable(input, SetupValueDataTableColumns, PopulateValueRowFrom);
         }
-
-        // TODO Create the generic method for SetupValueDataTableColumns and PopulateValueRowFrom so that we can pass in all read parameters
-
 
 
 

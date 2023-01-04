@@ -26,6 +26,7 @@ namespace CA.Blocks.DataAccess
             return input != null ? (object)input : (object)DBNull.Value;
         }
 
+
         // Not all providers derive from DbParameter but enough do to make this work
 
 
@@ -77,6 +78,20 @@ namespace CA.Blocks.DataAccess
                     result = (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dbParameter.Value.ToString());
             }
             return result;
+        }
+
+
+        public static string PrepStringInput(string input, bool useEmptyStringForNull, int trimInputTo)
+        {
+            switch (input)
+            {
+                case null when useEmptyStringForNull:
+                    return string.Empty;
+                case null:
+                    return null;
+                default:
+                    return trimInputTo > 0 && input.Length > trimInputTo ? input.Substring(0, trimInputTo) : input;
+            }
         }
 
     }

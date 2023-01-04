@@ -9,15 +9,15 @@
 
 using System;
 using System.Data;
+using System.IO;
 
 namespace CA.Blocks.DataAccess
 {
     //TODO we need to benchmark some of these procedure https://www.nuget.org/packages/BenchmarkDotNet/
     // https://stackoverflow.com/questions/1170756/casting-vs-converting-an-object-tostring-when-object-really-is-a-string
 
-    public static class IDataReaderExtensions
+    public static class DataReaderExtensions
     {
-        
         private static T ThrowExceptionIfIsNull<T>(T? obj, string sColumnName, string typeDescription)  where T : struct
         {
             if (obj == null)
@@ -375,13 +375,38 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, columnIndex, "Guid");
         }
 
+        private static Guid ObjectAsGuid(object dbDataValue)
+        {
+            if (dbDataValue is string value)
+            {
+                if (Guid.TryParse(value, out var stringAsGuid))
+                {
+                    return stringAsGuid;
+                }
+                else
+                {
+                    throw new InvalidDataException("Data not a valid Guild");
+                }
+
+            }
+            else
+            {
+                return (Guid)dbDataValue;
+            }
+        }
+
         // Nulls
         public static Guid? AsNullGuid(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
+            {
+
                 return null;
+            }
             else
-                return (Guid)(dr[colName]);
+            {
+                return ObjectAsGuid(dr[colName]);
+            }
         }
 
         public static Guid? AsNullGuid(this IDataReader dr, int columnIndex)
@@ -389,7 +414,9 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-                return (Guid)(dr[columnIndex]);
+            {
+                return ObjectAsGuid(dr[columnIndex]);
+            }
         }
 
         #endregion

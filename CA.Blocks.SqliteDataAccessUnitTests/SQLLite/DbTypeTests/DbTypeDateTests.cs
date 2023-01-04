@@ -1,5 +1,6 @@
 ﻿using System;
-using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Extensions;
+using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
 
@@ -37,10 +38,9 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
         public void SelectAllDataDateTime()
         {
             //Setup 
-            var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = Execute(cmd).ToSingleNamedColumnList<DateTime>(UNIT_TEST_COL_NAME);
             //Assert
             TestContext.Write(DataTableToText(ExecuteDataTable(cmd)));
             Assert.AreEqual(5, data.Count);
@@ -50,13 +50,17 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
         public void SelectAllDataDateTimeWithFilter()
         {
             //setup
-            DateTime testvalue = DateTime.Now.Date;
-            var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), $"Where col = date('{testvalue:o}')");
-            //cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            DateTime testValue = DateTime.Now.Date;
+            var cmd = CreateTextCommand(SelectTestDataSQL(), $"Where col = date(@testValue)");
+            cmd.Parameters.Add(testValue.ToSqlParameter("@testValue"));
+            // Note 
+            // sqlite does not have a storage class set aside for storing dates and/or times.
+            // the blocks wil use string in ISO-8601 format the use sqllite functions on those values
+            // Instead, the built-in Date And Time Functions of SQLite are capable of storing dates and times as TEXT, REAL, or INTEGER values: see https://www.sqlite.org/lang_datefunc.html,
+            // Use the datetime('{datetime:o}') C# roundtrip function to get the string
 
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = Execute(cmd).ToSingleNamedColumnList<DateTime>(UNIT_TEST_COL_NAME);
 
             //Asert
             Assert.AreEqual(1, data.Count);

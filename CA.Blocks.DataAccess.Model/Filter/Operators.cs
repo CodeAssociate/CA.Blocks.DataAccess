@@ -8,6 +8,4 @@ namespace CA.Blocks.DataAccess.Model.Filter
     {
 
     }
-
-
 }

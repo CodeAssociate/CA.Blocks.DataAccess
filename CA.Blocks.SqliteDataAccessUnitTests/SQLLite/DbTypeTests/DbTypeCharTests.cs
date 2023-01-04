@@ -1,4 +1,6 @@
-﻿using CA.Blocks.DataAccess.Translator.Basic;
+﻿using System.Linq;
+using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -10,14 +12,14 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
     {
         private void InsertTestDataSQL(char data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data)));
+            ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
         }
 
         [SetUp]
         public void Setup()
         {
             ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("char not null"));
+            ExecuteNonQuery(CreateTestTable("char(1) not null"));
             InsertTestDataSQL('A');
             InsertTestDataSQL('B');
             InsertTestDataSQL('C');
@@ -39,7 +41,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL());
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = Execute(cmd).ToSingleNamedColumnList<char>(UNIT_TEST_COL_NAME);
             //Assert
             Assert.AreEqual(5, data.Count);
         }
@@ -49,12 +51,11 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
         {
             //setup
             const char testvalue = 'A';
-            var t = new CharTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = Execute(cmd).ToSingleNamedColumnList<char>(UNIT_TEST_COL_NAME).FirstOrDefault();
 
             //Asert
             Assert.AreEqual('A', data);

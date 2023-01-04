@@ -121,10 +121,10 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsInt("col");
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
 
                 actual = dr.AsInt(1);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
             }
             else
             {

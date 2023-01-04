@@ -346,13 +346,13 @@ namespace CA.Blocks.SQLServerDataAccess
         /*
         SqlDbType.Image; // use VarBinary
         */
-        #region SqlDbType.Int  ( int, Int32 )
+        #region SqlDbType.Int  ( int, Int32, uint)
 
         private static SqlParameter ToSqlParameterInt(int? input, string strParameterName)
         {
             return new SqlParameter(strParameterName, SqlDbType.Int, 4)
             {
-                Value = ParameterHelper.ToDbParameterValue(input)
+                Value = ParameterHelper.ToDbParameterValue(input),
             };
         }
 
@@ -365,14 +365,35 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return ToSqlParameterInt(input, strParameterName);
         }
-#endregion
+
+        private static SqlParameter ToSqlParameterInt(uint? input, string strParameterName)
+        {
+            // There is no native support for UNSIGNED int in sql sever do you have to use a BigInt to cater for values between 2147483648 and 4294967296  
+            return new SqlParameter(strParameterName, SqlDbType.BigInt, 8)
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
+        }
+
+        public static SqlParameter ToSqlParameter(this uint input, string strParameterName)
+        {
+            return ToSqlParameterInt(input, strParameterName);
+        }
+
+        public static SqlParameter ToSqlParameter(this uint? input, string strParameterName)
+        {
+            return ToSqlParameterInt(input, strParameterName);
+        }
+
+
+        #endregion
         /*
         SqlDbType.Money;
         SqlDbType.NChar;
         SqlDbType.Real;
         SqlDbType.SmallDateTime;*/
-        
-#region mapping type for sbyte  There is no Sbtye in sql so assue we use SmallInt
+
+        #region mapping type for sbyte  There is no Sbtye in sql so assue we use SmallInt
         private static SqlParameter ToSqlParameterSbtye(sbyte? input, string strParameterName)
         {
             // this is the smallet sql server type for the ranges -128-127 ie sbyte
@@ -396,9 +417,10 @@ namespace CA.Blocks.SQLServerDataAccess
 #region SqlDbType.SmallInt  -> ( short, Int16)
         private static SqlParameter ToSqlParameterInt16(short? input, string strParameterName)
         {
-            var sqlparam = new SqlParameter(strParameterName, SqlDbType.SmallInt);
-            sqlparam.Value = ParameterHelper.ToDbParameterValue(input);
-            return (sqlparam);
+            return new SqlParameter(strParameterName, SqlDbType.SmallInt)
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
         }
 
         public static SqlParameter ToSqlParameter(this short input, string strParameterName)
@@ -410,15 +432,33 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return ToSqlParameterInt16(input, strParameterName);
         }
-#endregion
 
-        
-        
+        private static SqlParameter ToSqlParameterUInt16(ushort? input, string strParameterName)
+        {
+            return new SqlParameter(strParameterName, SqlDbType.Int)
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
+        }
+
+        public static SqlParameter ToSqlParameter(this ushort input, string strParameterName)
+        {
+            return ToSqlParameterUInt16(input, strParameterName);
+        }
+
+        public static SqlParameter ToSqlParameter(this ushort? input, string strParameterName)
+        {
+            return ToSqlParameterUInt16(input, strParameterName);
+        }
+        #endregion
+
+
+
         /*
         SqlDbType.SmallMoney;
         SqlDbType.Structured;
          */
-#region SqlDbType.Time ( System.TimeSpan )
+        #region SqlDbType.Time ( System.TimeSpan )
 
         private static SqlParameter ToSqlParameterTimeSpan(TimeSpan? input, string strParameterName)
         {
@@ -508,22 +548,9 @@ namespace CA.Blocks.SQLServerDataAccess
             }
         }
 
-        private static string PrepStringInput(string input, bool useEmptyStringForNull, int trimInputTo)
-        {
-            switch (input)
-            {
-                case null when useEmptyStringForNull:
-                    return string.Empty;
-                case null:
-                    return null;
-                default:
-                    return trimInputTo > 0 && input.Length > trimInputTo ? input.Substring(0, trimInputTo) : input;
-            }
-        }
-
         private static SqlParameter ToSqlParameterString(string input, string strParameterName, SpecificSQLStringType dbType, bool useEmptyStringForNull, int trimInputTo)
         {
-            var inputString = PrepStringInput(input, useEmptyStringForNull, trimInputTo);
+            var inputString = ParameterHelper.PrepStringInput(input, useEmptyStringForNull, trimInputTo);
             return  new SqlParameter(strParameterName, ToSqlDbType(dbType))
             {
                 Value = ParameterHelper.ToDbParameterValue(inputString)
