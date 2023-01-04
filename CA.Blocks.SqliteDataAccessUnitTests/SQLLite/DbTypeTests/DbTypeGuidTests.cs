@@ -2,11 +2,12 @@
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
-using CA.Blocks.SQLServerDataAccess;
-using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+using CA.Blocks.DataAccess.Translator.Extensions;
+using CA.Blocks.SqliteDataAccess;
+using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
+namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
     [TestFixture]
     public class DbTypeGuidTests : UnitTestDataAccess
@@ -20,14 +21,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(Guid data)
         {
-            ExecuteNonQuery(InsertTestDataSQL($"'{data.ToString()}'"));
+            var cmd = CreateTextCommand(InsertTestDataSQL("@data")).WithParameter(data.ToSqlParameter("@data"));
+            ExecuteNonQuery(cmd);
         }
 
         [SetUp]
         public void Setup()
         {
             ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("UniqueIdentifier  not null"));
+            ExecuteNonQuery(CreateTestTable("VARCHAR(36) not null"));
             InsertTestDataSQL(Guid.Empty);
             InsertTestDataSQL(Guid.NewGuid());
             InsertTestDataSQL(Guid.NewGuid());
@@ -47,9 +49,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteDataTable(cmd);
+            var data = Execute(cmd).ToListOf<GuidDataType>();
             //Assert
-            Assert.AreEqual(5, data.Rows.Count);
+            Assert.AreEqual(5, data.Count);
         }
 
 
@@ -72,7 +74,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             Guid testvalue = Guid.Parse(TestGuidValue);
-            var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
@@ -81,6 +82,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = ExecuteTo<GuidDataType>(cmd);
 
             //Asert
+            Assert.IsNotNull(data);
             Assert.AreEqual(testvalue, data.Col);
         }
 
@@ -93,7 +95,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<GuidDataType>();
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
-            
+
+            Assert.IsNotNull(data);
             Assert.AreEqual(testValue, data.Col);
         }
     }

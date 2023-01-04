@@ -2,40 +2,17 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using CA.Blocks.DataAccess;
 using Microsoft.Data.Sqlite;
 
 namespace CA.Blocks.SqliteDataAccess
 {
-    public enum SpecificSQLDateTimeType
-    {
-        Date,
-        DateTime, // The default
-    }
 
-    public enum SpecificSQLDecimalType
-    {
-        Decimal,
-        Money, // The default
-        SmallMoney,
-    }
-
-    public enum SpecificSQLStringType
-    {
-        //[System.Obsolete("Backwards compatibility only remove when they remove from SQL server http://msdn.microsoft.com/en-nz/library/ms187993.aspx")]
-        //NText,
-        //NVarChar,
-        //[System.Obsolete("Backwards compatibility only remove when they remove from SQL server http://msdn.microsoft.com/en-nz/library/ms187993.aspx")]
-        //Text,
-        VarChar, // The Default
-    }
-
-
-    public enum SpecificSQLCharType
-    {
-        Char, // default 
-        NChar
-    }
-
+    // SQlLite is unique in the fact that the DB is Typeless -  This means that you can store any kind of data you want in any column of any table, regardless of the declared datatype of that column
+    // see https://www.sqlite.org/datatypes.html
+    // AS such these extensions are more helpers of intent
+    // The SQL will have to have knowledge of type operations example if you working with date as col you need to wrap the syntax with a date function ie DatCol > date(value)
+    // the blocks tries to standardise on the ISO-8601 format for a little more structure   
     public static class SqliteParameterExtensions
     {
         public static SqliteCommand WithParameters(this SqliteCommand cmd, IList<SqliteParameter> parameters)
@@ -44,21 +21,22 @@ namespace CA.Blocks.SqliteDataAccess
             return cmd;
         }
 
+
+        public static SqliteParameter NullSqliteParameter(string strParameterName)
+        {
+            return new SqliteParameter(strParameterName, DBNull.Value);
+        }
+
+
         #region SqlDbType.BigInt ( long, Int64 ) 
         private static SqliteParameter ToSqlParameterBigInt(long? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.BigInt)
+            return  new SqliteParameter(strParameterName, SqlDbType.BigInt)
             {
                 Direction = ParameterDirection.Input,
                 Size = 8,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static SqliteParameter ToSqlParameter(this long input, string strParameterName)
@@ -77,7 +55,12 @@ namespace CA.Blocks.SqliteDataAccess
 
         public static SqliteParameter ToSqlParameter(this byte[] input, string strParameterName)
         {
-            throw new NotSupportedException("SQL Lite does not support  byte[] convert to unicode string first");
+            return new SqliteParameter(strParameterName, SqlDbType.Binary)
+            {
+                Direction = ParameterDirection.Input,
+                DbType = DbType.Binary,
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
         }
         #endregion
 
@@ -85,17 +68,11 @@ namespace CA.Blocks.SqliteDataAccess
         #region SqlDbType.Bit ( boolean ) 
         private static SqliteParameter ToSqlParameterBool(bool? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.Bit)
+            return new SqliteParameter(strParameterName, SqlDbType.Bit)
             {
                 Direction = ParameterDirection.Input,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static SqliteParameter ToSqlParameter(this bool input, string strParameterName)
@@ -113,143 +90,115 @@ namespace CA.Blocks.SqliteDataAccess
         #region SqlDbType.Char   (Char)
 
 
-        private static SqlDbType ToSqlDbType(SpecificSQLCharType dbType)
+        private static SqliteParameter ToSqlParameterChar(Char? input, string strParameterName)
         {
-            return dbType == SpecificSQLCharType.Char ? SqlDbType.Char : SqlDbType.NChar;
-        }
-
-
-        private static SqliteParameter ToSqlParameterChar(Char? input, string strParameterName, SpecificSQLCharType dbType)
-        {
-            var sqlparam = new SqliteParameter(strParameterName, ToSqlDbType(dbType))
+            return new SqliteParameter(strParameterName, SqlDbType.NChar)
             {
                 Direction = ParameterDirection.Input,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
-        public static SqliteParameter ToSqlParameter(this Char input, string strParameterName, SpecificSQLCharType dbType = SpecificSQLCharType.Char)
+        public static SqliteParameter ToSqlParameter(this Char input, string strParameterName)
         {
-            return ToSqlParameterChar(input, strParameterName, dbType);
+            return ToSqlParameterChar(input, strParameterName);
         }
 
-        public static SqliteParameter ToSqlParameter(this Char? input, string strParameterName, SpecificSQLCharType dbType = SpecificSQLCharType.Char)
+        public static SqliteParameter ToSqlParameter(this Char? input, string strParameterName)
         {
-            return ToSqlParameterChar(input, strParameterName, dbType);
+            return ToSqlParameterChar(input, strParameterName);
         }
         #endregion
 
 
         #region SqlDbType.DateTime ( System.DateTime )
-        private static SqlDbType ToSqlDbType(SpecificSQLDateTimeType dbType)
-        {
-            switch (dbType)
-            {
-                case SpecificSQLDateTimeType.DateTime:
-                    {
-                        return SqlDbType.DateTime;
-                    }
-                case SpecificSQLDateTimeType.Date:
-                    {
-                        return SqlDbType.Date;
-                    }
-                default:
-                    return SqlDbType.DateTime;
-            }
-        }
 
-        //private static SqliteParameter ToSqlParameterDateTime(DateTime? input, string strParameterName, SpecificSQLDateTimeType dbType)
-        //{
-        //    var sqlparam = new SqliteParameter(strParameterName, ToSqlDbType(dbType))
-        //    {
-        //        Direction = ParameterDirection.Input
-        //    };
-        //    if (input.HasValue)
-        //    {
-        //        //TEXT as ISO8601 strings("YYYY-MM-DD HH:MM:SS.SSS").
-        //        //string search = input.Value.ToString("yyyy-MM-dd HH:mm:ss.fff");
-        //        string search = input.Value.ToString("yyyy-MM-DD HH:mm:ss.fff");
-        //        sqlparam.Value = search;
-        //    }
-        //    else
-        //    {
-        //        sqlparam.Value = DBNull.Value;
-        //    }
-        //    return (sqlparam);
-        //}
-
-        public static SqliteParameter ToSqlParameter(this DateTime input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime)
+        public static SqliteParameter ToSqlParameter(this DateTime input, string strParameterName)
         {
-            throw new NotSupportedException("SQLite does not have a storage class set aside for storing dates and/or times. Instead, the built-in Date And Time Functions of SQLite are capable of storing dates and times as TEXT, REAL, or INTEGER values: see https://www.sqlite.org/lang_datefunc.html, Use the datetime('{data:o}') C# roundtrip function to get the string");
-            //return ToSqlParameterDateTime(input, strParameterName, dbType);
+            // sqlite does not have a storage class set aside for storing dates and/or times.
+            // the blocks wil use string in ISO-8601 format the use sqllite functions on those values
+            // Instead, the built-in Date And Time Functions of SQLite are capable of storing dates and times as TEXT, REAL, or INTEGER values: see https://www.sqlite.org/lang_datefunc.html,
+            // Use the datetime('{datetime:o}') C# roundtrip function to get the string.
+            // Not the o format complies  with ISO 8601. and will output timezone pending DateTime.Kind
+            return $"{input:o}".ToSqlParameter(strParameterName);
         }
 
         // Default to DateTime
 
-        public static SqliteParameter ToSqlParameter(this DateTime? input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime)
+
+        public static SqliteParameter ToSqlParameter(this DateTime? input, string strParameterName)
         {
-            throw new NotSupportedException("SQLite does not have a storage class set aside for storing dates and/or times. Instead, the built-in Date And Time Functions of SQLite are capable of storing dates and times as TEXT, REAL, or INTEGER values: see https://www.sqlite.org/lang_datefunc.html, Use the datetime('{data:o}') C# roundtrip function to get the string");
-            //return ToSqlParameterDateTime(input, strParameterName, dbType);
+            return input.HasValue
+                ? $"{input:o}".ToSqlParameter(strParameterName)
+                : NullSqliteParameter(strParameterName);
+        }
+
+#if NET6_0_OR_GREATER
+        public static SqliteParameter ToSqlParameter(this DateOnly input, string strParameterName)
+        {
+            return $"{input:o}".ToSqlParameter(strParameterName);
+        }
+        // Default to DateTime
+
+
+        public static SqliteParameter ToSqlParameter(this DateOnly? input, string strParameterName)
+        {
+            return input.HasValue
+                ? $"{input:o}".ToSqlParameter(strParameterName)
+                : NullSqliteParameter(strParameterName);
+        }
+
+        public static SqliteParameter ToSqlParameter(this TimeOnly input, string strParameterName)
+        {
+            return $"{input:o}".ToSqlParameter(strParameterName);
+        }
+        // Default to DateTime
+
+
+        public static SqliteParameter ToSqlParameter(this TimeOnly? input, string strParameterName)
+        {
+            return input.HasValue
+                ? $"{input:o}".ToSqlParameter(strParameterName)
+                : NullSqliteParameter(strParameterName);
+        }
+
+#endif
+        #endregion
+
+
+
+        #region SqlDbType.DateTimeOffset;
+
+        public static SqliteParameter ToSqlParameter(this DateTimeOffset? input, string strParameterName)
+        {
+            return input.HasValue
+                ? $"{input:o}".ToSqlParameter(strParameterName)
+                : NullSqliteParameter(strParameterName);
         }
         #endregion
 
-        /*TODO
-        SqlDbType.DateTimeOffset;
-        */
         #region SqlDbType.Decimal  (Decimal, Money, SmallMoney)
 
-        private static SqlDbType ToSqlDbType(SpecificSQLDecimalType dbType)
-        {
-            switch (dbType)
-            {
-                case SpecificSQLDecimalType.Decimal:
-                    {
-                        return SqlDbType.Decimal;
-                    }
-                case SpecificSQLDecimalType.Money:
-                    {
-                        return SqlDbType.Money;
-                    }
-                case SpecificSQLDecimalType.SmallMoney:
-                    {
-                        return SqlDbType.SmallMoney;
-                    }
-                default:
-                    return SqlDbType.Decimal;
-            }
-        }
 
-        private static SqliteParameter ToSqlParameterDecimal(Decimal? input, string strParameterName, SpecificSQLDecimalType dbType)
+        private static SqliteParameter ToSqlParameterDecimal(Decimal? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, ToSqlDbType(dbType))
+            return new SqliteParameter(strParameterName, SqliteType.Text)
             {
-                Direction = ParameterDirection.Input
+                Direction = ParameterDirection.Input,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
 
-        public static SqliteParameter ToSqlParameter(this Decimal input, string strParameterName, SpecificSQLDecimalType dbType = SpecificSQLDecimalType.Decimal)
+        public static SqliteParameter ToSqlParameter(this Decimal input, string strParameterName)
         {
-            return ToSqlParameterDecimal(input, strParameterName, dbType);
+            return ToSqlParameterDecimal(input, strParameterName);
         }
 
         // Default is SpecificSQLDecimalType.Decimal
-        public static SqliteParameter ToSqlParameter(this Decimal? input, string strParameterName, SpecificSQLDecimalType dbType = SpecificSQLDecimalType.Decimal)
+        public static SqliteParameter ToSqlParameter(this Decimal? input, string strParameterName)
         {
-            return ToSqlParameterDecimal(input, strParameterName, dbType);
+            return ToSqlParameterDecimal(input, strParameterName);
         }
 
         #endregion
@@ -258,17 +207,11 @@ namespace CA.Blocks.SqliteDataAccess
 
         private static SqliteParameter ToSqlParameterDouble(Double? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.Float)
+            return new SqliteParameter(strParameterName, SqlDbType.Float)
             {
-                Direction = ParameterDirection.Input
+                Direction = ParameterDirection.Input,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static SqliteParameter ToSqlParameter(this Double input, string strParameterName)
@@ -277,6 +220,25 @@ namespace CA.Blocks.SqliteDataAccess
         }
 
         public static SqliteParameter ToSqlParameter(this Double? input, string strParameterName)
+        {
+            return ToSqlParameterDouble(input, strParameterName);
+        }
+
+        private static SqliteParameter ToSqlParameterDouble(Single? input, string strParameterName)
+        {
+            return new SqliteParameter(strParameterName, SqlDbType.Float)
+            {
+                Direction = ParameterDirection.Input,
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
+        }
+
+        public static SqliteParameter ToSqlParameter(this Single input, string strParameterName)
+        {
+            return ToSqlParameterDouble(input, strParameterName);
+        }
+
+        public static SqliteParameter ToSqlParameter(this Single? input, string strParameterName)
         {
             return ToSqlParameterDouble(input, strParameterName);
         }
@@ -289,18 +251,10 @@ namespace CA.Blocks.SqliteDataAccess
 
         private static SqliteParameter ToSqlParameterInt(int? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.Int)
+            return new SqliteParameter(strParameterName, SqliteType.Integer, 4)
             {
-                Direction = ParameterDirection.Input,
-                Size = 4,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static SqliteParameter ToSqlParameter(this int input, string strParameterName)
@@ -312,29 +266,36 @@ namespace CA.Blocks.SqliteDataAccess
         {
             return ToSqlParameterInt(input, strParameterName);
         }
+
+        private static SqliteParameter ToSqlParameterUInt(uint? input, string strParameterName)
+        {
+            return new SqliteParameter(strParameterName, SqliteType.Integer)
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
+        }
+
+        public static SqliteParameter ToSqlParameter(this uint input, string strParameterName)
+        {
+            return ToSqlParameterUInt(input, strParameterName);
+        }
+
+        public static SqliteParameter ToSqlParameter(this uint? input, string strParameterName)
+        {
+            return ToSqlParameterUInt(input, strParameterName);
+        }
         #endregion 
-        /*
-        SqlDbType.Money;
-        SqlDbType.NChar;
-        SqlDbType.Real;
-        SqlDbType.SmallDateTime;*/
 
 
         #region SqlDbType.SmallInt  -> ( short, Int16)
         private static SqliteParameter ToSqlParameterInt16(Int16? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.SmallInt)
+            return new SqliteParameter(strParameterName, SqlDbType.SmallInt)
             {
                 Direction = ParameterDirection.Input,
                 Size = 2,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static SqliteParameter ToSqlParameter(this Int16 input, string strParameterName)
@@ -346,27 +307,37 @@ namespace CA.Blocks.SqliteDataAccess
         {
             return ToSqlParameterInt16(input, strParameterName);
         }
+
+        private static SqliteParameter ToSqlParameterUInt16(UInt16? input, string strParameterName)
+        {
+            return new SqliteParameter(strParameterName, SqlDbType.SmallInt)
+            {
+                Direction = ParameterDirection.Input,
+                Size = 2,
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
+        }
+
+        public static SqliteParameter ToSqlParameter(this UInt16 input, string strParameterName)
+        {
+            return ToSqlParameterUInt16(input, strParameterName);
+        }
+
+        public static SqliteParameter ToSqlParameter(this UInt16? input, string strParameterName)
+        {
+            return ToSqlParameterUInt16(input, strParameterName);
+        }
         #endregion 
 
-        /*
-        SqlDbType.SmallMoney;
-        SqlDbType.Structured;
-         */
         #region SqlDbType.Time ( System.TimeSpan )
 
         private static SqliteParameter ToSqlParameterTimeSpan(TimeSpan? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.Time)
+            return  new SqliteParameter(strParameterName, SqlDbType.Time)
             {
                 Direction = ParameterDirection.Input,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static SqliteParameter ToSqlParameter(this TimeSpan input, string strParameterName)
@@ -381,24 +352,16 @@ namespace CA.Blocks.SqliteDataAccess
 
         #endregion 
 
-        /*
-        SqlDbType.Timestamp;*/
 
         #region SqlDbType.TinyInt ( Byte ) 
         private static SqliteParameter ToSqlParameterByte(byte? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.TinyInt)
+            return new SqliteParameter(strParameterName, SqlDbType.TinyInt)
             {
                 Direction = ParameterDirection.Input,
                 Size = 1,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static SqliteParameter ToSqlParameter(this byte input, string strParameterName)
@@ -410,6 +373,27 @@ namespace CA.Blocks.SqliteDataAccess
         {
             return ToSqlParameterByte(input, strParameterName);
         }
+
+        private static SqliteParameter ToSqlParameterSByte(sbyte? input, string strParameterName)
+        {
+            return new SqliteParameter(strParameterName, SqlDbType.SmallInt)
+            {
+                Direction = ParameterDirection.Input,
+                Size = 1,
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
+        }
+
+        public static SqliteParameter ToSqlParameter(this sbyte input, string strParameterName)
+        {
+            return ToSqlParameterSByte(input, strParameterName);
+        }
+
+        public static SqliteParameter ToSqlParameter(this sbyte? input, string strParameterName)
+        {
+            return ToSqlParameterSByte(input, strParameterName);
+        }
+
         #endregion 
 
         /*
@@ -418,18 +402,11 @@ namespace CA.Blocks.SqliteDataAccess
         #region SqlDbType.UniqueIdentifier ( System.Guid)
         private static SqliteParameter ToSqlParameterGuid(Guid? input, string strParameterName)
         {
-            var sqlparam = new SqliteParameter(strParameterName, SqlDbType.UniqueIdentifier)
+            return new SqliteParameter(strParameterName, SqlDbType.UniqueIdentifier)
             {
                 Direction = ParameterDirection.Input,
-                Size = 16,
+                Value = ParameterHelper.ToDbParameterValue(input)
             };
-            if (input.HasValue)
-                sqlparam.Value = input;
-            else
-            {
-                sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
         public static SqliteParameter ToSqlParameter(this Guid input, string strParameterName)
@@ -447,76 +424,19 @@ namespace CA.Blocks.SqliteDataAccess
         SqlDbType.VarBinary; // use Binary
         */
 
-        #region SqlDbType.VarChar;
-        private static SqlDbType ToSqlDbType(SpecificSQLStringType input)
-        {
-            switch (input)
-            {
-                case SpecificSQLStringType.VarChar:
-                    {
-                        return SqlDbType.VarChar;
-                    }
-                //case SpecificSQLStringType.NVarChar:
-                //    {
-                //        return SqlDbType.NVarChar;
-                //    }
-                //case SpecificSQLStringType.Text:
-                //    {
-                //        return SqlDbType.Text;
-                //    }
-                //case SpecificSQLStringType.NText:
-                //    {
-                //        return SqlDbType.NText;
-                //    }
 
-                default:
-                    return SqlDbType.VarChar;
-            }
-        }
-
-        private static SqliteParameter ToSqlParameterString(string input, string strParameterName, SpecificSQLStringType dbType, bool useEmptyStringForNull, int trimInputTo)
+        private static SqliteParameter ToSqlParameterString(string input, string strParameterName, bool useEmptyStringForNull, int trimInputTo)
         {
-            var sqlparam = new SqliteParameter(strParameterName, ToSqlDbType(dbType))
+            var inputString = ParameterHelper.PrepStringInput(input, useEmptyStringForNull, trimInputTo);
+            return new SqliteParameter(strParameterName, SqliteType.Text)
             {
-                Direction = ParameterDirection.Input
+                Value = ParameterHelper.ToDbParameterValue(inputString)
             };
-            if (input != null)
-            {
-                if (input.Length > trimInputTo)
-                {
-                    sqlparam.Value = trimInputTo > 0 ? input.Substring(0, trimInputTo) : input;
-                }
-                else
-                {
-                    sqlparam.Value = input;
-                }
-            }
-            else
-            {
-                if (useEmptyStringForNull)
-                    sqlparam.Value = string.Empty;
-                else
-                    sqlparam.Value = DBNull.Value;
-            }
-            return (sqlparam);
         }
 
-        public static SqliteParameter ToSqlParameter(this string input, string strParameterName, SpecificSQLStringType dbType = SpecificSQLStringType.VarChar, bool useEmptyStringForNull = false, int trimInputTo = -1)
+        public static SqliteParameter ToSqlParameter(this string input, string strParameterName, bool useEmptyStringForNull = false, int trimInputTo = -1)
         {
-            return ToSqlParameterString(input, strParameterName, dbType, useEmptyStringForNull, trimInputTo);
+            return ToSqlParameterString(input, strParameterName, useEmptyStringForNull, trimInputTo);
         }
-
-        #endregion
-
-
-        //public static SqliteParameter ToSqlParameter(object input, string strParameterName)
-        //{
-        //    return NotImplementedException("TODO");
-        //}
-        /*
-       SqlDbType.Variant; // ?lets find a usage ? 
-       SqlDbType.Xml;
-       */
-
     }
 }

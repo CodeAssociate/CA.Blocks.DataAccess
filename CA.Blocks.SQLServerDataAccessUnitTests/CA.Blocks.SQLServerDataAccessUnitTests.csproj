@@ -15,12 +15,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
-    <PackageReference Include="NUnit" Version="3.10.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CA.Blocks.DataAccessTestDataForUnitTests\CA.Blocks.DataAccessTestDataForUnitTests.csproj" />
     <ProjectReference Include="..\CA.Blocks.SQLServerDataAccess\CA.Blocks.SQLServerDataAccess.csproj" />
   </ItemGroup>
 

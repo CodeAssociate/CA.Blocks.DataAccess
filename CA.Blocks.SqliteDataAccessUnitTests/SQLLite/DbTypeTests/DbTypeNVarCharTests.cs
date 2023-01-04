@@ -1,5 +1,6 @@
 ﻿using System;
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -11,7 +12,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
     {
         private const string  TEST_DATA = "nvarchar data";
 
-        private void InsertTestDataAsBinarySQL(string data)
+        private void InsertTestDataAsTextSQL(string data)
         {
             ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
         }
@@ -21,12 +22,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("NVarChar(50) not null"));
-            InsertTestDataAsBinarySQL(TEST_DATA);
-            InsertTestDataAsBinarySQL(Guid.NewGuid().ToString());
-            InsertTestDataAsBinarySQL(Guid.NewGuid().ToString());
-            InsertTestDataAsBinarySQL(Guid.NewGuid().ToString());
-            InsertTestDataAsBinarySQL(Guid.NewGuid().ToString());
-            InsertTestDataAsBinarySQL("ä");
+            InsertTestDataAsTextSQL(TEST_DATA);
+            InsertTestDataAsTextSQL(Guid.NewGuid().ToString());
+            InsertTestDataAsTextSQL(Guid.NewGuid().ToString());
+            InsertTestDataAsTextSQL(Guid.NewGuid().ToString());
+            InsertTestDataAsTextSQL(Guid.NewGuid().ToString());
+            InsertTestDataAsTextSQL("ä");
         }
 
         [TearDown]
@@ -39,10 +40,9 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
         public void SelectAllDataBinary()
         {
             //Setup 
-            var t = new StringTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = Execute(cmd).ToSingleNamedColumnList<string>(UNIT_TEST_COL_NAME);
             //Assert
             Assert.AreEqual(6, data.Count);
             Assert.AreEqual(TEST_DATA, data[0]);
@@ -55,12 +55,11 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
         {
             //setup
             const string testvalue = TEST_DATA;
-            var t = new StringTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = Execute(cmd).ToSingleNamedColumnList<string>(UNIT_TEST_COL_NAME);
 
             //Asert
             Assert.AreEqual(1, data.Count);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;

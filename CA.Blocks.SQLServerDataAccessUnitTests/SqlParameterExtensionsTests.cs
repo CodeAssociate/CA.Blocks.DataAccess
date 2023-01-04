@@ -1,14 +1,94 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
+using CA.Blocks.DataAccessTestDataForUnitTests.BaseTests;
+using CA.Blocks.DataAccessTestDataForUnitTests.TestTypes;
 using CA.Blocks.SQLServerDataAccess;
+using Microsoft.Data.SqlClient;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests
 {
+
     [TestFixture]
-    public class SqlParameterExtensionsTests
+    public class SqlParameterExtensionsTests : BaseToSqlParameterTests 
     {
 
+        public override DbParameter ToSqlParameterTypeInstanceTestMain<T>(T test, DbType expectedDbType)
+        {
+            return ToSqlParameterTypeTestMain<T, SqlParameter>(typeof(SqlServerParameterExtensions), test, expectedDbType);
+        }
+
+
+        [Test]
+        public void ToSqlParameter_TypeTests()
+        {
+            var testedTypes = new List<TypeToDbParameterResult>();
+            // https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql-server-data-type-mappings
+            // bigint
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestInt64, DbType.Int64));
+            // binary
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestByteArray, DbType.Binary));
+            // bit 
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestBool, DbType.Boolean));
+            //char 
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestChar, DbType.AnsiStringFixedLength));
+            // Date default to DateTime2 
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestDateTme, DbType.DateTime2));
+            // DateTimeOffset
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestDateTmeOffset, DbType.DateTimeOffset));
+
+            //decimal // need to extent to money and small money test
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestDecimal, DbType.Decimal));
+            // double
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestDouble, DbType.Double));
+            // Single float
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestSingle, DbType.Single));
+            //Int16
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestInt16, DbType.Int16));
+            //Int32
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestInt32, DbType.Int32));
+
+            // unsigned numbers // sql server have no UShort or Uint support so you have to use the Int32 and Int64
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestUInt16, DbType.Int32));
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestUInt32, DbType.Int64)); 
+
+            //time
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestTimeSpan, DbType.Time));
+
+            //tinyint
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestByte, DbType.Byte));
+
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestSbyte, DbType.Int16)); // SQL server done not have sbyte
+
+
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestUnicodeString, DbType.String));
+
+            testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestGuid, DbType.Guid));
+            // To the Overload types
+            // 
+            // DateOnly At this point the DateOnly is passed through as a DateTime with DateOnly 
+            testedTypes.Add(ToSqlParameterTypeTestDateOnly(TestDotNetTypesToSqlParameter.TestDateOnly.Value, DbType.Date));
+
+            testedTypes.Add(ToSqlParameterTypeTestTimeOnly(TestDotNetTypesToSqlParameter.TestTimeOnly.Value, DbType.Time));
+
+            var AnyUntestesTypes = GetUnTestedTypes(testedTypes);
+            if (AnyUntestesTypes.Count > 0)
+            {
+                foreach (var type in AnyUntestesTypes)
+                {
+                    TestContext.WriteLine($"{type.FullName} is missing a ToSqlParameterTest");
+                }
+
+                Assert.Warn("There are Untested ToSqlParameter types ");
+
+
+            }
+        }
+
+        // Note this is long form of the test above ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestInt32, DbType.Int32)
+        // leave this test to help explain the intention of the the generic abstract code
         [Test]
         public void ToSqlParameterInt32()
         {
@@ -19,40 +99,26 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             //Asert
             Assert.AreEqual(DbType.Int32, sqlparam.DbType);
             Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@target", sqlparam.ParameterName);
             Assert.AreEqual(target, sqlparam.Value);
         }
 
+
+        // Note this is second test if value is nullable type ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestInt32, DbType.Int32)
         [Test]
-        public void ToSqlParameterSameNameInt32()
+        public void ToSqlParameterInt32NullValue()
         {
             // Setup
-            int? target = 123;
+            int? target = null;
             // Act
             var sqlparam = target.ToSqlParameter("@target");
             //Asert
             Assert.AreEqual(DbType.Int32, sqlparam.DbType);
             Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            Assert.AreEqual(false, sqlparam.IsNullable);
             Assert.AreEqual("@target", sqlparam.ParameterName);
-            Assert.AreEqual(target, sqlparam.Value);
+            Assert.AreEqual(DBNull.Value, sqlparam.Value);
         }
 
-        [Test]
-        public void ToSqlParameterStringTest()
-        {
-            // Setup
-            string testdata = "01234567890123456789";
-            // Act
-            var sqlparam = testdata.ToSqlParameter("@test");
-            //Asert
-            Assert.AreEqual(DbType.String, sqlparam.DbType);
-            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            Assert.AreEqual(false, sqlparam.IsNullable);
-            Assert.AreEqual("@test", sqlparam.ParameterName);
-            Assert.AreEqual(testdata, sqlparam.Value);
-        }
 
         [Test]
         public void ToSqlParameterStringTestTrim()
@@ -85,34 +151,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             Assert.AreEqual("", sqlparam.Value);
         }
 
-        [Test]
-        public void ToSqlParameterLong()
-        {
-            // Setup
-            long target = 123;
-            // Act
-            var sqlparam = target.ToSqlParameter("@target");
-            //Asert
-            Assert.AreEqual(DbType.Int64, sqlparam.DbType);
-            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            Assert.AreEqual(false, sqlparam.IsNullable);
-            Assert.AreEqual("@target", sqlparam.ParameterName);
-            Assert.AreEqual(target, sqlparam.Value);
-        }
+        // TODO the Overriders with optional parameters 
+        // String Specific Types ( varchar rather than nvarchar ) 
+        // DateTime Specific Types 
+        // Decimal Specific Types Money and Small Money
 
-        [Test]
-        public void ToSqlParameterNullLong()
-        {
-            // Setup
-            long? target = null;
-            // Act
-            var sqlparam = target.ToSqlParameter("@target");
-            //Asert
-            Assert.AreEqual(DbType.Int64, sqlparam.DbType);
-            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            Assert.AreEqual(false, sqlparam.IsNullable);
-            Assert.AreEqual("@target", sqlparam.ParameterName);
-            Assert.AreEqual(DBNull.Value, sqlparam.Value);
-        }
     }
 }

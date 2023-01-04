@@ -9,6 +9,7 @@
 
 using System;
 using System.Data;
+using System.IO;
 
 namespace CA.Blocks.DataAccess
 {
@@ -340,9 +341,9 @@ namespace CA.Blocks.DataAccess
             return DataHelper.GetValueFromRowAsNullDecimal(dr, column);
         }
 
-#endregion
+        #endregion
 
-#region Guid
+        #region Guid
 
         public static Guid AsGuid(this DataRow dr, string colName)
         {

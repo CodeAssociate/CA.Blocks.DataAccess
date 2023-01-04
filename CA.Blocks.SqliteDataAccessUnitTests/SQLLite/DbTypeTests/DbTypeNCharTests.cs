@@ -50,17 +50,29 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             char testvalue = 'ä';
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLCharType.NChar));
+            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
 
             //Asert
             Assert.AreEqual(testvalue, data);
-
- 
         }
 
+        [Test]
+        public void SelectAllDataNCharWithFilter1()
+        {
+            //setup
+            char testvalue = 'B';
+            var t = new CharTranslator(UNIT_TEST_COL_NAME);
+            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
+            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
+            //Act
+            var data = t.Translate(ExecuteDataRow(cmd));
+
+            //Asert
+            Assert.AreEqual(testvalue, data);
+        }
     }
 }

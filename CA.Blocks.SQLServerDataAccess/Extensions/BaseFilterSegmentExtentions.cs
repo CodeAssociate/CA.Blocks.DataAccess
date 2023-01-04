@@ -41,8 +41,6 @@ namespace CA.Blocks.SQLServerDataAccess.Extensions
                 pr.Skip.ToSqlParameter("@PagingSkip"), pr.Take.ToSqlParameter("@PagingTake")
             };
         }
-
-
     }
 
 

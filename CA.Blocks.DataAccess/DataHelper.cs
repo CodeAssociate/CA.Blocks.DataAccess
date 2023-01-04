@@ -15,6 +15,7 @@
 using System;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 
 namespace CA.Blocks.DataAccess
 {
@@ -878,6 +879,28 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, dc.ColumnName, "Guid");
         }
 
+        private static Guid? ObjectAsGuid(object dbDataValue)
+        {
+            if (dbDataValue == null)
+                return null;
+
+            if (dbDataValue is string value)
+            {
+                if (Guid.TryParse(value, out var stringAsGuid))
+                {
+                    return stringAsGuid;
+                }
+                else
+                {
+                    throw new InvalidDataException("Data not a valid Guid");
+                }
+            }
+            else
+            {
+                return (Guid)dbDataValue;
+            }
+        }
+
         /// <summary>
         /// Will get the data value from the row as a nullable Guid. The return value will be set to either null or the Guid value
         /// This procedure assumes that the data is a Guid, if not a cast exception will be thrown.  
@@ -885,21 +908,22 @@ namespace CA.Blocks.DataAccess
         /// <param name="dr">A Valid <see cref="System.Data.DataRow"/> DataRow</param>
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
-        
+
         public static Guid? GetValueFromRowAsNullGuid(DataRow dr, string sColumnName)
         {
-            return ((Guid?)GetValueFromRow(dr, sColumnName));
+            return (ObjectAsGuid(GetValueFromRow(dr, sColumnName)));
         }
         
         public static Guid? GetValueFromRowAsNullGuid(DataRow dr, int columnIndex)
         {
-            return ((Guid?)GetValueFromRow(dr, columnIndex));
+            return (ObjectAsGuid(GetValueFromRow(dr, columnIndex)));
         }
 
         public static Guid? GetValueFromRowAsNullGuid(DataRow dr, DataColumn dc)
         {
-            return ((Guid?)GetValueFromRow(dr, dc));
+            return (ObjectAsGuid(GetValueFromRow(dr, dc)));
         }
+
 
         public static char GetValueFromRowAsChar(DataRow dr, string sColumnName)
         {
