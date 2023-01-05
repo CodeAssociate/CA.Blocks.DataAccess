@@ -623,5 +623,18 @@ namespace CA.Blocks.SQLServerDataAccess
             };
         }
 
+        public static SqlParameter ToDataTableSqlParameter(this DataTable input, string strParameterName,
+            string tableTypeName)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+            return new SqlParameter(strParameterName, SqlDbType.Structured)
+            {
+                Value = input,
+                TypeName = tableTypeName
+            };
+        }
     }
 }
