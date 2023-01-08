@@ -219,28 +219,8 @@ namespace CA.Blocks.MySQLDataAccess
         #endregion
 
 
-        #region MySqlDbType.Decimal  (Decimal, Money, SmallMoney)
+        #region MySqlDbType.Decimal 
 
-        //private static MySqlDbType ToSqlDbType(SpecificSQLDecimalType dbType)
-        //{
-        //    switch (dbType)
-        //    {
-        //        case SpecificSQLDecimalType.Decimal:
-        //            {
-        //                return MySqlDbType.Decimal;
-        //            }
-        //        case SpecificSQLDecimalType.Money:
-        //            {
-        //                return MySqlDbType.NewDecimal;
-        //            }
-        //        case SpecificSQLDecimalType.SmallMoney:
-        //            {
-        //                return MySqlDbType.;
-        //            }
-        //        default:
-        //            return MySqlDbType.Decimal;
-        //    }
-        //}
 
         private static MySqlParameter ToSqlParameterDecimal(Decimal? input, string strParameterName)
         {
@@ -322,11 +302,7 @@ namespace CA.Blocks.MySQLDataAccess
             return ToSqlParameterInt(input, strParameterName);
         }
         #endregion 
-        /*
-        MySqlDbType.Money;
-        MySqlDbType.NChar;
-        MySqlDbType.Real;
-        MySqlDbType.SmallDateTime;*/
+
 
 
         #region MySqlDbType.SmallInt  -> ( short, Int16)
@@ -512,10 +488,6 @@ namespace CA.Blocks.MySQLDataAccess
 
         #endregion
 
-        /*
-       MySqlDbType.Variant; // ?lets find a usage ? 
-       MySqlDbType.Xml;
-       */
 
 
     }
