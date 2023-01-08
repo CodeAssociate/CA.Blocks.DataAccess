@@ -46,7 +46,7 @@ namespace CA.Blocks.MySQLDataAccess
 
         protected override bool PrepCommand(IDbCommand cmd)
         {
-            MySqlConnection sqlConnection = new MySqlConnection(ConnectionString);
+            var sqlConnection = new MySqlConnection(ConnectionString);
             sqlConnection.Open();
             cmd.Connection = sqlConnection;
             return true;
@@ -67,12 +67,11 @@ namespace CA.Blocks.MySQLDataAccess
 
         protected MySqlCommand CreateStoredProcedureCommand(string strStoredProcedureName)
         {
-            MySqlCommand sqlcmd = new MySqlCommand
+            return  new MySqlCommand
             {
                 CommandText = strStoredProcedureName,
                 CommandType = CommandType.StoredProcedure
             };
-            return (sqlcmd);
         }
 
 
@@ -94,12 +93,12 @@ namespace CA.Blocks.MySQLDataAccess
 
         protected MySqlCommand CreateTableSelectCommand(string tableName, string filter)
         {
-            return CreateTextCommand(string.Format("SELECT * FROM {0} {1}", tableName, filter));
+            return CreateTextCommand($"SELECT * FROM {tableName} {filter}");
         }
 
         protected MySqlCommand CreateTableSelectCommand(string tableName, string filter, string orderBy)
         {
-            return CreateTextCommand(string.Format("SELECT * FROM {0} {1} Order By {2}", tableName, filter, orderBy));
+            return CreateTextCommand($"SELECT * FROM {tableName} {filter} Order By {orderBy}");
         }
 
         #endregion StoredProcedureHelpers
@@ -111,7 +110,7 @@ namespace CA.Blocks.MySQLDataAccess
         {
             // this is sql server specific and only for direct queries
 
-            string sortOrder = page.GetOrderBy();
+            var sortOrder = page.GetOrderBy();
             cmd.CommandText = WrapPagingQuery(cmd.CommandText, sortOrder);
             cmd.Parameters.Add((page.Skip).ToSqlParameter("@skip"));
             cmd.Parameters.Add((page.Take).ToSqlParameter("@take"));
@@ -124,7 +123,7 @@ namespace CA.Blocks.MySQLDataAccess
             sourceQuery = sourceQuery.Trim();
             if (sourceQuery.StartsWith("Select", StringComparison.CurrentCultureIgnoreCase))
             {
-                return $"({sourceQuery.Replace(";", String.Empty)}) Order By table_name LIMIT @take OFFSET @skip;";
+                return $"({sourceQuery.Replace(";", string.Empty)}) Order By table_name LIMIT @take OFFSET @skip;";
             }
             else
             {

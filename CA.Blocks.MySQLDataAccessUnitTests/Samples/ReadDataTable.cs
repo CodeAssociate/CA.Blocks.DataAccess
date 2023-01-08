@@ -1,14 +1,11 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Text;
-using System.Threading;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using NUnit.Framework;
 
-
-namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
+namespace CA.Blocks.MySQLDataAccessUnitTests.Samples
 {
     [TestFixture]
     public class ReadDataTable
@@ -38,7 +35,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
         {
             var maxLengths = new int[dt.Columns.Count];
 
-            for (int i = 0; i < dt.Columns.Count; i++)
+            for (var i = 0; i < dt.Columns.Count; i++)
             {
                 maxLengths[i] = dt.Columns[i].ColumnName.Length;
 
@@ -46,7 +43,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
                 {
                     if (!row.IsNull(i))
                     {
-                        int length = row[i].ToString().Length;
+                        var length = row[i].ToString().Length;
 
                         if (length > maxLengths[i])
                         {
@@ -88,6 +85,5 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             TestContext.WriteLine(DataTableToText(executeResult));
 
         }
-
     }
 }

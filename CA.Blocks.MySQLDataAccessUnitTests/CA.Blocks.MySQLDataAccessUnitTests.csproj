@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CA.Blocks.DataAccessTestDataForUnitTests\CA.Blocks.DataAccessTestDataForUnitTests.csproj" />
     <ProjectReference Include="..\CA.Blocks.MySQLDataAccess\CA.Blocks.MySQLDataAccess.csproj" />
   </ItemGroup>
 

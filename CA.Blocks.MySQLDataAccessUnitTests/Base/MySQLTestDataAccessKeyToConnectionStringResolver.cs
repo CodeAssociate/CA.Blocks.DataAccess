@@ -33,7 +33,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
                     }
                     else
                     {
-                        Assert.Ignore($"Connection String string not set in ${secretsFileName}. To run these test we need a conneciton to a MySql instance");  
+                        Assert.Ignore($"Connection String string not set in ${secretsFileName}. To run these test we need a connection to a MySql instance");  
                     }
 
                 }
