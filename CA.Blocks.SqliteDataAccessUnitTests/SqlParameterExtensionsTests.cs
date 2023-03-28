@@ -164,8 +164,6 @@ UInt64			INTEGER	Large values overflow
 
 
 
-            
-
             var AnyUntestesTypes = GetUnTestedTypes(testedTypes);
             if (AnyUntestesTypes.Count > 0)
             {

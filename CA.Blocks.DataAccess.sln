@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SqliteDataAccess"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.SqliteDataAccessUnitTests", "CA.Blocks.SqliteDataAccessUnitTests\CA.Blocks.SqliteDataAccessUnitTests.csproj", "{CF01A7DE-DB6A-4F4C-8BBD-478A13DA827B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.DataAccessTestDataForUnitTests", "CA.Blocks.DataAccessTestDataForUnitTests\CA.Blocks.DataAccessTestDataForUnitTests.csproj", "{6D48FEC2-E9D9-480E-A757-FAE496C31B83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccessTestDataForUnitTests", "CA.Blocks.DataAccessTestDataForUnitTests\CA.Blocks.DataAccessTestDataForUnitTests.csproj", "{6D48FEC2-E9D9-480E-A757-FAE496C31B83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

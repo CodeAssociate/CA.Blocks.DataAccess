@@ -16,7 +16,6 @@ using System.Data;
 using System.Data.Common;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
-using CA.Blocks.DataAccess.Model.Paging;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using CA.Blocks.SqliteDataAccess.Adapters;
 using Microsoft.Data.Sqlite;
@@ -187,12 +186,6 @@ namespace CA.Blocks.SqliteDataAccess
                 excapeCounter++;
             }
         }
-
-        #endregion SQL Bulk Update Methods
-
-        #region 
-
         #endregion
-
     }
 }

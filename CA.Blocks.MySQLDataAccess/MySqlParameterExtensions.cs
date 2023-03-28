@@ -43,74 +43,25 @@ namespace CA.Blocks.MySQLDataAccess
 
     public static class MySqlParameterExtensions
     {
-        public static MySqlCommand WithParameters(this MySqlCommand cmd, IList<MySqlParameter> parameters)
+        public static MySqlCommand WithParameters(this MySqlCommand cmd, IEnumerable<MySqlParameter> parameters)
         {
-            cmd.Parameters.AddRange(parameters.ToArray());
-            return cmd;
+            return cmd.WithParameters<MySqlCommand, MySqlParameter>(parameters);
         }
 
         public static MySqlCommand WithParameter(this MySqlCommand cmd, MySqlParameter parameter)
         {
-            cmd.Parameters.Add(parameter);
-            return cmd;
+            return cmd.WithParameter<MySqlCommand, MySqlParameter>(parameter);
         }
 
-        //public static MySqlCommand WithReturnResult(this MySqlCommand cmd)
-        //{
-        //    MySqlParameter sqlparam = cmd.CreateParameter();
-        //    sqlparam.ParameterName = "Return";
-        //    sqlparam.DbType = DbType.Int32;
-        //    sqlparam.Direction = ParameterDirection.ReturnValue;
-        //    cmd.Parameters.Add(sqlparam);
-        //    return cmd;
-        //}
-
-
-        //public static int? GetReturnResult(this MySqlCommand cmd)
-        //{
-        //    int? result = null;
-        //    var sqlParam = cmd.Parameters["Return"];
-        //    if (sqlParam != null && sqlParam.MySqlDbType == MySqlDbType.Int && sqlParam.Direction == ParameterDirection.ReturnValue)
-        //    {
-        //        if (sqlParam.Value != null && sqlParam.Value != DBNull.Value)
-        //            result = (int)sqlParam.Value;
-        //    }
-        //    return result;
-        //}
-
-
-        public static MySqlParameter AsOutput(this MySqlParameter sqlParameter)
-        {
-            sqlParameter.Direction = ParameterDirection.Output;
-            return sqlParameter;
-        }
-
-        public static MySqlParameter AsInputOutput(this MySqlParameter sqlParameter)
-        {
-            sqlParameter.Direction = ParameterDirection.InputOutput;
-            return sqlParameter;
-        }
 
         public static T ToValue<T>(this MySqlParameter sqlParameter)
         {
-            T result = default(T);
-            if (sqlParameter != null && (sqlParameter.Direction == ParameterDirection.Output || sqlParameter.Direction == ParameterDirection.InputOutput))
-            {
-                if (sqlParameter.Value != null && sqlParameter.Value != DBNull.Value)
-                    result = (T)sqlParameter.Value;
-            }
-            return result;
+            return sqlParameter.ToValue<MySqlParameter, T>();
         }
 
         public static T ToValueWithConvert<T>(this MySqlParameter sqlParameter)
         {
-            T result = default(T);
-            if (sqlParameter != null && (sqlParameter.Direction == ParameterDirection.Output || sqlParameter.Direction == ParameterDirection.InputOutput))
-            {
-                if (sqlParameter.Value != null && sqlParameter.Value != DBNull.Value)
-                    result = (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(sqlParameter.Value.ToString());
-            }
-            return result;
+            return sqlParameter.ToValueWithConvert<MySqlParameter, T>();
         }
 
         #region MySqlDbType.BigInt ( long, Int64 ) 
@@ -268,28 +219,8 @@ namespace CA.Blocks.MySQLDataAccess
         #endregion
 
 
-        #region MySqlDbType.Decimal  (Decimal, Money, SmallMoney)
+        #region MySqlDbType.Decimal 
 
-        //private static MySqlDbType ToSqlDbType(SpecificSQLDecimalType dbType)
-        //{
-        //    switch (dbType)
-        //    {
-        //        case SpecificSQLDecimalType.Decimal:
-        //            {
-        //                return MySqlDbType.Decimal;
-        //            }
-        //        case SpecificSQLDecimalType.Money:
-        //            {
-        //                return MySqlDbType.NewDecimal;
-        //            }
-        //        case SpecificSQLDecimalType.SmallMoney:
-        //            {
-        //                return MySqlDbType.;
-        //            }
-        //        default:
-        //            return MySqlDbType.Decimal;
-        //    }
-        //}
 
         private static MySqlParameter ToSqlParameterDecimal(Decimal? input, string strParameterName)
         {
@@ -371,11 +302,7 @@ namespace CA.Blocks.MySQLDataAccess
             return ToSqlParameterInt(input, strParameterName);
         }
         #endregion 
-        /*
-        MySqlDbType.Money;
-        MySqlDbType.NChar;
-        MySqlDbType.Real;
-        MySqlDbType.SmallDateTime;*/
+
 
 
         #region MySqlDbType.SmallInt  -> ( short, Int16)
@@ -560,11 +487,6 @@ namespace CA.Blocks.MySQLDataAccess
         }
 
         #endregion
-
-        /*
-       MySqlDbType.Variant; // ?lets find a usage ? 
-       MySqlDbType.Xml;
-       */
 
 
 
