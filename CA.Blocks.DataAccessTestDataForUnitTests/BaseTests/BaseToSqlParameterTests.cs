@@ -23,13 +23,13 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
         public abstract DbParameter ToSqlParameterTypeInstanceTestMain<T>(T test, DbType expectedDbType);
 
 
-        protected bool IsNullable<T>(T value)
+        protected static bool IsNullable<T>()
         {
             return Nullable.GetUnderlyingType(typeof(T)) != null;
         }
 
         // This tests that the ToSqlParameter exists for given type and is the expected underlying database type
-        protected DbParameter ToSqlParameterTypeTestMain<T, TSqlp>(Type toSqlParameterExtensionClass, T test, DbType expectedDbType) where TSqlp : DbParameter, new()
+        protected static DbParameter ToSqlParameterTypeTestMain<T, TSqlp>(Type toSqlParameterExtensionClass, T test, DbType expectedDbType) where TSqlp : DbParameter, new()
         {
             // Act
             var methods = toSqlParameterExtensionClass.GetMethods().Where(x => x.Name == "ToSqlParameter");
@@ -88,11 +88,11 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
                 Assert.AreEqual(test, result.DbParameter.Value, $"{test.GetType().FullName}");
             }
 
-            if (IsNullable(test))
+            if (IsNullable<T>())
             {
                 result.SourceType = typeof(T).GenericTypeArguments[0];
                 // Test Null values
-                T nullTest = default(T);
+                T nullTest = default;
                 var nullDbParameter = ToSqlParameterTypeInstanceTestMain<T>((T)nullTest, expectedDbType);
                 Assert.AreEqual(DBNull.Value, nullDbParameter.Value, $"{test.GetType().FullName}");
             }
@@ -149,7 +149,7 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
 #endif
 
 
-        protected IList<Type> GetUnTestedTypes(IList<TypeToDbParameterResult> results)
+        protected static IList<Type> GetUnTestedTypes(IList<TypeToDbParameterResult> results)
         {
             var untestedTypes = new List<Type>();
             var allExpectedTypes = TestDotNetTypesToSqlParameter.AllExpectedTypeValues();

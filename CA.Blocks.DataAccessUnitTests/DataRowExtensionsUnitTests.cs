@@ -12,12 +12,12 @@ namespace CA.Blocks.DataAccessUnitTests
         /// <summary>
         /// Create a test table with the first row as null and the second row as the testData value for type dbType
         /// </summary>
-        private DataTable CreateTestTable(Type dbType, object? testData)
+        private static DataTable CreateTestTable(Type dbType, object? testData)
         {
-            DataTable result = new DataTable();
-            DataColumn dcKey = new DataColumn("key", typeof(int));
+            var result = new DataTable();
+            var dcKey = new DataColumn("key", typeof(int));
             result.Columns.Add(dcKey);
-            DataColumn dc = new DataColumn("col", dbType);
+            var dc = new DataColumn("col", dbType);
             result.Columns.Add(dc);
             result.AcceptChanges();
             result.Rows.Add(1, null);
@@ -26,12 +26,12 @@ namespace CA.Blocks.DataAccessUnitTests
             return result;
         }
         
-        private DataRow GetDataRow(int rowNumber, DataTable sourceDataTable)
+        private static DataRow GetDataRow(int rowNumber, DataTable sourceDataTable)
         {
             return sourceDataTable.Rows[rowNumber];
         }
 
-        private IDataReader GetDataReader(int rowNumber, DataTable sourceDataTable)
+        private static IDataReader GetDataReader(int rowNumber, DataTable sourceDataTable)
         {
             var dataReader = sourceDataTable.CreateDataReader();
             for (int i = 0; i <= rowNumber; i++)
@@ -41,7 +41,7 @@ namespace CA.Blocks.DataAccessUnitTests
             return dataReader;
         }
         
-        private void AssertNullable<T>(Nullable<T> expected, Nullable<T> actual)  where T : struct 
+        private static void AssertNullable<T>(Nullable<T> expected, Nullable<T> actual)  where T : struct 
         {
             if (expected.HasValue)
             {
@@ -70,13 +70,15 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(byte[]), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.That(dataRow.AsBinary("col"), Is.EqualTo(expected));
-            Assert.That(dataRow.AsBinary(1), Is.EqualTo(expected));
-            Assert.That(dataRow.AsBinary(dt.Columns["col"]), Is.EqualTo(expected));
-            
-            Assert.That(dataReader.AsBinary("col"), Is.EqualTo(expected));
-            Assert.That(dataReader.AsBinary(1), Is.EqualTo(expected));
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsBinary("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsBinary(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsBinary(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsBinary("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsBinary(1), Is.EqualTo(expected));
+            });
         }
 
         [Test]
@@ -87,15 +89,18 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(bool), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.That(dataRow.AsBool("col"), Is.EqualTo(expected));
-            Assert.That(dataRow.AsBool(1), Is.EqualTo(expected));
-            Assert.That(dataRow.AsBool(dt.Columns["col"]), Is.EqualTo(expected));
-            
-            Assert.That(dataReader.AsBool("col"), Is.EqualTo(expected));
-            Assert.That(dataReader.AsBool(1), Is.EqualTo(expected));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsBool("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsBool(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsBool(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsBool("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsBool(1), Is.EqualTo(expected));
+            });
         }
-        
+
         [Test]
         [TestCase(0, null)]
         [TestCase(1, true)]
@@ -122,15 +127,18 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(byte), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.That(dataRow.AsByte("col"), Is.EqualTo(expected));
-            Assert.That(dataRow.AsByte(1), Is.EqualTo(expected));
-            Assert.That(dataRow.AsByte(dt.Columns["col"]), Is.EqualTo(expected));
-            
-            Assert.That(dataReader.AsByte("col"), Is.EqualTo(expected));
-            Assert.That(dataReader.AsByte(1), Is.EqualTo(expected));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsByte("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsByte(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsByte(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsByte("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsByte(1), Is.EqualTo(expected));
+            });
         }
-        
+
         [Test]
         [TestCase(0, null)]
         [TestCase(1, (byte)0)]
@@ -157,13 +165,16 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(char), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsChar("col"));
-            Assert.AreEqual(expected, dataRow.AsChar(1));
-            Assert.AreEqual(expected, dataRow.AsChar(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsChar("col"));
-            Assert.AreEqual(expected, dataReader.AsChar(1));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsChar("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsChar(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsChar(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsChar("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsChar(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -208,13 +219,16 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(DateTime), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsDateTime("col"));
-            Assert.AreEqual(expected, dataRow.AsDateTime(1));
-            Assert.AreEqual(expected, dataRow.AsDateTime(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsDateTime("col"));
-            Assert.AreEqual(expected, dataReader.AsDateTime(1));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsDateTime("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsDateTime(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsDateTime(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsDateTime("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsDateTime(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -247,13 +261,16 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(decimal), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsDecimal("col"));
-            Assert.AreEqual(expected, dataRow.AsDecimal(1));
-            Assert.AreEqual(expected, dataRow.AsDecimal(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsDecimal("col"));
-            Assert.AreEqual(expected, dataReader.AsDecimal(1));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsDecimal("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsDecimal(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsDecimal(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsDecimal("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsDecimal(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -280,13 +297,17 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(double), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.That(dataRow.AsDouble("col"), Is.EqualTo(expected));
-            Assert.That(dataRow.AsDouble(1), Is.EqualTo(expected));
-            Assert.That(dataRow.AsDouble(dt.Columns["col"]), Is.EqualTo(expected));
-            
-            Assert.That(dataReader.AsDouble("col"), Is.EqualTo(expected));
-            Assert.That(dataReader.AsDouble(1), Is.EqualTo(expected));
+
+            Assert.Multiple(() =>
+            {
+
+                Assert.That(dataRow.AsDouble("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsDouble(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsDouble(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsDouble("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsDouble(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -313,14 +334,17 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(float), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsFloat("col"));
-            Assert.AreEqual(expected, dataRow.AsFloat(1));
-            Assert.AreEqual(expected, dataRow.AsFloat(dt.Columns["col"]));
-            
-            // Single / float  a float is a single The use of "float" in C# seems to be a throwback to its C/C++ heritage. a float" still maps to the System.Single type in C# so use single where you can
-            Assert.AreEqual(expected, dataReader.AsSingle("col"));
-            Assert.AreEqual(expected, dataReader.AsSingle(1));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsFloat("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsFloat(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsFloat(dt.Columns["col"]), Is.EqualTo(expected));
+
+                // Single / float  a float is a single The use of "float" in C# seems to be a throwback to its C/C++ heritage. a float" still maps to the System.Single type in C# so use single where you can
+                Assert.That(dataReader.AsSingle("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsSingle(1), Is.EqualTo(expected));
+            });
         }
 
         [Test]
@@ -368,13 +392,16 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(Guid), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsGuid("col"));
-            Assert.AreEqual(expected, dataRow.AsGuid(1));
-            Assert.AreEqual(expected, dataRow.AsGuid(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsGuid("col"));
-            Assert.AreEqual(expected, dataReader.AsGuid(1));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsGuid("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsGuid(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsGuid(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsGuid("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsGuid(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -409,13 +436,16 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(int), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsInt("col"));
-            Assert.AreEqual(expected, dataRow.AsInt(1));
-            Assert.AreEqual(expected, dataRow.AsInt(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsInt("col"));
-            Assert.AreEqual(expected, dataReader.AsInt(1));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsInt("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsInt(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsInt(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsInt("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsInt(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -445,13 +475,16 @@ namespace CA.Blocks.DataAccessUnitTests
             
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsLong("col"));
-            Assert.AreEqual(expected, dataRow.AsLong(1));
-            Assert.AreEqual(expected, dataRow.AsLong(dt.Columns["col"]));
 
-            Assert.AreEqual(expected, dataReader.AsLong("col"));
-            Assert.AreEqual(expected, dataReader.AsLong(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsLong("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsLong(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsLong(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsLong("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsLong(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -480,13 +513,16 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(sbyte), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsSbyte("col"));
-            Assert.AreEqual(expected, dataRow.AsSbyte(1));
-            Assert.AreEqual(expected, dataRow.AsSbyte(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsSbyte("col"));
-            Assert.AreEqual(expected, dataReader.AsSbyte(1));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsSbyte("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsSbyte(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsSbyte(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsSbyte("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsSbyte(1), Is.EqualTo(expected));
+            });
         }
 
 
@@ -519,13 +555,19 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataReader = GetDataReader(rowNumber, dt);
 
             var actual = dataRow.AsShort("col");
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
 
             actual = dataRow.AsShort(1);
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
 
             actual = dataRow.AsShort(dt.Columns["col"]);
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
+
+            actual = dataReader.AsShort("col");
+            Assert.That(actual, Is.EqualTo(expected));
+
+            actual = dataReader.AsShort(1);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
 
@@ -556,13 +598,16 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(float), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsSingle("col"));
-            Assert.AreEqual(expected, dataRow.AsSingle(1));
-            Assert.AreEqual(expected, dataRow.AsSingle(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsSingle("col"));
-            Assert.AreEqual(expected, dataReader.AsSingle(1));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsSingle("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsSingle(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsSingle(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsSingle("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsSingle(1), Is.EqualTo(expected));
+            });
         }
 
         [Test]
@@ -592,13 +637,17 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(string), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsString("col"));
-            Assert.AreEqual(expected, dataRow.AsString(1));
-            Assert.AreEqual(expected, dataRow.AsString(dt.Columns["col"]));
-         
-            Assert.AreEqual(expected, dataReader.AsString("col"));
-            Assert.AreEqual(expected, dataReader.AsString(1));
+
+            Assert.Multiple(() =>
+            {
+
+                Assert.That(dataRow.AsString("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsString(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsString(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsString("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsString(1), Is.EqualTo(expected));
+            });
         }
         
         
@@ -609,13 +658,16 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(string), data);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.IsTrue(dataRow.AsString("col") == null);
-            Assert.IsTrue(dataRow.AsString(1) == null);
-            Assert.IsTrue(dataRow.AsString(dt.Columns["col"])  == null);
-            
-            Assert.IsTrue(dataReader.AsString("col") == null);
-            Assert.IsTrue(dataReader.AsString(1) == null);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsString("col"), Is.EqualTo(null));
+                Assert.That(dataRow.AsString(1), Is.EqualTo(null));
+                Assert.That(dataRow.AsString(dt.Columns["col"]), Is.EqualTo(null));
+
+                Assert.That(dataReader.AsString("col"), Is.EqualTo(null));
+                Assert.That(dataReader.AsString(1), Is.EqualTo(null));
+            });
         }
         
         [Test]
@@ -626,12 +678,15 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.IsTrue(dataRow.AsString("col", true) == string.Empty);
-            Assert.IsTrue(dataRow.AsString(1, true) == string.Empty);
-            Assert.IsTrue(dataRow.AsString(dt.Columns["col"], true)  == string.Empty);
-            
-            Assert.IsTrue(dataReader.AsString("col", true) == string.Empty);
-            Assert.IsTrue(dataReader.AsString(1, true) == string.Empty);
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsString("col", true), Is.EqualTo(string.Empty));
+                Assert.That(dataRow.AsString(1, true), Is.EqualTo(string.Empty));
+                Assert.That(dataRow.AsString(dt.Columns["col"], true), Is.EqualTo(string.Empty));
+
+                Assert.That(dataReader.AsString("col", true), Is.EqualTo(string.Empty));
+                Assert.That(dataReader.AsString(1, true), Is.EqualTo(string.Empty));
+            });
         }
 
         [Test]
@@ -657,12 +712,15 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.AreEqual(expected, dataRow.AsTimeSpan("col"));
-            Assert.AreEqual(expected, dataRow.AsTimeSpan(1));
-            Assert.AreEqual(expected, dataRow.AsTimeSpan(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsTimeSpan("col"));
-            Assert.AreEqual(expected, dataReader.AsTimeSpan(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsTimeSpan("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsTimeSpan(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsTimeSpan(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsTimeSpan("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsTimeSpan(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -696,14 +754,19 @@ namespace CA.Blocks.DataAccessUnitTests
         {
             var dt = CreateTestTable(typeof(uint), expected);
             var dataRow = GetDataRow(rowNumber, dt);
-            var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.AreEqual(expected, dataRow.AsUInt("col"));
-            Assert.AreEqual(expected, dataRow.AsUInt(1));
-            Assert.AreEqual(expected, dataRow.AsUInt(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsUInt("col"));
-            Assert.AreEqual(expected, dataReader.AsUInt(1));
+            var dataReader = GetDataReader(rowNumber, dt);
+           
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsUInt("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsUInt(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsUInt(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsUInt("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsUInt(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -735,12 +798,15 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.AreEqual(expected, dataRow.AsULong("col"));
-            Assert.AreEqual(expected,  dataRow.AsULong(1));
-            Assert.AreEqual(expected, dataRow.AsULong(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsULong("col"));
-            Assert.AreEqual(expected,  dataReader.AsULong(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsULong("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsULong(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsULong(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsULong("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsULong(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -772,13 +838,16 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(ushort), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            
-            Assert.AreEqual(expected, dataRow.AsUShort("col"));
-            Assert.AreEqual(expected, dataRow.AsUShort(1));
-            Assert.AreEqual(expected, dataRow.AsUShort(dt.Columns["col"]));
-            
-            Assert.AreEqual(expected, dataReader.AsUShort("col"));
-            Assert.AreEqual(expected, dataReader.AsUShort(1));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataRow.AsUShort("col"), Is.EqualTo(expected));
+                Assert.That(dataRow.AsUShort(1), Is.EqualTo(expected));
+                Assert.That(dataRow.AsUShort(dt.Columns["col"]), Is.EqualTo(expected));
+
+                Assert.That(dataReader.AsUShort("col"), Is.EqualTo(expected));
+                Assert.That(dataReader.AsUShort(1), Is.EqualTo(expected));
+            });
         }
         
         [Test]
@@ -799,101 +868,6 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullUShort("col"));
             AssertNullable(expected, dataReader.AsNullUShort(1));
         }
-     
-        //[Test]
-        //[TestCase(0, null, ',')]
-        //[TestCase(1, "", ',')]
-        //[TestCase(1, "1,2,3,4", ',')]
-        //[TestCase(1, "1|2|5", '|')]
-        //[TestCase(1, "1;2;5", ';')]
-        //public void GetValueFromRowAsShortList(int rowNumber, string testDate, char delimiter)
-        //{
-        //    List<short> expected = new List<short>();
-        //    if (!string.IsNullOrWhiteSpace(testDate))
-        //    {
-        //        var sarray = testDate.Split(delimiter);
-        //        expected.AddRange(sarray.Select(short.Parse));
-        //    }
-
-        //    var dt = CreateTestTable(typeof(string), testDate);
-        //    var dataRow = GetDataRow(rowNumber, dt);
-        //    var dataReader = GetDataReader(rowNumber, dt);
-
-        //    Assert.AreEqual(expected, dataRow.AsShortList("col", delimiter));
-        //    Assert.AreEqual(expected, dataRow.AsShortList(1));
-        //    Assert.AreEqual(expected, dataRow.AsShortList(dt.Columns["col"]));
-
-        //    Assert.AreEqual(expected, dataReader.AsShortList("col"));
-        //    Assert.AreEqual(expected, dataReader.AsShortList(1));
-        //}
-
-        /*
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, "")]
-        [TestCase(1, "1,2,3,4", ',')]
-        [TestCase(1, "1|2|5", '|')]
-        public void GetValueFromRowAsIntList(int rowNumber, string testDate, char delimiter)
-        {
-            List<int> expected = new List<int>();
-            if (!string.IsNullOrWhiteSpace(testDate))
-            {
-                var sarray = testDate.Split(delimiter);
-                expected.AddRange(sarray.Select(int.Parse));
-            }
-
-            IList<int> actual;
-            var dt = CreateTestTable(typeof(string), testDate);
-
-            actual = dataRow.AsIntList("col", delimiter);
-            Assert.AreEqual(expected, actual);
-        }
-
-
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, "")]
-        [TestCase(1, "1,2,3,4", ',')]
-        [TestCase(1, "1|2|5", '|')]
-        public void GetValueFromRowAsLongList(int rowNumber, string testDate, char delimiter)
-        {
-            List<long> expected = new List<long>();
-            if (!string.IsNullOrWhiteSpace(testDate))
-            {
-                var sarray = testDate.Split(delimiter);
-                expected.AddRange(sarray.Select(long.Parse));
-            }
-
-            IList<long> actual;
-            var dt = CreateTestTable(typeof(string), testDate);
-
-            actual = dataRow.AsLongList("col", delimiter);
-            Assert.AreEqual(expected, actual);
-        }
-
-
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, "")]
-        [TestCase(1, "1,2,3,4", ',')]
-        [TestCase(1, "1|2|5", '|')]
-        public void GetValueFromRowAsStringList(int rowNumber, string testDate, char delimiter)
-        {
-            List<string> expected = new List<string>();
-            if (!string.IsNullOrWhiteSpace(testDate))
-            {
-                var sarray = testDate.Split(delimiter);
-                expected.AddRange(sarray.ToList());
-            }
-
-            IList<string> actual;
-            var dt = CreateTestTable(typeof(string), testDate);
-
-            actual = dataRow.AsStringList("col", delimiter);
-            Assert.AreEqual(expected, actual);
-        }
-
-    */
 
     }
 }
