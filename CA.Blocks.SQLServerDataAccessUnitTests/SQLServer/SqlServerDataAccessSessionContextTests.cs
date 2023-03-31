@@ -14,7 +14,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     {
         public readonly string RandomStringContextValue = Guid.NewGuid().ToString();
         public readonly Guid RandomGuidContextValue = Guid.NewGuid();
+#pragma warning disable SCS0005 // Weak random number generator. only used in testing
         public readonly int RandomIntContextValue = new Random().Next(10000);
+#pragma warning restore SCS0005 // Weak random number generator.
 
 
         // To pass the context simply override the GetConnectionContext and return the string value you what to pass in.

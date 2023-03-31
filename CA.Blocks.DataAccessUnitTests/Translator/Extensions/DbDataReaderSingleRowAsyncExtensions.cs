@@ -110,7 +110,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = await GenerateTestDataReaderAsync(0);
         var result = await dataReader.ToSingleOrDefaultAsync<TestDataObject>();
-        Assert.AreEqual(default(TestDataObject), result);
+        Assert.That(result, Is.EqualTo(default(TestDataObject)));
     }
 
     [Test]
@@ -118,7 +118,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = GenerateTestDataReaderAsync(0);
         var result = await dataReader.ToSingleOrDefault<TestDataObject>();
-        Assert.AreEqual(default(TestDataObject), result);
+        Assert.That(result, Is.EqualTo(default(TestDataObject)));
     }
 
     [Test]
@@ -131,8 +131,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingleOrDefaultAsync<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("more"));
+        Assert.That(exception.Message.Contains("Expected Single Result"), Is.True);
+        Assert.That(exception.Message.Contains("more"), Is.True);
     }
 
     [Test]
@@ -145,8 +145,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingleOrDefault<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("more"));
+        Assert.That(exception.Message.Contains("Expected Single Result"), Is.True);
+        Assert.That(exception.Message.Contains("more"), Is.True);
     }
 
     #endregion 
@@ -245,7 +245,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = await  GenerateTestDataReaderAsync(0);
         var result = await dataReader.ToFirstOrDefaultAsync<TestDataObject>();
-        Assert.AreEqual(default(TestDataObject), result);
+        Assert.That(result, Is.EqualTo(default(TestDataObject)));
     }
 
     [Test]
@@ -253,7 +253,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
     {
         var dataReader = GenerateTestDataReaderAsync(0);
         var result = await dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.AreEqual(default(TestDataObject), result);
+        Assert.That(result, Is.EqualTo(default(TestDataObject)));
     }
 
     [Test]

@@ -7,7 +7,7 @@ namespace CA.Blocks.DataAccessUnitTests.Base
     public class MockDataReader : IDataReader
     {
         private bool open = true;
-        private DataTable resultSet;
+        private readonly DataTable resultSet;
         private int currentPosition = 0;
         
         internal MockDataReader(DataTable tbl)
@@ -77,7 +77,7 @@ namespace CA.Blocks.DataAccessUnitTests.Base
               (resultSet.Rows[currentPosition][i] == null));
         }
 
-        public long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        public long GetBytes(int i, long fieldOffset, byte[]? buffer, int bufferoffset, int length)
         {
             throw new NotSupportedException();
         }
@@ -160,7 +160,7 @@ namespace CA.Blocks.DataAccessUnitTests.Base
             throw new NotSupportedException();
         }
 
-        public long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
+        public long GetChars(int i, long fieldoffset, char[]? buffer, int bufferoffset, int length)
         {
             throw new NotSupportedException();
         }
