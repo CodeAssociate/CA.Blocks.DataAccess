@@ -7,7 +7,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
     [TestFixture]
     public class AdventureWorksDataAccessTests
     {
-        private AdventureWorksDataAccess _adventureWorksDataAccess;
+        private readonly AdventureWorksDataAccess _adventureWorksDataAccess;
         public AdventureWorksDataAccessTests()
         {
             _adventureWorksDataAccess = new AdventureWorksDataAccess();
@@ -23,7 +23,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
                     Assert.Ignore("The AdventureWorks database does not  exist");
                 }
             }
-            catch (System.Exception ex)
+            catch
             {
                 Assert.Ignore("The AdventureWorks database does not exist");
             }

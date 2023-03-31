@@ -14,9 +14,9 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
         var dataReaderTask = GenerateTestDataReaderAsync(numberOfRecords);
 
         var result = await dataReaderTask.ToListOf<TestDataObject>();
-        Assert.AreEqual(numberOfRecords, result.Count);
-        Assert.AreEqual(result[numberOfRecords - 1].IntCol, numberOfRecords);
-        Assert.AreEqual(0, result.Count(x => x.DateCol < testDate));
+        Assert.That(result, Has.Count.EqualTo(numberOfRecords));
+        Assert.That(numberOfRecords, Is.EqualTo(result[numberOfRecords - 1].IntCol));
+        Assert.That(result.Count(x => x.DateCol < testDate), Is.EqualTo(0));
     }
 
 
@@ -27,8 +27,8 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
         var dataReaderTask = GenerateTestDataReaderAsync(numberOfRecords);
 
         var result = await dataReaderTask.ToSingleNamedColumnList<string>("StringCol");
-        Assert.That(result.Count, Is.EqualTo(numberOfRecords));
-        Assert.True(result[numberOfRecords - 1].Contains(numberOfRecords.ToString()));
+        Assert.That(result, Has.Count.EqualTo(numberOfRecords));
+        Assert.That(result[numberOfRecords - 1], Does.Contain(numberOfRecords.ToString()));
     }
 
     [Test]
@@ -72,7 +72,7 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
         var dataReader = GenerateTestDataSetReaderAsync(2, 10);
 
         var result = await dataReader.ToResultsSet<TestDataObject, TestDataObject>();
-        Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
+        Assert.That(result.Results1, Has.Count.EqualTo(numberOfRecords));
         Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
 
         Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));

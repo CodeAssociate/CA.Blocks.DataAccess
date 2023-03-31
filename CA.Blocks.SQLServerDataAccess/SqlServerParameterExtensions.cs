@@ -175,9 +175,10 @@ namespace CA.Blocks.SQLServerDataAccess
 
         private static SqlParameter ToSqlParameterChar(Char? input, string strParameterName, SpecificSQLCharType dbType)
         {
-            var sqlparam = new SqlParameter(strParameterName, ToSqlDbType(dbType));
-            sqlparam.Value = ParameterHelper.ToDbParameterValue(input);
-            return (sqlparam);
+            return new SqlParameter(strParameterName, ToSqlDbType(dbType))
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
         }
 
         public static SqlParameter ToSqlParameter(this Char input, string strParameterName, SpecificSQLCharType dbType = SpecificSQLCharType.Char)
@@ -222,9 +223,10 @@ namespace CA.Blocks.SQLServerDataAccess
 
         private static SqlParameter ToSqlParameterDateTime(DateTime? input, string strParameterName, SpecificSQLDateTimeType dbType)
         {
-            var sqlparam = new SqlParameter(strParameterName, ToSqlDbType(dbType));
-            sqlparam.Value = ParameterHelper.ToDbParameterValue(input);
-            return (sqlparam);
+            return  new SqlParameter(strParameterName, ToSqlDbType(dbType))
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
         }
 
         public static SqlParameter ToSqlParameter(this DateTime input, string strParameterName, SpecificSQLDateTimeType dbType = SpecificSQLDateTimeType.DateTime2)
@@ -243,9 +245,10 @@ namespace CA.Blocks.SQLServerDataAccess
         #region  DateTimeOffset
         private static SqlParameter ToSqlParameterDateTimeOffset(DateTimeOffset? input, string strParameterName)
         {
-            var sqlparam = new SqlParameter(strParameterName, SqlDbType.DateTimeOffset);
-            sqlparam.Value = ParameterHelper.ToDbParameterValue(input);
-            return (sqlparam);
+            return new SqlParameter(strParameterName, SqlDbType.DateTimeOffset)
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
         }
 
         public static SqlParameter ToSqlParameter(this DateTimeOffset input, string strParameterName)
@@ -284,9 +287,10 @@ namespace CA.Blocks.SQLServerDataAccess
 
         private static SqlParameter ToSqlParameterDecimal(Decimal? input, string strParameterName, SpecificSQLDecimalType dbType)
         {
-            var sqlparam = new SqlParameter(strParameterName, ToSqlDbType(dbType));
-            sqlparam.Value = ParameterHelper.ToDbParameterValue(input);
-            return (sqlparam);
+            return new SqlParameter(strParameterName, ToSqlDbType(dbType))
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
         }
 
 
@@ -307,9 +311,10 @@ namespace CA.Blocks.SQLServerDataAccess
 
         private static SqlParameter ToSqlParameterDouble(float? input, string strParameterName)
         {
-            var sqlparam = new SqlParameter(strParameterName, SqlDbType.Real);
-            sqlparam.Value = ParameterHelper.ToDbParameterValue(input);
-            return (sqlparam);
+            return new SqlParameter(strParameterName, SqlDbType.Real)
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
         }
 
         public static SqlParameter ToSqlParameter(this float input, string strParameterName)
@@ -327,9 +332,10 @@ namespace CA.Blocks.SQLServerDataAccess
 
         private static SqlParameter ToSqlParameterDouble(Double? input, string strParameterName)
         {
-            var sqlparam = new SqlParameter(strParameterName, SqlDbType.Float);
-            sqlparam.Value = ParameterHelper.ToDbParameterValue(input);
-            return (sqlparam);
+            return new SqlParameter(strParameterName, SqlDbType.Float)
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
         }
 
         public static SqlParameter ToSqlParameter(this Double input, string strParameterName)
@@ -509,9 +515,10 @@ namespace CA.Blocks.SQLServerDataAccess
 #region SqlDbType.UniqueIdentifier ( System.Guid)
         private static SqlParameter ToSqlParameterGuid(Guid? input, string strParameterName)
         {
-            var sqlparam = new SqlParameter(strParameterName, SqlDbType.UniqueIdentifier);
-            sqlparam.Value = ParameterHelper.ToDbParameterValue(input);
-            return (sqlparam);
+            return new SqlParameter(strParameterName, SqlDbType.UniqueIdentifier)
+            {
+                Value = ParameterHelper.ToDbParameterValue(input)
+            };
         }
 
         public static SqlParameter ToSqlParameter(this Guid input, string strParameterName)
@@ -575,9 +582,10 @@ namespace CA.Blocks.SQLServerDataAccess
 #if NET6_0_OR_GREATER
         private static SqlParameter ToSqlParameterDateOnly(DateOnly? input, string strParameterName)
         {
-            var sqlparam = new SqlParameter(strParameterName, SqlDbType.Date);
-            sqlparam.Value = input.HasValue ? (object)(input.Value.ToDateTime(new TimeOnly(0))) : (object)DBNull.Value;
-            return (sqlparam);
+           return new SqlParameter(strParameterName, SqlDbType.Date)
+            {
+                Value = input.HasValue ? (object)(input.Value.ToDateTime(new TimeOnly(0))) : (object)DBNull.Value
+            };
         }
 
         public static SqlParameter ToSqlParameter(this DateOnly input, string strParameterName)
@@ -593,9 +601,10 @@ namespace CA.Blocks.SQLServerDataAccess
     
         private static SqlParameter ToSqlParameterTimeOnly(TimeOnly? input, string strParameterName)
         {
-            var sqlparam = new SqlParameter(strParameterName, SqlDbType.Time);
-            sqlparam.Value = input.HasValue ? (object)(input.Value.ToTimeSpan()) : (object)DBNull.Value;
-            return (sqlparam);
+            return new SqlParameter(strParameterName, SqlDbType.Time)
+            {
+                Value = input.HasValue ? (object)(input.Value.ToTimeSpan()) : (object)DBNull.Value
+            };
         }
 
         public static SqlParameter ToSqlParameter(this TimeOnly input, string strParameterName)

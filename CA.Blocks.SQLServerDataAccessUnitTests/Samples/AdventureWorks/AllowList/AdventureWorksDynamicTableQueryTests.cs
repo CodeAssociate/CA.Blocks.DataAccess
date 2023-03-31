@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using CA.Blocks.DataAccess.DI;
-using CA.Blocks.DataAccess.Translator.Extensions;
-using CA.Blocks.SQLServerDataAccess;
+﻿using System.Data;
 using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowList
@@ -12,7 +7,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
     [TestFixture]
     public class AdventureWorksDynamicTableQueryTests
     {
-        private AdventureWorksDynamicTableQuery _adventureWorksDataAccess;
+        private readonly AdventureWorksDynamicTableQuery _adventureWorksDataAccess;
         public AdventureWorksDynamicTableQueryTests()
         {
             _adventureWorksDataAccess = new AdventureWorksDynamicTableQuery();
@@ -29,7 +24,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
                     Assert.Ignore("The AdventureWorks database does not  exist");
                 }
             }
-            catch (System.Exception ex)
+            catch 
             {
                 Assert.Ignore("The AdventureWorks database does not exist");
             }

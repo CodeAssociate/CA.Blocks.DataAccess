@@ -10,9 +10,9 @@ namespace CA.Blocks.DataAccessUnitTests
         // we use a simple mock of reader using a data table
         private IDataReader CreateTestTable(Type dbType, object? testData)
         {
-            DataTable result = new DataTable();
-            DataColumn dckey = new DataColumn("key", typeof(int));
-            result.Columns.Add(dckey);
+            var result = new DataTable();
+            var dcKey = new DataColumn("key", typeof(int));
+            result.Columns.Add(dcKey);
             DataColumn dc = new DataColumn("col", dbType);
             result.Columns.Add(dc);
             result.AcceptChanges();
@@ -93,10 +93,10 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsShort("col");
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
 
                 actual = dr.AsShort(1);
-                Assert.AreEqual(expected, actual);
+                Assert.That(actual, Is.EqualTo(expected));
             }
             else
             {

@@ -3,7 +3,7 @@
 public class TestDataClass
 {
     public int IntCol { get; set; }
-    public string StringCol { get; set; }
+    public string StringCol { get; set; } = null!;
     public Guid GuidCol { get; set; }
     public DateTime DateCol { get; set; }
 }

@@ -74,8 +74,11 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
 
         public TypeToDbParameterResult ToSqlParameterTypeTest<T>(T test, DbType expectedDbType, Action<T, DbParameter> compareAction = null)
         {
-            var result = new TypeToDbParameterResult{ SourceType = typeof(T)};
-            result.DbParameter = ToSqlParameterTypeInstanceTestMain<T>(test, expectedDbType);
+            var result = new TypeToDbParameterResult
+            {
+                SourceType = typeof(T),
+                DbParameter = ToSqlParameterTypeInstanceTestMain<T>(test, expectedDbType)
+            };
             if (compareAction != null)
             {
                 compareAction(test, result.DbParameter);
@@ -100,8 +103,11 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
 
         public TypeToDbParameterResult ToSqlParameterTypeTestDateOnly(DateOnly test, DbType expectedDbType, Action<DateOnly?, DbParameter> compareAction = null)
         {
-            var result = new TypeToDbParameterResult() { SourceType = typeof(DateOnly) };
-            result.DbParameter = ToSqlParameterTypeInstanceTestMain<DateOnly>(test, expectedDbType);
+            var result = new TypeToDbParameterResult
+            {
+                SourceType = typeof(DateOnly),
+                DbParameter = ToSqlParameterTypeInstanceTestMain<DateOnly>(test, expectedDbType)
+            };
             Assert.NotNull(result.DbParameter.Value);
             if (compareAction != null)
             {
@@ -120,8 +126,11 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
 
         public TypeToDbParameterResult ToSqlParameterTypeTestTimeOnly(TimeOnly test, DbType expectedDbType, Action<TimeOnly?, DbParameter> compareAction = null)
         {
-            var result = new TypeToDbParameterResult() { SourceType = typeof(TimeOnly) };
-            result.DbParameter = ToSqlParameterTypeInstanceTestMain<TimeOnly>(test, expectedDbType);
+            var result = new TypeToDbParameterResult
+            {
+                SourceType = typeof(TimeOnly),
+                DbParameter = ToSqlParameterTypeInstanceTestMain<TimeOnly>(test, expectedDbType)
+            };
             Assert.NotNull(result.DbParameter.Value);
             if (compareAction != null)
             {

@@ -1,6 +1,5 @@
 ﻿using CA.Blocks.DataAccess.DataTableHelpers;
 using System.Data;
-using System.Reflection;
 
 namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 {
@@ -39,7 +38,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
         public class TestComplexObject
         {
             public int Id { get; set; }
-            public string Value { get; set; }
+            public string Value { get; set; } = null!;
         }
 
 

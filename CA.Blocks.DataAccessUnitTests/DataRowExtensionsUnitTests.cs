@@ -60,9 +60,9 @@ namespace CA.Blocks.DataAccessUnitTests
         [TestCase(1, "Test Data ")]
         [TestCase(1, "Test Date 2")]
         [TestCase(1, "")]
-        public void GetValueFromRowAsBinary(int rowNumber, string testValue)
+        public void GetValueFromRowAsBinary(int rowNumber, string? testValue)
         {
-            byte[] expected = null;
+            byte[]? expected = null;
             if (testValue != null)
             {
                 expected = Encoding.ASCII.GetBytes(testValue);
