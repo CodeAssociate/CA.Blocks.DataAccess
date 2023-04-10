@@ -1,9 +1,8 @@
 ## SQL injection
 
-One of the key responsibilities that the CA.Blocks.DataAccess passes on to you as the developer is  protecting against SQL injection attacks.  The framework exposes the full power of the underlying database through the execution of SQL, this SQL is 100% written by the developer with no restrictions. Using the blocks there is no direct way to execute a SQL statement from the calling code without writing a custom data access method.  Whilst the core design is protected by default, and all functions that execute the SQL commands are protected.  It is the custom DataAccess methods that invoke those protected methods that need to be written with SQL injection in mind. As the developer you may be tempted to expose this to avoid writing your own access methods by making the protected methods public, doing this is opening your code up to be injected.  Working directly with the SQL means as a developer you are responsible for the SQL generated this means responsibility for injection attacks. The simplest way to avoid injection attacks is not executing any SQL that is not 100% controlled by the code and using parameterized SQL everywhere
+One of the key responsibilities that the CA.Blocks.DataAccess passes on to you as the developer is that of protecting against SQL injection attacks.  The framework exposes the full power of the underlying database through the execution of SQL, this SQL is 100% written by the developer with no restrictions. Using the blocks there is no direct way to execute a SQL statement from the calling code without writing a custom data access method.  Whilst the core design is protected by default, and all functions that execute the SQL commands are protected.  It is the custom DataAccess methods that invoke those protected methods that need to be written with SQL injection in mind. As the developer you may be tempted to expose this to avoid writing your own access methods by making the protected methods public. Doing this will open your code up to be injected.  Working directly with the SQL means as a developer you are responsible for the SQL generated this means responsibility for injection attacks. The simplest way to avoid injection attacks is not executing any SQL that is not 100% controlled by the code and using parameterized SQL everywhere
 
 With full access to the underlying database means you as the developer are responsible for exposing what is executed.
-
 
 ### What is SQL Injection
 
@@ -11,7 +10,7 @@ SQL Injection is a technique that results in unauthorised SQL commands being exe
 
 #### SQL Injection By Example
 
-Example of a injectable SQL, consider the following method which is prone to SQL injection.
+The simplest way to illustrate this by way of an Example of a injectable SQL, consider the following method which is prone to SQL injection.
 
 ```C#
     public DataTable SQLInjectionExample_Bad(string lastName)
@@ -22,9 +21,9 @@ Example of a injectable SQL, consider the following method which is prone to SQL
     }
 ```
  
- This is a made up example using the Adventure works schema. We have a method with a restriction of only getting data where the City = 'Bothell' but allowing the user to search by last name with with a like wild card. 
+ This is a made up example using the Adventure works schema. We have a method with a restriction of only getting data where the City = 'Bothell' but allowing the user to search by last name using the sql like wild card syntax. 
 
-There is a problem here are we building a SQL statement from untrusted input. To demonstrate how sql injection can be used we look at executing this method with different parameters :
+There is a problem here in that the code is building a SQL statement from untrusted input. To demonstrate how sql injection can be used we look at executing this method with different parameters :
 
 ```C#
 result = SQLInjectionExample_Bad("N%")
@@ -33,7 +32,7 @@ This is what was designed for and it works with the expected input:
 ```SQL
 Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like 'N%' 
 ```
-from a functionality point on view this does work.
+from a functionality point on view this does what is expected.
 
 
 Now let search for D'arbo ( Maryam D'arbo is the Bond girl in The Living Daylights) 
@@ -41,30 +40,30 @@ Now let search for D'arbo ( Maryam D'arbo is the Bond girl in The Living Dayligh
 ```C#
 result = SQLInjectionExample_Bad("D'arbo")
 ```
-This result in a synatax error 
+This results in a syntax error 
 ```SQL
 Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like 'D'arbo' 
 ```
-It you expose errors from the database  this is the start of you hell, as you have just shown the world that there an Unclosed quotation mark after the character string resulting in an  incorrect syntax near 'arbo'.
+If you expose errors from the database, this is the start of you hell, as you have just shown the world that there an Unclosed quotation mark after the character string resulting in an  incorrect syntax near 'arbo'. It you have just told the world you have injectable code. 
 
 
-The hacker that what to steel data will inject
+The hacker that wants to steel data will simply inject "' or  ''='"
 ```C#
 result = SQLInjectionExample_Bad("' or  ''='")
 ```
 
-There we terminate parameter with ' then and or ''=' and leave the orginal ' in place the result is    
+There we terminate parameter with ' then add an or ''=' and leave the original ' in place the result is    
 
 ```SQL
 Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like '' or  ''=''
 ```
 In this statement we have bypassed the security check for City = 'Bothell'  and we have got everything in the table where ''=''. The query has just dumped all rows including ones that were restricted.
 
-The Hacker that just what to be nasty:
+The Hacker that just wants to be nasty can shutdown you server:
 ```C#
 result = SQLInjectionExample_Bad("'; SHUTDOWN WITH NOWAIT ; select '")
 ```
-💥 if the account that has admin rights on your connection the SQL server is now shutting down. this is why Least privilege is important. 
+💥 if the account that has admin rights on your connection the SQL server is now shutting down. This is why Least privilege is important. 
 ```SQL
 Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like ''; SHUTDOWN WITH NOWAIT ; select '' 
 ```
@@ -73,9 +72,9 @@ If we break this down
 ```SQL
 '; SHUTDOWN WITH NOWAIT ; select '
 ```
-the hacker can up anything they like between the ; ; and if you have permissions the database will execute that statement.   
+the hacker can add anything they like between the ; ; and if you have permissions the database will execute that statement.   
 
-As such you never build and execute the SQL that contains anything that comes as a parameter. You should  Parameterise all variables.
+As such you never build and execute the SQL that contains anything that comes as a parameter. You should Parameterise all variables.
 
 
 ### Parameterise all variables 

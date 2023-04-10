@@ -58,7 +58,6 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
             }
         }
 
-
         public static DataTable ToObjectDataTable<T>(this IEnumerable<T> input,
             Action<DataTable, Type> setupDataTableColumns,
             Action<DataRow, T> populateRowFrom
@@ -76,9 +75,6 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
             result.AcceptChanges();
             return result;
         }
-
-
-
 
         // Overload to ToObjectDataTable when calling code does not need to know typeof(T) 
         public static DataTable ToObjectDataTable<T>(this IEnumerable<T> input,
@@ -104,7 +100,6 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
             return ToObjectDataTable(input, SetupObjectDataTableColumns, PopulateObjectRowFrom);
         }
 
-
         /// <summary>
         /// When working with parameters, some providers they allow you to send in a dataTable as a parameter,
         /// this is useful when working on bulk operations, or passing in sets of values as a parameter 
@@ -116,8 +111,5 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
         {
             return ToObjectDataTable(input, SetupValueDataTableColumns, PopulateValueRowFrom);
         }
-
-
-
     }
 }

@@ -133,15 +133,6 @@ namespace CA.Blocks.SqliteDataAccess
             return CreateTextCommand(sql);
         }
 
-        protected SqliteCommand CreateTableSelectCommand(string tableName, string filter)
-        {
-            return CreateTextCommand(string.Format("SELECT * FROM {0} {1}", tableName, filter));
-        }
-
-        protected SqliteCommand CreateTableSelectCommand(string tableName, string filter, string orderBy)
-        {
-            return CreateTextCommand(string.Format("SELECT * FROM {0} {1} Order By {2}", tableName, filter, orderBy));
-        }
 
         #endregion StoredProcedureHelpers
 

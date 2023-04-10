@@ -42,6 +42,4 @@ namespace CA.Blocks.SQLServerDataAccess.Extensions
             };
         }
     }
-
-
 }
