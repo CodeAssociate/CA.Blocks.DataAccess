@@ -12,7 +12,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
         public class ExampleReadDataSingleValue: SqlServerDataAccess
         {
             public ExampleReadDataSingleValue() : base(
-                new DataAccessConfig("SampleConfig", new DataAccessConfigOptions { ConnectionStringKey = "notused" },
+                new DataAccessConfig( new DataAccessConfigOptions { ConnectionStringKey = "notused" },
                     new HardCodedConnectionStringsResolver(TestConnectionStrings.LOCAL_TEMP_DB))
             )
             {

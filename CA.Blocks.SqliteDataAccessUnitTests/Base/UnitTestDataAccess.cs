@@ -15,7 +15,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Base
         }
 
         public UnitTestDataAccess(DataAccessConfigOptions options) : base(
-            new DataAccessConfig("SqlLiteUnitTesting", options, new UnitTRestInMemDBResolver()), null)
+            new DataAccessConfig(options, new UnitTRestInMemDBResolver()), null)
         {
 
         }

@@ -62,11 +62,6 @@ namespace CA.Blocks.SqliteDataAccess
             return null;
         }
 
-        private void SetCommandContext(SqliteConnection sqlConnection)
-        {
-          
-        }
-
         public void BeginTransaction()
         {
             var cmd = CreateTextCommand("begin");

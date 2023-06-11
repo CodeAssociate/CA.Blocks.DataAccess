@@ -38,9 +38,9 @@ To use this in from the blocks we need to join the config up notice we are using
 public class MyDataAccess : SqlServerDataAccess
 {
     public MyDataAccess() : base (
-            new DataAccessConfig("configName", 
-            new DataAccessConfigOptions { ConnectionStringKey = "exampleName" }, 
-            new AppDotConfigConnectionStringsResolver())
+            new DataAccessConfig( 
+                new DataAccessConfigOptions { ConnectionStringKey = "exampleName" }, 
+                new AppDotConfigConnectionStringsResolver())
         )
         {
         }

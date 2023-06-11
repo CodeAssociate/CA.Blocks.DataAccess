@@ -14,8 +14,8 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions.Translators.Json.Converters
 
         private class ColourValueDataType
         {
-            public string Colour { get; set; }
-            public string Value { get; set; }
+            public string? Colour { get; set; }
+            public string? Value { get; set; }
         }
 
         [Test]
@@ -25,14 +25,14 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions.Translators.Json.Converters
             var dataRow = GetDataRow(1, dt);
             var dataReader = GetDataReader(1, dt);
 
-            var expected = new List<ColourValueDataType>
-            {
-                new ColourValueDataType { Colour = "red", Value = "#f00" },
-                new ColourValueDataType { Colour = "green", Value = "#0f0" }
-            };
+            //var expected = new List<ColourValueDataType>
+            //{
+            //    new ColourValueDataType { Colour = "red", Value = "#f00" },
+            //    new ColourValueDataType { Colour = "green", Value = "#0f0" }
+            //};
 
             var target = new JsonDbColToTypeConverter<List<ColourValueDataType>>(new JsonSerializerOptions{ PropertyNameCaseInsensitive = true});
-            var r = target.GetDataValue(dataRow, "col");
+
             Assert.That(target.GetDataValue(dataRow, "col")[1].Colour, Is.EqualTo("green"));
             Assert.That(target.GetDataValue(dataRow, 1)[1].Colour, Is.EqualTo("green"));
 
@@ -51,7 +51,6 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions.Translators.Json.Converters
 
 
             var target = new NullJsonDbColToTypeConverter<IList<ColourValueDataType>>(new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            var r = target.GetDataValue(dataRow, "col");
             Assert.That(target.GetDataValue(dataRow, "col"), Is.Null);
             Assert.That(target.GetDataValue(dataRow, 1), Is.Null);
 
@@ -67,14 +66,8 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions.Translators.Json.Converters
             var dataRow = GetDataRow(1, dt);
             var dataReader = GetDataReader(1, dt);
 
-            var expected = new List<ColourValueDataType>
-            {
-                new ColourValueDataType { Colour = "red", Value = "#f00" },
-                new ColourValueDataType { Colour = "green", Value = "#0f0" }
-            };
 
             var target = new NullJsonDbColToTypeConverter<IList<ColourValueDataType>>(new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            var r = target.GetDataValue(dataRow, "col");
             Assert.That(target.GetDataValue(dataRow, "col")![1].Colour, Is.EqualTo("green"));
             Assert.That(target.GetDataValue(dataRow, 1)![1].Colour, Is.EqualTo("green"));
 

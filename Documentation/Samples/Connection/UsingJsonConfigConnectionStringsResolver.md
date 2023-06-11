@@ -43,9 +43,9 @@ To use this in from the blocks we need to join the config up notice we are using
 public class MyDataAccess : SqlServerDataAccess
 {
     public MyDataAccess(IConfiguration configuration) : base (
-            new DataAccessConfig("configName", 
-            new DataAccessConfigOptions { ConnectionStringKey = "exampleName" }, 
-            new JsonConfigConnectionStringsResolver(configuration))
+            new DataAccessConfig( 
+                new DataAccessConfigOptions { ConnectionStringKey = "exampleName" }, 
+                new JsonConfigConnectionStringsResolver(configuration))
         )
         {
         }

@@ -47,6 +47,17 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Extensions.Translators.Json\'
     script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Translators.Json.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Extensions.Translators.Json.csproj'
 
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Extensions.Config.Json\'
+    script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Config.Json.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Extensions.Config.Json.csproj'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Extensions.Translators.Json\'
+    script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Translators.Json.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CCA.Blocks.DataAccess.Extensions.Translators.Json.csproj'
 
 - task: PowerShell@2
   inputs:

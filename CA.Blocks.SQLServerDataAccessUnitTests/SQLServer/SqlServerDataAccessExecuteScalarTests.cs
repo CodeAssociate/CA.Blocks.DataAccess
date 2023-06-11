@@ -11,7 +11,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     public class SqlServerDataAccessExecuteScalarTests : SqlServerDataAccess
     {
         public SqlServerDataAccessExecuteScalarTests() 
-            : base( new DataAccessConfig("UnitTestDataAccess",
+            : base( new DataAccessConfig(
                     new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" },
                     new LocalSqlServerUnitTestStringsResolver()))
         {
