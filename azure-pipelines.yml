@@ -59,6 +59,7 @@ steps:
 - task: PowerShell@2
   displayName: 'Set SemanticVerion for CA.Blocks.DataAccess.Model'
   inputs:
+    targetType: 'inline'
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Model\'
     script: '((Get-Content -path CA.Blocks.DataAccess.Model.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Model.csproj'
 
