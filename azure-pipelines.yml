@@ -36,35 +36,41 @@ steps:
 
 #Set the assembly file and version numbers to be the build number
 - task: PowerShell@2
+  displayName: 'Set SemanticVerion for CA.Blocks.DataAccess'
   inputs:
     targetType: 'inline'
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess\'
     script: '((Get-Content -path CA.Blocks.DataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.csproj'
 
 - task: PowerShell@2
+  displayName: 'Set SemanticVerion for CA.Blocks.DataAccess.Extensions.Translators'
   inputs:
     targetType: 'inline'
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Extensions.Translators.Json\'
     script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Translators.Json.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Extensions.Translators.Json.csproj'
 
 - task: PowerShell@2
+  displayName: 'Set SemanticVerion for CA.Blocks.DataAccess.Extensions.Config.Json'
   inputs:
     targetType: 'inline'
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Extensions.Config.Json\'
     script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Config.Json.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Extensions.Config.Json.csproj'
 
 - task: PowerShell@2
+  displayName: 'Set SemanticVerion for CA.Blocks.DataAccess.Model'
   inputs:
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Model\'
     script: '((Get-Content -path CA.Blocks.DataAccess.Model.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Model.csproj'
 
 - task: PowerShell@2
+  displayName: 'Set SemanticVerion for CA.Blocks.SqliteDataAccess'
   inputs:
     targetType: 'inline'
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SqliteDataAccess\'
     script: '((Get-Content -path CA.Blocks.SqliteDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SqliteDataAccess.csproj'
 
 - task: PowerShell@2
+  displayName: 'Set SemanticVerion for CA.Blocks.SQLServerDataAccess'
   inputs:
     targetType: 'inline'
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SQLServerDataAccess\'
