@@ -14,8 +14,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Samples
         public class ReadDataTableDataAccess : MySqlDataAccess
         {
             public ReadDataTableDataAccess() : base(
-                new DataAccessConfig("UnitTestDataAccess",
-                    new DataAccessConfigOptions { ConnectionStringKey = "notused" },
+                new DataAccessConfig(new DataAccessConfigOptions { ConnectionStringKey = "notused" },
                     new MySQLTestDataAccessKeyToConnectionStringResolver())
             )
             {

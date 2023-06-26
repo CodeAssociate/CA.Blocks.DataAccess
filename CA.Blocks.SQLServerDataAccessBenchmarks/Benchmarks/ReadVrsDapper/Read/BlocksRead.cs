@@ -15,7 +15,7 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper.Read
     public class BlocksReadTest : SqlServerDataAccess
     {
         public BlocksReadTest() : base(
-            new DataAccessConfig("SampleConfig", new DataAccessConfigOptions { ConnectionStringKey = "notused" },
+            new DataAccessConfig(new DataAccessConfigOptions { ConnectionStringKey = "notused" },
                 new HardCodedConnectionStringsResolver(
                     "Server=(local);Database=master;Integrated Security=SSPI;TrustServerCertificate=True"))
         )

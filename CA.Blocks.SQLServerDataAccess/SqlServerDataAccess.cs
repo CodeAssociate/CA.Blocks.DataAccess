@@ -41,7 +41,7 @@ namespace CA.Blocks.SQLServerDataAccess
         }
 
 
-        [System.Obsolete(" If you using SQL server 2016 + it is best to migrate to GetSessionContext")]
+        [System.Obsolete("If you using SQL server 2016 + it is best to migrate to GetSessionContext")]
         protected virtual string GetConnectionContext()
         {
             return null;
@@ -132,12 +132,11 @@ namespace CA.Blocks.SQLServerDataAccess
 
         protected SqlCommand CreateStoredProcedureCommand(string strStoredProcedureName)
         {
-            SqlCommand sqlcmd = new SqlCommand
+            return  new SqlCommand
             {
                 CommandText = strStoredProcedureName,
                 CommandType = CommandType.StoredProcedure
             };
-            return (sqlcmd);
         }
         
 
@@ -146,12 +145,11 @@ namespace CA.Blocks.SQLServerDataAccess
         #region TextCommandType Helpers
         protected SqlCommand CreateTextCommand(string sql)
         {
-            SqlCommand sqlcmd = new SqlCommand
+           return new SqlCommand
             {
                 CommandText = sql,
                 CommandType = CommandType.Text
             };
-            return (sqlcmd);
         }
 
         protected SqlCommand CreateTextCommand(string sqlTemplate, string mainFilter)
@@ -160,11 +158,14 @@ namespace CA.Blocks.SQLServerDataAccess
             return CreateTextCommand(sql);
         }
 
+
+        [System.Obsolete("This will be removed as to many examples of not using parameterised queries ")]
         protected SqlCommand CreateTableSelectCommand(string tableName, string filter)
         {
             return CreateTextCommand($"SELECT * FROM {tableName} {filter}");
         }
 
+        [System.Obsolete("This will be removed as to many examples of not using parameterised queries ")]
         protected SqlCommand CreateTableSelectCommand(string tableName, string filter, string orderBy)
         {
             return CreateTextCommand($"SELECT * FROM {tableName} {filter} Order By {orderBy}");
@@ -172,6 +173,7 @@ namespace CA.Blocks.SQLServerDataAccess
 
 
         // With SQL 2012 we can use syntax OFFSET x ROWS FETCH NEXT y ROWS ONLY.. but this will only work with 2012. for now leave as is. 
+        [System.Obsolete("If you using SQL server 2012 +  you can now use the simple OFFSET X ROWS FETCH NEXT Y ROWS this is is for legacy databases ")]
         protected DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
         {
             // this is sql server specific and only for direct queries

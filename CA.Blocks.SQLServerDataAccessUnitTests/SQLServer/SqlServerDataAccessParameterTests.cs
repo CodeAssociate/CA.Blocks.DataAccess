@@ -9,7 +9,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     public class SqlServerDataAccessParameterTests : SqlServerDataAccess
     {
         public SqlServerDataAccessParameterTests()
-            : base(new DataAccessConfig("UnitTestDataAccess",
+            : base(new DataAccessConfig(
                 new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" },
                 new LocalSqlServerUnitTestStringsResolver()))
         {

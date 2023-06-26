@@ -8,7 +8,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 {
     public class Db2SingleNamedColumnTranslator<T> : IDbRowTranslator<T> 
     {
-        private IDbColToTypeConverter _converter;
+        private readonly IDbColToTypeConverter _converter;
         private string _columnName;
 
         public Db2SingleNamedColumnTranslator(IDbColToTypeConverter converter, string columnName)

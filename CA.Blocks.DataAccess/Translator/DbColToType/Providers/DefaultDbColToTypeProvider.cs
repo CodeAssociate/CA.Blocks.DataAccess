@@ -8,7 +8,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
 {
     public class DefaultDbColToTypeProvider : IDbColToTypeProvider
     {
-        private static object _syncLock = new object();
+        private static readonly object _syncLock = new object();
         private readonly ConcurrentDictionary<string, object> _typeConverters;
 
         public static IDbColToTypeProvider DefaultInstance = new DefaultDbColToTypeProvider();

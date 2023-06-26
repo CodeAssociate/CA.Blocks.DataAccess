@@ -12,8 +12,7 @@ public class SqlServerParameterAsDataTableTests : SqlServerDataAccess
 {
 
     public SqlServerParameterAsDataTableTests()
-        : base(new DataAccessConfig("UnitTestDataAccess",
-            new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" },
+        : base(new DataAccessConfig(new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" },
             new LocalSqlServerUnitTestStringsResolver()))
     {
     }

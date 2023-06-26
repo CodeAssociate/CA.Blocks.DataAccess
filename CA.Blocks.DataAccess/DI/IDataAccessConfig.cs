@@ -1,35 +1,33 @@
-﻿namespace CA.Blocks.DataAccess.DI
+﻿using System;
+
+namespace CA.Blocks.DataAccess.DI
 {
     public interface IDataAccessConfig
     {
-        // This can use used for multiple DB configs in the same app. for example connection to 2 different databases or 2 different components
-        // The Other way is using reflection
-        string ConfigName { get; }
         IDataAccessKeyToConnectionStringResolver Resolver { get; }
         IDataAccessConfigOptions Options { get; }
-
     }
 
     public class DataAccessConfig : IDataAccessConfig
     {
-        public DataAccessConfig(string configName, IDataAccessConfigOptions options, IDataAccessKeyToConnectionStringResolver resolver)
+
+        [System.Obsolete(@"The parameter for configName is no longer used and can safely be removed, 
+The intent was to have the ability to has a single database component to multiple databases, this was never implemented fully as the there are to may combinations
+like sharding, split schemas, horizontal segmentation     
+we delegate this responsibility to the delegate to the IDataAccessKeyToConnectionStringResolver and assume each Data layer is connecting to a 
+single repository as it is easy to create multiple repository classes")]
+        public DataAccessConfig(string configName, IDataAccessConfigOptions options, IDataAccessKeyToConnectionStringResolver resolver) : this (options, resolver)
         {
-            ConfigName = configName;
+        }
+
+        public DataAccessConfig(IDataAccessConfigOptions options, IDataAccessKeyToConnectionStringResolver resolver)
+        {
             Options = options;
             Resolver = resolver;
         }
 
-        public string ConfigName { get; }
-        public IDataAccessKeyToConnectionStringResolver Resolver { get; }
         public IDataAccessConfigOptions Options { get; }
-    }
-
-    public class SimpleConnectionStringDataAccessConfig : DataAccessConfig
-    {
-        public SimpleConnectionStringDataAccessConfig(string connectionString) : 
-            base("NotUsed", new DataAccessConfigOptions { ConnectionStringKey = "NotUsed" },
-                new HardCodedConnectionStringsResolver(connectionString))
-        {
-        }
+        public IDataAccessKeyToConnectionStringResolver Resolver { get; }
+   
     }
 }

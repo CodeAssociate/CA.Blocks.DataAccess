@@ -24,7 +24,7 @@ namespace CA.Blocks.SQLServerDataAccess.Extensions
 
         public static SqlCommand WithPagingParameters(this SqlCommand cmd, PagingRequest pr)
         {
-            return cmd.WithParameters(pr.ToSqlParameters());
+            return pr != null ? cmd.WithParameters(pr.ToSqlParameters()) : cmd;
         }
     }
 
@@ -42,6 +42,4 @@ namespace CA.Blocks.SQLServerDataAccess.Extensions
             };
         }
     }
-
-
 }

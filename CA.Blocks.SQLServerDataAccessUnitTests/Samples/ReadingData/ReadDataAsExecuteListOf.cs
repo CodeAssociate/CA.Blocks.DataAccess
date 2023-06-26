@@ -5,8 +5,6 @@ using System.Diagnostics;
 using CA.Blocks.DataAccess.DI;
 using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
-using System.Data;
-using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData

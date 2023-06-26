@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-
-
-
     [TestFixture]
     public class DbTypeNVarCharTests : UnitTestDataAccess
     {

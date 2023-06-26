@@ -37,7 +37,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
         }
 
         public UnitTestDataAccess(DataAccessConfigOptions options) : base (
-            new DataAccessConfig("UnitTestDataAccess", options, new LocalSqlServerUnitTestStringsResolver())
+            new DataAccessConfig(options, new LocalSqlServerUnitTestStringsResolver())
         )
         {
         }

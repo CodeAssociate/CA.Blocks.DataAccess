@@ -5,7 +5,6 @@ using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
 
 namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 {
-
     /// <summary>
     /// The abstract col Converter, this is defines the common interface for extracting a Table Cell value to a given type
     /// </summary>

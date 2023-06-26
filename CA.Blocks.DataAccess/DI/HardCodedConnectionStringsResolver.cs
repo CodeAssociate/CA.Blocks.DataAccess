@@ -27,4 +27,14 @@
             return _connectionString;
         }
     }
+
+
+    public class SimpleConnectionStringDataAccessConfig : DataAccessConfig
+    {
+        public SimpleConnectionStringDataAccessConfig(string connectionString) :
+            base(new DataAccessConfigOptions(), new HardCodedConnectionStringsResolver(connectionString))
+        {
+
+        }
+    }
 }

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<AssemblyVersion>987.654.3210.0</AssemblyVersion>
+		<FileVersion>987.654.3210.0</FileVersion>
+		<Version>987.654.3210</Version>
+		<RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
+
+	    <Authors>Kevin Bosch</Authors>
+	    <Company>Ravin Enterprises Limited</Company>
+	    <Title>CA.Blocks.DataAccess</Title>
+	    <RepositoryType>git</RepositoryType>
+	    <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
+	    <PackageReadmeFile>readme.md</PackageReadmeFile>
+	    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	    <PackageTags>data;micro-orm;sql;ca.blocks;ado.net</PackageTags>
+	    <IncludeSymbols>True</IncludeSymbols>
+	    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\readme.md" Link="readme.md">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1" PrivateAssets="All" />
+		<PackageReference Include="System.Text.Json" Version="7.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
+	</ItemGroup>
+</Project>

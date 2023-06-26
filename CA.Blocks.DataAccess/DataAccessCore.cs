@@ -459,15 +459,15 @@ namespace CA.Blocks.DataAccess
 
         protected Task<object> ExecuteScalarAsync(IDbCommand cmd)
         {
-            DbCommand asynCmd = cmd as DbCommand;
-            if (asynCmd == null)
+            var asyncCmd = cmd as DbCommand;
+            if (asyncCmd == null)
             {
                 throw new InvalidCastException("To Execute Async command the provider must implement DbCommand");
             }
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
 
-            return ExecuteWithTransientErrorRetryAsync(asynCmd.ExecuteScalarAsync, cmd);
+            return ExecuteWithTransientErrorRetryAsync(asyncCmd.ExecuteScalarAsync, cmd);
         }
 
 
@@ -550,6 +550,14 @@ namespace CA.Blocks.DataAccess
         {
             return await ExecuteReaderAsync(cmd);
         }
+
+        // TODO implement support but pass the token to the provider 
+        /*
+        protected async Task<DbDataReader> ExecuteAsync(IDbCommand cmd, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+            return await ExecuteReaderAsync(cmd);
+        }*/
 
         protected IDataReader Execute(IDbCommand cmd)
         {

@@ -18,7 +18,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
     public class UnitTestDataAccess : MySqlDataAccess
     {
         public UnitTestDataAccess() : base (
-            new DataAccessConfig("UnitTestDataAccess", 
+            new DataAccessConfig( 
                 new DataAccessConfigOptions { ConnectionStringKey = "notused" }, 
                 new MySQLTestDataAccessKeyToConnectionStringResolver())
             )
