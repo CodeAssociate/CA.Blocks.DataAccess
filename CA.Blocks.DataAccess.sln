@@ -35,9 +35,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess.Extens
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess.Extensions.Config.Json", "CA.Blocks.DataAccess.Extensions.Config.Json\CA.Blocks.DataAccess.Extensions.Config.Json.csproj", "{138E155D-7B2F-4A54-9360-F6CB726731E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.DataAccess.Extensions.Translators.JsonTests", "CA.Blocks.DataAccess.Extensions.Translators.JsonTests\CA.Blocks.DataAccess.Extensions.Translators.JsonTests.csproj", "{E5AE4E26-F985-4305-BFE1-551537333678}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess.Extensions.Translators.JsonTests", "CA.Blocks.DataAccess.Extensions.Translators.JsonTests\CA.Blocks.DataAccess.Extensions.Translators.JsonTests.csproj", "{E5AE4E26-F985-4305-BFE1-551537333678}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.DataAccess.Extensions.Config.JsonTests", "CA.Blocks.DataAccess.Extensions.Config.JsonTests\CA.Blocks.DataAccess.Extensions.Config.JsonTests.csproj", "{D3660828-DBB6-4ED4-92B5-84B4738DF056}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess.Extensions.Config.JsonTests", "CA.Blocks.DataAccess.Extensions.Config.JsonTests\CA.Blocks.DataAccess.Extensions.Config.JsonTests.csproj", "{D3660828-DBB6-4ED4-92B5-84B4738DF056}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess.Extensions.Translators.NUlid", "CA.Blocks.DataAccess.Extensions.Translators.NUlid\CA.Blocks.DataAccess.Extensions.Translators.NUlid.csproj", "{C747D8BF-2967-4089-8657-66C59C52C03A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.DataAccess.Extensions.Translators.NUlidTests", "CA.Blocks.DataAccess.Extensions.Translators.NUlidTests\CA.Blocks.DataAccess.Extensions.Translators.NUlidTests.csproj", "{D0BE4590-4087-4F56-8C56-BE66676DF699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +109,14 @@ Global
 		{D3660828-DBB6-4ED4-92B5-84B4738DF056}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3660828-DBB6-4ED4-92B5-84B4738DF056}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3660828-DBB6-4ED4-92B5-84B4738DF056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C747D8BF-2967-4089-8657-66C59C52C03A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C747D8BF-2967-4089-8657-66C59C52C03A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C747D8BF-2967-4089-8657-66C59C52C03A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C747D8BF-2967-4089-8657-66C59C52C03A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0BE4590-4087-4F56-8C56-BE66676DF699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0BE4590-4087-4F56-8C56-BE66676DF699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0BE4590-4087-4F56-8C56-BE66676DF699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0BE4590-4087-4F56-8C56-BE66676DF699}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
