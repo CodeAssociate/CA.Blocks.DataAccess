@@ -24,7 +24,7 @@ namespace CA.Blocks.DataAccess
     /// </summary>
     public static class DataHelper
     {
-        private static T ThrowExceptionIfIsNull<T>(T? obj, string sColumnName, string typeDescription)  where T : struct
+        public static T ThrowExceptionIfIsNull<T>(T? obj, string sColumnName, string typeDescription)  where T : struct
         {
             if (obj == null)
             {
@@ -34,7 +34,7 @@ namespace CA.Blocks.DataAccess
             return obj.Value;
         }
 
-        private static T ThrowExceptionIfIsNull<T>(T? obj, int columnIndex, string typeDescription) where T : struct
+        public static T ThrowExceptionIfIsNull<T>(T? obj, int columnIndex, string typeDescription) where T : struct
         {
             if (obj == null)
             {
