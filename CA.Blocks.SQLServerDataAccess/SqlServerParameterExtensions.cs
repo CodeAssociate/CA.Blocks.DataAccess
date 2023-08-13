@@ -572,6 +572,14 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return ToSqlParameterString(input, strParameterName, dbType, useEmptyStringForNull, trimInputTo);
         }
+
+
+        public static SqlParameter ToSqlParameter(this Version input, string strParameterName, SpecificSQLStringType dbType = SpecificSQLStringType.VarChar)
+        {
+            return input == null ? 
+                string.Empty.ToSqlParameter(strParameterName, dbType) : 
+                input.ToString().ToSqlParameter(strParameterName, dbType);
+        }
         #endregion
 
         /*
