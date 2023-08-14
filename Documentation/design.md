@@ -1,9 +1,13 @@
 ﻿
 ## Design
 The CA.Blocks.DataAccess is designed as a micro-ORM for relational databases. Its core functionality focuses on reducing the object-relational impedance mismatch that exists between the relational world and the object world of objects in .NET.
-It was designed to work with onion / layered and CQRS-type architectures and can work with or without dependency injection.  The blocks are built on top of ADO.NET and provide with thin provider layer.  These are all independent assemblies such that each of the providers can be isolated. If you using MySQL you do not need to pull in the SQL server dependencies and visa versa.
+It was designed to work with onion / layered and CQRS-type architectures and can work with or without dependency injection.  The blocks are built on top of ADO.NET the core layer is implemented within CA.Blocks.DataAccess.  This layer has no dependence on any provider, each provider is implemented as implementation on the abstract core.  These are all independent assemblies such that each of the providers can be isolated. If you using MySQL you do not need to pull in the SQL server dependencies and visa versa. 
 
-At a high level, you can create a class that inherits from the provider you what to use.  Once you have that class in place it is a case of creating your data access methods. 
+<p align="center">
+    <img src="_assets/DesignCA.Blocks.DataAccess.png" alt="Design CA.Blocks.DataAccess" />
+</p>
+
+At a high level, the code simply inherits from the provider you what to use injecting the configuration.  Once you have that class in place it is a case of creating your data access methods. 
 
 Below is a simple example that will connect to the local SQL server using a trusted connection. It then exposes two methods 
 1. **ExecSpWho** - this will execute the sp_who stored procedure and return the results in the POCO class called SpWhoResult.
@@ -38,12 +42,12 @@ At the ADO.NET level, you deal with three core constructs.
 3. The Reader
 
 * The blocks manage the connection for you as such your code is not concerned with establishing, opening executing then closing the connection. 
-* The blocks provide helper methods to create and set up the command.  The premise is that your code can build the command to be executed and then pass that command in for execution. The Blocks manage the process of creating and wiring up the connection to the command for exdcution, then managed the reliable execution of the command. There is full support for Sync and Async operations if the underlying provider supports Async operations. 
+* The blocks provide helper methods to create and set up the command.  The premise is that your code can build the command to be executed and then pass that command in for execution. The Blocks manage the process of creating and wiring up the connection to the command for execution.  There is full support for Sync and Async operations if the underlying provider supports Async operations. 
 * Finally, the blocks provide a rich mapping layer that converts the results from the reader back into the object world. 
 
 ## Protected by default 
 
-Whilst all the core methods will allow processing of some sort SQL, the design is protected by default, even at the provider level.  Using the blocks there is no direct way to execute a SQL statement from the calling code. As the developer, you may be tempted to expose this to avoid writing your own access methods by making the protected methods public.  Working directly with the SQL means as a developer you are responsible for the SQL generated which means responsibility for injection attacks.  The simplest way to avoid injection attacks is not to execute any SQL that is not 100% controlled by the code and parameterized. The developer is responsible for generating the SQL to be executed and this will be controlled in the DataAccess Layer ie your class.
+Whilst all the core methods will allow processing of some sort SQL, the design is protected by default, even at the provider level.  Using the blocks there is no direct way to execute a SQL statement from the calling code. As the developer, you may be tempted to expose this to avoid writing your access methods by making the protected methods public.  Working directly with the SQL means as a developer you are responsible for the SQL generated which means responsibility for injection attacks.  The simplest way to avoid injection attacks is not to execute any SQL that is not 100% controlled by the code and parameterized. The developer is responsible for generating the SQL to be executed and this will be controlled in the DataAccess Layer ie your class.
 
 ## The Assemblies  
 
@@ -61,10 +65,10 @@ The *model* represents the core design elements that you will need a client to s
 
 ### The Core Abstract code
 
-The code in the CA.Blocks.DataAccess is abstract and common among all providers.  The assembly will have no dependencies on any specific provider. This assembly handles the connection, execution and translation, all of these elements are in System.Data namespace. It will work entirely at the System.Data level. This class is abstract so cannot be used by itself. You will not find any provider specific references at this level.
+The code in the CA.Blocks.DataAccess is abstract and common among all providers.  The assembly will have no dependencies on any specific provider. This assembly handles the connection, execution and translation, all of these elements are in System.Data namespace. It will work entirely in the System.Data level. This class is abstract so cannot be used by itself. You will not find any provider-specific references at this level.
 
 ### The specific implementation 
-This code hooks in the specific provider implementation. So if you connect to a Microsoft SQL server database you will reference CA.Blocks.SQLServerDataAccess.  This in turn will bring in  CA.Blocks.DataAccess and CA.Blocks.DataAccess.Model in addition to Microsoft.Data.SqlClient. 
+This code hooks in the specific provider implementation. So if you connect to a Microsoft SQL server database you will reference CA.Blocks.SQLServerDataAccess.  This in turn will bring in CA.Blocks.DataAccess and CA.Blocks.DataAccess.Model in addition to Microsoft.Data.SqlClient. 
 
 When using the DataAccess block to write a Data Access Class you only need to install the specific provider you need. For Examples:
 

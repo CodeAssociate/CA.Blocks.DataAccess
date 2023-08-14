@@ -24,5 +24,4 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
             return dr.AsString(columnIndex);
         }
     }
-
 }

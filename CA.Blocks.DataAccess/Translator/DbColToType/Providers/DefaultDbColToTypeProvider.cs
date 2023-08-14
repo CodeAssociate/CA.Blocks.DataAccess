@@ -79,6 +79,9 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
             Add(new DateTimeOffSetDbColToTypeConverter());
             Add(new NullDateTimeOffSetDbColToTypeConverter());
 
+            // 
+            Add(new VersionDbColToTypeConverter());
+
 #if NET6_0_OR_GREATER
             Add(new DateOnlyDbColToTypeConverter());
             Add(new NullDateOnlyDbColToTypeConverter());

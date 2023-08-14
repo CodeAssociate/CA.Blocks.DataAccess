@@ -142,9 +142,9 @@ In this case we have simply turned te mapping around providing the mapping info 
 
 The Most powerful and most flexible option is to use a custom function for the mapping
 
-This can be either be a lamba or function 
+This can be either be a lambda or function 
 
-Using a lamba
+Using a lambda
 ```C#
     public IList<MyClass> GetMyClassFromMyTable()
     {
