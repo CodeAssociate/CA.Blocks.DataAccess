@@ -27,7 +27,7 @@ namespace CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Converte
         }
     }
 
-    public class NullGuidDbColToTypeConverter : BaseDbColToTypeConverter<Ulid?>
+    public class NullUlidDbColToTypeConverter : BaseDbColToTypeConverter<Ulid?>
     {
         public override Ulid? GetDataValue(DataRow dr, string columnName)
         {

@@ -26,5 +26,15 @@ namespace CA.Blocks.DataAccess.Extensions.Translators.NUlid
         {
             return target?.ToString();
         }
+
+        public static string AsBianryString(this Ulid target)
+        {
+            return $"0x{string.Join("", target.ToByteArray().Select(b => b.ToString("x2")))}";
+        }
+
+        public static string? AsBinaryString(this Ulid? target)
+        {
+            return !target.HasValue ? null : $"0x{string.Join("", target.Value.ToByteArray().Select(b => b.ToString("x2")))}";
+        }
     }
 }
