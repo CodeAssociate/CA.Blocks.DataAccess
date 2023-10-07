@@ -1,6 +1,6 @@
 ### Custom Column Translators  
 
-While the Row Translators have the responsibility of mapping the Table structure which is in rows, columns and cells into the class structure with properties.  The focus on the Row Translators is at the row level, reading each row and doing the conversions. In doing the conversion we repeat the pattern for the columns within each row. Each column will have a known structured type and will have to get converted into a known property in C#. Working within the cells is the responsibility of the Colunm translators.
+While the Row Translators have the responsibility of mapping the Table structure which is in rows, columns and cells into the class structure with properties.  The focus on the Row Translators is at the row level, reading each row and doing the conversions. In doing the conversion we repeat the pattern for the columns within each row. Each column will have a known structured type and will have to get converted into a known property in C#. Working within the cells is the responsibility of the Column translators.
 
 The Col To Type Converters that are registered are the default Converters used with Automatic Mapping.  With Custom mapping, you can choose if you use the default converts or go direct.
 

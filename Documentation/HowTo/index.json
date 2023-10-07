@@ -1,0 +1,10 @@
+{
+  "TemplateName": "default",
+  "Title": "How To",
+  "Description": "Quick Hit how to guides for the CA.Blocks",
+  "Tags": [],
+  "Menu": {
+	  "MenuText" : "How To",
+	  "MenuLoc" : "4"
+  }
+}

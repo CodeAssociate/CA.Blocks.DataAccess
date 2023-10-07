@@ -1,0 +1,14 @@
+{
+  "TemplateName": "default",
+  "Title": "Selecting Multiple Rows",
+  "Description": "Selecting Multiple Rows like a table view",
+  "Tags": [
+    "Examples",
+    "Selecting Multiple Rows",
+    "How To"
+  ],
+  "Menu": {
+	  "MenuText" : "Selecting Multiple Rows",
+	  "MenuLoc" : "4.3"
+  }
+}

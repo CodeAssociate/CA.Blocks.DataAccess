@@ -1,0 +1,12 @@
+{
+  "TemplateName": "default",
+  "Title": "Execute Stored Procedures",
+  "Tags": [
+    "Examples",
+    "Stored Procedures"
+  ], 
+  "Menu": {
+	  "MenuText" : "Execute Stored Procedures",
+	  "MenuLoc" : "4.7"
+  }
+}

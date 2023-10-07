@@ -1,0 +1,13 @@
+{
+  "TemplateName": "default",
+  "Title": "Custom Connection String Resolver",
+  "Description": "How to implement your own Connection String Resolver",
+  "Tags": [
+    "Connection String",
+    "Setup"
+  ],
+  "Menu": {
+	  "MenuText" : "Custom Connection String Resolver",
+	  "MenuLoc" : "3.3"
+  }
+}

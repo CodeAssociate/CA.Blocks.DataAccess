@@ -1,0 +1,14 @@
+{
+  "TemplateName": "default",
+  "Title": "Execute Non Query",
+  "Description": "Used for Executing Insert, Update, delete commands",
+  "Tags": [
+    "Examples",
+    "Execute Non Query",
+    "How To"
+  ],
+  "Menu": {
+	  "MenuText" : "Execute Non Query",
+	  "MenuLoc" : "4.5"
+  }
+}

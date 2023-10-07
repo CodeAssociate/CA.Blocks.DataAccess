@@ -99,3 +99,8 @@ The dump result
 1483152329,spt_monitor,U ,30/04/2016 12:46:37 AM
 1787153412,MSreplication_options,U ,30/04/2016 12:47:59 AM
 ```
+
+A walk though of setting up a new MVC project and linking in the code associate data blocks. 
+<iframe id="ytplayer" type="text/html" width="640" height="360"
+  src="https://www.youtube.com/embed/UdpxquVk67Q?autoplay=0&origin=http://codeassociate.com/&loop=1"
+  frameborder="0"></iframe>
