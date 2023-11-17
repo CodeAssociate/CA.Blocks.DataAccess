@@ -1,0 +1,10 @@
+{
+  "TemplateName": "default",
+  "Title": "Getting Started",
+  "Description" : "A quick guid on how to get setup and going",
+  "Tags": ["Setup"],
+  "Menu": {
+	  "MenuText" : "Getting Started",
+	  "MenuLoc" : "3"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "TemplateName": "default",
+  "Title": "Custom RowSet Translators",
+  "Tags": [
+    "Examples",
+    "RowSet Translators"
+  ], 
+  "Menu": {
+	  "MenuText" : "Custom RowSet Translators",
+	  "MenuLoc" : "4.8"
+  }
+}

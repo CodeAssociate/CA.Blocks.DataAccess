@@ -1,0 +1,9 @@
+{
+  "TemplateName": "default",
+  "Title": "Protected By Default",
+  "Tags": [],
+  "Menu": {
+	  "MenuText" : "Protected By Default",
+	  "MenuLoc" : "2.1"
+  }
+}

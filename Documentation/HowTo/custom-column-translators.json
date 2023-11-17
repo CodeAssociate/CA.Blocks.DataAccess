@@ -1,0 +1,13 @@
+{
+  "TemplateName": "default",
+  "Title": "Custom Column Translators",
+  "Tags": [
+    "Examples",
+    "Column Translators"
+  ],  
+  "Menu": {
+	  "MenuText" : "Custom Column Translators",
+	  "MenuLoc" : "4.9"
+  }
+
+}

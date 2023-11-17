@@ -1,0 +1,9 @@
+{
+  "TemplateName": "default",
+  "Title": "Index",
+  "Tags": [],
+  "Menu": {
+	  "MenuText" : "Home",
+	  "MenuLoc" : "1"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "TemplateName": "default",
+  "Title": "Design",
+  "Tags": ["Design"],
+  "Menu": {
+	  "MenuText" : "Design",
+	  "MenuLoc" : "2"
+  }
+}

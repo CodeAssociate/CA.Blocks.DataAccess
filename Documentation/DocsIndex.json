@@ -1,312 +1,85 @@
 {
   "Pages": [
     {
+      "TemplateName": "default",
       "Key": "samples\\index.md",
+      "TargetUrl": "samples\\index.html",
       "Title": "Index",
-      "Tags": [],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "samples\\index.html"
+      "Tags": []
     },
     {
+      "TemplateName": "default",
       "Key": "samples\\connection\\index.md",
+      "TargetUrl": "samples\\connection\\index.html",
       "Title": "Index",
-      "Tags": [],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "samples\\connection\\index.html"
+      "Tags": []
     },
     {
+      "TemplateName": "default",
       "Key": "samples\\readingdata\\executestoredprocedure.md",
+      "TargetUrl": "samples\\readingdata\\executestoredprocedure.html",
       "Title": "Execute Stored Procedures",
       "Tags": [
         "Examples",
         "Stored Procedure"
-      ],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "samples\\readingdata\\executestoredprocedure.html"
+      ]
     },
     {
+      "TemplateName": "default",
       "Key": "samples\\readingdata\\index.md",
+      "TargetUrl": "samples\\readingdata\\index.html",
       "Title": "Index",
       "Tags": [
         "Examples"
-      ],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "samples\\readingdata\\index.html"
+      ]
     },
     {
+      "TemplateName": "default",
       "Key": "samples\\readingdata\\simpleselect.md",
+      "TargetUrl": "samples\\readingdata\\simpleselect.html",
       "Title": "Simple Select",
       "Tags": [
         "Examples"
-      ],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "samples\\readingdata\\simpleselect.html"
+      ]
     },
     {
+      "TemplateName": "default",
       "Key": "samples\\readingdata\\simpleselectwithparameters.md",
+      "TargetUrl": "samples\\readingdata\\simpleselectwithparameters.html",
       "Title": "Simple Select With Parameters",
       "Tags": [
         "Examples",
         "Working With Parameters"
-      ],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "samples\\readingdata\\simpleselectwithparameters.html"
+      ]
     },
     {
+      "TemplateName": "default",
       "Key": "samples\\readingdata\\simplesinglerow.md",
+      "TargetUrl": "samples\\readingdata\\simplesinglerow.html",
       "Title": "Simple Single Row",
       "Tags": [
         "Examples"
-      ],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "samples\\readingdata\\simplesinglerow.html"
+      ]
     },
     {
+      "TemplateName": "default",
       "Key": "samples\\readingdata\\simplesinglevalue.md",
+      "TargetUrl": "samples\\readingdata\\simplesinglevalue.html",
       "Title": "Simple Single Value",
       "Tags": [
         "Examples"
-      ],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "samples\\readingdata\\simplesinglevalue.html"
+      ]
     },
-    {
-      "Key": "index.md",
-      "Title": "CA.Blocks.DataAccess Home Page",
-      "Description": "The starting point to a great micro orm experience",
-      "Tags": [],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "index.html"
-    },
-    {
-      "Key": "howto\\working-async.md",
-      "Title": "working async",
-      "Tags": [],
-      "MenuOrderAsString": "0.00",
-      "TargetUrl": "howto\\working-async.html"
-    },
-    {
-      "Key": "design.md",
-      "Title": "Design",
-      "Description": "The Quick Overview of the CA.Blocks.DataAccess design",
-      "Tags": [],
-      "MenuOrder": 2.0,
-      "MenuOrderAsString": "2",
-      "TopNode": true,
-      "TargetUrl": "design.html"
-    },
-    {
-      "Key": "gettingstarted\\dependency-injection.md",
-      "Title": "Dependency Injection",
-      "Tags": [],
-      "MenuOrder": 2.1,
-      "MenuOrderAsString": "2.10",
-      "Hide": true,
-      "TargetUrl": "gettingstarted\\dependency-injection.html"
-    },
-    {
-      "Key": "design\\overview.md",
-      "Title": "overview",
-      "Tags": [],
-      "MenuOrder": 2.2,
-      "MenuOrderAsString": "2.20",
-      "Hide": true,
-      "TargetUrl": "design\\overview.html"
-    },
-    {
-      "Key": "design\\protected-by-default.md",
-      "Title": "Protected By Default",
-      "Description": "Protected by default is by design",
-      "Tags": [],
-      "MenuOrder": 2.2,
-      "MenuOrderAsString": "2.20",
-      "TargetUrl": "design\\protected-by-default.html"
-    },
-    {
-      "Key": "design\\sql-injection-attacks.md",
-      "Title": "Sql Injection Attacks",
-      "Tags": [
-        "Working With Parameters"
-      ],
-      "MenuOrder": 2.6,
-      "MenuOrderAsString": "2.60",
-      "TargetUrl": "design\\sql-injection-attacks.html"
-    },
-    {
-      "Key": "design\\performance.md",
-      "Title": "Performance",
-      "Tags": [],
-      "MenuOrder": 2.9,
-      "MenuOrderAsString": "2.90",
-      "Hide": true,
-      "TargetUrl": "design\\performance.html"
-    },
-    {
-      "Key": "gettingstarted\\getting-started.md",
-      "Title": "Getting Started",
-      "Description": "A quick guid on how to get setup and going",
-      "Tags": [
-        "Setup"
-      ],
-      "MenuOrder": 3.0,
-      "MenuOrderAsString": "3",
-      "TopNode": true,
-      "TargetUrl": "gettingstarted\\getting-started.html"
-    },
-    {
-      "Key": "samples\\connection\\usingjsonconfigconnectionstringsresolver.md",
-      "Title": "Using Json Config Connection Strings Resolver",
-      "Description": "Connection coming from appsettings.json which is typically done with .Net Core that uses the Microsoft.Extensions.ConfigurationConfigurationManager class.",
-      "Tags": [
-        "Connection String",
-        "Setup"
-      ],
-      "MenuOrder": 3.1,
-      "MenuOrderAsString": "3.10",
-      "TargetUrl": "samples\\connection\\usingjsonconfigconnectionstringsresolver.html"
-    },
-    {
-      "Key": "samples\\connection\\usingappdotconfigconnectionstringsresolver.md",
-      "Title": "Using AppDot Config Connection Strings Resolver",
-      "Description": "Connection String coming from app.config using using the Microsoft System.Configuration.ConfigurationManager class. This is common with the .NET 1 to 4.8 frameworks",
-      "Tags": [
-        "Connection String",
-        "Setup"
-      ],
-      "MenuOrder": 3.2,
-      "MenuOrderAsString": "3.20",
-      "TargetUrl": "samples\\connection\\usingappdotconfigconnectionstringsresolver.html"
-    },
-    {
-      "Key": "samples\\connection\\customconnectionstringresolver.md",
-      "Title": "Custom Connection String Resolver",
-      "Description": "How to implement your own Connection String Resolver",
-      "Tags": [
-        "Connection String",
-        "Setup"
-      ],
-      "MenuOrder": 3.3,
-      "MenuOrderAsString": "3.30",
-      "TargetUrl": "samples\\connection\\customconnectionstringresolver.html"
-    },
-    {
-      "Key": "howto\\index.md",
-      "Title": "How To",
-      "Description": "Quick Hit how to guides for the CA.Blocks",
-      "Tags": [],
-      "MenuOrder": 4.0,
-      "MenuOrderAsString": "4",
-      "TopNode": true,
-      "TargetUrl": "howto\\index.html"
-    },
-    {
-      "Key": "howto\\selecting-scalar-values.md",
-      "Title": "Selecting Scalar Values",
-      "Description": "Examples of Selecting Scalar Values using CA.Blocks for example as single string or number or Date etc ",
-      "Tags": [
-        "Examples",
-        "Selecting Scalar Values",
-        "How To"
-      ],
-      "MenuOrder": 4.1,
-      "MenuOrderAsString": "4.10",
-      "TargetUrl": "howto\\selecting-scalar-values.html"
-    },
-    {
-      "Key": "howto\\selecting-single-rows.md",
-      "Title": "Selecting Single Rows",
-      "Description": "Execute to a single value",
-      "Tags": [
-        "Examples",
-        "Selecting Single Rows",
-        "How To"
-      ],
-      "MenuOrder": 4.2,
-      "MenuOrderAsString": "4.20",
-      "TargetUrl": "howto\\selecting-single-rows.html"
-    },
-    {
-      "Key": "howto\\selecting-multiple-rows.md",
-      "Title": "Selecting Multiple Rows",
-      "Description": "Selecting Multiple Rows like a table view",
-      "Tags": [
-        "Examples",
-        "Selecting Multiple Rows",
-        "How To"
-      ],
-      "MenuOrder": 4.3,
-      "MenuOrderAsString": "4.30",
-      "TargetUrl": "howto\\selecting-multiple-rows.html"
-    },
-    {
-      "Key": "howto\\selecting-multiple-sets.md",
-      "Title": "Selecting Multiple Sets",
-      "Tags": [
-        "Examples",
-        "Selecting Multiple Sets",
-        "How To"
-      ],
-      "MenuOrder": 4.4,
-      "MenuOrderAsString": "4.40",
-      "TargetUrl": "howto\\selecting-multiple-sets.html"
-    },
-    {
-      "Key": "howto\\execute-non-query.md",
-      "Title": "Execute Non Query",
-      "Description": "Used for Executing Insert, Update, delete commands",
-      "Tags": [
-        "Examples",
-        "Execute Non Query",
-        "How To"
-      ],
-      "MenuOrder": 4.5,
-      "MenuOrderAsString": "4.50",
-      "TargetUrl": "howto\\execute-non-query.html"
-    },
-    {
-      "Key": "howto\\working-with-parameters.md",
-      "Title": "Working With Parameters",
-      "Tags": [
-        "Working With Parameters"
-      ],
-      "MenuOrder": 4.6,
-      "MenuOrderAsString": "4.60",
-      "TargetUrl": "howto\\working-with-parameters.html"
-    },
-    {
-      "Key": "howto\\execute-stored-procedures.md",
-      "Title": "Execute Stored Procedures",
-      "Tags": [
-        "Examples",
-        "Stored Procedures"
-      ],
-      "MenuOrder": 4.7,
-      "MenuOrderAsString": "4.70",
-      "TargetUrl": "howto\\execute-stored-procedures.html"
-    },
-    {
-      "Key": "howto\\custom-rowset-translators.md",
-      "Title": "Working With RowSet Translators",
-      "Description": "Working with the Row set Translators",
-      "Tags": [
-        "Examples",
-        "RowSet Translators"
-      ],
-      "MenuOrder": 4.8,
-      "MenuOrderAsString": "4.80",
-      "TargetUrl": "howto\\custom-rowset-translators.html"
-    },
-    {
-      "Key": "howto\\custom-column-translators.md",
-      "Title": "Custom Column Translators",
-      "Tags": [
-        "Examples",
-        "Column Translators"
-      ],
-      "MenuOrder": 4.9,
-      "MenuOrderAsString": "4.90",
-      "TargetUrl": "howto\\custom-column-translators.html"
-    }
+
+
+
+
+
+
+
+
+
+
   ],
   "Tags": [
     "Working With Parameters",

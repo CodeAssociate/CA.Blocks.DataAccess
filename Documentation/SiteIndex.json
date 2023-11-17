@@ -1,0 +1,485 @@
+{
+  "Pages": [
+    {
+      "TemplateName": "default",
+      "Key": "design.md",
+      "Title": "Design",
+      "Tags": [
+        "Design"
+      ],
+      "Menu": {
+        "MenuText": "Design",
+        "MenuLoc": "2",
+        "Level": 1
+      },
+      "MenuTitle": "Design"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "index.md",
+      "Title": "Index",
+      "Tags": [],
+      "Menu": {
+        "MenuText": "Home",
+        "MenuLoc": "1",
+        "Level": 1
+      },
+      "MenuTitle": "Home"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "design\\overview.md",
+      "Title": "overview",
+      "Tags": [],
+      "MenuTitle": "overview"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "design\\performance.md",
+      "Title": "Performance",
+      "Tags": [
+        "Performance"
+      ],
+      "MenuTitle": "Performance"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "design\\protected-by-default.md",
+      "Title": "Protected By Default",
+      "Tags": [],
+      "Menu": {
+        "MenuText": "Protected By Default",
+        "MenuLoc": "2.1",
+        "Level": 2
+      },
+      "MenuTitle": "Protected By Default"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "design\\sql-injection-attacks.md",
+      "Title": "Sql Injection Attacks",
+      "Tags": [
+        "Working With Parameters"
+      ],
+      "Menu": {
+        "MenuText": "Injection Attacks",
+        "MenuLoc": "2.2",
+        "Level": 2
+      },
+      "MenuTitle": "Injection Attacks"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "gettingstarted\\dependency-injection.md",
+      "Title": "Dependency Injection",
+      "Tags": [],
+      "MenuTitle": "Dependency Injection"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "gettingstarted\\getting-started.md",
+      "Title": "Getting Started",
+      "Description": "A quick guid on how to get setup and going",
+      "Tags": [
+        "Setup"
+      ],
+      "Menu": {
+        "MenuText": "Getting Started",
+        "MenuLoc": "3",
+        "Level": 1
+      },
+      "MenuTitle": "Getting Started"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\custom-column-translators.md",
+      "Title": "Custom Column Translators",
+      "Tags": [
+        "Examples",
+        "Column Translators"
+      ],
+      "Menu": {
+        "MenuText": "Custom Column Translators",
+        "MenuLoc": "4.9",
+        "Level": 2
+      },
+      "MenuTitle": "Custom Column Translators"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\custom-rowset-translators.md",
+      "Title": "Custom RowSet Translators",
+      "Tags": [
+        "Examples",
+        "RowSet Translators"
+      ],
+      "Menu": {
+        "MenuText": "Custom RowSet Translators",
+        "MenuLoc": "4.8",
+        "Level": 2
+      },
+      "MenuTitle": "Custom RowSet Translators"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\execute-non-query.md",
+      "Title": "Execute Non Query",
+      "Description": "Used for Executing Insert, Update, delete commands",
+      "Tags": [
+        "Examples",
+        "Execute Non Query",
+        "How To"
+      ],
+      "Menu": {
+        "MenuText": "Execute Non Query",
+        "MenuLoc": "4.5",
+        "Level": 2
+      },
+      "MenuTitle": "Execute Non Query"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\execute-stored-procedures.md",
+      "Title": "Execute Stored Procedures",
+      "Tags": [
+        "Examples",
+        "Stored Procedures"
+      ],
+      "Menu": {
+        "MenuText": "Execute Stored Procedures",
+        "MenuLoc": "4.7",
+        "Level": 2
+      },
+      "MenuTitle": "Execute Stored Procedures"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\index.md",
+      "Title": "How To",
+      "Description": "Quick Hit how to guides for the CA.Blocks",
+      "Tags": [],
+      "Menu": {
+        "MenuText": "How To",
+        "MenuLoc": "4",
+        "Level": 1
+      },
+      "MenuTitle": "How To"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\selecting-multiple-rows.md",
+      "Title": "Selecting Multiple Rows",
+      "Description": "Selecting Multiple Rows like a table view",
+      "Tags": [
+        "Examples",
+        "Selecting Multiple Rows",
+        "How To"
+      ],
+      "Menu": {
+        "MenuText": "Selecting Multiple Rows",
+        "MenuLoc": "4.3",
+        "Level": 2
+      },
+      "MenuTitle": "Selecting Multiple Rows"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\selecting-multiple-sets.md",
+      "Title": "Selecting Multiple Sets",
+      "Tags": [
+        "Examples",
+        "Selecting Multiple Sets",
+        "How To"
+      ],
+      "Menu": {
+        "MenuText": "Selecting Multiple Sets",
+        "MenuLoc": "4.4",
+        "Level": 2
+      },
+      "MenuTitle": "Selecting Multiple Sets"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\selecting-scalar-values.md",
+      "Title": "Selecting Scalar Values",
+      "Description": "Examples of Selecting Scalar Values using CA.Blocks for example as single string or number or Date etc ",
+      "Tags": [
+        "Examples",
+        "Selecting Scalar Values",
+        "How To"
+      ],
+      "Menu": {
+        "MenuText": "Selecting Scalar Rows",
+        "MenuLoc": "4.1",
+        "Level": 2
+      },
+      "MenuTitle": "Selecting Scalar Rows"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\selecting-single-rows.md",
+      "Title": "Selecting Single Rows",
+      "Description": "Selecting Single Row to an object",
+      "Tags": [
+        "Examples",
+        "Selecting Single Rows",
+        "How To"
+      ],
+      "Menu": {
+        "MenuText": "Selecting Single Rows",
+        "MenuLoc": "4.2",
+        "Level": 2
+      },
+      "MenuTitle": "Selecting Single Rows"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\working-async.md",
+      "Title": "working-async",
+      "Tags": [],
+      "MenuTitle": "working-async"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "howto\\working-with-parameters.md",
+      "Title": "Working With Parameters",
+      "Tags": [
+        "Working With Parameters"
+      ],
+      "Menu": {
+        "MenuText": "Working With Parameters",
+        "MenuLoc": "4.6",
+        "Level": 2
+      },
+      "MenuTitle": "Working With Parameters"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\index.md",
+      "Title": "Index",
+      "Tags": [],
+      "MenuTitle": "Index"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\connection\\customconnectionstringresolver.md",
+      "Title": "Custom Connection String Resolver",
+      "Description": "How to implement your own Connection String Resolver",
+      "Tags": [
+        "Connection String",
+        "Setup"
+      ],
+      "Menu": {
+        "MenuText": "Custom Connection String Resolver",
+        "MenuLoc": "3.3",
+        "Level": 2
+      },
+      "MenuTitle": "Custom Connection String Resolver"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\connection\\index.md",
+      "Title": "Index",
+      "Tags": [],
+      "MenuTitle": "Index"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\connection\\usingappdotconfigconnectionstringsresolver.md",
+      "Title": "Using AppDot Config Connection Strings Resolver",
+      "Description": "Connection String coming from app.config using using the Microsoft System.Configuration.ConfigurationManager class. This is common with the .NET 1 to 4.8 frameworks",
+      "Tags": [
+        "Connection String",
+        "Setup"
+      ],
+      "Menu": {
+        "MenuText": "Using AppDot Config Connection Strings Resolver",
+        "MenuLoc": "3.2",
+        "Level": 2
+      },
+      "MenuTitle": "Using AppDot Config Connection Strings Resolver"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\connection\\usingjsonconfigconnectionstringsresolver.md",
+      "Title": "Using Json Config Connection Strings Resolver",
+      "Description": "Connection coming from appsettings.json which is typically done with .Net Core that uses the Microsoft.Extensions.ConfigurationConfigurationManager class.",
+      "Tags": [
+        "Connection String",
+        "Setup"
+      ],
+      "Menu": {
+        "MenuText": "Using Json Config Connection Strings Resolver",
+        "MenuLoc": "3.1",
+        "Level": 2
+      },
+      "MenuTitle": "Using Json Config Connection Strings Resolver"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\readingdata\\executestoredprocedure.md",
+      "Title": "ExecuteStoredProcedure",
+      "Tags": [],
+      "MenuTitle": "ExecuteStoredProcedure"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\readingdata\\index.md",
+      "Title": "Index",
+      "Tags": [],
+      "MenuTitle": "Index"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\readingdata\\simpleselect.md",
+      "Title": "Simple Select",
+      "Tags": [
+        "Examples"
+      ],
+      "MenuTitle": "Simple Select"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\readingdata\\simpleselectwithparameters.md",
+      "Title": "Simple Select With Parameters",
+      "Tags": [
+        "Examples"
+      ],
+      "MenuTitle": "Simple Select With Parameters"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\readingdata\\simplesinglerow.md",
+      "Title": "Simple Single Row",
+      "Tags": [
+        "Examples"
+      ],
+      "MenuTitle": "Simple Single Row"
+    },
+    {
+      "TemplateName": "default",
+      "Key": "samples\\readingdata\\simplesinglevalue.md",
+      "Title": "Simple Single Value",
+      "Tags": [
+        "Examples"
+      ],
+      "MenuTitle": "Simple Single Value"
+    }
+  ],
+  "Tags": [
+    "Design",
+    "Performance",
+    "Working With Parameters",
+    "Setup",
+    "Examples",
+    "Column Translators",
+    "RowSet Translators",
+    "Execute Non Query",
+    "How To",
+    "Stored Procedures",
+    "Selecting Multiple Rows",
+    "Selecting Multiple Sets",
+    "Selecting Scalar Values",
+    "Selecting Single Rows",
+    "Connection String"
+  ],
+  "MainNav": [
+    {
+      "Order": 1,
+      "PageKey": "index.md",
+      "Level": 1,
+      "SubNav": []
+    },
+    {
+      "Order": 2,
+      "PageKey": "design.md",
+      "Level": 1,
+      "SubNav": [
+        {
+          "Order": 1,
+          "PageKey": "design\\protected-by-default.md",
+          "Level": 2
+        },
+        {
+          "Order": 2,
+          "PageKey": "design\\sql-injection-attacks.md",
+          "Level": 2
+        }
+      ]
+    },
+    {
+      "Order": 3,
+      "PageKey": "gettingstarted\\getting-started.md",
+      "Level": 1,
+      "SubNav": [
+        {
+          "Order": 1,
+          "PageKey": "samples\\connection\\usingjsonconfigconnectionstringsresolver.md",
+          "Level": 2
+        },
+        {
+          "Order": 2,
+          "PageKey": "samples\\connection\\usingappdotconfigconnectionstringsresolver.md",
+          "Level": 2
+        },
+        {
+          "Order": 3,
+          "PageKey": "samples\\connection\\customconnectionstringresolver.md",
+          "Level": 2
+        }
+      ]
+    },
+    {
+      "Order": 4,
+      "PageKey": "howto\\index.md",
+      "Level": 1,
+      "SubNav": [
+        {
+          "Order": 1,
+          "PageKey": "howto\\selecting-scalar-values.md",
+          "Level": 2
+        },
+        {
+          "Order": 2,
+          "PageKey": "howto\\selecting-single-rows.md",
+          "Level": 2
+        },
+        {
+          "Order": 3,
+          "PageKey": "howto\\selecting-multiple-rows.md",
+          "Level": 2
+        },
+        {
+          "Order": 4,
+          "PageKey": "howto\\selecting-multiple-sets.md",
+          "Level": 2
+        },
+        {
+          "Order": 5,
+          "PageKey": "howto\\execute-non-query.md",
+          "Level": 2
+        },
+        {
+          "Order": 6,
+          "PageKey": "howto\\working-with-parameters.md",
+          "Level": 2
+        },
+        {
+          "Order": 7,
+          "PageKey": "howto\\execute-stored-procedures.md",
+          "Level": 2
+        },
+        {
+          "Order": 8,
+          "PageKey": "howto\\custom-rowset-translators.md",
+          "Level": 2
+        },
+        {
+          "Order": 9,
+          "PageKey": "howto\\custom-column-translators.md",
+          "Level": 2
+        }
+      ]
+    }
+  ]
+}

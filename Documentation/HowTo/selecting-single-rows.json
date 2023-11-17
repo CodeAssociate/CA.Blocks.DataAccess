@@ -1,0 +1,14 @@
+{
+  "TemplateName": "default",
+  "Title": "Selecting Single Rows",
+  "Description": "Selecting Single Row to an object",
+  "Tags": [
+    "Examples",
+    "Selecting Single Rows",
+    "How To"
+  ],
+  "Menu": {
+	  "MenuText" : "Selecting Single Rows",
+	  "MenuLoc" : "4.2"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "TemplateName": "default",
+  "Title": "Using Json Config Connection Strings Resolver",
+  "Description": "Connection coming from appsettings.json which is typically done with .Net Core that uses the Microsoft.Extensions.ConfigurationConfigurationManager class.",
+  "Tags": [
+    "Connection String",
+    "Setup"
+  ],
+  "Menu": {
+	  "MenuText" : "Using Json Config Connection Strings Resolver",
+	  "MenuLoc" : "3.1"
+  }
+
+}

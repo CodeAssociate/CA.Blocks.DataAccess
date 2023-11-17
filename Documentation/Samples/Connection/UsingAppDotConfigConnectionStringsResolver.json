@@ -1,0 +1,13 @@
+{
+  "TemplateName": "default",
+  "Title": "Using AppDot Config Connection Strings Resolver",
+  "Description": "Connection String coming from app.config using using the Microsoft System.Configuration.ConfigurationManager class. This is common with the .NET 1 to 4.8 frameworks",
+  "Tags": [
+    "Connection String",
+    "Setup"
+  ],
+  "Menu": {
+	  "MenuText" : "Using AppDot Config Connection Strings Resolver",
+	  "MenuLoc" : "3.2"
+  }
+}

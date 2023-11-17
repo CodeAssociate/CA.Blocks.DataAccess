@@ -1,0 +1,14 @@
+{
+  "TemplateName": "default",
+  "Title": "Selecting Scalar Values",
+  "Description": "Examples of Selecting Scalar Values using CA.Blocks for example as single string or number or Date etc ",
+  "Tags": [
+    "Examples",
+    "Selecting Scalar Values",
+    "How To"
+  ],
+  "Menu": {
+	  "MenuText" : "Selecting Scalar Rows",
+	  "MenuLoc" : "4.1"
+  }
+}

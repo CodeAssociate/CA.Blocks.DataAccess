@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using CA.Blocks.DataAccess.DataTableHelpers;
 using NUnit.Framework;
 using CA.Blocks.DataAccess.DI;
@@ -57,7 +58,15 @@ Create Table CABLOCKS_DateDimension_Example
     [MonthKey]  varchar(6) not null,
     [MonthShortName]  varchar(4) not null,
     [MonthName]   varchar(16) not null,
-    [DayName] varchar(16) not null
+    [DayName] varchar(16) not null,
+
+    [IsFirstDayMonth] bit not null,
+    [IsLastDayMonth] bit not null,
+    [IsLastWeekdayInMonth] bit not null,
+    [IsFirstWeekdayInMonth] bit not null,
+    [IsLastFridayInMonth] bit not null,
+    [IsFirstMondayInMonth] bit not null
+
 )";
         }
 
@@ -79,7 +88,14 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
     [MonthKey]  varchar(6) not null,
     [MonthShortName]  varchar(4) not null,
     [MonthName]   varchar(16) not null,
-    [DayName] varchar(16) not null
+    [DayName] varchar(16) not null,
+
+    [IsFirstDayMonth] bit not null,
+    [IsLastDayMonth] bit not null,
+    [IsLastWeekdayInMonth] bit not null,
+    [IsFirstWeekdayInMonth] bit not null,
+    [IsLastFridayInMonth] bit not null,
+    [IsFirstMondayInMonth] bit not null
 )";
         }
 
@@ -97,16 +113,15 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
         [OneTimeTearDown]
         public void TearDown()
         {
-           ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
-           ExecuteNonQuery(CreateTextCommand(DropTestTableTypeIfExistsSQL()));
+           //ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
+           //ExecuteNonQuery(CreateTextCommand(DropTestTableTypeIfExistsSQL()));
         }
-
 
 
         [Test, Order(1)]
         public void BulkInsertTest()
         {
-            // This process inserts 365,243 rows 1000 years of date data. which is 4,748,159 cells, on local with fast desk this is 5 seconds
+            // This process inserts 365,243 rows 1000 years of date data. which is 4,748,159 cells, on local with fast disk this is 5 seconds
             var builder = new DateDimensionBuilder();
             var bulksql = @"insert into CABLOCKS_DateDimension_Example select * from @BulkInsertParam";
             var sw = new Stopwatch();
