@@ -175,7 +175,7 @@ namespace CA.Blocks.DataAccessUnitTests
         [TestCase("empty")]
         [TestCase("7009B509-098F-4AF4-97C8-CF354B4E0D77")]
         [TestCase(null)]
-        public void GetValueFromRowAsGuid(string testData)
+        public void GetValueFromRowAsGuid(string? testData)
         {
             Guid? expected = null;
             if (!string.IsNullOrWhiteSpace(testData))
@@ -342,7 +342,7 @@ namespace CA.Blocks.DataAccessUnitTests
         [TestCase("2-Jan-2019 23:59:59")]
         [TestCase("2-Jan-2019 00:00:01.333")]
         [TestCase(null)]
-        public void GetValueFromRowAsDateTime(string testData)
+        public void GetValueFromRowAsDateTime(string? testData)
         {
             DateTime? expected = null;
             if (!string.IsNullOrWhiteSpace(testData))
@@ -386,7 +386,7 @@ namespace CA.Blocks.DataAccessUnitTests
         [TestCase("&*(*(&*Y()))")]
         [TestCase("")]
         [TestCase(null)]
-        public void GetValueFromRowAsString(string expected)
+        public void GetValueFromRowAsString(string? expected)
         {
             string actual;
             var dr = CreateTestTable(typeof(string), expected);
@@ -421,7 +421,7 @@ namespace CA.Blocks.DataAccessUnitTests
         [TestCase("00:00:00")]
         [TestCase("23:44:34.333")]
         [TestCase(null)]
-        public void GetValueFromRowAsTimeSpan(string testData)
+        public void GetValueFromRowAsTimeSpan(string? testData)
         {
             TimeSpan? expected = null;
             if (!string.IsNullOrWhiteSpace(testData))

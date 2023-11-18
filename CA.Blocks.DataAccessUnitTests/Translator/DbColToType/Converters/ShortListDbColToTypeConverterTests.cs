@@ -13,7 +13,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
         [TestCase(1, "", (short)0)]
         [TestCase(1, "1,2,3,4,5",(short)1, (short)2, (short)3, (short)4, (short)5) ]
         [TestCase(1, "1, 2,3, 4 , 5", (short)1, (short)2, (short)3, (short)4, (short)5)]
-        public void DbColToTypeConverterTest(int rowNumber, string dbValue, params short[] numbers)
+        public void DbColToTypeConverterTest(int rowNumber, string? dbValue, params short[] numbers)
         {
             var dt = CreateTestTable(typeof(string), dbValue);
             var dataRow = GetDataRow(rowNumber, dt);

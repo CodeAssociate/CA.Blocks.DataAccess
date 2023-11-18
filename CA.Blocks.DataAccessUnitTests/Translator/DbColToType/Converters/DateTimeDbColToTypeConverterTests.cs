@@ -38,7 +38,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
         [Test]
         [TestCase(0, null)]
         [TestCase(1, "1-Jan-2019")]
-        public void NullDbColToTypeConverterTest(int rowNumber, string testDate)
+        public void NullDbColToTypeConverterTest(int rowNumber, string? testDate)
         {
             DateTime? expected = null;
             if (!string.IsNullOrWhiteSpace(testDate))
