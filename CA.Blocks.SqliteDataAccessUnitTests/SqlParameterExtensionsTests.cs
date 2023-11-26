@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests
 {
-    [TestFixture]
+	[TestFixture]
     public class SqlParameterExtensionsTests : BaseToSqlParameterTests
     {
         public override DbParameter ToSqlParameterTypeInstanceTestMain<T>(T test, DbType expectedDbType)
@@ -26,9 +26,6 @@ namespace CA.Blocks.SqliteDataAccessUnitTests
 
             return result;
         }
-
-
-
 
         private void IsDateTimeDbParameterExpectedResult(DateTime? expecteDateTime, DbParameter generatedParameter)
         {

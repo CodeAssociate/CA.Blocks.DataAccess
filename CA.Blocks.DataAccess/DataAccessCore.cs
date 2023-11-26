@@ -63,13 +63,13 @@ namespace CA.Blocks.DataAccess
         }
 
         /// <summary>
-        /// The WrapUp procedure is called when completing a database call. It will establish 
-        /// whether or not to close the connection pending the variable closeConnection which 
-        /// would have been passed back from the PrepCommand. The PrepCommand and WrapUp work 
-        /// in tandem when executing commands though this common class. 
-        /// </summary>
-        /// <param name="conn">the connection to close pending closeConnection</param>
-        /// <param name="closeConnection"> determines if conn should be closed on complete</param>
+		/// The WrapUp procedure is called when completing a database call. It will establish 
+		/// whether or not to close the connection pending the variable closeConnection which 
+		/// would have been passed back from the PrepCommand. The PrepCommand and WrapUp work 
+		/// in tandem when executing commands though this common class. 
+		/// </summary>
+		/// <param name="conn">the connection to close pending closeConnection</param>
+		/// <param name="closeConnection"> determines if conn should be closed on complete</param>
         protected void WrapUp(IDbConnection conn, bool closeConnection)
         {
             if (closeConnection)
@@ -422,6 +422,8 @@ namespace CA.Blocks.DataAccess
             return (ds.Tables[0]);
         }
 
+
+
         #endregion ExecuteTable
 
         #region ExecuteDataRow
@@ -627,11 +629,10 @@ namespace CA.Blocks.DataAccess
 
         protected async Task<T> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
         {
-            //ExecuteReaderAsync(cmd).
             var dbResult = ExecuteReaderAsync(cmd);
             T result;
-            await dbResult;
-            using (var dbReader = dbResult.GetAwaiter().GetResult())
+            //await dbResult;
+	        using (var dbReader = await dbResult)
             {
                 try
                 {
@@ -680,5 +681,12 @@ namespace CA.Blocks.DataAccess
             var translator = _dbRowTranslatorProvider.Resolve<T>();
             return translator.Translate(dt);
         }
+
+
+        protected virtual DataTable GetSchema(string collectionNam, string[] restrictionValues = null)
+        {
+	        throw new NotImplementedException("GetSchema not Not Implemented");
+        }
+
     }
 }

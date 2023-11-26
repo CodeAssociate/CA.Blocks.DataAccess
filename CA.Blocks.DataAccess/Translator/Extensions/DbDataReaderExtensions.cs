@@ -127,9 +127,13 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             }
             finally
             {
-                dbReader.Close();
-            }
-            return result;
+#if NET6_0_OR_GREATER
+	            await dbReader.CloseAsync();
+#else
+				dbReader.Close();
+#endif
+			}
+			return result;
         }
 
         public static Task<IList<T>> ToSingleNamedColumnListAsync<T>(this DbDataReader dbReader, string colName)
@@ -154,12 +158,87 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return await ToSingleNamedColumnListAsync<T>(dbReader, colName, converter);
         }
 
+        #endregion
 
-#endregion
+        #region ToDataTable  This gets asked many Times on stackoverflow howto ExecuteDataTableAsync  The DataAdapter is has not asyinc support
 
-#region Multi Result Sets
-        //2
-        public static async Task<ResultsSet<T1, T2>> ToResultsSetAsync<T1, T2>(this DbDataReader dbReader,
+        //private 
+
+        private static DataRow DataReaderToDataRow(DbDataReader reader, DataRow newRow)
+        {
+	        for (var i = 0; i < reader.FieldCount; i++)
+	        {
+		        if (reader.IsDBNull(i))
+		        {
+			        newRow[i] = DBNull.Value;
+
+		        }
+		        else
+		        {
+			        newRow[i] = reader[i];
+		        }
+	        }
+	        return newRow;
+        }
+
+        private static DataTable CreateDataTableSchemaFromDataReader(DbDataReader reader)
+		{
+			var result = new DataTable();
+
+			for (int i = 0; i < reader.FieldCount; i++)
+			{
+				result.Columns.Add(new DataColumn
+				{
+                    ColumnName = reader.GetName(i),
+#if NET6_0_OR_GREATER
+					DataType = reader.GetFieldType(i)!
+#else
+					DataType = reader.GetFieldType(i)
+#endif
+				});
+			}
+			return result;
+		}
+
+		public static async Task<DataTable> ToDataTable(this DbDataReader dbReader)
+		{
+			DataTable dt = new DataTable();
+			bool schemaCreated = false;
+			try
+			{
+				while (await dbReader.ReadAsync())
+				{
+					if (!schemaCreated)
+					{
+						dt = CreateDataTableSchemaFromDataReader(dbReader);
+						schemaCreated = true;
+					}
+
+					dt.Rows.Add(DataReaderToDataRow(dbReader, dt.NewRow()));
+				}
+			}
+			finally
+			{
+#if NET6_0_OR_GREATER
+				await dbReader.CloseAsync();
+#else
+				dbReader.Close();
+#endif
+			}
+			return dt;
+		}
+
+		public static async Task<DataTable> ToDataTable(this Task<DbDataReader> dbReaderTask)
+		{
+			var dbReader = await dbReaderTask;
+			return await ToDataTable(dbReader);
+		}
+
+		#endregion
+
+		#region Multi Result Sets
+		//2
+		public static async Task<ResultsSet<T1, T2>> ToResultsSetAsync<T1, T2>(this DbDataReader dbReader,
             Func<IDataReader, T1> translate1,
             Func<IDataReader, T2> translate2
             )
@@ -178,9 +257,13 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                 }
                 finally
                 {
-                    dbReader.Close();
-                }
-            }
+#if NET6_0_OR_GREATER
+	                await dbReader.CloseAsync();
+#else
+				dbReader.Close();
+#endif
+				}
+			}
             return result;
         }
 
@@ -241,9 +324,13 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                 }
                 finally
                 {
-                    dbReader.Close();
-                }
-            }
+#if NET6_0_OR_GREATER
+	                await dbReader.CloseAsync();
+#else
+				dbReader.Close();
+#endif
+				}
+			}
             return result;
         }
 
@@ -316,9 +403,13 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                 }
                 finally
                 {
-                    dbReader.Close();
-                }
-            }
+#if NET6_0_OR_GREATER
+	                await dbReader.CloseAsync();
+#else
+				dbReader.Close();
+#endif
+				}
+			}
             return result;
         }
 
@@ -402,9 +493,13 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                 }
                 finally
                 {
-                    dbReader.Close();
-                }
-            }
+#if NET6_0_OR_GREATER
+	                await dbReader.CloseAsync();
+#else
+				dbReader.Close();
+#endif
+				}
+			}
             return result;
         }
 

@@ -7,13 +7,12 @@ using Microsoft.Data.Sqlite;
 
 namespace CA.Blocks.SqliteDataAccess
 {
-
-    // SQlLite is unique in the fact that the DB is Typeless -  This means that you can store any kind of data you want in any column of any table, regardless of the declared datatype of that column
-    // see https://www.sqlite.org/datatypes.html
-    // AS such these extensions are more helpers of intent
-    // The SQL will have to have knowledge of type operations example if you working with date as col you need to wrap the syntax with a date function ie DatCol > date(value)
-    // the blocks tries to standardise on the ISO-8601 format for a little more structure   
-    public static class SqliteParameterExtensions
+	// SQlLite is unique in the fact that the DB is Typeless -  This means that you can store any kind of data you want in any column of any table, regardless of the declared datatype of that column
+	// see https://www.sqlite.org/datatypes.html
+	// AS such these extensions are more helpers of intent
+	// The SQL will have to have knowledge of type operations example if you working with date as col you need to wrap the syntax with a date function ie DatCol > date(value)
+	// the blocks tries to standardise on the ISO-8601 format for a little more structure   
+	public static class SqliteParameterExtensions
     {
         public static SqliteCommand WithParameters(this SqliteCommand cmd, IList<SqliteParameter> parameters)
         {
@@ -31,7 +30,7 @@ namespace CA.Blocks.SqliteDataAccess
         #region SqlDbType.BigInt ( long, Int64 ) 
         private static SqliteParameter ToSqlParameterBigInt(long? input, string strParameterName)
         {
-            return  new SqliteParameter(strParameterName, SqlDbType.BigInt)
+            return  new SqliteParameter(strParameterName, SqliteType.Integer)
             {
                 Direction = ParameterDirection.Input,
                 Size = 8,
@@ -55,7 +54,7 @@ namespace CA.Blocks.SqliteDataAccess
 
         public static SqliteParameter ToSqlParameter(this byte[] input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.Binary)
+            return new SqliteParameter(strParameterName, SqliteType.Blob)
             {
                 Direction = ParameterDirection.Input,
                 DbType = DbType.Binary,
@@ -68,7 +67,7 @@ namespace CA.Blocks.SqliteDataAccess
         #region SqlDbType.Bit ( boolean ) 
         private static SqliteParameter ToSqlParameterBool(bool? input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.Bit)
+            return new SqliteParameter(strParameterName, SqliteType.Integer )
             {
                 Direction = ParameterDirection.Input,
                 Value = ParameterHelper.ToDbParameterValue(input)
@@ -92,7 +91,7 @@ namespace CA.Blocks.SqliteDataAccess
 
         private static SqliteParameter ToSqlParameterChar(Char? input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.NChar)
+            return new SqliteParameter(strParameterName, SqliteType.Text)
             {
                 Direction = ParameterDirection.Input,
                 Value = ParameterHelper.ToDbParameterValue(input)
@@ -207,7 +206,7 @@ namespace CA.Blocks.SqliteDataAccess
 
         private static SqliteParameter ToSqlParameterDouble(Double? input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.Float)
+            return new SqliteParameter(strParameterName, SqliteType.Real)
             {
                 Direction = ParameterDirection.Input,
                 Value = ParameterHelper.ToDbParameterValue(input)
@@ -226,8 +225,8 @@ namespace CA.Blocks.SqliteDataAccess
 
         private static SqliteParameter ToSqlParameterDouble(Single? input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.Float)
-            {
+            return new SqliteParameter(strParameterName, SqliteType.Real)
+			{
                 Direction = ParameterDirection.Input,
                 Value = ParameterHelper.ToDbParameterValue(input)
             };
@@ -290,7 +289,7 @@ namespace CA.Blocks.SqliteDataAccess
         #region SqlDbType.SmallInt  -> ( short, Int16)
         private static SqliteParameter ToSqlParameterInt16(Int16? input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.SmallInt)
+            return new SqliteParameter(strParameterName, SqliteType.Integer)
             {
                 Direction = ParameterDirection.Input,
                 Size = 2,
@@ -310,7 +309,7 @@ namespace CA.Blocks.SqliteDataAccess
 
         private static SqliteParameter ToSqlParameterUInt16(UInt16? input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.SmallInt)
+            return new SqliteParameter(strParameterName, SqliteType.Integer)
             {
                 Direction = ParameterDirection.Input,
                 Size = 2,
@@ -333,7 +332,7 @@ namespace CA.Blocks.SqliteDataAccess
 
         private static SqliteParameter ToSqlParameterTimeSpan(TimeSpan? input, string strParameterName)
         {
-            return  new SqliteParameter(strParameterName, SqlDbType.Time)
+            return  new SqliteParameter(strParameterName, SqliteType.Text)
             {
                 Direction = ParameterDirection.Input,
                 Value = ParameterHelper.ToDbParameterValue(input)
@@ -356,7 +355,7 @@ namespace CA.Blocks.SqliteDataAccess
         #region SqlDbType.TinyInt ( Byte ) 
         private static SqliteParameter ToSqlParameterByte(byte? input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.TinyInt)
+            return new SqliteParameter(strParameterName, SqliteType.Integer)
             {
                 Direction = ParameterDirection.Input,
                 Size = 1,
@@ -376,7 +375,7 @@ namespace CA.Blocks.SqliteDataAccess
 
         private static SqliteParameter ToSqlParameterSByte(sbyte? input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.SmallInt)
+            return new SqliteParameter(strParameterName, SqliteType.Integer)
             {
                 Direction = ParameterDirection.Input,
                 Size = 1,
@@ -402,7 +401,7 @@ namespace CA.Blocks.SqliteDataAccess
         #region SqlDbType.UniqueIdentifier ( System.Guid)
         private static SqliteParameter ToSqlParameterGuid(Guid? input, string strParameterName)
         {
-            return new SqliteParameter(strParameterName, SqlDbType.UniqueIdentifier)
+            return new SqliteParameter(strParameterName, SqliteType.Text)
             {
                 Direction = ParameterDirection.Input,
                 Value = ParameterHelper.ToDbParameterValue(input)
