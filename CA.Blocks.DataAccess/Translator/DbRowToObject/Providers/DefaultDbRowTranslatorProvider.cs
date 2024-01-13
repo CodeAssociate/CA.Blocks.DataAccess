@@ -14,20 +14,13 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
 {
     public class DefaultDbRowTranslatorProvider : IDbRowTranslatorProvider
     {
-        private readonly IDbColToTypeProvider _colTypeConverters;
+        private readonly IDbColToTypeProvider _colTypeConverters = DefaultDbColToTypeProvider.DefaultInstance;
 
         private static object _syncLock = new object();
-        private readonly ConcurrentDictionary<string, object> _typeConverters;
+        private readonly ConcurrentDictionary<string, object> _typeConverters = new ConcurrentDictionary<string, object>();
 
         public static IDbRowTranslatorProvider DefaultInstance = new DefaultDbRowTranslatorProvider();
 
-
-        public DefaultDbRowTranslatorProvider()
-        {
-            _colTypeConverters = DefaultDbColToTypeProvider.DefaultInstance;
-            _typeConverters = new ConcurrentDictionary<string, object>();
-        }
-        
         private string GetKey(Type targetType, string byName = "")
         {
             return string.IsNullOrWhiteSpace(byName) ? $"{targetType}" : $"{targetType}-{byName}";

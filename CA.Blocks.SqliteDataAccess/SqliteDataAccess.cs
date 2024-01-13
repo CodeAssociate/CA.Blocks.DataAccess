@@ -130,48 +130,5 @@ namespace CA.Blocks.SqliteDataAccess
 
 
         #endregion StoredProcedureHelpers
-
-       
-        #region SQL Bulk Update Methods
-
-        // gets the first col which has an expression on.  
-        // This will need to be refactored if you have expressions based on expressions as you will need to be aware of dependency order
-        // if no expressions are found it will return null. 
-        private DataColumn GetColunmWithExpression(DataTable dt)
-        {
-            DataColumn result = null;
-            foreach (DataColumn dcloop in dt.Columns)
-            {
-                if (!string.IsNullOrEmpty(dcloop.Expression))
-                {
-                    result = dcloop;
-                    break;
-                }
-            }
-            return result;
-        }
-
-        protected void CementExpressionsAsValues(DataTable dt)
-        {
-            DataColumn colWithExpression = GetColunmWithExpression(dt);
-            int excapeCounter = 0;
-            while (colWithExpression != null && excapeCounter < dt.Columns.Count)
-            {
-
-                string tempColName = colWithExpression.ColumnName + Guid.NewGuid().ToString();
-                dt.Columns.Add(tempColName, colWithExpression.DataType);
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    dr[tempColName] = dr[colWithExpression.ColumnName];
-                }
-                dt.Columns.Remove(colWithExpression);
-                dt.Columns[tempColName].ColumnName = colWithExpression.ColumnName;
-
-                colWithExpression = GetColunmWithExpression(dt);
-                excapeCounter++;
-            }
-        }
-        #endregion
     }
 }

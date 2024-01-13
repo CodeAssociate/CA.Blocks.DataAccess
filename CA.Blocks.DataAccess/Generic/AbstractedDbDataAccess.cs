@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-using System.Threading.Tasks;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
+#if NET6_0_OR_GREATER
+using System.Threading.Tasks;
+#endif
 
 namespace CA.Blocks.DataAccess.Generic
 {

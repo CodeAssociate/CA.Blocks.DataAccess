@@ -23,7 +23,7 @@ namespace CA.Blocks.DataAccess.Extensions.Translators.NUlidTests
             var g = myulid.ToGuid();
             var myulidCopy = new Ulid(g.ToByteArray());
 
-            Assert.AreEqual(myulid.ToString(), myulidCopy.ToString());
+            Assert.That(myulidCopy.ToString(), Is.EqualTo(myulid.ToString()));
             Assert.Pass();
 
             //var myulid = Ulid();
