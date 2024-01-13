@@ -234,7 +234,7 @@ namespace CA.Blocks.DataAccessUnitTests
         [Test]
         [TestCase(0, null)]
         [TestCase(1, "1-Jan-2019")]
-        public void GetValueFromRowAsDateTime_AsNullTests(int rowNumber, string testDate)
+        public void GetValueFromRowAsDateTime_AsNullTests(int rowNumber, string? testDate)
         {
             DateTime? expected = null;
             if (!string.IsNullOrWhiteSpace(testDate))
@@ -407,7 +407,7 @@ namespace CA.Blocks.DataAccessUnitTests
         [Test]
         [TestCase(0, null)]
         [TestCase(1, "7009B509-098F-4AF4-97C8-CF354B4E0D76")]
-        public void GetValueFromRowAsGuid_AsNullTests(int rowNumber, string testDate)
+        public void GetValueFromRowAsGuid_AsNullTests(int rowNumber, string? testDate)
         {
             Guid? expected = null;
             if (!string.IsNullOrWhiteSpace(testDate))
@@ -653,7 +653,7 @@ namespace CA.Blocks.DataAccessUnitTests
         
         [Test]
         [TestCase(0, null)]
-        public void GetValueFromRowAsString_NullTests(int rowNumber, string data)
+        public void GetValueFromRowAsString_NullTests(int rowNumber, string? data)
         {
             var dt = CreateTestTable(typeof(string), data);
             var dataRow = GetDataRow(rowNumber, dt);
@@ -672,7 +672,7 @@ namespace CA.Blocks.DataAccessUnitTests
         
         [Test]
         [TestCase(0, null)]
-        public void GetValueFromRowAsString_NullTestsEmptyString(int rowNumber, string data)
+        public void GetValueFromRowAsString_NullTestsEmptyString(int rowNumber, string? data)
         {
             var dt = CreateTestTable(typeof(string), data);
             var dataRow = GetDataRow(rowNumber, dt);
@@ -726,7 +726,7 @@ namespace CA.Blocks.DataAccessUnitTests
         [Test]
         [TestCase(0, null)]
         [TestCase(1, "22:21:20")]
-        public void GetValueFromRowAsTimeSpan_AsNullTests(int rowNumber, string testDate)
+        public void GetValueFromRowAsTimeSpan_AsNullTests(int rowNumber, string? testDate)
         {
             TimeSpan? expected = null;
             if (!string.IsNullOrWhiteSpace(testDate))

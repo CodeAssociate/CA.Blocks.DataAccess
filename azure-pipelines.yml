@@ -19,7 +19,7 @@ variables:
 - name: Major
   value: '3'
 - name: Minor
-  value: '1'
+  value: '2'
 - name: Patch
   value: $[counter(variables['BuildID'], 0)]
 - name: SemanticVerion
