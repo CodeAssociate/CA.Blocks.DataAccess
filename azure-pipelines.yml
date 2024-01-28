@@ -34,11 +34,18 @@ variables:
     value: $(Major).$(Minor).$(Patch)-prerelease
   ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  eq( variables['Build.Reason'], 'PullRequest' )  ) }}:
     value: $(Major).$(Minor).$(Patch)-alpha
+- name: PublishPackage
+  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
+    value: 'true'
+  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
+    value: 'true'
+  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  eq( variables['Build.Reason'], 'PullRequest' )  ) }}:
+    value: 'false'
 
 steps:
 - script: echo $(SemanticVerion)
 - script: echo $(SemanticVerionPack)
-- script: echo $(isReleaseBuild)
+- script: echo $(PublishPackage) 
 
 #Set the assembly file and version numbers to be the build number
 - task: PowerShell@2
@@ -160,7 +167,7 @@ steps:
 
 - task: NuGetCommand@2
   displayName: 'NuGet Push' 
-  condition: "!endsWith('alpha', variables['SemanticVerionPack'])"
+  condition: "eq('true', variables['PublishPackage'])"
   inputs:
     command: push
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
