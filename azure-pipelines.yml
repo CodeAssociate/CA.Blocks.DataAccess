@@ -106,21 +106,21 @@ steps:
 #     configuration: '$(buildConfiguration)'
 
 # WE have a dependency on SQL so only run the DataAccessUnitTests and SqliteDataAccessUnitTests tests which can run in memory
+
 - task: DotNetCoreCLI@2
   displayName: 'Build and Test'
   continueOnError: false
   inputs:
-    command: test
-    projects: |
-        **\*.csproj
-        !**\*.MySQLDataAccessUnitTests.csproj
-        !**\*.SQLServerDataAccessUnitTests.csproj
-    arguments: >
-    --configuration $(BuildConfiguration)
-    --collect "Code coverage"
-    --filter "UnitTests"
-    /p:ExcludeByAttribute=Obsolete
-
+       command: test
+       projects: |
+            **/*.csproj
+            !**/*SQLServerDataAccessUnitTests.csproj
+            !**/*MySQLDataAccessUnitTests.csproj
+       arguments: >
+          --configuration $(BuildConfiguration)
+          --collect "Code coverage"
+          /p:ExcludeByAttribute=Obsolete
+ 
 # - task: VSTest@2
 #   inputs:
 #     testSelector: 'testAssemblies'
@@ -159,9 +159,9 @@ steps:
     PathtoPublish: '$(build.artifactstagingdirectory)'
 
 - task: NuGetCommand@2
-    displayName: 'NuGet Push' 
-    condition: ${{ !endsWith('alpha', variables['SemanticVerionPack']) }}
-    inputs:
+  displayName: 'NuGet Push' 
+  condition: ${{ !endsWith('alpha', variables['SemanticVerionPack']) }}
+  inputs:
     command: push
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
     nuGetFeedType: external
