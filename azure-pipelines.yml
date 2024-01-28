@@ -160,7 +160,7 @@ steps:
 
 - task: NuGetCommand@2
   displayName: 'NuGet Push' 
-  condition: ${{ !endsWith('alpha', variables['SemanticVerionPack']) }}
+  condition: "!endsWith('alpha', variables['SemanticVerionPack'])"
   inputs:
     command: push
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
