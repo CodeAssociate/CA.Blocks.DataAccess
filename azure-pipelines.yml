@@ -32,14 +32,14 @@ variables:
     value: $(Major).$(Minor).$(Patch)
   ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
     value: $(Major).$(Minor).$(Patch)-prerelease
-  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  eq( variables['Build.Reason'], 'PullRequest' )  ) }}:
+  ${{ if eq( variables['Build.Reason'], 'PullRequest' )  }}:
     value: $(Major).$(Minor).$(Patch)-alpha
 - name: PublishPackage
   ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
     value: 'true'
   ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
     value: 'true'
-  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  eq( variables['Build.Reason'], 'PullRequest' )  ) }}:
+  ${{ if  eq( variables['Build.Reason'], 'PullRequest' )  }}:
     value: 'false'
 
 steps:
