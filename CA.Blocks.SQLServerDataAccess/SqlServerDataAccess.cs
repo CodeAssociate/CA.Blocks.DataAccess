@@ -100,15 +100,35 @@ namespace CA.Blocks.SQLServerDataAccess
             }
         }
 
+        protected SqlConnection CreateSqlConnection()
+        {
+	        SqlConnection sqlConnection = new SqlConnection(ConnectionString);
+	        SetAccessToken(sqlConnection);
+	        sqlConnection.Open();
+	        SetCommandContext(sqlConnection);
+	        SetSessionContext(sqlConnection);
+            return sqlConnection;
+		}
+
+
         protected override bool PrepCommand(IDbCommand cmd)
         {
-            SqlConnection sqlConnection = new SqlConnection(ConnectionString);
-            SetAccessToken(sqlConnection);
-            sqlConnection.Open();
-            SetCommandContext(sqlConnection);
-            SetSessionContext(sqlConnection);
-            cmd.Connection = sqlConnection;
-            return true;
+            // we respect and connections pre set. if it is set and in a open state
+#pragma warning disable IDE0074 we need support for .NET standard 
+            if (cmd.Connection == null || 
+                cmd.Connection.State != ConnectionState.Open 
+				)
+#pragma warning restore IDE0074
+            {
+	            cmd.Connection = CreateSqlConnection();
+	            return true;
+			}
+            else
+            {
+                // if we are using a existing valid connection then leave the connection state 
+	            return false;
+            }
+
         }
 
         protected virtual List<int> TransientErrorNumbers()
