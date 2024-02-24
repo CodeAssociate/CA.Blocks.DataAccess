@@ -4,7 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- master
+ branches:
+    include:
+    - master
+    - release/*
 
 pool:
   vmImage: 'windows-latest'
@@ -19,20 +22,30 @@ variables:
 - name: Major
   value: '3'
 - name: Minor
-  value: '2'
+  value: '3'
 - name: Patch
   value: $[counter(variables['BuildID'], 0)]
 - name: SemanticVerion
   value: $(Major).$(Minor).$(Patch)
 - name: SemanticVerionPack
-  ${{ if ne( variables['Build.Reason'], 'PullRequest' ) }}: 
+  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
     value: $(Major).$(Minor).$(Patch)
-  ${{ if eq( variables['Build.Reason'], 'PullRequest' ) }}: 
+  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
     value: $(Major).$(Minor).$(Patch)-prerelease
+  ${{ if eq( variables['Build.Reason'], 'PullRequest' )  }}:
+    value: $(Major).$(Minor).$(Patch)-alpha
+- name: PublishPackage
+  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
+    value: 'true'
+  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
+    value: 'true'
+  ${{ if  eq( variables['Build.Reason'], 'PullRequest' )  }}:
+    value: 'false'
 
 steps:
 - script: echo $(SemanticVerion)
 - script: echo $(SemanticVerionPack)
+- script: echo $(PublishPackage) 
 
 #Set the assembly file and version numbers to be the build number
 - task: PowerShell@2
@@ -87,27 +100,44 @@ steps:
 
 - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
+  displayName: 'Restore packages'
+  continueOnError: false
   inputs:
-    restoreSolution: '$(solution)'
+        command: restore
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+# - task: VSBuild@1
+#   inputs:
+#     solution: '$(solution)'
+#     platform: '$(buildPlatform)'
+#     configuration: '$(buildConfiguration)'
 
 # WE have a dependency on SQL so only run the DataAccessUnitTests and SqliteDataAccessUnitTests tests which can run in memory
-- task: VSTest@2
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build and Test'
+  continueOnError: false
   inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-        **\CA.Blocks.DataAccessUnitTests.dll    
-        **\CA.Blocks.SqliteDataAccessUnitTests.dll
-        !**\obj\**
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    codeCoverageEnabled: True # Optional
+       command: test
+       projects: |
+            **/*.csproj
+            !**/*SQLServerDataAccessUnitTests.csproj
+            !**/*MySQLDataAccessUnitTests.csproj
+       arguments: >
+          --configuration $(BuildConfiguration)
+          --collect "Code coverage"
+          /p:ExcludeByAttribute=Obsolete
+ 
+# - task: VSTest@2
+#   inputs:
+#     testSelector: 'testAssemblies'
+#     testAssemblyVer2: |
+#         **\CA.Blocks.DataAccessUnitTests.dll    
+#         **\CA.Blocks.SqliteDataAccessUnitTests.dll
+#         !**\obj\**
+#     platform: '$(buildPlatform)'
+#     configuration: '$(buildConfiguration)'
+#     codeCoverageEnabled: True # Optional
 
 
 - task: DotNetCoreCLI@2
@@ -135,9 +165,9 @@ steps:
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
 
-
 - task: NuGetCommand@2
-  displayName: 'NuGet Push'
+  displayName: 'NuGet Push' 
+  condition: "eq('true', variables['PublishPackage'])"
   inputs:
     command: push
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
