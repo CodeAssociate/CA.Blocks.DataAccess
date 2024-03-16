@@ -1,14 +1,8 @@
 ﻿using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
-using Microsoft.CodeAnalysis;
 
 namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper.Read
 {
@@ -30,7 +24,15 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper.Read
 
         }
 
-        private ExampleSysObject CustomT(IDataReader dr)
+        public IList<ExampleSysObject> ReadSysobjectsDispose()
+        {
+	        using (var cmd = CreateTextCommand("Select * from sysobjects"))
+	        {
+		        return Execute(cmd).ToListOf<ExampleSysObject>();
+			}
+        }
+
+		private ExampleSysObject CustomT(IDataReader dr)
         {
             return  new ExampleSysObject
             {
@@ -46,5 +48,13 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper.Read
             var cmd = CreateTextCommand("Select * from sysobjects");
             return Execute(cmd).ToListOf<ExampleSysObject>(CustomT);
         }
-    }
+
+
+        public async Task<IList<ExampleSysObject>> ReadSysobjectsAsync()
+        {
+	        var cmd = CreateTextCommand("Select * from sysobjects");
+	        return await ExecuteAsync(cmd).ToListOf<ExampleSysObject>();
+        }
+
+	}
 }
