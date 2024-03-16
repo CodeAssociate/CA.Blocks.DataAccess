@@ -23,7 +23,21 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper
             var result = _blocksTarget!.ReadSysobjects();
         }
 
-        [Benchmark()]
+
+        [Benchmark]
+        public void BlocksReadobjectsDispose()
+        {
+	        var result = _blocksTarget!.ReadSysobjectsDispose();
+        }
+
+		[Benchmark]
+        public async Task BlocksReadobjectsAsync()
+        {
+	        var result = await _blocksTarget!.ReadSysobjectsAsync();
+        }
+
+
+		[Benchmark()]
         public void BlocksReadobjectsCustom()
         {
             var result = _blocksTarget!.ReadSysobjects2();
@@ -37,8 +51,15 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper
 
         }
 
+        [Benchmark()]
+        public async Task DapperReadobjectAsync()
+        {
+	        var result = await _dapperReadTarget!.ReadSysobjectsAsync();
 
-        [GlobalCleanup]
+        }
+
+
+		[GlobalCleanup]
         public void GlobalCleanup()
         {
             // Disposing logic

@@ -139,7 +139,7 @@ namespace CA.Blocks.DataAccess
         #region ExecuteWithTransientErrorRetry
         private T ExecuteWithTransientErrorRetry<T>(Func<T> action, IDbCommand cmd, bool autoCloseConnection = true)
         {
-            var exceptions = new List<Exception>();
+	        List<Exception> exceptions = null;
             for (var tries = 0; tries < _options.TransientErrorRetryTotalNumberOfTimesToTry; tries++)
             {
                 var closeConnection = true;
@@ -156,7 +156,12 @@ namespace CA.Blocks.DataAccess
                 }
                 catch (DbException dbEx)
                 {
-                    if (IsTransientError(dbEx))
+	                if (exceptions == null)
+	                {
+		                exceptions = new List<Exception>();
+	                }
+
+					if (IsTransientError(dbEx))
                     {
                         if (tries < _options.TransientErrorRetryTotalNumberOfTimesToTry - 1)
                         {
@@ -195,7 +200,7 @@ namespace CA.Blocks.DataAccess
 
         private async Task<T> ExecuteWithTransientErrorRetryAsync<T>(Func<Task<T>> action, IDbCommand cmd, bool autoCloseConnection = true)
         {
-            var exceptions = new List<Exception>();
+	        List<Exception> exceptions = null; 
             for (int tries = 0; tries < _options.TransientErrorRetryTotalNumberOfTimesToTry; tries++)
             {
                 bool closeConnection = PrepCommand(cmd);
@@ -205,13 +210,18 @@ namespace CA.Blocks.DataAccess
                     {
                         // if RetryIntervalSeconds = 10 seconds then
                         // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
-                        await Task.Delay(1000 * _options.TransientErrorRetryRetryIntervalSeconds * tries);
+                        await Task.Delay(1000 * _options.TransientErrorRetryRetryIntervalSeconds * tries).ConfigureAwait(false);
                     }
-                    return await action();
+                    return await action().ConfigureAwait(false);
                 }
                 catch (DbException dbEx)
                 {
-                    if (IsTransientError(dbEx))
+	                if (exceptions == null)
+	                {
+		                exceptions = new List<Exception>();
+	                }
+
+	                if (IsTransientError(dbEx))
                     {
                         if (tries < _options.TransientErrorRetryTotalNumberOfTimesToTry - 1)
                         {
