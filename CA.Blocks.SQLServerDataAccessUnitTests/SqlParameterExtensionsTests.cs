@@ -7,6 +7,7 @@ using CA.Blocks.DataAccessTestDataForUnitTests.TestTypes;
 using CA.Blocks.SQLServerDataAccess;
 using Microsoft.Data.SqlClient;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests
 {
@@ -26,7 +27,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
         {
             var testedTypes = new List<TypeToDbParameterResult>();
             // https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql-server-data-type-mappings
-            // bigint
+            // bigInt
             testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestInt64, DbType.Int64));
             // binary
             testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestByteArray, DbType.Binary));
@@ -57,7 +58,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             //time
             testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestTimeSpan, DbType.Time));
 
-            //tinyint
+            //tinyInt
             testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestByte, DbType.Byte));
 
             testedTypes.Add(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestSbyte, DbType.Int16)); // SQL server done not have sbyte
@@ -73,10 +74,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
 
             testedTypes.Add(ToSqlParameterTypeTestTimeOnly(TestDotNetTypesToSqlParameter.TestTimeOnly.Value, DbType.Time));
 
-            var AnyUntestesTypes = GetUnTestedTypes(testedTypes);
-            if (AnyUntestesTypes.Count > 0)
+            var AnyUntestedTypes = GetUnTestedTypes(testedTypes);
+            if (AnyUntestedTypes.Count > 0)
             {
-                foreach (var type in AnyUntestesTypes)
+                foreach (var type in AnyUntestedTypes)
                 {
                     TestContext.WriteLine($"{type.FullName} is missing a ToSqlParameterTest");
                 }
@@ -96,11 +97,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             int target = 123;
             // Act
             var sqlparam = target.ToSqlParameter("@target");
-            //Asert
-            Assert.AreEqual(DbType.Int32, sqlparam.DbType);
-            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            Assert.AreEqual("@target", sqlparam.ParameterName);
-            Assert.AreEqual(target, sqlparam.Value);
+            //Assert
+            ClassicAssert.AreEqual(DbType.Int32, sqlparam.DbType);
+            ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
+            ClassicAssert.AreEqual("@target", sqlparam.ParameterName);
+            ClassicAssert.AreEqual(target, sqlparam.Value);
         }
 
 
@@ -112,11 +113,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             int? target = null;
             // Act
             var sqlparam = target.ToSqlParameter("@target");
-            //Asert
-            Assert.AreEqual(DbType.Int32, sqlparam.DbType);
-            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            Assert.AreEqual("@target", sqlparam.ParameterName);
-            Assert.AreEqual(DBNull.Value, sqlparam.Value);
+            //Assert
+            ClassicAssert.AreEqual(DbType.Int32, sqlparam.DbType);
+            ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
+            ClassicAssert.AreEqual("@target", sqlparam.ParameterName);
+            ClassicAssert.AreEqual(DBNull.Value, sqlparam.Value);
         }
 
 
@@ -127,12 +128,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             string testdata = "01234567890123456789";
             // Act
             var sqlparam = testdata.ToSqlParameter("@test", trimInputTo:15);
-            //Asert
-            Assert.AreEqual(DbType.String, sqlparam.DbType);
-            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            Assert.AreEqual(false, sqlparam.IsNullable);
-            Assert.AreEqual("@test", sqlparam.ParameterName);
-            Assert.AreEqual("012345678901234", sqlparam.Value);
+            //Assert
+            ClassicAssert.AreEqual(DbType.String, sqlparam.DbType);
+            ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
+            ClassicAssert.AreEqual(false, sqlparam.IsNullable);
+            ClassicAssert.AreEqual("@test", sqlparam.ParameterName);
+            ClassicAssert.AreEqual("012345678901234", sqlparam.Value);
         }
 
 
@@ -143,16 +144,16 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             string testdata = "";
             // Act
             var sqlparam = testdata.ToSqlParameter("@test", trimInputTo: 15);
-            //Asert
-            Assert.AreEqual(DbType.String, sqlparam.DbType);
-            Assert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            Assert.AreEqual(false, sqlparam.IsNullable);
-            Assert.AreEqual("@test", sqlparam.ParameterName);
-            Assert.AreEqual("", sqlparam.Value);
+            //Assert
+            ClassicAssert.AreEqual(DbType.String, sqlparam.DbType);
+            ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
+            ClassicAssert.AreEqual(false, sqlparam.IsNullable);
+            ClassicAssert.AreEqual("@test", sqlparam.ParameterName);
+            ClassicAssert.AreEqual("", sqlparam.Value);
         }
 
         // TODO the Overriders with optional parameters 
-        // String Specific Types ( varchar rather than nvarchar ) 
+        // String Specific Types ( varchar rather than NVarChar ) 
         // DateTime Specific Types 
         // Decimal Specific Types Money and Small Money
 

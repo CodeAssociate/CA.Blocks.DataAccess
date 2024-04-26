@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CA.Blocks.SQLServerDataAccess.Model;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -62,13 +63,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         {
             var target = new SessionContextUnitTestDataAccess();
             var stringContext = target.GetStringContextDataBase();
-            Assert.AreEqual(target.RandomStringContextValue, stringContext);
+            ClassicAssert.AreEqual(target.RandomStringContextValue, stringContext);
 
             var intContext = target.GetIntContextDataBase();
-            Assert.AreEqual(target.RandomIntContextValue, intContext);
+            ClassicAssert.AreEqual(target.RandomIntContextValue, intContext);
 
             var GuidContext = target.GetGuidContextDataBase();
-            Assert.AreEqual(target.RandomGuidContextValue, GuidContext);
+            ClassicAssert.AreEqual(target.RandomGuidContextValue, GuidContext);
         }
 
     }

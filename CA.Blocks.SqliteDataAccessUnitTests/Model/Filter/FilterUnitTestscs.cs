@@ -2,6 +2,7 @@
 using CA.Blocks.DataAccess.Model.Filter;
 using CA.Blocks.SqliteDataAccess;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
 {
@@ -28,8 +29,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
         {
             var target = new TestFilter();
             target.HasIntColFilter(123);
-            Assert.IsTrue(target.Parameters.Count == 1);
-            Assert.AreEqual("intCol = @value", target.ToSQLFilter());
+            ClassicAssert.IsTrue(target.Parameters.Count == 1);
+            ClassicAssert.AreEqual("intCol = @value", target.ToSQLFilter());
         }
 
         [Test]
@@ -37,8 +38,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
         {
             var target = new TestFilter();
             target.HasIntColFilter(123);
-            Assert.IsTrue(target.Parameters.Count == 1);
-            Assert.AreEqual("WHERE intCol = @value", target.ToSQLFilter(true));
+            ClassicAssert.IsTrue(target.Parameters.Count == 1);
+            ClassicAssert.AreEqual("WHERE intCol = @value", target.ToSQLFilter(true));
         }
 
 
@@ -65,8 +66,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
             var target = new TestFilter();
             target.HasIntColFilter(123);
             target.HasIntColFilter(123);
-            Assert.IsTrue(target.Parameters.Count == 1);
-            Assert.AreEqual("intCol = @value And intCol = @value", target.ToSQLFilter());
+            ClassicAssert.IsTrue(target.Parameters.Count == 1);
+            ClassicAssert.AreEqual("intCol = @value And intCol = @value", target.ToSQLFilter());
         }
 
         // This is an idea for now, to use FormattableString to set a filter

@@ -4,6 +4,7 @@ using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -27,7 +28,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<byte>(cmd);
             //Assert
-            Assert.AreEqual((byte)1, result);
+            ClassicAssert.AreEqual((byte)1, result);
         }
 
         [Test]
@@ -38,7 +39,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<short>(cmd);
             //Assert
-            Assert.AreEqual((short)1, result);
+            ClassicAssert.AreEqual((short)1, result);
         }
 
         [Test]
@@ -49,7 +50,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<int>(cmd);
             //Assert
-            Assert.AreEqual((int)1, result);
+            ClassicAssert.AreEqual((int)1, result);
         }
 
 
@@ -62,9 +63,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var result = ExecuteScalarAsAsync<int>(cmd);
             TestContext.WriteLine(result.Status);
             result.Wait();
-            Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
+            ClassicAssert.AreEqual(TaskStatus.RanToCompletion, result.Status);
             //Assert
-            Assert.AreEqual((int)1, result.Result);
+            ClassicAssert.AreEqual((int)1, result.Result);
         }
 
 
@@ -76,7 +77,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<int?>(cmd);
             //Assert
-            Assert.IsNull(result);
+            ClassicAssert.IsNull(result);
         }
 
 
@@ -88,7 +89,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarWithConvertAs<int>(cmd);
             //Assert
-            Assert.AreEqual((int)123, result);
+            ClassicAssert.AreEqual((int)123, result);
         }
 
 
@@ -100,7 +101,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<long>(cmd);
             //Assert
-            Assert.AreEqual((long)1, result);
+            ClassicAssert.AreEqual((long)1, result);
         }
 
 
@@ -112,7 +113,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<Guid>(cmd);
             //Assert
-            Assert.AreEqual(new Guid("D79DB3C0-E5BE-4045-A37B-6DB923D37123"), result);
+            ClassicAssert.AreEqual(new Guid("D79DB3C0-E5BE-4045-A37B-6DB923D37123"), result);
         }
 
 
@@ -124,7 +125,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAsString(cmd);
             //Assert
-            Assert.AreEqual("String Value", result);
+            ClassicAssert.AreEqual("String Value", result);
         }
 
 

@@ -2,6 +2,7 @@
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
@@ -44,7 +45,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteDataTable(cmd);
             //Assert
-            Assert.AreEqual(5, data.Rows.Count);
+            ClassicAssert.AreEqual(5, data.Rows.Count);
         }
 
         [Test]
@@ -56,11 +57,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<BinaryDataType>(cmd);
             //Assert
-            Assert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(5, data.Count);
 
             TestContext.WriteLine();
 
-            Assert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
+            ClassicAssert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
         }
 
         [Test]
@@ -72,7 +73,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             
-            Assert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
+            ClassicAssert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
         }
 
     }

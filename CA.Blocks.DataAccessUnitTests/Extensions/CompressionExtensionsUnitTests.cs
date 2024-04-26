@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using CA.Blocks.DataAccess.Extensions;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.DataAccessUnitTests.Extensions
 {
@@ -17,7 +18,7 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions
             var compressedData = testData.CompressString(Encoding.Unicode);
 
             var decompressResult = compressedData.DecompressToString(Encoding.Unicode);
-            Assert.True(compressedData.Length < testData.Length);
+            ClassicAssert.True(compressedData.Length < testData.Length);
             Assert.That(decompressResult, Is.EqualTo(testData));
         }
 
@@ -30,7 +31,7 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions
             var compressedData = testData.CompressToSqlNVarcharString();
 
             var decompressResult = compressedData.DecompressToSqlNVarcharString();
-            Assert.True(compressedData.Length < testData.Length);
+            ClassicAssert.True(compressedData.Length < testData.Length);
             Assert.That(decompressResult, Is.EqualTo(testData));
         }
 
@@ -45,7 +46,7 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions
             var compressedData = testData.CompressString(Encoding.ASCII);
 
             var decompressResult = compressedData.DecompressToString(Encoding.ASCII);
-            Assert.True(compressedData.Length < testData.Length);
+            ClassicAssert.True(compressedData.Length < testData.Length);
             Assert.That(decompressResult, Is.EqualTo(testData));
         }
 
@@ -58,7 +59,7 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions
             var compressedData = testData.CompressToSQLVarcharString();
 
             var decompressResult = compressedData.DecompressToSQLVarcharString();
-            Assert.True(compressedData.Length < testData.Length);
+            ClassicAssert.True(compressedData.Length < testData.Length);
             Assert.That(decompressResult, Is.EqualTo(testData));
         }
     }

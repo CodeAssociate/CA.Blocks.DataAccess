@@ -1,5 +1,7 @@
 ﻿using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
+using NUnit.Framework.Legacy;
+
 namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions;
 
 [TestFixture]
@@ -39,7 +41,7 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
 
         var result = await dataReaderTask.ToSingleNamedColumnListAsync<string>("StringCol");
         Assert.That(result.Count, Is.EqualTo(numberOfRecords));
-        Assert.True(result[numberOfRecords - 1].Contains(numberOfRecords.ToString()));
+        ClassicAssert.True(result[numberOfRecords - 1].Contains(numberOfRecords.ToString()));
     }
 
 

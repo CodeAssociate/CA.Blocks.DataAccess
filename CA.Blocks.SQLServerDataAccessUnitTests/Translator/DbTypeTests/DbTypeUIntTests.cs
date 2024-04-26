@@ -3,6 +3,7 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
@@ -46,7 +47,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteDataTable(cmd);
             //Assert
-            Assert.AreEqual(5, data.Rows.Count);
+            ClassicAssert.AreEqual(5, data.Rows.Count);
         }
 
         [Test]
@@ -58,8 +59,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<UIntDataType>(cmd);
             //Assert
-            Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(uint.MaxValue, data[4].Col);
+            ClassicAssert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(uint.MaxValue, data[4].Col);
         }
 
 
@@ -75,7 +76,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = ExecuteToListOf<UIntDataType>(cmd);
 
             //Asert
-            Assert.AreEqual(3, data.Count);
+            ClassicAssert.AreEqual(3, data.Count);
         }
         
         [Test]
@@ -91,7 +92,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            Assert.AreEqual(3, data.Count);
+            ClassicAssert.AreEqual(3, data.Count);
         }
     }
 }

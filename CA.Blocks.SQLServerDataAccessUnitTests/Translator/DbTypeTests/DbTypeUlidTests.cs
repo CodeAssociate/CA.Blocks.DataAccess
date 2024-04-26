@@ -11,6 +11,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUlid;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
@@ -80,7 +81,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            Assert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(5, data.Count);
         }
 
 
@@ -92,8 +93,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = Execute(cmd).ToListOf<UlidDataType>();
             //Assert
-            Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(new Ulid("01H5HHY4ZG3CXE07C8TJKBCR0V"), data[0].Col);
+            ClassicAssert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(new Ulid("01H5HHY4ZG3CXE07C8TJKBCR0V"), data[0].Col);
         }
 
 
@@ -111,7 +112,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = Execute(cmd).ToListOf<UlidDataType>();
 
             //Asert
-            Assert.AreEqual(3, data.Count);
+            ClassicAssert.AreEqual(3, data.Count);
         }
 
         [Test]
@@ -125,7 +126,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = Execute(cmd).ToFirstOrDefault<UlidDataType>();
 
             //Asert
-            Assert.AreEqual(testvalue, data.Col);
+            ClassicAssert.AreEqual(testvalue, data.Col);
         }
     }
     ////
@@ -205,7 +206,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            Assert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(5, data.Count);
         }
 
 
@@ -217,8 +218,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = Execute(cmd).ToListOf<UlidDataType>();
             //Assert
-            Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(new Ulid("01H5HHY4ZG3CXE07C8TJKBCR0V"), data[0].Col);
+            ClassicAssert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(new Ulid("01H5HHY4ZG3CXE07C8TJKBCR0V"), data[0].Col);
         }
 
 
@@ -236,7 +237,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = Execute(cmd).ToListOf<UlidDataType>();
 
             //Asert
-            Assert.AreEqual(3, data.Count);
+            ClassicAssert.AreEqual(3, data.Count);
         }
 
         [Test]
@@ -250,7 +251,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = Execute(cmd).ToFirstOrDefault<UlidDataType>();
 
             //Asert
-            Assert.AreEqual(testvalue, data.Col);
+            ClassicAssert.AreEqual(testvalue, data.Col);
         }
     }
 }

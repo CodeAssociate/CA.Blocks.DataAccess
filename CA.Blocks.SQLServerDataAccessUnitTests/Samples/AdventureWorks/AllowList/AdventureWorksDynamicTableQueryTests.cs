@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowList
 {
@@ -35,8 +36,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
         public void SelectDynamicTableFromSalesSchema_Valid()
         {
             var dtResult = _adventureWorksDataAccess.SelectDynamicTableFromSalesSchema("vSalesPerson");
-            Assert.IsNotNull(dtResult);
-            Assert.Greater(dtResult.Rows.Count, 0);
+            ClassicAssert.IsNotNull(dtResult);
+            ClassicAssert.Greater(dtResult.Rows.Count, 0);
         }
 
         [Test]
@@ -48,7 +49,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
                 }
             );
 
-            Assert.True(exception.Message.Contains("BadTableName"));
+            ClassicAssert.True(exception.Message.Contains("BadTableName"));
         }
 
 
@@ -61,7 +62,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
                 }
             );
 
-            Assert.True(exception.Message.Contains("Person"));
+            ClassicAssert.True(exception.Message.Contains("Person"));
         }
 
     }

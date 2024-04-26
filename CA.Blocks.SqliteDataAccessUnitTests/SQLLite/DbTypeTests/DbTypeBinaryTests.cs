@@ -5,6 +5,7 @@ using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
@@ -48,7 +49,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToListOf<BinaryDataType>();
             //Assert
-            Assert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(5, data.Count);
         }
 
         [Test]
@@ -60,11 +61,11 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToListOf<BinaryDataType>();
             //Assert
-            Assert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(5, data.Count);
 
             TestContext.WriteLine();
 
-            Assert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
+            ClassicAssert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
         }
 
         [Test]
@@ -76,7 +77,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             
-            Assert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
+            ClassicAssert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
         }
 
     }

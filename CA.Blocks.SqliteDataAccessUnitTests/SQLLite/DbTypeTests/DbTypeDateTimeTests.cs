@@ -3,6 +3,7 @@ using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
@@ -41,7 +42,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = Execute(cmd).ToSingleNamedColumnList<DateTime>(UNIT_TEST_COL_NAME);
             //Assert
             TestContext.Write(DataTableToText(ExecuteDataTable(cmd)));
-            Assert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(5, data.Count);
         }
 
         [Test]
@@ -57,7 +58,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = Execute(cmd).ToSingleNamedColumnList<DateTime>(UNIT_TEST_COL_NAME);
 
             //Asert
-            Assert.AreEqual(3, data.Count);
+            ClassicAssert.AreEqual(3, data.Count);
         }
 
 

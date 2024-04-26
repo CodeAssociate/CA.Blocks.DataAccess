@@ -1,5 +1,6 @@
 ﻿using CA.Blocks.DataAccess.DataTableHelpers;
 using System.Data;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 {
@@ -13,7 +14,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 
             var result = testList.ToValueDataTable();
 
-            Assert.IsNotNull(result);
+            ClassicAssert.IsNotNull(result);
             Assert.That(result.Columns.Count, Is.EqualTo(1));
             Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Value"));
             Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
@@ -27,7 +28,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 
             var result = testList.ToValueDataTable();
 
-            Assert.IsNotNull(result);
+            ClassicAssert.IsNotNull(result);
             Assert.That(result.Columns.Count, Is.EqualTo(1));
             Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Value"));
             Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(string)));
@@ -56,7 +57,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 
             var result = testList.ToObjectDataTable();
 
-            Assert.IsNotNull(result);
+            ClassicAssert.IsNotNull(result);
             Assert.That(result.Columns.Count, Is.EqualTo(2));
             Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Id"));
             Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
@@ -93,7 +94,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 
             var result = testList.ToObjectDataTable(SetupCustomObjectDataTable, CustomPopulateObject);
 
-            Assert.IsNotNull(result);
+            ClassicAssert.IsNotNull(result);
             Assert.That(result.Columns.Count, Is.EqualTo(2));
             Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Id"));
             Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));

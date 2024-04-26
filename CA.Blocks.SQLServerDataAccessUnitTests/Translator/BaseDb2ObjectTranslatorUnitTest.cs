@@ -32,7 +32,7 @@
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
 //            var result = t.Translate(ExecuteDataTable(cmd));
 
-//            Assert.IsTrue(result.Count > 0);
+//            ClassicAssert.IsTrue(result.Count > 0);
 
 //            var outputFormat = "{0}\t{1}\t{2}\t{3}";
 //            Trace.WriteLine(string.Format(outputFormat, "id", "name", "xtype", "crdate"));
@@ -50,7 +50,7 @@
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
 //            var result = t.Translate(ExecuteDataTable(cmd));
 
-//            Assert.IsTrue(result.Count > 0);
+//            ClassicAssert.IsTrue(result.Count > 0);
 
 //            var outputFormat = "{0}\t{1}\t{2}\t{3}\t{4}";
 //            TestContext.WriteLine(string.Format(outputFormat, "id", "name", "xtype", "crdate", "CrazyNameForRefDate"));
@@ -77,7 +77,7 @@
 //            SqlCommand cmd = CreateTextCommand(SelectTestDataSQL());
 //            var result = target.Translate(ExecuteDataRow(cmd));
             
-//            Assert.AreEqual('T', result.Col);
+//            ClassicAssert.AreEqual('T', result.Col);
 
 //            da.ExecuteNonQuery(DropTestTableSQL());
 //        }
@@ -98,7 +98,7 @@
 //            var cmd = CreateTextCommand(SelectTestDataSQL());
 //            var result = target.Translate(ExecuteDataRow(cmd));
 
-//            Assert.AreEqual(new TimeSpan(1,2,3), result.Col);
+//            ClassicAssert.AreEqual(new TimeSpan(1,2,3), result.Col);
 
 //            da.ExecuteNonQuery(DropTestTableSQL());
 //        }

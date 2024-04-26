@@ -4,6 +4,7 @@ using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests;
 
@@ -48,11 +49,11 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess
 
         var data = Execute(cmd).ToListOf<VersionDataType>();
         //Assert
-        Assert.AreEqual(4, data.Count);
-        Assert.AreEqual(new Version("1.2"), data[0].Col);
-        Assert.AreEqual(new Version("1.2.3"), data[1].Col);
-        Assert.AreEqual(new Version("1.2.3.4"), data[2].Col);
-        Assert.IsNull(data[3].Col);
+        ClassicAssert.AreEqual(4, data.Count);
+        ClassicAssert.AreEqual(new Version("1.2"), data[0].Col);
+        ClassicAssert.AreEqual(new Version("1.2.3"), data[1].Col);
+        ClassicAssert.AreEqual(new Version("1.2.3.4"), data[2].Col);
+        ClassicAssert.IsNull(data[3].Col);
     }
 
 
@@ -68,6 +69,6 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess
         //Act
         var data = Execute(cmd).ToFirstOrDefault<VersionDataType>();
         //Asert
-        Assert.AreEqual(data.Col, testvalue);
+        ClassicAssert.AreEqual(data.Col, testvalue);
     }
 }

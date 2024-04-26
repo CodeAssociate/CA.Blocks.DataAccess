@@ -3,6 +3,7 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
@@ -54,10 +55,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = this.ExecuteToListOf<StringEnumDataType>(cmd);
             //Assert
-            Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(MyTestEnum.Foo, data[0].Col);
-            Assert.AreEqual(MyTestEnum.Bar, data[3].Col);
-            Assert.AreEqual(MyTestEnum.ForBar, data[4].Col);
+            ClassicAssert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(MyTestEnum.Foo, data[0].Col);
+            ClassicAssert.AreEqual(MyTestEnum.Bar, data[3].Col);
+            ClassicAssert.AreEqual(MyTestEnum.ForBar, data[4].Col);
         }
         
         [Test]
@@ -70,7 +71,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
             
-            Assert.AreEqual(testValue, data.Col);
+            ClassicAssert.AreEqual(testValue, data.Col);
         }
     }
 }

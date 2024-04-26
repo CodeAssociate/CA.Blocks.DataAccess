@@ -1,5 +1,5 @@
 ﻿using CA.Blocks.DataAccess.Translator.Extensions;
-
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions;
 
@@ -11,7 +11,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
     {
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToSingle<TestDataObject>();
-        Assert.NotNull(result);
+        ClassicAssert.NotNull(result);
         Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
@@ -50,7 +50,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
     {
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToSingleOrDefault<TestDataObject>();
-        Assert.NotNull(result);
+        ClassicAssert.NotNull(result);
         Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
@@ -82,7 +82,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
     {
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToFirst<TestDataObject>();
-        Assert.NotNull(result);
+        ClassicAssert.NotNull(result);
         Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
@@ -106,7 +106,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
         var dataReader = GenerateTestDataReader(2);
 
         var result = dataReader.ToFirst<TestDataObject>();
-        Assert.NotNull(result);
+        ClassicAssert.NotNull(result);
         Assert.That(result.IntCol, Is.EqualTo(1));
     }
     #endregion
@@ -117,7 +117,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
     {
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.NotNull(result);
+        ClassicAssert.NotNull(result);
         Assert.That(result.IntCol, Is.EqualTo(1));
     }
 
@@ -135,7 +135,7 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
         var dataReader = GenerateTestDataReader(2);
 
         var result = dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.NotNull(result);
+        ClassicAssert.NotNull(result);
         Assert.That(result.IntCol, Is.EqualTo(1));
     }
     #endregion 

@@ -19,7 +19,7 @@
 
 //            var result = TestSysobjectsTranslator.CurrentInstance.Translate(ExecuteDataTable(cmd));
 
-//            Assert.IsTrue(result.Count > 0);
+//            ClassicAssert.IsTrue(result.Count > 0);
 
 //            var outputformat = "{0}\t{1}\t{2}\t{3}";
 //            Trace.WriteLine(string.Format(outputformat, "id", "name", "xtype", "crdate"));

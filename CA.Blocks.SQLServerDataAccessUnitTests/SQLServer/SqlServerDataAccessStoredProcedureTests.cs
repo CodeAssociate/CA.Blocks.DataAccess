@@ -4,6 +4,7 @@ using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using Microsoft.Data.SqlClient;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -68,7 +69,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         {
             var cmd = CreateStoredProcedureCommand("sp_who");
             var result = ExecuteDataTable(cmd);
-            Assert.IsTrue(result.Rows.Count > 0);
+            ClassicAssert.IsTrue(result.Rows.Count > 0);
         }
 
         [Test]
@@ -76,7 +77,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         {
             var cmd = CreateStoredProcedureCommand("sp_who");
             var result = ExecuteToListOf<SpWhoResult>(cmd);
-            Assert.IsTrue(result.Count > 0);
+            ClassicAssert.IsTrue(result.Count > 0);
         }
 
         [Test]
@@ -85,7 +86,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             string loginName = "sa";
             var cmd = CreateStoredProcedureCommand("sp_who").WithParameter(loginName.ToSqlParameter("@loginame"));
             var result = ExecuteToListOf<SpWhoResult>(cmd);
-            Assert.IsTrue(result.Count > 0);
+            ClassicAssert.IsTrue(result.Count > 0);
         }
 
         [Test]
@@ -94,8 +95,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var cmd = CreateStoredProcedureCommand("sp_who").WithReturnResult();
             var result = ExecuteDataTable(cmd);
             var spReturnValue = cmd.GetReturnResult();
-            Assert.AreEqual(0, spReturnValue);
-            Assert.IsTrue(result.Rows.Count > 0);
+            ClassicAssert.AreEqual(0, spReturnValue);
+            ClassicAssert.IsTrue(result.Rows.Count > 0);
         }
 
 
@@ -107,7 +108,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var cmd = CreateStoredProcedureCommand("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output").WithParameter(sqlOutputParamParam);
             ExecuteNonQuery(cmd);
             intOutput = sqlOutputParamParam.ToValue<int>();
-            Assert.AreEqual(123, intOutput);
+            ClassicAssert.AreEqual(123, intOutput);
         }
 
         [Test]
@@ -118,7 +119,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var cmd = CreateStoredProcedureCommand("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput").WithParameter(sqlInOutParam);
             ExecuteNonQuery(cmd);
             intInput = sqlInOutParam.ToValue<int>();
-            Assert.AreEqual(246, intInput);
+            ClassicAssert.AreEqual(246, intInput);
         }
 
 
