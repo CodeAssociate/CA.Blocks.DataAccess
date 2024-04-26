@@ -115,9 +115,7 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             // we respect and connections pre set. if it is set and in a open state
 #pragma warning disable IDE0074 we need support for .NET standard 
-            if (cmd.Connection == null || 
-                cmd.Connection.State != ConnectionState.Open 
-				)
+            if (cmd.Connection == null || cmd.Connection.State != ConnectionState.Open)
 #pragma warning restore IDE0074
             {
 	            cmd.Connection = CreateSqlConnection();

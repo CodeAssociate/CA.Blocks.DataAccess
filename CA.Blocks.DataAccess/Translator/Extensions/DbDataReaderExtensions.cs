@@ -8,6 +8,7 @@ using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 
+
 namespace CA.Blocks.DataAccess.Translator.Extensions
 {
     public static class DbDataReaderAsyncExtensions
@@ -36,7 +37,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         /// <returns></returns>
         public static async IAsyncEnumerable<T> ExecuteToEnumerableAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate)
         {
-            while (await dbReader.ReadAsync())
+            while (await dbReader.ReadAsync().ConfigureAwait(false))
             {
                 yield return translate(dbReader);
             }
@@ -49,8 +50,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         /// </summary>
         private static async Task<IList<T>> ExecuteToListAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate)
         {
-            var result = new List<T>();
-            await foreach (var item in ExecuteToEnumerableAsync(dbReader, translate))
+			var result = new List<T>();
+            await foreach (var item in ExecuteToEnumerableAsync(dbReader, translate).ConfigureAwait(false))
             {
                 result.Add(item);
             }
@@ -78,12 +79,12 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             {
                 try
                 {
-                    result = await ExecuteToListAsync(dbReader, translate);
+                    result = await ExecuteToListAsync(dbReader, translate).ConfigureAwait(false);
                 }
                 finally
                 {
 #if NET6_0_OR_GREATER
-                await dbReader.CloseAsync();
+                await dbReader.CloseAsync().ConfigureAwait(false);
 #else
                 dbReader.Close();
 #endif
@@ -102,14 +103,14 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             where T : new()
         {
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
-            var dbReader = await dbReaderTask;
-            return await ToListOfAsync<T>(dbReader, translator1.Translate);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToListOfAsync<T>(dbReader, translator1.Translate).ConfigureAwait(false);
         }
 
         public static async Task<IList<T>> ToListOf<T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate)
         {
-            var dbReader = await dbReaderTask;
-            return await ToListOfAsync<T>(dbReader, translate);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToListOfAsync<T>(dbReader, translate).ConfigureAwait(false);
         }
 
 #endregion
@@ -120,7 +121,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             IList<T> result = new List<T>();
             try
             {
-                while (await dbReader.ReadAsync())
+                while (await dbReader.ReadAsync().ConfigureAwait(false))
                 {
                     result.Add(converter(dbReader, colName));
                 }
@@ -128,7 +129,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             finally
             {
 #if NET6_0_OR_GREATER
-	            await dbReader.CloseAsync();
+	            await dbReader.CloseAsync().ConfigureAwait(false);
 #else
 				dbReader.Close();
 #endif
@@ -147,15 +148,15 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         public static async Task<IList<T>> ToSingleNamedColumnList<T>(this Task<DbDataReader> dbReaderTask, string colName)
         {
             IDbColToTypeConverter<T> converter = (IDbColToTypeConverter<T>)DefaultDbColToTypeProvider.DefaultInstance.Resolve<T>();
-            var dbReader = await dbReaderTask;
-            return await ToSingleNamedColumnListAsync<T>(dbReader, colName, converter.GetDataValue);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToSingleNamedColumnListAsync<T>(dbReader, colName, converter.GetDataValue).ConfigureAwait(false);
         }
 
         public static async Task<IList<T>> ToSingleNamedColumnList<T>(this Task<DbDataReader> dbReaderTask, string colName, Func<IDataReader, string, T> converter)
             where T : new()
         {
-            var dbReader = await dbReaderTask;
-            return await ToSingleNamedColumnListAsync<T>(dbReader, colName, converter);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToSingleNamedColumnListAsync<T>(dbReader, colName, converter).ConfigureAwait(false);
         }
 
         #endregion
@@ -206,7 +207,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 			bool schemaCreated = false;
 			try
 			{
-				while (await dbReader.ReadAsync())
+				while (await dbReader.ReadAsync().ConfigureAwait(false))
 				{
 					if (!schemaCreated)
 					{
@@ -220,7 +221,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 			finally
 			{
 #if NET6_0_OR_GREATER
-				await dbReader.CloseAsync();
+				await dbReader.CloseAsync().ConfigureAwait(false);
 #else
 				dbReader.Close();
 #endif
@@ -230,8 +231,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 
 		public static async Task<DataTable> ToDataTable(this Task<DbDataReader> dbReaderTask)
 		{
-			var dbReader = await dbReaderTask;
-			return await ToDataTable(dbReader);
+			var dbReader = await dbReaderTask.ConfigureAwait(false);
+			return await ToDataTable(dbReader).ConfigureAwait(false);
 		}
 
 		#endregion
@@ -249,16 +250,16 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             {
                 try
                 {
-                    result.Results1 = await ExecuteToListAsync(dbReader, translate1);
-                    if (await dbReader.NextResultAsync())
+                    result.Results1 = await ExecuteToListAsync(dbReader, translate1).ConfigureAwait(false);
+                    if (await dbReader.NextResultAsync().ConfigureAwait(false))
                     {
-                        result.Results2 = await ExecuteToListAsync(dbReader, translate2);
+                        result.Results2 = await ExecuteToListAsync(dbReader, translate2).ConfigureAwait(false);
                     }
                 }
                 finally
                 {
 #if NET6_0_OR_GREATER
-	                await dbReader.CloseAsync();
+	                await dbReader.CloseAsync().ConfigureAwait(false);
 #else
 				dbReader.Close();
 #endif
@@ -283,8 +284,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         {
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T1>();
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();
-            var dbReader = await dbReaderTask;
-            return await ToResultsSetAsync<T1, T2>(dbReader, translator1.Translate, translator2.Translate);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToResultsSetAsync<T1, T2>(dbReader, translator1.Translate, translator2.Translate).ConfigureAwait(false);
         }
 
         public static async Task<ResultsSet<T1, T2>> ToResultsSet<T1, T2>(this Task<DbDataReader> dbReaderTask, 
@@ -293,8 +294,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             where T1 : new()
             where T2 : new()
         {
-            var dbReader = await dbReaderTask;
-            return await ToResultsSetAsync<T1, T2>(dbReader, translate1, translate2);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToResultsSetAsync<T1, T2>(dbReader, translate1, translate2).ConfigureAwait(false);
         }
 
 
@@ -312,20 +313,20 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             {
                 try
                 {
-                    result.Results1 = await ExecuteToListAsync(dbReader, translate1);
-                    if (await dbReader.NextResultAsync())
+                    result.Results1 = await ExecuteToListAsync(dbReader, translate1).ConfigureAwait(false);
+                    if (await dbReader.NextResultAsync().ConfigureAwait(false))
                     {
-                        result.Results2 = await ExecuteToListAsync(dbReader, translate2);
-                        if (await dbReader.NextResultAsync())
+                        result.Results2 = await ExecuteToListAsync(dbReader, translate2).ConfigureAwait(false);
+                        if (await dbReader.NextResultAsync().ConfigureAwait(false))
                         {
-                            result.Results3 = await ExecuteToListAsync(dbReader, translate3);
+                            result.Results3 = await ExecuteToListAsync(dbReader, translate3).ConfigureAwait(false);
                         }
                     }
                 }
                 finally
                 {
 #if NET6_0_OR_GREATER
-	                await dbReader.CloseAsync();
+	                await dbReader.CloseAsync().ConfigureAwait(false);
 #else
 				dbReader.Close();
 #endif
@@ -354,8 +355,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T1>();
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();
             var translator3 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T3>();
-            var dbReader = await dbReaderTask;
-            return await ToResultsSetAsync<T1, T2, T3>(dbReader, translator1.Translate, translator2.Translate, translator3.Translate);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToResultsSetAsync<T1, T2, T3>(dbReader, translator1.Translate, translator2.Translate, translator3.Translate).ConfigureAwait(false);
         }
 
         public static async Task<ResultsSet<T1, T2, T3>> ToResultsSet<T1, T2, T3>(this Task<DbDataReader> dbReaderTask,
@@ -366,8 +367,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             where T2 : new()
             where T3 : new()
         {
-            var dbReader = await dbReaderTask;
-            return await ToResultsSetAsync<T1, T2, T3>(dbReader, translate1, translate2, translate3);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToResultsSetAsync<T1, T2, T3>(dbReader, translate1, translate2, translate3).ConfigureAwait(false);
         }
 
 
@@ -387,16 +388,16 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             {
                 try
                 {
-                    result.Results1 = await ExecuteToListAsync(dbReader, translate1);
-                    if (await dbReader.NextResultAsync())
+                    result.Results1 = await ExecuteToListAsync(dbReader, translate1).ConfigureAwait(false);
+                    if (await dbReader.NextResultAsync().ConfigureAwait(false))
                     {
-                        result.Results2 = await ExecuteToListAsync(dbReader, translate2);
-                        if (await dbReader.NextResultAsync())
+                        result.Results2 = await ExecuteToListAsync(dbReader, translate2).ConfigureAwait(false);
+                        if (await dbReader.NextResultAsync().ConfigureAwait(false))
                         {
-                            result.Results3 = await ExecuteToListAsync(dbReader, translate3);
-                            if (await dbReader.NextResultAsync())
+                            result.Results3 = await ExecuteToListAsync(dbReader, translate3).ConfigureAwait(false);
+                            if (await dbReader.NextResultAsync().ConfigureAwait(false))
                             {
-                                result.Results4 = await ExecuteToListAsync(dbReader, translate4);
+                                result.Results4 = await ExecuteToListAsync(dbReader, translate4).ConfigureAwait(false);
                             }
                         }
                     }
@@ -404,7 +405,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                 finally
                 {
 #if NET6_0_OR_GREATER
-	                await dbReader.CloseAsync();
+	                await dbReader.CloseAsync().ConfigureAwait(false);
 #else
 				dbReader.Close();
 #endif
@@ -436,8 +437,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();
             var translator3 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T3>();
             var translator4 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T4>();
-            var dbReader = await dbReaderTask;
-            return await ToResultsSetAsync<T1, T2, T3, T4>(dbReader, translator1.Translate, translator2.Translate, translator3.Translate, translator4.Translate);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToResultsSetAsync<T1, T2, T3, T4>(dbReader, translator1.Translate, translator2.Translate, translator3.Translate, translator4.Translate).ConfigureAwait(false);
         }
 
         public static async Task<ResultsSet<T1, T2, T3, T4>> ToResultsSet<T1, T2, T3, T4>(this Task<DbDataReader> dbReaderTask,
@@ -450,8 +451,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             where T3 : new()
             where T4 : new()
         {
-            var dbReader = await dbReaderTask;
-            return await ToResultsSetAsync<T1, T2, T3, T4>(dbReader, translate1, translate2, translate3, translate4);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToResultsSetAsync<T1, T2, T3, T4>(dbReader, translate1, translate2, translate3, translate4).ConfigureAwait(false);
         }
 
 
@@ -473,19 +474,19 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             {
                 try
                 {
-                    result.Results1 = await ExecuteToListAsync(dbReader, translate1);
-                    if (await dbReader.NextResultAsync())
+                    result.Results1 = await ExecuteToListAsync(dbReader, translate1).ConfigureAwait(false);
+                    if (await dbReader.NextResultAsync().ConfigureAwait(false))
                     {
-                        result.Results2 = await ExecuteToListAsync(dbReader, translate2);
-                        if (await dbReader.NextResultAsync())
+                        result.Results2 = await ExecuteToListAsync(dbReader, translate2).ConfigureAwait(false);
+                        if (await dbReader.NextResultAsync().ConfigureAwait(false))
                         {
-                            result.Results3 = await ExecuteToListAsync(dbReader, translate3);
-                            if (await dbReader.NextResultAsync())
+                            result.Results3 = await ExecuteToListAsync(dbReader, translate3).ConfigureAwait(false);
+                            if (await dbReader.NextResultAsync().ConfigureAwait(false))
                             {
-                                result.Results4 = await ExecuteToListAsync(dbReader, translate4);
-                                if (await dbReader.NextResultAsync())
+                                result.Results4 = await ExecuteToListAsync(dbReader, translate4).ConfigureAwait(false);
+                                if (await dbReader.NextResultAsync().ConfigureAwait(false))
                                 {
-                                    result.Results5 = await ExecuteToListAsync(dbReader, translate5);
+                                    result.Results5 = await ExecuteToListAsync(dbReader, translate5).ConfigureAwait(false);
                                 }
                             }
                         }
@@ -494,7 +495,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                 finally
                 {
 #if NET6_0_OR_GREATER
-	                await dbReader.CloseAsync();
+	                await dbReader.CloseAsync().ConfigureAwait(false);
 #else
 				dbReader.Close();
 #endif
@@ -531,8 +532,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             var translator3 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T3>();
             var translator4 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T4>();
             var translator5 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T5>();
-            var dbReader = await dbReaderTask;
-            return await ToResultsSetAsync<T1, T2, T3, T4, T5>(dbReader, translator1.Translate, translator2.Translate, translator3.Translate, translator4.Translate, translator5.Translate);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToResultsSetAsync<T1, T2, T3, T4, T5>(dbReader, translator1.Translate, translator2.Translate, translator3.Translate, translator4.Translate, translator5.Translate).ConfigureAwait(false);
         }
 
         public static async Task<ResultsSet<T1, T2, T3, T4, T5>> ToResultsSet<T1, T2, T3, T4, T5>(this Task<DbDataReader> dbReaderTask,
@@ -547,8 +548,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             where T4 : new()
             where T5 : new()
         {
-            var dbReader = await dbReaderTask;
-            return await ToResultsSetAsync<T1, T2, T3, T4, T5>(dbReader, translate1, translate2, translate3, translate4, translate5);
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToResultsSetAsync<T1, T2, T3, T4, T5>(dbReader, translate1, translate2, translate3, translate4, translate5).ConfigureAwait(false);
         }
 
 #endregion

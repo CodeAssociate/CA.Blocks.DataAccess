@@ -56,8 +56,8 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
                 finally
                 {
                     dbReader.Close();
-                }
-            }
+				}
+			}
             return result;
         }
         
