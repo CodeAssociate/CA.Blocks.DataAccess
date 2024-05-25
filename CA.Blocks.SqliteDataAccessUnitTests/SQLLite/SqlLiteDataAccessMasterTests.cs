@@ -10,7 +10,7 @@ using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 {
-    internal class sqliteMaster
+    public class sqliteMaster
     {
         public string name { get; set; }
         public string type { get; set; }
