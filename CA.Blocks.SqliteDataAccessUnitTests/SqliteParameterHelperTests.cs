@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using CA.Blocks.SqliteDataAccess;
 using Microsoft.Data.Sqlite;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests;
 
@@ -124,7 +125,7 @@ UInt64			INTEGER	Large values overflow
 			// SetUp  + Act 
 			var result = SqliteParameterHelper.GetDefaultStorageTypeFor(testCase.TargetType);
 			// Asset
-			Assert.AreEqual(testCase.ExpectedResult, result);
+			ClassicAssert.AreEqual(testCase.ExpectedResult, result);
 
 			TestContext.WriteLine($"\t {testCase.TargetType.FullName} -> {testCase.ExpectedResult}.");
 		}

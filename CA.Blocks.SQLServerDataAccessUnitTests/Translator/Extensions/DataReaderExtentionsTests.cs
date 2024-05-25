@@ -6,6 +6,7 @@ using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using Microsoft.Data.SqlClient;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
 {
@@ -20,11 +21,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
 
             var result = Execute(cmd).ToSingleNamedColumnList<string>("Name");
 
-            Assert.IsTrue(result.Count > 0);
+            ClassicAssert.IsTrue(result.Count > 0);
 
             foreach (var item in result)
             {
-                Assert.IsTrue(item.StartsWith("sys", StringComparison.CurrentCultureIgnoreCase));
+                ClassicAssert.IsTrue(item.StartsWith("sys", StringComparison.CurrentCultureIgnoreCase));
             }
         }
 
@@ -43,9 +44,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
 
             var result = Execute(cmd).ToResultsSet<sysobject, sysobject>();
 
-            Assert.IsTrue(result.Results1.Count > 0);
+            ClassicAssert.IsTrue(result.Results1.Count > 0);
 
-            Assert.IsTrue(result.Results2.Count > 0);
+            ClassicAssert.IsTrue(result.Results2.Count > 0);
             if (result.Results1.Count == result.Results2.Count)
             {
                 for (int i = 0; i < result.Results1.Count; i++)
@@ -65,7 +66,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             {
                // we good they not the same lists as they are different sizes
             }
-            Assert.IsTrue(result.Results1.Count != result.Results2.Count);
+            ClassicAssert.IsTrue(result.Results1.Count != result.Results2.Count);
         }
 
     }

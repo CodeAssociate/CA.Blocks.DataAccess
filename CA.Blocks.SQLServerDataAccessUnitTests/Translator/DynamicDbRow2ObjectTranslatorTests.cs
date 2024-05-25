@@ -3,6 +3,7 @@ using System.Diagnostics;
 using CA.Blocks.DataAccess.Translator;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
 {
@@ -17,7 +18,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
             SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
             var result = DynamicDbRow2ObjectTranslator.CurrentInstance.Translate(ExecuteDataTable(cmd));
 
-            Assert.IsTrue(result.Count > 0);
+            ClassicAssert.IsTrue(result.Count > 0);
 
             var outputformat = "{0}\t{1}\t{2}\t{3}";
             Trace.WriteLine(string.Format(outputformat, "id", "name", "xtype", "crdate"));

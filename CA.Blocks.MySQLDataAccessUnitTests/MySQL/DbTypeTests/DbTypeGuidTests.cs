@@ -4,6 +4,7 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
@@ -49,7 +50,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = ExecuteDataTable(cmd);
             //Assert
-            Assert.AreEqual(5, data.Rows.Count);
+            ClassicAssert.AreEqual(5, data.Rows.Count);
         }
 
 
@@ -63,8 +64,8 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = ExecuteToListOf<GuidDataType>(cmd);
             //Assert
-            Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E"), data[4].Col);
+            ClassicAssert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E"), data[4].Col);
         }
 
         [Test]
@@ -79,7 +80,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = ExecuteTo<GuidDataType>(cmd);
             
             //Asert
-            Assert.AreEqual(testvalue, data.Col);
+            ClassicAssert.AreEqual(testvalue, data.Col);
         }
 
         
@@ -95,7 +96,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = t.Translate(ExecuteDataRow(cmd));
 
             //Asert
-            Assert.AreEqual(testvalue, data.Col);
+            ClassicAssert.AreEqual(testvalue, data.Col);
         }
     }
 }

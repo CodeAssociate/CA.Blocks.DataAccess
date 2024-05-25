@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.Common;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 {
@@ -40,7 +41,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             {
                 TestContext.WriteLine(ex.Message);
             }
-            Assert.IsTrue(TraceErrorCalled);
+            ClassicAssert.IsTrue(TraceErrorCalled);
         }
     }
 }

@@ -8,6 +8,7 @@ using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -135,8 +136,8 @@ END
         public void BasicTestTransientUsingScalarOneError()
         {
             var result = _targetDal.ExecuteTestScriptAsScalar(2);
-            Assert.AreEqual(1, _targetDal.DbTransientErrorDbErrorCount);
-            Assert.AreEqual(2, result);
+            ClassicAssert.AreEqual(1, _targetDal.DbTransientErrorDbErrorCount);
+            ClassicAssert.AreEqual(2, result);
         }
 
 
@@ -144,8 +145,8 @@ END
         public void BasicTestTransientUsingScalarTwoErrors()
         {
             var result = _targetDal.ExecuteTestScriptAsScalar(3);
-            Assert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-            Assert.AreEqual(3, result);
+            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
+            ClassicAssert.AreEqual(3, result);
         }
 
         [Test]
@@ -158,10 +159,10 @@ END
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOf(typeof(SqlException), ex);
-                Assert.AreEqual(51234, ((SqlException) ex).Number);
-                Assert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-                Assert.AreEqual(1, _targetDal.DbErrorDbErrorCount);
+	            ClassicAssert.IsInstanceOf(typeof(SqlException), ex);
+	            ClassicAssert.AreEqual(51234, ((SqlException) ex).Number);
+	            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
+	            ClassicAssert.AreEqual(1, _targetDal.DbErrorDbErrorCount);
             }
         }
 
@@ -169,8 +170,8 @@ END
         public void BasicTestTransientUsingScalar()
         {
             var result = _targetDal.ExecuteTestScriptAsScalar(3);
-            Assert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-            Assert.AreEqual(3, result);
+            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
+            ClassicAssert.AreEqual(3, result);
         }
 
 
@@ -178,8 +179,8 @@ END
         public void BasicTestTransientUsingDataRow()
         {
             var result = _targetDal.ExecuteTestScriptAsDataRow(3);
-            Assert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-            Assert.AreEqual(3, result);
+            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
+            ClassicAssert.AreEqual(3, result);
         }
 
 
@@ -187,8 +188,8 @@ END
         public void ExecuteTestScriptAsScalarAsync()
         {
             var result = _targetDal.ExecuteTestScriptAsScalarAsync(3);
-            Assert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-            Assert.AreEqual(3, result);
+            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
+            ClassicAssert.AreEqual(3, result);
         }
 
     }

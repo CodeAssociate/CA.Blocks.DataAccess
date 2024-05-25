@@ -1,6 +1,7 @@
 ﻿using System;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -46,7 +47,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 
             var result = target.GetContextFromDataBase();
 
-            Assert.AreEqual(result, target.Context);
+            ClassicAssert.AreEqual(result, target.Context);
         }
 
     }

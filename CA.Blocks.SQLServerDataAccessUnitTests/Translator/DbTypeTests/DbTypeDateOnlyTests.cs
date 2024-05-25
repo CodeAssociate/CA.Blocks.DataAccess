@@ -5,6 +5,7 @@ using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests;
 
@@ -56,7 +57,7 @@ public class DbTypeDateOnlyTests : UnitTestDataAccess
         //Act
         var data = ExecuteToListOf<DateOnly>(cmd);
         //Assert
-        Assert.AreEqual(5, data.Count);
+        ClassicAssert.AreEqual(5, data.Count);
     }
 
 
@@ -71,7 +72,7 @@ public class DbTypeDateOnlyTests : UnitTestDataAccess
         var data = Execute(cmd).ToListOf<DateOnlyDataType>();
 
         //Assert
-        Assert.AreEqual(2, data.Count);
+        ClassicAssert.AreEqual(2, data.Count);
     }
 
 
@@ -85,6 +86,6 @@ public class DbTypeDateOnlyTests : UnitTestDataAccess
         //Act
         var data = t.Translate(ExecuteDataRow(cmd));
 
-        Assert.AreEqual(testValue, data.Col);
+        ClassicAssert.AreEqual(testValue, data.Col);
     }
 }

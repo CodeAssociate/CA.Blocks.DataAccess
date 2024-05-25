@@ -6,10 +6,11 @@ using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 {
-    internal class sqliteMaster
+    public class sqliteMaster
     {
         public string name { get; set; }
         public string type { get; set; }
@@ -71,7 +72,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = ExecuteObjectList(cmd);
-            Assert.IsTrue(result.Count > 0);
+            ClassicAssert.IsTrue(result.Count > 0);
         }
         
         [Test]
@@ -81,7 +82,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = ExecuteObject(cmd);
-            Assert.AreEqual("CABLOCKS_TestMasterTable", result.name);
+            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result.name);
         }
 
         
@@ -92,7 +93,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master");
             var result = ExecuteToListOf<sqliteMaster>(cmd);
-            Assert.IsTrue(TraceCalled);
+            ClassicAssert.IsTrue(TraceCalled);
         }
 
 
@@ -116,7 +117,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master limit 1");
             var result = ExecuteTo<sqliteMaster>(cmd, CustomReader);
-            Assert.IsTrue(TraceCalled);
+            ClassicAssert.IsTrue(TraceCalled);
         }
 
 
@@ -127,8 +128,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             var cmd = CreateTextCommand("Select name from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = ExecuteScalarAs<string>(cmd);
-            Assert.AreEqual("CABLOCKS_TestMasterTable", result);
-            Assert.IsTrue(TraceCalled);
+            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result);
+            ClassicAssert.IsTrue(TraceCalled);
         }
         
         [Test]
@@ -139,8 +140,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = await ExecuteScalarAsAsync<string>(cmd);
         
-            Assert.AreEqual("CABLOCKS_TestMasterTable", result);
-            Assert.IsTrue(TraceCalled);
+            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result);
+            ClassicAssert.IsTrue(TraceCalled);
         }
 
         [Test]
@@ -151,8 +152,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = await ExecuteToAsync<sqliteMaster>(cmd);
     
-            Assert.AreEqual("CABLOCKS_TestMasterTable", result.name);
-            Assert.IsTrue(TraceCalled);
+            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result.name);
+            ClassicAssert.IsTrue(TraceCalled);
         }
         
         
@@ -164,9 +165,9 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = ExecuteToListOfAsync<sqliteMaster>(cmd);
             result.Wait();
-            Assert.AreEqual(1, result.Result.Count);
-            Assert.AreEqual("CABLOCKS_TestMasterTable", result.Result[0].name);
-            Assert.IsTrue(TraceCalled);
+            ClassicAssert.AreEqual(1, result.Result.Count);
+            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result.Result[0].name);
+            ClassicAssert.IsTrue(TraceCalled);
         }
         
         [Test]
@@ -178,7 +179,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             // the data will be in from db return as string
             var result = ExecuteScalarWithConvertAsAsync<string>(cmd);
             result.Wait();
-            Assert.IsTrue(TraceCalled);
+            ClassicAssert.IsTrue(TraceCalled);
         }
         
         [Test]
@@ -193,7 +194,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             catch 
             {
             }
-            Assert.IsTrue(DbErrorCalled);
+            ClassicAssert.IsTrue(DbErrorCalled);
         }
         
         

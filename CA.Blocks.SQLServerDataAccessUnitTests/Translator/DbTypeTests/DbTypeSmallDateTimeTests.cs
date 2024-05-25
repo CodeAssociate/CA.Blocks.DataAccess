@@ -4,6 +4,7 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
@@ -54,7 +55,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            Assert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(5, data.Count);
         }
 
 
@@ -67,9 +68,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<DateTimeDataType>(cmd);
             //Assert
-            Assert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(5, data.Count);
             // SmallDateTime is now to min
-            Assert.AreEqual(_testDate.ToString("yyyy MMMM dd HH:mm"), data[0].Col.ToString("yyyy MMMM dd HH:mm"));
+            ClassicAssert.AreEqual(_testDate.ToString("yyyy MMMM dd HH:mm"), data[0].Col.ToString("yyyy MMMM dd HH:mm"));
         }
 
 
@@ -86,7 +87,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            Assert.AreEqual(2, data.Count);
+            ClassicAssert.AreEqual(2, data.Count);
         }
         
         [Test]
@@ -99,7 +100,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Asert
-            Assert.AreEqual(2, data.Count);
+            ClassicAssert.AreEqual(2, data.Count);
         }
 
         

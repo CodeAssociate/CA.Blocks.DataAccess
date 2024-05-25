@@ -1,7 +1,10 @@
-﻿using System.Data;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess.DI;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
@@ -23,13 +26,19 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             ExecuteNonQuery(cmd);
         }
 
+        public IList<sqliteMaster> GetSqlliteMasterObjects()
+        {
+	        var cmd = CreateTextCommand("Select * from sqlite_master");
+	        return Execute(cmd).ToListOf<sqliteMaster>();
+		}
+
 
         [Test]
         public void GetsqliteMasterData()
         {
-            var cmd = CreateTextCommand("Select * from sqlite_master");
-            var result = ExecuteToListOf<sqliteMaster>(cmd);
-            foreach (var o in result)
+	        var results = GetSqlliteMasterObjects();
+
+			foreach (var o in results)
             {
                 TestContext.WriteLine($"{o.name},{o.type},{o.rootpage},{o.sql}");
             }

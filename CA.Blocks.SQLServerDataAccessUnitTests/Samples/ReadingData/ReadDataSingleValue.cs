@@ -2,6 +2,7 @@
 using CA.Blocks.DataAccess.DI;
 using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
@@ -81,7 +82,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
         {
             var target = new ExampleReadDataSingleValue();
             var executeResult = target.GetValueThatMightBeNull();
-            Assert.IsNull(executeResult);
+            ClassicAssert.IsNull(executeResult);
 
         }
 
@@ -90,7 +91,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
         {
             var target = new ExampleReadDataSingleValue();
             var executeResult = target.GetValueThatMightBeNull2();
-            Assert.IsNull(executeResult);
+            ClassicAssert.IsNull(executeResult);
 
         }
 

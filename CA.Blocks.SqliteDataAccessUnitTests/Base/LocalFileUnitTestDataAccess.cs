@@ -7,7 +7,4 @@ public class LocalFileUnitTestDataAccess : SqliteDataAccess.SqliteDataAccess
     public LocalFileUnitTestDataAccess(): base(new SimpleConnectionStringDataAccessConfig("Data Source=.\\cablockstest.db"))
     {
     }
-
-
-
 }

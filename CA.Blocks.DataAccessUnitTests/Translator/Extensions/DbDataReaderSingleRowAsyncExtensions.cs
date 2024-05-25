@@ -1,5 +1,5 @@
 ﻿using CA.Blocks.DataAccess.Translator.Extensions;
-
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions;
 
@@ -36,8 +36,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingleAsync<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
+        ClassicAssert.True(exception.Message.Contains("No row"));
     }
 
     [Test]
@@ -50,8 +50,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingle<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
+        ClassicAssert.True(exception.Message.Contains("No row"));
     }
 
 
@@ -65,8 +65,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingleAsync<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("more"));
+        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
+        ClassicAssert.True(exception.Message.Contains("more"));
     }
 
     [Test]
@@ -79,8 +79,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingle<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("more"));
+        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
+        ClassicAssert.True(exception.Message.Contains("more"));
     }
 
     #endregion 
@@ -180,8 +180,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToFirstAsync<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
+        ClassicAssert.True(exception.Message.Contains("No row"));
     }
 
     [Test]
@@ -194,8 +194,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToFirst<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
+        ClassicAssert.True(exception.Message.Contains("No row"));
     }
 
     [Test]

@@ -2,6 +2,7 @@
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
@@ -46,7 +47,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = ExecuteDataTable(cmd);
             //Assert
-            Assert.AreEqual(5, data.Rows.Count);
+            ClassicAssert.AreEqual(5, data.Rows.Count);
         }
 
 
@@ -58,9 +59,9 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = ExecuteToListOf<DoubleDataType>(cmd);
             //Assert
-            Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(-1.2, data[0].Col);
-            Assert.AreEqual(123456789.987654321, data[4].Col);
+            ClassicAssert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(-1.2, data[0].Col);
+            ClassicAssert.AreEqual(123456789.987654321, data[4].Col);
         }
 
         [Test]
@@ -75,7 +76,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = ExecuteToListOf<DoubleDataType>(cmd);
 
             //Asert
-            Assert.AreEqual(3, data.Count);
+            ClassicAssert.AreEqual(3, data.Count);
         }
 
 

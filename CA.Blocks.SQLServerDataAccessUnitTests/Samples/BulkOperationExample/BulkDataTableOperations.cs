@@ -5,6 +5,7 @@ using NUnit.Framework;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccessTestDataForUnitTests.TestSets.DateDimension;
 using CA.Blocks.SQLServerDataAccess;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.BulkOperationExample
 {
@@ -130,7 +131,7 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
             {
                 sw.Reset();
                 var testData = builder.GenerateDateDimensions(year, year +9);
-                Assert.IsNotNull(testData);
+                ClassicAssert.IsNotNull(testData);
 
                 sw.Start();
                 var dt = testData.ToObjectDataTable();
@@ -148,7 +149,7 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
 
             var countcmd = CreateTextCommand("Select count(*) from CABLOCKS_DateDimension_Example");
             var rowCount = ExecuteScalarAs<int>(countcmd);
-            Assert.AreEqual(365243, rowCount);
+            ClassicAssert.AreEqual(365243, rowCount);
         }
     }
 }

@@ -6,6 +6,7 @@ using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
@@ -51,7 +52,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToListOf<GuidDataType>();
             //Assert
-            Assert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(5, data.Count);
         }
 
 
@@ -65,8 +66,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = ExecuteToListOf<GuidDataType>(cmd);
             //Assert
-            Assert.AreEqual(5, data.Count);
-            Assert.AreEqual(Guid.Parse(TestGuidValue), data[4].Col);
+            ClassicAssert.AreEqual(5, data.Count);
+            ClassicAssert.AreEqual(Guid.Parse(TestGuidValue), data[4].Col);
         }
 
         [Test]
@@ -82,8 +83,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = ExecuteTo<GuidDataType>(cmd);
 
             //Asert
-            Assert.IsNotNull(data);
-            Assert.AreEqual(testvalue, data.Col);
+            ClassicAssert.IsNotNull(data);
+            ClassicAssert.AreEqual(testvalue, data.Col);
         }
 
         [Test]
@@ -96,8 +97,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
 
-            Assert.IsNotNull(data);
-            Assert.AreEqual(testValue, data.Col);
+            ClassicAssert.IsNotNull(data);
+            ClassicAssert.AreEqual(testValue, data.Col);
         }
     }
 }

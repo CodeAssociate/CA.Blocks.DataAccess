@@ -7,7 +7,7 @@
 - [NuGet Package My SQL](https://www.nuget.org/packages/CA.Blocks.MySQLDataAccess/)
 - [NuGet Package SQlite](https://www.nuget.org/packages/CA.Blocks.SQLLiteDataAccess/)
 
-This Package is a extention to the DataAccess Blocks, it will pull in the System.Text.Json to allow reading of Json Data Directory from a Column
+This Package is a extension to the DataAccess Blocks, it will pull in the System.Text.Json to allow reading of Json Data Directory from a Column
 
 To use: 
 Direct Usage .NET standard a null value will be returned as Default(YourObject)
@@ -42,4 +42,4 @@ Register as a Translator
 
 ```
 
-In .NET standard you have to use concente types, with .net core 6+ you can use Interface Types
+In .NET standard you have to use concrete types, with .net core 6+ you can use Interface Types

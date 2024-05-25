@@ -4,6 +4,7 @@ using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer;
 
@@ -48,7 +49,7 @@ END";
 
         // act
         var list = Execute(cmd).ToSingleNamedColumnList<int>("Value");
-        Assert.AreEqual(testList.Count, list.Count);
+        ClassicAssert.AreEqual(testList.Count, list.Count);
     }
 
     [Test]
@@ -65,6 +66,6 @@ END";
 
         // act
         var list = Execute(cmd).ToSingleNamedColumnList<string>("Value");
-        Assert.AreEqual(testList.Count, list.Count);
+        ClassicAssert.AreEqual(testList.Count, list.Count);
     }
 }

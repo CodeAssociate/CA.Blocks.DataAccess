@@ -18,7 +18,7 @@
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
 //            var result = TestSysobjectsReaderTranslator.CurrentInstance.Translate(ExecuteReader(cmd));
 
-//            Assert.IsTrue(result.Count > 0);
+//            ClassicAssert.IsTrue(result.Count > 0);
 
 //            var outputformat = "{0}\t{1}\t{2}\t{3}";
 //            Trace.WriteLine(string.Format(outputformat, "id", "name", "xtype", "crdate"));
@@ -37,7 +37,7 @@
 //        //    SqlCommand cmd = CreateTextCommand(benchmarkSQL);
 //        //    var result = TestSysobjectsReaderTranslator.CurrentInstance.Translate(ExecuteReader(cmd));
 
-//        //    Assert.IsTrue(result.Count > 0);
+//        //    ClassicAssert.IsTrue(result.Count > 0);
 
 //        //}
 
@@ -46,7 +46,7 @@
 //        //    SqlCommand cmd = CreateTextCommand(benchmarkSQL);
 //        //    var result = TestSysobjectsOrginalReaderTranslator.CurrentInstance.Translate(ExecuteReader(cmd));
 
-//        //    Assert.IsTrue(result.Count > 0);
+//        //    ClassicAssert.IsTrue(result.Count > 0);
 
 //        //}
 
@@ -55,7 +55,7 @@
 //        //    SqlCommand cmd = CreateTextCommand(benchmarkSQL);
 //        //    var result = TestSysobjectsTranslator.CurrentInstance.Translate(ExecuteDataTable(cmd));
 
-//        //    Assert.IsTrue(result.Count > 0);
+//        //    ClassicAssert.IsTrue(result.Count > 0);
 //        //}
 
 //        //public void ExecuteTo()
@@ -63,7 +63,7 @@
 //        //    SqlCommand cmd = CreateTextCommand(benchmarkSQL);
 //        //    var result = ExecuteToListOf<TestSysobjects>(cmd);
 
-//        //    Assert.IsTrue(result.Count > 0);
+//        //    ClassicAssert.IsTrue(result.Count > 0);
 //        //}
 
 

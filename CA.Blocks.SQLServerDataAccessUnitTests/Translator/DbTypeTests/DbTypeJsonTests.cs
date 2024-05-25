@@ -5,6 +5,7 @@ using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests;
 
@@ -72,7 +73,7 @@ public class DbTypeJsonTests : UnitTestDataAccess
         //Act
         var result = Execute(cmd).ToListOf<JsonDataExample>();
 
-        Assert.AreEqual(2, result.Count);
-        Assert.AreEqual("black", result[1].col[6].Color );
+        ClassicAssert.AreEqual(2, result.Count);
+        ClassicAssert.AreEqual("black", result[1].col[6].Color );
     }
 }

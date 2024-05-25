@@ -6,6 +6,7 @@ using CA.Blocks.DataAccess.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -78,9 +79,9 @@ END";
             var tresult = ExecuteTo<TestDataObj>(readAsString);
             // assert
 
-            Assert.AreEqual(bresult.Id, tresult.Id);
-            Assert.AreEqual(testData, bresult.dataValue);
-            Assert.AreEqual(testData,tresult.dataValue);
+            ClassicAssert.AreEqual(bresult.Id, tresult.Id);
+            ClassicAssert.AreEqual(testData, bresult.dataValue);
+            ClassicAssert.AreEqual(testData,tresult.dataValue);
            
             CleanUpTest();
         }

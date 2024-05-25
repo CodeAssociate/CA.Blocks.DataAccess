@@ -2,6 +2,7 @@
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -45,7 +46,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             foreach (var item in list)
             {
-                Assert.IsTrue(item.avg_total_user_cost > testNumber);
+                ClassicAssert.IsTrue(item.avg_total_user_cost > testNumber);
             }
         }
 
@@ -75,7 +76,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             foreach (var item in list)
             {
-                Assert.IsTrue(item.id > testid);
+                ClassicAssert.IsTrue(item.id > testid);
             }
         }
 
@@ -95,7 +96,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             foreach (var item in list)
             {
-                Assert.IsTrue(item.id > testid.Value);
+                ClassicAssert.IsTrue(item.id > testid.Value);
             }
         }
 
