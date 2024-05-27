@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using CA.Blocks.DataAccess.DI;
 using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
@@ -13,7 +14,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
     public class ReadDataAsExecuteListOf
     {
         public class ExampleSysObject
-        {
+		{
             public int Id { get; set; }
             public string Name { get; set; }
             public string XType { get; set; }
@@ -89,18 +90,24 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
                 return result;
             }
 
-            public IList<ExampleSysObject> ReadSysObjectsOfType(string xtype)
+            internal string ReadSysObjectsOfTypeSql => @"
+SELECT  TOP 10 id as Id, name as Name, xtype as XType, crdate as CreateDate 
+FROM  sysobjects 
+WHERE xtype = @xtype";
+
+
+			public IList<ExampleSysObject> ReadSysObjectsOfType(string xtype)
             {
-                var cmd = CreateTextCommand("Select top 10 id as Id, name as Name, xtype as XType, crdate as CreateDate from sysobjects where xtype = @xtype").WithParameter(xtype.ToSqlParameter("@xtype"));
-                return ExecuteToListOf<ExampleSysObject>(cmd);
+                var cmd = CreateTextCommand(ReadSysObjectsOfTypeSql)
+	                .WithParameter(xtype.ToSqlParameter("@xtype"));
+                return Execute(cmd).ToListOf<ExampleSysObject>();
             }
 
-            public IList<ExampleSysObject> ReadSysObjectsOfTypeUsingAsync(string xtype)
+            public async Task<IList<ExampleSysObject>> ReadSysObjectsOfTypeUsingAsync(string xtype)
             {
-                var cmd = CreateTextCommand("Select top 10 id as Id, name as Name, xtype as XType, crdate as CreateDate from sysobjects where xtype = @xtype").WithParameter(xtype.ToSqlParameter("@xtype"));
-                var result = ExecuteToListOfAsync<ExampleSysObject>(cmd);
-                result.Wait();
-                return result.Result;
+                var cmd = CreateTextCommand(ReadSysObjectsOfTypeSql)
+	                .WithParameter(xtype.ToSqlParameter("@xtype"));
+                return await ExecuteAsync(cmd).ToListOf<ExampleSysObject>();
             }
 
             public IList<ExampleSysObject> ReadSysObjectsOfType2(string xtype)
@@ -203,11 +210,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             return sw.ElapsedTicks / 10;
         }
 
-        private long GetSysObjectByNameAsyncSync(ExampleReadDataAsExecuteListOf target, bool printResults)
+        private async Task<long> GetSysObjectByNameAsyncSync(ExampleReadDataAsExecuteListOf target, bool printResults)
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            var executeResult = target.ReadSysObjectsOfTypeUsingAsync("U");
+            var executeResult = await target.ReadSysObjectsOfTypeUsingAsync("U");
             sw.Stop();
             if (printResults)
             {
@@ -219,17 +226,17 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
 
         [Test]
-        public void GetSysObjectByNameSyncVsrAsync()
+        public async Task GetSysObjectByNameSyncVsrAsync()
         {
 
             var target = new ExampleReadDataAsExecuteListOf();
             GetSysObjectByNameSync(target, true);
-            GetSysObjectByNameAsyncSync(target, true);
+            await GetSysObjectByNameAsyncSync(target, true);
 
             for (int i = 1; i < 10; i++)
             {
                 var syncTime = GetSysObjectByNameSync(target, false);
-                var asyncTime = GetSysObjectByNameAsyncSync(target, false);
+                var asyncTime = await GetSysObjectByNameAsyncSync(target, false);
 
                 if (syncTime < asyncTime)
                 {

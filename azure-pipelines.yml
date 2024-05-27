@@ -22,7 +22,7 @@ variables:
 - name: Major
   value: '3'
 - name: Minor
-  value: '3'
+  value: '4'
 - name: Patch
   value: $[counter(variables['BuildID'], 0)]
 - name: SemanticVerion
@@ -97,6 +97,12 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SQLServerDataAccess\'
     script: '((Get-Content -path CA.Blocks.SQLServerDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SQLServerDataAccess.csproj'
 
+- task: PowerShell@2
+  displayName: 'Set SemanticVerion for CA.Blocks.OdbcDataAccess'
+  inputs:
+    targetType: 'inline'
+    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.OdbcDataAccess\'
+    script: '((Get-Content -path CA.Blocks.OdbcDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.OdbcDataAccess.csproj'
 
 - task: NuGetToolInstaller@1
 
@@ -123,6 +129,7 @@ steps:
             **/*.csproj
             !**/*SQLServerDataAccessUnitTests.csproj
             !**/*MySQLDataAccessUnitTests.csproj
+            !**/*OdbcDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
           --collect "Code coverage"
