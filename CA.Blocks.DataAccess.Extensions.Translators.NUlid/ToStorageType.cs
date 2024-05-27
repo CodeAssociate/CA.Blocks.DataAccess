@@ -27,7 +27,7 @@ namespace CA.Blocks.DataAccess.Extensions.Translators.NUlid
             return target?.ToString();
         }
 
-        public static string AsBianryString(this Ulid target)
+        public static string AsBinaryString(this Ulid target)
         {
             return $"0x{string.Join("", target.ToByteArray().Select(b => b.ToString("x2")))}";
         }

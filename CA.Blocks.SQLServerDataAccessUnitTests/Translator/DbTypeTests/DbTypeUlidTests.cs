@@ -10,7 +10,6 @@ using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUlid;
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
