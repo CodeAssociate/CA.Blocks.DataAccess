@@ -23,7 +23,21 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             Assert.That(result.Count(x => x.DateCol < testDate), Is.EqualTo(0));
         }
 
+
         [Test]
+        public void DataReaderExtensions_ToDictionary()
+        {
+	        var numberOfRecords = 10;
+	        var testDate = DateTime.Now;
+	        var dataReader = GenerateTestDataReader(numberOfRecords);
+
+	        var result = dataReader.ToDictionary<int, TestDataObject>(x => x.IntCol);
+	        Assert.That(result.Count, Is.EqualTo(numberOfRecords));
+	        Assert.That(numberOfRecords, Is.EqualTo(result[numberOfRecords].IntCol));
+        }
+
+
+		[Test]
         public void DataReaderExtensions_ToSingleNamedColumnList_String()
         {
             var numberOfRecords = 10;

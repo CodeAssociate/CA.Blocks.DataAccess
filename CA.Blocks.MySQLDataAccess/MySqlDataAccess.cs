@@ -74,9 +74,18 @@ namespace CA.Blocks.MySQLDataAccess
             };
         }
 
+        protected override DbCommand CreateSqlCommand(string sql, CommandType cmdType = CommandType.Text)
+        {
+			return new MySqlCommand
+			{
+				CommandText = sql,
+				CommandType = cmdType
+			};
+		}
 
-        #region TextCommandType Helpers
-        protected MySqlCommand CreateTextCommand(string sql)
+
+		#region TextCommandType Helpers
+		protected MySqlCommand CreateTextCommand(string sql)
         {
             return new MySqlCommand
             {

@@ -21,8 +21,20 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
         Assert.That(result.Count(x => x.DateCol < testDate), Is.EqualTo(0));
     }
 
-
     [Test]
+    public async Task DataReaderExtensions_ToDictionaryAsync()
+    {
+	    var numberOfRecords = 10;
+	    var testDate = DateTime.Now;
+	    var dataReader = GenerateTestDataReaderAsync(numberOfRecords);
+
+	    var result = await dataReader.ToDictionaryAsync<int, TestDataObject>(x => x.IntCol);
+	    Assert.That(result.Count, Is.EqualTo(numberOfRecords));
+	    Assert.That(numberOfRecords, Is.EqualTo(result[numberOfRecords].IntCol));
+    }
+
+
+	[Test]
     public async Task DbDataReaderExtensions_ToSingleNamedColumnListAsync_String()
     {
         var numberOfRecords = 10;

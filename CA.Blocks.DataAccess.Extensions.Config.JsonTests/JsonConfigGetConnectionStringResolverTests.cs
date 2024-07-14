@@ -65,7 +65,11 @@ namespace CA.Blocks.DataAccess.Extensions.Config.JsonTests
             {
                 throw new NotImplementedException();
             }
-        }
+            protected override DbCommand CreateSqlCommand(string sql, CommandType cmdType = CommandType.Text)
+            {
+	            throw new NotImplementedException();
+            }
+		}
 
         [Test]
         public void EnvironmentVariableConnectionStringResolverTestWithProvider()

@@ -13,10 +13,10 @@ using System.IO;
 
 namespace CA.Blocks.DataAccess
 {
-    //TODO we need to benchmark some of these procedure https://www.nuget.org/packages/BenchmarkDotNet/
-    // https://stackoverflow.com/questions/1170756/casting-vs-converting-an-object-tostring-when-object-really-is-a-string
+	//TODO we need to benchmark some of these procedure https://www.nuget.org/packages/BenchmarkDotNet/
+	// https://stackoverflow.com/questions/1170756/casting-vs-converting-an-object-tostring-when-object-really-is-a-string
 
-    public static class DataReaderExtensions
+	public static class DataReaderExtensions
     {
         private static T ThrowExceptionIfIsNull<T>(T? obj, string sColumnName, string typeDescription)  where T : struct
         {

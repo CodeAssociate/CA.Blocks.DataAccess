@@ -161,7 +161,19 @@ namespace CA.Blocks.SQLServerDataAccess
         #endregion StoredProcedureHelpers
 
         #region TextCommandType Helpers
-        protected SqlCommand CreateTextCommand(string sql)
+
+        protected override DbCommand CreateSqlCommand(string sql, CommandType cmdType = CommandType.Text)
+        {
+			return new SqlCommand
+			{
+				CommandText = sql,
+				CommandType = cmdType
+			};
+		}
+
+
+		// unless you using the SqlCommand it is best to use CreateSqlCommand
+		protected SqlCommand CreateTextCommand(string sql)
         {
            return new SqlCommand
             {

@@ -124,7 +124,7 @@ namespace CA.Blocks.DataAccess
 
         /// <summary>
         /// When a general occurs not related to the database such as network error this method will be called
-        ///  The Design is such that you can override this method to implement your own logic, you you get the command and well as the Exception.
+        ///  The Design is such that you can override this method to implement your own logic, you get the command and well as the Exception.
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="ex"></param>
@@ -256,14 +256,16 @@ namespace CA.Blocks.DataAccess
             throw new AggregateException(exceptions);
         }
 
-        #endregion 
+		#endregion
 
 
 
-        #region abstract methods that must me implemented
+		#region abstract methods that must me implemented
+
+		protected abstract DbCommand CreateSqlCommand(string sql, CommandType cmdType = CommandType.Text);
 
 
-        protected abstract DbDataAdapter GetDataAdapter(IDbCommand cmd);
+		protected abstract DbDataAdapter GetDataAdapter(IDbCommand cmd);
 
 
         /// <summary>
@@ -320,7 +322,6 @@ namespace CA.Blocks.DataAccess
             return ExecuteWithTransientErrorRetryAsync(() => asynCmd.ExecuteNonQueryAsync(), cmd);
         }
         #endregion ExecuteNonQuery
-
 
         #region ExecuteDataSet
 
@@ -576,12 +577,10 @@ namespace CA.Blocks.DataAccess
             return ExecuteReader(cmd);
         }
 
-        #endregion ExecuteReader
+		#endregion ExecuteReader
 
 
-
-
-        protected dynamic ExecuteObject(IDbCommand cmd)
+		protected dynamic ExecuteObject(IDbCommand cmd)
         {
             var translator = new DynamicDbRow2ObjectTranslator();
             return translator.Translate(ExecuteDataRow(cmd));

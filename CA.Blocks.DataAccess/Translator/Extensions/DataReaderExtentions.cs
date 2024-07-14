@@ -60,11 +60,39 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 			}
             return result;
         }
-        
-        public static IList<T> ToListOf<T>(this IDataReader dbReader) where T : new()
+
+
+		public static IList<T> ToListOf<T>(this IDataReader dbReader) where T : new()
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             return ToListOf(dbReader, translator.Translate);
+        }
+
+        private static IDictionary<Key, T> ExecuteToToDictionary<Key, T>(IDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector)
+        {
+	        return ExecuteToEnumerable(dbReader, translate).ToDictionary(keySelector);
+        }
+
+		public static IDictionary<Key, T> ToDictionary<Key, T>(this IDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector)
+        {
+			IDictionary<Key, T> result;
+	        {
+		        try
+		        {
+			        result = ExecuteToToDictionary(dbReader, translate, keySelector);
+		        }
+		        finally
+		        {
+			        dbReader.Close();
+		        }
+	        }
+	        return result;
+        }
+
+		public static IDictionary<Key, T> ToDictionary<Key, T> (this IDataReader dbReader, Func<T, Key> keySelector) where T : new ()
+        {
+	        var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
+	        return ToDictionary(dbReader, translator.Translate, keySelector);
         }
 
         public static IList<T> ToSingleNamedColumnList<T>(this IDataReader dbReader, string colName, Func<IDataReader, string, T> converter)
