@@ -111,8 +111,17 @@ namespace CA.Blocks.SqliteDataAccess
         }
 
 
-        #region TextCommandType Helpers
-        protected SqliteCommand CreateTextCommand(string sql)
+		#region TextCommandType Helpers
+		protected override DbCommand CreateSqlCommand(string sql, CommandType cmdType = CommandType.Text)
+		{
+			return  new SqliteCommand
+			{
+				CommandText = sql,
+				CommandType = cmdType
+			};
+		}
+
+		protected SqliteCommand CreateTextCommand(string sql)
         {
             SqliteCommand sqlcmd = new SqliteCommand
             {

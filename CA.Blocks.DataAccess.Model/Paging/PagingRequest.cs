@@ -51,4 +51,6 @@ namespace CA.Blocks.DataAccess.Model.Paging
             return SortOrder.Count > 0 ? string.Join(",", SortOrder.Select(sort => $"{sort.Field} {sort.Dir}").ToArray()) : "1 asc";
         }
     }
+
+
 }

@@ -14,28 +14,28 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
     public static class DbDataReaderAsyncExtensions
     {
 
-        #region ToListOf
+
 
 #if NET6_0_OR_GREATER
 
-        /// <summary>
-        /// This allows direct execution of a reader to a IAsyncEnumerable this allows streaming of the data without fetching the entire
-        /// rowset. This is C# 8.0+ feature so you need .net 6 or greater to use
-        /// It it important to note when using this method the caller is responsible for closing the reader when done.
-        /// The connection will remain open until the rowset is closed. Unless you are actively looking for streaming ability
-        /// it is best to use the ToListOf overrides which will manage the reader connection for you.
-        /// Also note whilst you can execute the linq lamdas on the IEnumerable this will typically result in the full read.
-        /// Best to use the IList.
-        /// Typical cases .Take()
-        /// FirstOrDefault ()
-        /// Single()
-        /// or streaming a very large set with millions of rows. (again with warning you holding the connection open while this is happening.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dbReader"></param>
-        /// <param name="translate"></param>
-        /// <returns></returns>
-        public static async IAsyncEnumerable<T> ExecuteToEnumerableAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate)
+		/// <summary>
+		/// This allows direct execution of a reader to a IAsyncEnumerable this allows streaming of the data without fetching the entire
+		/// rowset. This is C# 8.0+ feature so you need .net 6 or greater to use
+		/// It is important to note when using this method the caller is responsible for closing the reader when done.
+		/// The connection will remain open until the rowset is closed. Unless you are actively looking for streaming ability
+		/// it is best to use the ToListOfor ToDictionaryAsync to overrides which will manage the reader connection for you.
+		/// Also note whilst you can execute the linq lamdas on the IEnumerable this will typically result in the full read.
+		/// Best to use the IList.
+		/// Typical cases .Take()
+		/// FirstOrDefault ()
+		/// Single()
+		/// or streaming a very large set with millions of rows. (again with warning you holding the connection open while this is happening.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="dbReader"></param>
+		/// <param name="translate"></param>
+		/// <returns></returns>
+		public static async IAsyncEnumerable<T> ExecuteToEnumerableAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate)
         {
             while (await dbReader.ReadAsync().ConfigureAwait(false))
             {
@@ -43,12 +43,17 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             }
             yield break;
         }
+#endif
 
-        /// <summary>
-        /// This is a private function that that will execute ExecuteToList but does not close the reader.
-        /// The reader is used with one of the public methods.
-        /// </summary>
-        private static async Task<IList<T>> ExecuteToListAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate)
+	    #region ToListOf
+
+#if NET6_0_OR_GREATER
+
+		/// <summary>
+		/// This is a private function that that will execute ExecuteToList but does not close the reader.
+		/// The reader is used with one of the public methods.
+		/// </summary>
+		private static async Task<IList<T>> ExecuteToListAsync<T>(DbDataReader dbReader, Func<IDataReader, T> translate)
         {
 			var result = new List<T>();
             await foreach (var item in ExecuteToEnumerableAsync(dbReader, translate).ConfigureAwait(false))
@@ -113,7 +118,87 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return await ToListOfAsync<T>(dbReader, translate).ConfigureAwait(false);
         }
 
+		#endregion
+		//**
+#region ExecuteToDictionaryAsync
+
+#if NET6_0_OR_GREATER
+
+		/// <summary>
+		/// This is a private function that that will execute ExecuteToDictionaryAsync but does not close the reader.
+		/// The reader is used with one of the public methods.
+		/// </summary>
+		private static async Task<IDictionary<Key, T>> ExecuteToDictionaryAsync<Key, T>(DbDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector)
+		{
+			var result = new Dictionary<Key, T>();
+            await foreach (var item in ExecuteToEnumerableAsync(dbReader, translate).ConfigureAwait(false))
+            {
+                result.Add(keySelector.Invoke(item), item);
+            }
+            return result;
+        }
+#else
+        // Asynchronous streams will be part of .Net Standard 2.1, as we target .Net Standard 2.0 for support for the Framework 4.8 or older we cannot use Asynchronous streams 
+        // You can use the Sync version
+
+        private static async Task<IDictionary<Key, T>> ExecuteToDictionaryAsync<Key, T>(this DbDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector) 
+        {
+			var result = new Dictionary<Key, T>();
+			while (await dbReader.ReadAsync())
+			{
+				var item = translate(dbReader);
+
+				result.Add(keySelector.Invoke(item), item);
+            }
+            return result;
+        }
+#endif
+
+
+        public static async Task<IDictionary<Key, T>> ToDictionaryAsync<Key, T>(this DbDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector)
+        {
+			IDictionary<Key, T> result = new Dictionary<Key, T>();
+			{
+                try
+                {
+                    result = await ExecuteToDictionaryAsync<Key, T>(dbReader, translate, keySelector).ConfigureAwait(false);
+                }
+                finally
+                {
+#if NET6_0_OR_GREATER
+                await dbReader.CloseAsync().ConfigureAwait(false);
+#else
+                dbReader.Close();
+#endif
+                }
+            }
+            return result;
+        }
+
+        public static Task<IDictionary<Key, T>> ToDictionaryAsync<Key, T>(this DbDataReader dbReader, Func<T, Key> keySelector) where T : new()
+        {
+            var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
+            return ToDictionaryAsync<Key, T>(dbReader, translator1.Translate, keySelector);
+        }
+
+        public static async Task<IDictionary<Key, T>> ToDictionaryAsync<Key, T>(this Task<DbDataReader> dbReaderTask, Func<T, Key> keySelector)
+            where T : new()
+        {
+            var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToDictionaryAsync<Key, T>(dbReader, translator1.Translate, keySelector).ConfigureAwait(false);
+        }
+
+        public static async Task<IDictionary<Key, T>> ToDictionary<Key, T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate, Func<T, Key> keySelector)
+        {
+            var dbReader = await dbReaderTask.ConfigureAwait(false);
+            return await ToDictionaryAsync<Key, T>(dbReader, translate, keySelector).ConfigureAwait(false);
+        }
+
 #endregion
+
+
+
 
 #region ToSingleNamedColumnList
         public static async Task<IList<T>> ToSingleNamedColumnListAsync<T>(this DbDataReader dbReader, string colName, Func<IDataReader, string, T> converter)

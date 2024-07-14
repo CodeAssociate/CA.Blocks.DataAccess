@@ -1,4 +1,5 @@
 ﻿using System;
+using CA.Blocks.DataAccess.Extensions;
 using CA.Blocks.DataAccess.Model.Filter;
 using CA.Blocks.SqliteDataAccess;
 using NUnit.Framework;
@@ -29,9 +30,13 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
         {
             var target = new TestFilter();
             target.HasIntColFilter(123);
-            ClassicAssert.IsTrue(target.Parameters.Count == 1);
+			ClassicAssert.IsTrue(target.Parameters.Count == 1);
             ClassicAssert.AreEqual("intCol = @value", target.ToSQLFilter());
-        }
+            var parameters = target.ToDbParameters();
+            ClassicAssert.AreEqual(1, parameters.Count);
+
+
+		}
 
         [Test]
         public void BasicTestWithWhere()
