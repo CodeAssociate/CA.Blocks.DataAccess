@@ -2,7 +2,7 @@
 using CA.Blocks.DataAccess.Extensions.Translators.Json.Converters;
 using CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters;
 
-namespace CA.Blocks.DataAccessUnitTests.Extensions.Translators.Json.Converters
+namespace CA.Blocks.DataAccess.Extensions.Translators.JsonTests.Converters
 {
 
     [TestFixture]

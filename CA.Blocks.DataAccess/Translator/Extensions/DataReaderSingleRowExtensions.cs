@@ -32,7 +32,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             if (result == null || result.Equals(default(T)))
             {
                 throw new DataException("Expected Single Result,but No row was found");
-            };
+            }
             return result;
         }
 
@@ -49,7 +49,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             if (result == null || result.Equals(default(T)))
             {
                 throw new DataException("Expected Single Result,but No row was found");
-            };
+            }
             return result;
         }
 

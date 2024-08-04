@@ -157,7 +157,7 @@ namespace CA.Blocks.DataAccess
                 return null;
             else
                 return Convert.ToSByte(dr[columnIndex]);
-            }
+        }
         #endregion
 
         #region Char

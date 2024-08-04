@@ -37,11 +37,7 @@ namespace CA.Blocks.SqliteDataAccess
 			{
 				return SqliteType.Real;
 			}
-			if (type.FullName == "System.Byte[]")
-			{
-				return SqliteType.Blob;
-			}
-			return SqliteType.Text;
+			return type.FullName == "System.Byte[]" ? SqliteType.Blob : SqliteType.Text;
 		}
 	}
 }
