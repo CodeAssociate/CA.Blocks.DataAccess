@@ -72,6 +72,15 @@
             <param name="cmd"></param>
             <param name="ex"></param>
         </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.CreateDbCommand(System.String,System.Data.CommandType)">
+            <summary>
+            This provides a more abstract way to create a DbCommand, ths key advantage is that you can hook external components
+            that know how to work at the generic DbCommand level. Example Profiling.
+            </summary>
+            <param name="sql"></param>
+            <param name="cmdType"></param>
+            <returns></returns>
+        </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.PrepCommand(System.Data.IDbCommand)">
             <summary>
             The Prep Command is abstract method that must be implemented by the providers. The method will create the the provider specific connection setting the connection string, 

@@ -104,7 +104,7 @@ namespace CA.Blocks.DataAccess.Generic
 		}
 #endif
 
-		protected override DbCommand CreateSqlCommand(string sql, CommandType cmdType = CommandType.Text)
+		protected override DbCommand CreateDbCommand(string sql, CommandType cmdType = CommandType.Text)
 		{
 			return new CMD { CommandText = sql, CommandType = cmdType };
 		}
