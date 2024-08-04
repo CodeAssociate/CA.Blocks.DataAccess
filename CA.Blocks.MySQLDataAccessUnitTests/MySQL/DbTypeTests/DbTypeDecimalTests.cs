@@ -18,7 +18,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 
         private void InsertTestDataSQL(double data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
+            ExecuteNonQuery(InsertTestDataSQL($"{data}"));
         }
 
         [SetUp]

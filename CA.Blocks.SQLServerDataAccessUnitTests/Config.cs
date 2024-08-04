@@ -11,7 +11,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
         {
             // we do this here as different test frameworks use and merge the app.config depending on the run time.
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            
+
             var csSection =  config.ConnectionStrings;
             csSection.ConnectionStrings.Clear();
             //csSection.ConnectionStrings.Add(new ConnectionStringSettings( "localsqlserverhost", "Server=(local);Database=tempdb;Integrated Security=SSPI", "System.Data.SqlClient"));
@@ -26,6 +26,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
         }
     }
 }*/
+
+namespace CA.Blocks.SQLServerDataAccessUnitTests;
 
 public static class TestConnectionStrings
 {

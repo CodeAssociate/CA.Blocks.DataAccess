@@ -14,6 +14,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
         {
             public int Id { get; set; }
             public string? Name { get; set; }
+            // ReSharper disable once UnusedMember.Global We are testing this case
             public int IgnoreMe  { get;}
         }
 
@@ -27,6 +28,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
             [DbColToSourceName("ListSource")]
             [DbColToTypeConverter(typeof(IntListDbColToTypeConverter), ',')]
             public string? ListOfNumbers { get; set; }
+            // ReSharper disable once UnassignedGetOnlyAutoProperty Testing this case
             public int IgnoreMe { get; }
         }
 
