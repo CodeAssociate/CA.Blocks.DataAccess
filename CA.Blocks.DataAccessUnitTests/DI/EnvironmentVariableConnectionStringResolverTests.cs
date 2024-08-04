@@ -59,7 +59,7 @@ namespace CA.Blocks.DataAccessUnitTests.DI
             {
                 throw new NotImplementedException();
             }
-            protected override DbCommand CreateSqlCommand(string sql, CommandType cmdType = CommandType.Text)
+            protected override DbCommand CreateDbCommand(string sql, CommandType cmdType = CommandType.Text)
             {
 				throw new NotImplementedException();
 			}

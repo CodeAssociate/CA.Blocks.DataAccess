@@ -1,7 +1,6 @@
 ﻿using System.Data.Odbc;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Generic;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 
 namespace CA.Blocks.OdbcDataAccess
 {

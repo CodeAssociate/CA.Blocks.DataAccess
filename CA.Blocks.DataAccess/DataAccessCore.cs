@@ -262,7 +262,14 @@ namespace CA.Blocks.DataAccess
 
 		#region abstract methods that must me implemented
 
-		protected abstract DbCommand CreateSqlCommand(string sql, CommandType cmdType = CommandType.Text);
+		/// <summary>
+		/// This provides a more abstract way to create a DbCommand, ths key advantage is that you can hook external components
+		/// that know how to work at the generic DbCommand level. Example Profiling.
+        /// </summary>
+		/// <param name="sql"></param>
+		/// <param name="cmdType"></param>
+		/// <returns></returns>
+		protected abstract DbCommand CreateDbCommand(string sql, CommandType cmdType = CommandType.Text);
 
 
 		protected abstract DbDataAdapter GetDataAdapter(IDbCommand cmd);
