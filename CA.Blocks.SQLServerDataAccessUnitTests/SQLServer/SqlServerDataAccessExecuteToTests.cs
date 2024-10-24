@@ -85,11 +85,17 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         [Test]
         public void ExecuteToListOfDevCustomTranslator()
         {
-            SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects");
+
+            var cmd = CreateDbCommand("Select id, name from sysobjects");
             var result = ExecuteToListOf<temp2>(cmd);
             ClassicAssert.Greater(result.Count, 0);
-            SqlCommand cmdSingle = CreateTextCommand("Select id, name from sysobjects where id=@id").WithParameter(result[0].Id2.ToSqlParameter("@id"));
-            var singleResult = ExecuteTo<temp>(cmd);
+            var cmdSingle = CreateDbCommand("Select id, name from sysobjects where id=@id");
+
+			cmdSingle.Parameters.Add(result[0].Id2.ToSqlParameter("@id")); // << we what to replace this with a generic solution.
+
+			//cmdSingle.Parameters.Add(cmdSingle.CreateParameter().WithValueAs(result[0].Id2, "@Id"));
+			//cmdSingle.CreateParameter().WithValue(result[0].Id2, "@id");
+			var singleResult = ExecuteTo<temp>(cmd);
             ClassicAssert.AreEqual(singleResult.id, result[0].Id2);
             ClassicAssert.AreEqual(singleResult.name, result[0].Name2);
         }
