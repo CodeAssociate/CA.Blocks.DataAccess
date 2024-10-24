@@ -10,7 +10,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text.Json;
 using Microsoft.Data.SqlClient;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DataTableHelpers;
@@ -113,7 +112,9 @@ namespace CA.Blocks.SQLServerDataAccess
             return sqlParameter.ToValueWithConvert<SqlParameter, T>();
         }
 
-        #region SqlDbType.BigInt ( long, Int64 ) 
+        #region SqlDbType.BigInt ( long, Int64 )
+
+
         private static SqlParameter ToSqlParameterBigInt(long? input, string strParameterName)
         {
             return new SqlParameter(strParameterName, SqlDbType.BigInt)
