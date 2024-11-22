@@ -61,7 +61,7 @@ steps:
 - template: set-semantic-version.yaml
   parameters:
     SemanticVersion: "$(SemanticVersion)"
-    ProjectFile: "CA.Blocks.DataAccess.Extensions.Config"
+    ProjectFile: "CA.Blocks.DataAccess.Extensions.Config.Json"
 
 - template: set-semantic-version.yaml
   parameters:
