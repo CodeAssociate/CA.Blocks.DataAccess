@@ -1,0 +1,11 @@
+parameters:
+  SemanticVersion: true
+  ProjectFile: true
+
+steps:
+- task: PowerShell@2
+  displayName: 'Set SemanticVersion for ${{parameters.ProjectFile}}'
+  inputs:
+      targetType: 'inline'
+      workingDirectory: '$(Build.SourcesDirectory)/${{parameters.ProjectFile}}/'
+      script: '((Get-Content -path ${{parameters.ProjectFile}}.csproj -Raw) -replace "987.654.3210","${{parameters.SemanticVersion}}") | Set-Content -Path ${{parameters.ProjectFile}}.csproj'

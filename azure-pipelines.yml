@@ -10,7 +10,7 @@ trigger:
     - release/*
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
 - name: solution
@@ -25,9 +25,9 @@ variables:
   value: '4'
 - name: Patch
   value: $[counter(variables['BuildID'], 0)]
-- name: SemanticVerion
+- name: SemanticVersion
   value: $(Major).$(Minor).$(Patch)
-- name: SemanticVerionPack
+- name: SemanticVersionPack
   ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
     value: $(Major).$(Minor).$(Patch)
   ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
@@ -43,66 +43,64 @@ variables:
     value: 'false'
 
 steps:
-- script: echo $(SemanticVerion)
-- script: echo $(SemanticVerionPack)
+- script: echo $(SemanticVersion)
+- script: echo $(SemanticVersionPack)
 - script: echo $(PublishPackage) 
 
 #Set the assembly file and version numbers to be the build number
 - task: PowerShell@2
-  displayName: 'Set SemanticVerion for CA.Blocks.DataAccess'
+  displayName: 'Set SemanticVersion  for CA.Blocks.DataAccess'
   inputs:
     targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess\'
-    script: '((Get-Content -path CA.Blocks.DataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/CA.Blocks.DataAccess/'
+    script: '((Get-Content -path CA.Blocks.DataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVersion)") | Set-Content -Path CA.Blocks.DataAccess.csproj'
+
+- template: set-semantic-version.yaml
+  parameters:
+    SemanticVersion: "$(SemanticVersion)"
+    ProjectFile: "CA.Blocks.DataAccess.Extensions.Translators.Json"
+    
+- task: PowerShell@2
+  displayName: 'Set SemanticVersion for CA.Blocks.DataAccess.Extensions.Config.Json'
+  inputs:
+    targetType: 'inline'
+    workingDirectory: '$(Build.SourcesDirectory)/CA.Blocks.DataAccess.Extensions.Config.Json/'
+    script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Config.Json.csproj -Raw) -replace "987.654.3210","$(SemanticVersion)") | Set-Content -Path CA.Blocks.DataAccess.Extensions.Config.Json.csproj'
 
 - task: PowerShell@2
-  displayName: 'Set SemanticVerion for CA.Blocks.DataAccess.Extensions.Translators'
+  displayName: 'Set SemanticVersion for CA.Blocks.DataAccess.Extensions.Translators.NUlid'
   inputs:
     targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Extensions.Translators.Json\'
-    script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Translators.Json.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Extensions.Translators.Json.csproj'
-
-- task: PowerShell@2
-  displayName: 'Set SemanticVerion for CA.Blocks.DataAccess.Extensions.Config.Json'
-  inputs:
-    targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Extensions.Config.Json\'
-    script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Config.Json.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Extensions.Config.Json.csproj'
-
-- task: PowerShell@2
-  displayName: 'Set SemanticVerion for CA.Blocks.DataAccess.Extensions.Translators.NUlid'
-  inputs:
-    targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Extensions.Translators.NUlid\'
-    script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Translators.NUlid.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Extensions.Translators.NUlid.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/CA.Blocks.DataAccess.Extensions.Translators.NUlid/'
+    script: '((Get-Content -path CA.Blocks.DataAccess.Extensions.Translators.NUlid.csproj -Raw) -replace "987.654.3210","$(SemanticVersion)") | Set-Content -Path CA.Blocks.DataAccess.Extensions.Translators.NUlid.csproj'
 - task: PowerShell@2
 
-  displayName: 'Set SemanticVerion for CA.Blocks.DataAccess.Model'
+  displayName: 'Set SemanticVersion for CA.Blocks.DataAccess.Model'
   inputs:
     targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.DataAccess.Model\'
-    script: '((Get-Content -path CA.Blocks.DataAccess.Model.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.DataAccess.Model.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/CA.Blocks.DataAccess.Model/'
+    script: '((Get-Content -path CA.Blocks.DataAccess.Model.csproj -Raw) -replace "987.654.3210","$(SemanticVersion)") | Set-Content -Path CA.Blocks.DataAccess.Model.csproj'
 
 - task: PowerShell@2
-  displayName: 'Set SemanticVerion for CA.Blocks.SqliteDataAccess'
+  displayName: 'Set SemanticVersion for CA.Blocks.SqliteDataAccess'
   inputs:
     targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SqliteDataAccess\'
-    script: '((Get-Content -path CA.Blocks.SqliteDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SqliteDataAccess.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/CA.Blocks.SqliteDataAccess/'
+    script: '((Get-Content -path CA.Blocks.SqliteDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVersion)") | Set-Content -Path CA.Blocks.SqliteDataAccess.csproj'
 
 - task: PowerShell@2
-  displayName: 'Set SemanticVerion for CA.Blocks.SQLServerDataAccess'
+  displayName: 'Set SemanticVersion for CA.Blocks.SQLServerDataAccess'
   inputs:
     targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.SQLServerDataAccess\'
-    script: '((Get-Content -path CA.Blocks.SQLServerDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.SQLServerDataAccess.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/CA.Blocks.SQLServerDataAccess/'
+    script: '((Get-Content -path CA.Blocks.SQLServerDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVersion)") | Set-Content -Path CA.Blocks.SQLServerDataAccess.csproj'
 
 - task: PowerShell@2
-  displayName: 'Set SemanticVerion for CA.Blocks.OdbcDataAccess'
+  displayName: 'Set SemanticVersion for CA.Blocks.OdbcDataAccess'
   inputs:
     targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)\CA.Blocks.OdbcDataAccess\'
-    script: '((Get-Content -path CA.Blocks.OdbcDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVerion)") | Set-Content -Path CA.Blocks.OdbcDataAccess.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/CA.Blocks.OdbcDataAccess/'
+    script: '((Get-Content -path CA.Blocks.OdbcDataAccess.csproj -Raw) -replace "987.654.3210","$(SemanticVersion)") | Set-Content -Path CA.Blocks.OdbcDataAccess.csproj'
 
 - task: NuGetToolInstaller@1
 
@@ -111,12 +109,6 @@ steps:
   continueOnError: false
   inputs:
         command: restore
-
-# - task: VSBuild@1
-#   inputs:
-#     solution: '$(solution)'
-#     platform: '$(buildPlatform)'
-#     configuration: '$(buildConfiguration)'
 
 # WE have a dependency on SQL so only run the DataAccessUnitTests and SqliteDataAccessUnitTests tests which can run in memory
 
@@ -134,18 +126,6 @@ steps:
           --configuration $(BuildConfiguration)
           --collect "Code coverage"
           /p:ExcludeByAttribute=Obsolete
- 
-# - task: VSTest@2
-#   inputs:
-#     testSelector: 'testAssemblies'
-#     testAssemblyVer2: |
-#         **\CA.Blocks.DataAccessUnitTests.dll    
-#         **\CA.Blocks.SqliteDataAccessUnitTests.dll
-#         !**\obj\**
-#     platform: '$(buildPlatform)'
-#     configuration: '$(buildConfiguration)'
-#     codeCoverageEnabled: True # Optional
-
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -153,19 +133,8 @@ steps:
     packagesToPack: '**/*.csproj;!**/*Tests.csproj;!**/*Benchmarks.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: byEnvVar
-    versionEnvVar : SemanticVerionPack
+    versionEnvVar : SemanticVersionPack
     includesymbols: true
-
-#- task: NuGetAuthenticate@0 
-#  displayName: 'NuGet Authenticate'
-
-#- task: NuGetCommand@2
-#  displayName: 'NuGet push'
-#  inputs:
-#    command: push
-#    publishVstsFeed: 'CA_Blocks_Feed'
-#    allowPackageConflicts: true
-
 
 - task: PublishBuildArtifacts@1    
   displayName: 'Publish Artifact: drop'
