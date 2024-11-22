@@ -2,13 +2,7 @@
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.Base;
 
-public class UnitTestBadConnection : SqliteDataAccess.SqliteDataAccess
-{
-    public UnitTestBadConnection() : 
-        base ( new DataAccessConfig(new DataAccessConfigOptions{TraceExceptions = true, ConnectionStringKey = "BAD_CONNECTION"}, 
-                new UnitTRestInMemDBResolver() ), 
-            null)
-    {
-
-    } 
-}
+public class UnitTestBadConnection() : SqliteDataAccess.SqliteDataAccess(new DataAccessConfig(
+        new DataAccessConfigOptions { TraceExceptions = true, ConnectionStringKey = "BAD_CONNECTION" },
+        new UnitTRestInMemDBResolver()),
+    null);

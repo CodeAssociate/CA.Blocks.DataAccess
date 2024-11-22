@@ -30,8 +30,7 @@ namespace CA.Blocks.SqliteDataAccess
     /// </remarks>
     public class SqliteDataAccess : DataAccessCore, IDisposable
     {
-
-        public const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
+        private const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
 
         private readonly SqliteConnection _dbConnection;
 

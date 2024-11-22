@@ -10,7 +10,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
     [TestFixture]
     public class SqlLiteDataAccessExceptionMasterTests : UnitTestBadConnection
     {
-        public bool TraceErrorCalled = false;
+        private bool TraceErrorCalled = false;
 
         protected override void TraceGeneralError(IDbCommand cmd, Exception ex)
         {
@@ -36,6 +36,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             try
             {
                 var result = ExecuteDataTable(cmd);
+                Assert.Fail($"Got {result.Rows.Count} rows ?" );
             }
             catch (System.Exception ex)
             {
