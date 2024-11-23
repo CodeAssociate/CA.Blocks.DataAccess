@@ -4,28 +4,12 @@ parameters:
 
 
 steps:
-- task: Bash@3
-  displayName: 'Get Release notes'
-  inputs:
-    targetType: 'inline'
-    script: |
-        echo "##vso[task.setvariable variable=RELEASE_NOTES]$(cat ${{parameters.ProjectFile}}/RELEASE-NOTES.txt)"  
-
-- task: Bash@3
-  displayName: 'Release notes'
-  inputs:
-    targetType: 'inline'
-    script: echo "$(RELEASE_NOTES)"
-
 - task: PowerShell@2
-  displayName: 'Set SemanticVersion for ${{parameters.ProjectFile}}'
+  displayName: 'Prep project file for build'
   inputs:
-      targetType: 'inline'
-      workingDirectory: '$(Build.SourcesDirectory)/${{parameters.ProjectFile}}/'
-      script: '((Get-Content -path ${{parameters.ProjectFile}}.csproj -Raw) -replace "987.654.3210","${{parameters.SemanticVersion}}") | Set-Content -Path ${{parameters.ProjectFile}}.csproj'
-
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    workingDirectory: '$(Build.SourcesDirectory)/${{parameters.ProjectFile}}/'
-    script: '((Get-Content -path ${{parameters.ProjectFile}}.csproj -Raw) -replace "@RELEASE-NOTES.txt","$(RELEASE_NOTES)") | Set-Content -Path ${{parameters.ProjectFile}}.csproj'
+      targetType: 'filePath'
+      workingDirectory: '$(Build.SourcesDirectory)/'
+      filePath: 'prep-project-file.ps1'
+      arguments: > # Use this to avoid newline characters in multiline string
+        -project "${{parameters.ProjectFile}}"
+        -version "${{parameters.SemanticVersion}}"
