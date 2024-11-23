@@ -10,7 +10,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-        echo "##vso[task.setvariable variable=RELEASE_NOTES]$(cat ${{parameters.SemanticVersion}}/RELEASE-NOTES.txt)"  
+        echo "##vso[task.setvariable variable=RELEASE_NOTES]$(cat ${{parameters.ProjectFile}}/RELEASE-NOTES.txt)"  
 
 - task: Bash@3
   displayName: 'Release notes'
