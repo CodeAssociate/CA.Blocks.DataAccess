@@ -16,6 +16,7 @@
 	  <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
 	  <PackageReadmeFile>readme.md</PackageReadmeFile>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+      <PackageReleaseNotes>@RELEASE-NOTES.txt</PackageReleaseNotes>
 	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;mysql</PackageTags>
 	  <IncludeSymbols>True</IncludeSymbols>
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>

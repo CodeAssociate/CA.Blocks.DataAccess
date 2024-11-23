@@ -3,9 +3,22 @@ parameters:
   ProjectFile: true
 
 steps:
+- task: Bash@3
+  displayName: 'Get Release notes'
+  inputs:
+    targetType: 'inline'
+    script: |
+        echo "##vso[task.setvariable variable=RELEASE_NOTES]$(cat $RELEASE_NOTES_FILE)"  
+  
 - task: PowerShell@2
   displayName: 'Set SemanticVersion for ${{parameters.ProjectFile}}'
   inputs:
       targetType: 'inline'
       workingDirectory: '$(Build.SourcesDirectory)/${{parameters.ProjectFile}}/'
       script: '((Get-Content -path ${{parameters.ProjectFile}}.csproj -Raw) -replace "987.654.3210","${{parameters.SemanticVersion}}") | Set-Content -Path ${{parameters.ProjectFile}}.csproj'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    workingDirectory: '$(Build.SourcesDirectory)/${{parameters.ProjectFile}}/'
+    script: '((Get-Content -path ${{parameters.ProjectFile}}.csproj -Raw) -replace "@RELEASE-NOTES.txt","$(RELEASE_NOTES)") | Set-Content -Path ${{parameters.ProjectFile}}.csproj'

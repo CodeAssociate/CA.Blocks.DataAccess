@@ -1,0 +1,2 @@
+﻿v.3.5
+- Added build packages for .NET 9
