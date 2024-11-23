@@ -1,7 +1,6 @@
 parameters:
   SemanticVersion: true
   ProjectFile: true
-  RELEASE_NOTES: "default"
 
 
 steps:
@@ -16,7 +15,7 @@ steps:
   displayName: 'Release notes'
   inputs:
     targetType: 'inline'
-    script: echo ${{parameters.RELEASE_NOTES}}
+    script: echo "$(RELEASE_NOTES)"
 
 - task: PowerShell@2
   displayName: 'Set SemanticVersion for ${{parameters.ProjectFile}}'
