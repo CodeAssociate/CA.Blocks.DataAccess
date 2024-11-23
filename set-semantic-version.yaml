@@ -1,6 +1,8 @@
 parameters:
   SemanticVersion: true
   ProjectFile: true
+  RELEASE_NOTES: "default"
+
 
 steps:
 - task: Bash@3
@@ -8,7 +10,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-        echo "##vso[task.setvariable variable=RELEASE_NOTES]$(cat $RELEASE_NOTES_FILE)"  
+        echo "##vso[task.setvariable variable=RELEASE_NOTES]$(cat ${{parameters.SemanticVersion}}/RELEASE-NOTES.txt)"  
   
 - task: PowerShell@2
   displayName: 'Set SemanticVersion for ${{parameters.ProjectFile}}'
