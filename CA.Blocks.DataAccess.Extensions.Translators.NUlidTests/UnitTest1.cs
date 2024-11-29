@@ -16,9 +16,9 @@ namespace CA.Blocks.DataAccess.Extensions.Translators.NUlidTests
             var myulid = Ulid.NewUlid();
 
             
-            TestContext.WriteLine(myulid);
-            TestContext.WriteLine(myulid.ToGuid().ToString());
-            TestContext.WriteLine(myulid.Time);
+            TestContext.Out.WriteLine(myulid);
+            TestContext.Out.WriteLine(myulid.ToGuid().ToString());
+            TestContext.Out.WriteLine(myulid.Time);
 
             var g = myulid.ToGuid();
             var myulidCopy = new Ulid(g.ToByteArray());

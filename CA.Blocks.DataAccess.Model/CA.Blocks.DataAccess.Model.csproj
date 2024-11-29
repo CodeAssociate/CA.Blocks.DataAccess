@@ -15,6 +15,7 @@
 	  <RepositoryType>git</RepositoryType>
 	  <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageReleaseNotes>@RELEASE-NOTES.txt</PackageReleaseNotes>
 	  <PackageReadmeFile>readme.md</PackageReadmeFile>
 	  <IncludeSymbols>True</IncludeSymbols>
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>

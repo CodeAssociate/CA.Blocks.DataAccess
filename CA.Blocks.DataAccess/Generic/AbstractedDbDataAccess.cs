@@ -115,7 +115,7 @@ namespace CA.Blocks.DataAccess.Generic
 		}
 
 
-		protected DataTable GetSchema(string collectionNam, string[] restrictionValues = null)
+		protected override DataTable GetSchema(string collectionNam, string[] restrictionValues = null)
 		{
 			if (_dbConnection == null)
 			{

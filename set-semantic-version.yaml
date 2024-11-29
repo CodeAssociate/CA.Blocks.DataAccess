@@ -1,0 +1,15 @@
+parameters:
+  SemanticVersion: true
+  ProjectFile: true
+
+
+steps:
+- task: PowerShell@2
+  displayName: 'Prep project file for build'
+  inputs:
+      targetType: 'filePath'
+      workingDirectory: '$(Build.SourcesDirectory)/'
+      filePath: 'prep-project-file.ps1'
+      arguments: > # Use this to avoid newline characters in multiline string
+        -project "${{parameters.ProjectFile}}"
+        -version "${{parameters.SemanticVersion}}"

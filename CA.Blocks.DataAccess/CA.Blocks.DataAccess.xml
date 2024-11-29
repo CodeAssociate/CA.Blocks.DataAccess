@@ -879,6 +879,37 @@ public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringR
             The reader is used with one of the public methods.
             </summary>
         </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.Extensions.DbDataReaderAsyncExtensions.ExecuteToEnumerableAsync``1(System.Data.Common.DbDataReader,System.Func{System.Data.IDataReader,``0})">
+            <summary>
+            This allows direct execution of a reader to a IAsyncEnumerable this allows streaming of the data without fetching the entire
+            rowset. This is C# 8.0+ feature so you need .net 6 or greater to use
+            It is important to note when using this method the caller is responsible for closing the reader when done.
+            The connection will remain open until the rowset is closed. Unless you are actively looking for streaming ability
+            it is best to use the ToListOfor ToDictionaryAsync to overrides which will manage the reader connection for you.
+            Also note whilst you can execute the linq lamdas on the IEnumerable this will typically result in the full read.
+            Best to use the IList.
+            Typical cases .Take()
+            FirstOrDefault ()
+            Single()
+            or streaming a very large set with millions of rows. (again with warning you holding the connection open while this is happening.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbReader"></param>
+            <param name="translate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.Extensions.DbDataReaderAsyncExtensions.ExecuteToListAsync``1(System.Data.Common.DbDataReader,System.Func{System.Data.IDataReader,``0})">
+            <summary>
+            This is a private function that that will execute ExecuteToList but does not close the reader.
+            The reader is used with one of the public methods.
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.Translator.Extensions.DbDataReaderAsyncExtensions.ExecuteToDictionaryAsync``2(System.Data.Common.DbDataReader,System.Func{System.Data.IDataReader,``1},System.Func{``1,``0})">
+            <summary>
+            This is a private function that that will execute ExecuteToDictionaryAsync but does not close the reader.
+            The reader is used with one of the public methods.
+            </summary>
+        </member>
         <member name="T:CA.Blocks.DataAccess.Translator.SimpleDbReader2ObjectTranslator`1">
             <summary>
             This allows up to build a simple Translator to deal with IDataReader.

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
+	  <TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <AssemblyVersion>987.654.3210.0</AssemblyVersion>
 	  <FileVersion>987.654.3210.0</FileVersion>
@@ -16,6 +16,7 @@
 	  <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
 	  <PackageReadmeFile>readme.md</PackageReadmeFile>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+      <PackageReleaseNotes>@RELEASE-NOTES.txt</PackageReleaseNotes>
 	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;mysql</PackageTags>
 	  <IncludeSymbols>True</IncludeSymbols>
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -47,7 +48,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySqlConnector" Version="2.3.7" />
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
