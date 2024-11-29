@@ -1,4 +1,7 @@
-﻿namespace CA.Blocks.OdbcDataAccessUnitTests.Examples;
+﻿using System.Runtime.InteropServices;
+#pragma warning disable CA1416 // test done internally
+
+namespace CA.Blocks.OdbcDataAccessUnitTests.Examples;
 
 public static class TestFilePathResolver
 {
@@ -14,43 +17,47 @@ public static class ODBC_Test_Helper
 	private static List<string>? _installedOdbcDrivers = null;
 
 
-	public static List<String> GetSystemDriverList()
+    private static void TryClose(Microsoft.Win32.RegistryKey reg)
+    {
+        try
+        {
+            reg.Close();
+        }
+        catch
+        {
+            /* ignore this exception if we couldn't close */
+        }
+    }
+
+    private static List<String> GetSystemDriverList()
 	{
 		if (_installedOdbcDrivers == null)
 		{
 			List<string> names = new List<string>();
 			// get system dsn's
-			Microsoft.Win32.RegistryKey? reg = (Microsoft.Win32.Registry.LocalMachine).OpenSubKey("Software");
-			if (reg != null)
+			Microsoft.Win32.RegistryKey? sreg = (Microsoft.Win32.Registry.LocalMachine).OpenSubKey("Software");
+			if (sreg != null)
 			{
-				reg = reg.OpenSubKey("ODBC");
-				if (reg != null)
+				var oreg = sreg.OpenSubKey("ODBC");
+				if (oreg != null)
 				{
-					reg = reg.OpenSubKey("ODBCINST.INI");
-					if (reg != null)
+                    var oiReg = oreg.OpenSubKey("ODBCINST.INI");
+					if (oiReg != null)
 					{
 
-						reg = reg.OpenSubKey("ODBC Drivers");
-						if (reg != null)
-						{
-							// Get all DSN entries defined in DSN_LOC_IN_REGISTRY.
-							foreach (string sName in reg.GetValueNames())
-							{
-								names.Add(sName);
-							}
-						}
-
-						try
-						{
-							reg.Close();
-						}
-						catch
-						{
-							/* ignore this exception if we couldn't close */
-						}
-					}
-				}
-			}
+                        var oidReg = oiReg.OpenSubKey("ODBC Drivers");
+						if (oidReg != null)
+                        {
+                            // Get all DSN entries defined in DSN_LOC_IN_REGISTRY.
+                            names.AddRange(oidReg.GetValueNames());
+                            TryClose(oidReg);
+                        }
+                        TryClose(oiReg);
+                    }
+                    TryClose(oreg);
+                }
+                TryClose(sreg);
+            }
 
 			_installedOdbcDrivers = names;
 		}
@@ -60,7 +67,9 @@ public static class ODBC_Test_Helper
 
 	public static bool DriverExists(string driverName)
 	{
-		var list = GetSystemDriverList();
-		return list.Any(x => x == driverName);
+       
+        var list = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? GetSystemDriverList() : new List<String>();
+        
+        return list.Any(x => x == driverName);
 	}
 }

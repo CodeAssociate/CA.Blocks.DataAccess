@@ -8,10 +8,10 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.TextFile
     public class Employee
 	{
 		public int EmployeeID { get; set; }
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
+		public string? FirstName { get; set; }
+		public string? LastName { get; set; }
 
-		public string EmailAddress { get; set; }
+		public string? EmailAddress { get; set; }
 	}
 
 	internal class MyTextFileDataAccess(string connectionString) : TextFileDataAccess(connectionString)
@@ -46,7 +46,7 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.TextFile
 			if (ODBC_Test_Helper.DriverExists("Microsoft Text Driver (*.txt; *.csv)"))
 			{
 				var sourcePath = TestFilePathResolver.ResolveTestFilePath("Examples\\TextFile");
-				TestContext.WriteLine(sourcePath);
+				TestContext.Out.WriteLine(sourcePath);
 				var target = new MyTextFileDataAccess(sourcePath);
 				var employeeList = target.GetEmployees();
 				foreach (var employee in employeeList)
@@ -67,12 +67,12 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.TextFile
 			if (ODBC_Test_Helper.DriverExists("Microsoft Text Driver (*.txt; *.csv)"))
 			{
 				var sourcePath = TestFilePathResolver.ResolveTestFilePath("Examples\\TextFile");
-				TestContext.WriteLine(sourcePath);
+				TestContext.Out.WriteLine(sourcePath);
 				var target = new MyTextFileDataAccess(sourcePath);
 				var employee = target.GetEmployee("steven@northwindtraders.com");
 				if (employee != default)
 				{
-					TestContext.WriteLine(
+					TestContext.Out.WriteLine(
 						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
 			}

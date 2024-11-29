@@ -7,10 +7,10 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Excel
 	public class Employee
 	{
 		public int EmployeeID { get; set; }
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
+		public string? FirstName { get; set; }
+		public string? LastName { get; set; }
 
-		public string EmailAddress { get; set; }
+		public string? EmailAddress { get; set; }
 	}
 
 	internal class MyExcelDb(string connectionString) : ExcelDataAccess(connectionString)
@@ -51,7 +51,7 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Excel
 				var employeeList = target.GetEmployees();
 				foreach (var employee in employeeList)
 				{
-					TestContext.WriteLine(
+					TestContext.Out.WriteLine(
 						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
 			}
@@ -74,7 +74,7 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Excel
 				var employee = target.GetEmployee("steven@northwindtraders.com");
 				if (employee != default)
 				{
-					TestContext.WriteLine(
+					TestContext.Out.WriteLine(
 						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
 			}
