@@ -135,8 +135,6 @@ steps:
 
 - task: NuGetAuthenticate@1
   displayName: 'NuGetAuthenticate' 
-  inputs:
-    nuGetServiceConnections: 'CA.Blocks.NugetFeed'
 
 - task: DotNetCoreCLI@2
   displayName: 'Push NuGet packages'
@@ -146,4 +144,5 @@ steps:
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
     nuGetFeedType: external
     feedsToUse: 'CA.Blocks.NugetFeed'
+    api-key: '$(NugetApiKey)'
     includeNugetOrg: 'true'
