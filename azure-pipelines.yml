@@ -137,17 +137,23 @@ steps:
 
 - task: NuGetAuthenticate@1
   displayName: 'NuGetAuthenticate' 
-  inputs:
-    nuGetServiceConnections: 'CA.Blocks.NugetFeed'
 
-- task: NuGetCommand@2
-  displayName: 'NuGet Push' 
-  condition: "eq('true', variables['PublishPackage'])"
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet nuget push'
   inputs:
-    command: push
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
-    nuGetFeedType: external
-    publishFeedCredentials: 'CA.Blocks.NugetFeed'
+    command: custom
+    custom: nuget
+    arguments: 'push "$(Build.ArtifactStagingDirectory)/**/*.nupkg" -Source "https://api.nuget.org/v3/index.json" -ApiKey $(NugetApiKey)'
+
+
+# - task: NuGetCommand@2
+#   displayName: 'NuGet Push' 
+#   condition: "eq('true', variables['PublishPackage'])"
+#   inputs:
+#     command: push
+#     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+#     nuGetFeedType: external
+#     publishFeedCredentials: 'CA.Blocks.NugetFeed'
 
 # - task: DotNetCoreCLI@2
 #   displayName: 'Push NuGet packages'
