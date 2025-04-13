@@ -143,6 +143,6 @@ steps:
     command: 'push'
     packagesToPush: '$(build.artifactstagingdirectory)/**/*.nupkg'
     nuGetFeedType: external
-    feedsToUse: 'CA.Blocks.NugetFeed'
+    publishFeed: 'CA.Blocks.NugetFeed'
     api-key: '$(NugetApiKey)'
     includeNugetOrg: 'true'
