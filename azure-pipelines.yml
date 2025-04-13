@@ -135,7 +135,7 @@ steps:
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
 
-- task: NuGetCommand@2
+- task: NuGetAuthenticate@1
   displayName: 'NuGet Push' 
   condition: "eq('true', variables['PublishPackage'])"
   inputs:
