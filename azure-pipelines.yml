@@ -135,7 +135,6 @@ steps:
 
 - task: NuGetAuthenticate@1
   displayName: 'NuGetAuthenticate' 
-  condition: "eq('true', variables['PublishPackage'])"
   inputs:
     nuGetServiceConnections: 'CA.Blocks.NugetFeed'
 
