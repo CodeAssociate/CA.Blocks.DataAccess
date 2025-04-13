@@ -139,9 +139,12 @@ steps:
   inputs:
     nuGetServiceConnections: 'CA.Blocks.NugetFeed'
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
+  displayName: 'Push NuGet packages'
+  condition: "eq('true', variables['PublishPackage'])"
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
     nuGetFeedType: external
+    feedsToUse: 'CA.Blocks.NugetFeed'
     includeNugetOrg: 'true'
