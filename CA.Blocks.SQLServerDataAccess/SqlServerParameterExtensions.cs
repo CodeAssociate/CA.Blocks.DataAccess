@@ -655,5 +655,6 @@ namespace CA.Blocks.SQLServerDataAccess
                 TypeName = tableTypeName
             };
         }
+
     }
 }

@@ -1,2 +1,4 @@
 ﻿v.3.5
 - Added build packages for .NET 9
+- Added SafeSqlBuilder to help build on sql statements based on Interpolated String with full parameter support
+- Add SqlParameterHelper to help build sets of Sqlparamters with out using all the vebose synatax of using ToSqlParameter()

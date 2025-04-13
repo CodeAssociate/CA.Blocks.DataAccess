@@ -7,6 +7,7 @@ using CA.Blocks.DataAccess.DI;
 using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
+using CA.Blocks.SQLServerDataAccess.Builder;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
@@ -102,6 +103,17 @@ WHERE xtype = @xtype";
 	                .WithParameter(xtype.ToSqlParameter("@xtype"));
                 return Execute(cmd).ToListOf<ExampleSysObject>();
             }
+
+
+            public IList<ExampleSysObject> ReadSysObjectsOfTypeInterpolatedString(string xtype)
+            {
+                var sqlBuilder = new SafeSqlBuilder();
+                sqlBuilder.AddSql($"SELECT  TOP 10 id as Id, name as Name, xtype as XType, crdate as CreateDate FROM sysobjects WHERE xtype = {xtype:@xtype}");
+
+                return Execute(sqlBuilder.BuildSqlCommand()).ToListOf<ExampleSysObject>();
+            }
+
+
 
             public async Task<IList<ExampleSysObject>> ReadSysObjectsOfTypeUsingAsync(string xtype)
             {
@@ -210,6 +222,20 @@ WHERE xtype = @xtype";
             return sw.ElapsedTicks / 10;
         }
 
+        private long GetSysObjectByNameSyncInterpolatedString(ExampleReadDataAsExecuteListOf target, bool printResults)
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            var executeResult = target.ReadSysObjectsOfTypeInterpolatedString("U");
+            sw.Stop();
+            if (printResults)
+            {
+                printResultsOut(executeResult);
+            }
+            return sw.ElapsedTicks / 10;
+        }
+
+
         private async Task<long> GetSysObjectByNameAsyncSync(ExampleReadDataAsExecuteListOf target, bool printResults)
         {
             Stopwatch sw = new Stopwatch();
@@ -246,10 +272,33 @@ WHERE xtype = @xtype";
                 {
                     TestContext.WriteLine($"try {i} ASyncWinner - {syncTime} vrs {asyncTime}" );
                 }
+            }
+        }
+
+        [Test]
+        public async Task GetSysObjectByNameInterpolatedString()
+        {
+
+            var target = new ExampleReadDataAsExecuteListOf();
+            GetSysObjectByNameSync(target, true);
+            GetSysObjectByNameSyncInterpolatedString(target, true);
+
+            for (int i = 1; i < 10; i++)
+            {
+                var directTime = GetSysObjectByNameSync(target, false);
+                var interpolatedTime = GetSysObjectByNameSyncInterpolatedString(target, false);
+
+                if (directTime < interpolatedTime)
+                {
+                    TestContext.WriteLine($"try {i} InterpolatedWinner - {directTime} vrs {interpolatedTime}");
+                }
+                else
+                {
+                    TestContext.WriteLine($"try {i} DirectWinner - {directTime} vrs {interpolatedTime}");
+                }
 
             }
 
         }
-
     }
 }

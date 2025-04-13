@@ -500,7 +500,27 @@ namespace CA.Blocks.DataAccess
         protected T ExecuteScalarAs<T>(IDbCommand cmd) 
         {
             var result = ExecuteScalar(cmd);
-            return  (result == null || result == DBNull.Value) ? default : (T)result;
+            if (result == null || result == DBNull.Value)
+                return default;
+#if NET6_0_OR_GREATER
+            if (typeof(T) == typeof(DateOnly))
+            {
+                // waiting for driver support
+                var dt = (DateTime)result;
+                var dateOnly = new DateOnly(dt.Year, dt.Month, dt.Day);
+                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
+            }
+            if (typeof(T) == typeof(TimeOnly))
+            {
+                // waiting for driver support
+                var ts = (TimeSpan)result;
+                var timeOnly = new TimeOnly(ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds, ts.Nanoseconds);
+                
+                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
+            }
+#endif
+
+            return (T)result;
         }
 
         protected async Task<T> ExecuteScalarAsAsync<T>(IDbCommand cmd)
@@ -520,13 +540,55 @@ namespace CA.Blocks.DataAccess
         protected T ExecuteScalarWithConvertAs<T>(IDbCommand cmd)
         {
             Object result = ExecuteScalar(cmd);
-            return (result == null || result == DBNull.Value) ? default : (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());
+            if (result == null || result == DBNull.Value)
+                return default;
+#if NET6_0_OR_GREATER
+            if (typeof(T) == typeof(DateOnly))
+            {
+                // waiting for driver support
+                var dt = (DateTime)result;
+                var dateOnly = new DateOnly(dt.Year, dt.Month, dt.Day);
+                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
+            }
+            if (typeof(T) == typeof(TimeOnly))
+            {
+                // waiting for driver support
+                var ts = (TimeSpan)result;
+                var timeOnly = new TimeOnly(ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds, ts.Nanoseconds);
+
+                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
+            }
+#endif          
+
+            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());
+            
+             
         }
 
         protected async Task<T> ExecuteScalarWithConvertAsAsync<T>(IDbCommand cmd)
         {
             Object result = await ExecuteScalarAsync(cmd);
-            return (result == null || result == DBNull.Value) ? default : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());
+            if (result == null || result == DBNull.Value)
+                return default;
+#if NET6_0_OR_GREATER
+            if (typeof(T) == typeof(DateOnly))
+            {
+                // waiting for driver support
+                var dt = (DateTime)result;
+                var dateOnly = new DateOnly(dt.Year, dt.Month, dt.Day);
+                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
+            }
+            if (typeof(T) == typeof(TimeOnly))
+            {
+                // waiting for driver support
+                var ts = (TimeSpan)result;
+                var timeOnly = new TimeOnly(ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds, ts.Nanoseconds);
+
+                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
+            }
+#endif
+
+            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());
         }
 
 
