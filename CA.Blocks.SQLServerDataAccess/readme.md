@@ -51,6 +51,17 @@ WHERE xtype = @xtype";
 	            .WithParameter(xtype.ToSqlParameter("@xtype"));
             return await ExecuteAsync(cmd).ToListOf<ExampleSysObject>();
         }
+
+        public async Task<IList<ExampleSysObject>> ReadSysObjectsOfTypeWithSqlBuilderAsync(string xtype)
+        {
+            var sqlBuilder = new SafeSqlBuilder();
+            sqlBuilder.AddSql($"SELECT  TOP 10 id as Id, name as Name, xtype as XType, crdate as CreateDate FROM sysobjects WHERE xtype = {xtype:@xtype}");
+            // this will build a valid sql statement with full parementer support. 
+            // the sql will be "SELECT  TOP 10 id as Id, name as Name, xtype as XType, crdate as CreateDate FROM sysobjects WHERE xtype = @xtype}" with the xtype passed in as a parameter
+
+            return await ExecuteAsync(sqlBuilder.BuildSqlCommand()).ToListOf<ExampleSysObject>();
+        }
+
     }
     
 ```

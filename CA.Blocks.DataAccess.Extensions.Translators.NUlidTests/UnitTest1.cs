@@ -69,7 +69,7 @@ namespace CA.Blocks.DataAccess.Extensions.Translators.NUlidTests
                 sb.AppendLine($"),");
             }
 
-            TestContext.WriteLine(sb.ToString());
+            TestContext.Out.WriteLine(sb.ToString());
 
         }
 

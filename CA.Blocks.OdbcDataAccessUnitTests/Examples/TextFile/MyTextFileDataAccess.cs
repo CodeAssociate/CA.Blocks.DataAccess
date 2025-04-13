@@ -51,7 +51,7 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.TextFile
 				var employeeList = target.GetEmployees();
 				foreach (var employee in employeeList)
 				{
-					TestContext.WriteLine(
+					TestContext.Out.WriteLine(
 						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
 			}

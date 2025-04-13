@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
+using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccessTestDataForUnitTests.BaseTests;
 using CA.Blocks.DataAccessTestDataForUnitTests.TestTypes;
 using CA.Blocks.SQLServerDataAccess;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests
 {
-
     [TestFixture]
     public class SqlParameterExtensionsTests : BaseToSqlParameterTests 
     {
@@ -20,6 +23,39 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
         {
             return ToSqlParameterTypeTestMain<T, SqlParameter>(typeof(SqlServerParameterExtensions), test, expectedDbType);
         }
+
+
+
+        //[Test]
+        //public void bla()
+        //{
+            
+        //    // Setup
+        //    int? target = TestDotNetTypesToSqlParameter.TestInt32;
+        //    string targetName = TestDotNetTypesToSqlParameter.TestAsciiString;
+        //    string Unicode = TestDotNetTypesToSqlParameter.TestUnicodeString;
+        //    var tt = target.ToSqlParameter("@target");
+
+
+        //    var paramValues = SqlParameterHelper.AsSqlParameters(
+        //         new ParameterMap(target, nameof(target)),
+        //         new ParameterMap(targetName, nameof(targetName), "varchar"),
+        //         new ParameterMap(Unicode, nameof(Unicode))
+        //    );
+
+        //    //Act
+        //    var sqlparam = paramValues[0];
+        //    //Assert
+        //    ClassicAssert.AreEqual(DbType.Int32, sqlparam.DbType);
+        //    ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
+        //    ClassicAssert.AreEqual("@target", sqlparam.ParameterName);
+        //    ClassicAssert.AreEqual(target, sqlparam.Value);
+
+        //    ClassicAssert.AreEqual(DbType.AnsiString, paramValues[1].DbType);
+        //    ClassicAssert.AreEqual(ParameterDirection.Input, paramValues[1].Direction);
+        //    ClassicAssert.AreEqual("@targetName", paramValues[1].ParameterName);
+        //    ClassicAssert.AreEqual(targetName, paramValues[1].Value);
+        //}
 
 
         [Test]
