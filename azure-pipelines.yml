@@ -87,14 +87,16 @@ steps:
   parameters:
     SemanticVersion: "$(SemanticVersion)"
     ProjectFile: "CA.Blocks.OdbcDataAccess"
-    
+
+- task: NuGetToolInstaller@1
+  displayName: 'NuGetToolInstaller' 
+  
 - task: UseDotNet@2
   displayName: 'Install .NET 9 SDK'
   continueOnError: false
   inputs:
     packageType: 'sdk'
     version: '9.0.x'
-    
     
 - task: DotNetCoreCLI@2
   displayName: 'Restore packages'
@@ -135,14 +137,25 @@ steps:
 
 - task: NuGetAuthenticate@1
   displayName: 'NuGetAuthenticate' 
+  inputs:
+    nuGetServiceConnections: 'CA.Blocks.NugetFeed'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Push NuGet packages'
+- task: NuGetCommand@2
+  displayName: 'NuGet Push' 
   condition: "eq('true', variables['PublishPackage'])"
   inputs:
-    command: 'push'
-    packagesToPush: '$(build.artifactstagingdirectory)/**/*.nupkg'
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
     nuGetFeedType: external
-    publishFeed: 'CA.Blocks.NugetFeed'
-    api-key: '$(NugetApiKey)'
-    includeNugetOrg: 'true'
+    publishFeedCredentials: 'CA.Blocks.NugetFeed'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Push NuGet packages'
+#   condition: "eq('true', variables['PublishPackage'])"
+#   inputs:
+#     command: 'push'
+#     packagesToPush: '$(build.artifactstagingdirectory)/**/*.nupkg'
+#     nuGetFeedType: external
+#     publishFeed: 'CA.Blocks.NugetFeed'
+#     api-key: '$(NugetApiKey)'
+#     includeNugetOrg: 'true'
