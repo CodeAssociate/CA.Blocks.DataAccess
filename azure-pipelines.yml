@@ -88,8 +88,6 @@ steps:
     SemanticVersion: "$(SemanticVersion)"
     ProjectFile: "CA.Blocks.OdbcDataAccess"
     
-- task: NuGetToolInstaller@1
-
 - task: UseDotNet@2
   displayName: 'Install .NET 9 SDK'
   continueOnError: false
@@ -136,10 +134,14 @@ steps:
     PathtoPublish: '$(build.artifactstagingdirectory)'
 
 - task: NuGetAuthenticate@1
-  displayName: 'NuGet Push' 
+  displayName: 'NuGetAuthenticate' 
   condition: "eq('true', variables['PublishPackage'])"
   inputs:
-    command: push
+    nuGetServiceConnections: 'CA.Blocks.NugetFeed'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
     nuGetFeedType: external
-    publishFeedCredentials: CA.Blocks.NugetFeed 
+    includeNugetOrg: 'true'
