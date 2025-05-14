@@ -15,6 +15,7 @@ namespace CA.Blocks.SQLServerDataAccess.Builder
         {
             _sb.Append(sql);
         }
+
         public void AddSql(SqlStringHandler builder)
         {
             _sb.Append(builder.GetFormattedText());

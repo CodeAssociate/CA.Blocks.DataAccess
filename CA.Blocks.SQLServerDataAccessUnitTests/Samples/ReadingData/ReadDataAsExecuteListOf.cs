@@ -276,7 +276,7 @@ WHERE xtype = @xtype";
         }
 
         [Test]
-        public async Task GetSysObjectByNameInterpolatedString()
+        public void GetSysObjectByNameInterpolatedString()
         {
 
             var target = new ExampleReadDataAsExecuteListOf();
@@ -296,9 +296,7 @@ WHERE xtype = @xtype";
                 {
                     TestContext.WriteLine($"try {i} DirectWinner - {directTime} vrs {interpolatedTime}");
                 }
-
             }
-
         }
     }
 }

@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Data;
+using CA.Blocks.DataAccess;
 
 namespace CA.Blocks.SQLServerDataAccess
 {
-    public interface ITypeToDbTypeProvider<T>
-    {
-        void TryAdd(Type type, T sqlDbType, string specificType = "", bool errorOnExists = false);
-        T Resolve(Type type, string byName = "");
-    }
 
     public interface ITypeToSqlDbTypeProvider : ITypeToDbTypeProvider<SqlDbType>
     {
-  
-        /*
-        IDbColToTypeConverter Resolve<T>(string byName = "");
-        IDbColToTypeConverter Resolve(Type targetType, string byName = "");
-        void Add<T>(IDbColToTypeConverter<T> typeConverter, string byName = "");
-        void TryAdd<T>(IDbColToTypeConverter<T> typeConverter, string byName = "", bool errorOnExists = false);
-        */
+        
     }
+
+    
+
 
     public class DefaultTypeToSqlDbTypeProvider : ITypeToSqlDbTypeProvider
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Data;
 using CA.Blocks.SQLServerDataAccess.Builder;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
@@ -21,7 +22,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
             Assert.That(sqlcmd.Parameters[0].Value, value == null ? Is.EqualTo(DBNull.Value) : Is.EqualTo(value));
             if (typeof(T) == typeof(TimeOnly))
             {
-                Assert.That(result.ToString(), Is.EqualTo(value.ToString()));
+                Assert.That(result!.ToString(), Is.EqualTo(value!.ToString()));
             }
             else
             {
@@ -220,7 +221,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
         [Test]
         public void StringNullTest()
         {
-            TestRoundTripType<string>(null);
+            TestRoundTripType<string?>(null);
         }
 
 
