@@ -195,7 +195,15 @@ namespace CA.Blocks.DataAccess
                     }
                 }
             }
-            throw new AggregateException(exceptions);
+
+            if (exceptions != null)
+            {
+                throw new AggregateException(exceptions);
+            }
+            else
+            {
+                throw new Exception("Ünexpected exit with no exceptions");
+            }
         }
 
         private async Task<T> ExecuteWithTransientErrorRetryAsync<T>(Func<Task<T>> action, IDbCommand cmd, bool autoCloseConnection = true)
@@ -253,7 +261,14 @@ namespace CA.Blocks.DataAccess
                     }
                 }
             }
-            throw new AggregateException(exceptions);
+            if (exceptions != null)
+            {
+                throw new AggregateException(exceptions);
+            }
+            else
+            {
+                throw new Exception("Ünexpected exit with no exceptions");
+            }
         }
 
 		#endregion

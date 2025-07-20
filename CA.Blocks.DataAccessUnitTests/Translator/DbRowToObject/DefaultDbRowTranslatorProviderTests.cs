@@ -15,7 +15,10 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
             public int Id { get; set; }
             public string? Name { get; set; }
             // ReSharper disable once UnusedMember.Global We are testing this case
-            public int IgnoreMe  { get;}
+            public int IgnoreMe
+            {
+                get { return 1; }
+            } 
         }
 
         //We only need the structure to generate the mapping

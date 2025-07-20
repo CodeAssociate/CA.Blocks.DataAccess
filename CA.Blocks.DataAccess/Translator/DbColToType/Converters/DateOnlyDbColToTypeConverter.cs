@@ -1,10 +1,10 @@
-﻿using System;
+﻿#if NET6_0_OR_GREATER
+using System;
 using System.Data;
+
 
 namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 {
-
-#if NET6_0_OR_GREATER
     public class DateOnlyDbColToTypeConverter : BaseDbColToTypeConverter<DateOnly>
     {
         public override DateOnly GetDataValue(DataRow dr, string columnName)
@@ -50,5 +50,6 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
             return dr.AsNullDateOnly(columnIndex);
         }
     }
-#endif
+
 }
+#endif

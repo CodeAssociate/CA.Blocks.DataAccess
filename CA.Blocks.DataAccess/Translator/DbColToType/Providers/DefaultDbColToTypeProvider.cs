@@ -133,8 +133,6 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
 
         private IDbColToTypeConverter CreateEnumTypeConverterFor(Type targetType)
         {
-            IDbColToTypeConverter result = null;
-
             Type concreteConverter;
             if (Nullable.GetUnderlyingType(targetType) != null)
             {
@@ -146,7 +144,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
                 Type genericConverter = typeof(EnumDbColToTypeConverter<>);
                 concreteConverter = genericConverter.MakeGenericType(targetType);
             }
-            result = (IDbColToTypeConverter)Activator.CreateInstance(concreteConverter, true);
+            var result = (IDbColToTypeConverter)Activator.CreateInstance(concreteConverter, true);
 
             return result;
 

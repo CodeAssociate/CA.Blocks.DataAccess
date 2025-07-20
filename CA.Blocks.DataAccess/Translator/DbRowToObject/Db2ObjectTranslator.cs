@@ -66,7 +66,10 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
             {
                 object data = mapping.Converter.GetData(dr, mapping.SourceNameName);
                 PropertyInfo pi = item.GetType().GetProperty(mapping.DestinationName);
-                pi.SetValue(item, data, null);
+                if (pi != null)
+                {
+                    pi.SetValue(item, data, null);
+                }
             }
             CustomTranslate(dr, item);
         }
@@ -77,7 +80,10 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
             {
                 object data = mapping.Converter.GetData(dr, mapping.SourceNameName);
                 PropertyInfo pi = item.GetType().GetProperty(mapping.DestinationName);
-                pi.SetValue(item, data, null);
+                if (pi != null)
+                {
+                    pi.SetValue(item, data, null);
+                }
             }
             CustomTranslate(dr, item);
         }

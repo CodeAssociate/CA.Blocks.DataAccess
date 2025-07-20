@@ -8,14 +8,31 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
 
     public static class DataTableHelpers
     {
-        private static void PopulateValueRowFrom<T>(DataRow target, T source)
+        private static void PopulateValueRowFrom<T>(DataRow target, T source) 
         {
-            target[0] = source;
+            if (source == null)
+            {
+                target[0] = DBNull.Value;
+            }
+            else
+            {
+                target[0] = source;
+            }
+            
         }
 
         private static void SetupValueDataTableColumns(DataTable target, Type type)
         {
-            target.Columns.Add("Value", type);
+            var nullableType = Nullable.GetUnderlyingType(type);
+            if (nullableType != null)
+            {
+                var dc = target.Columns.Add("Value", nullableType);
+                dc.AllowDBNull = true;
+            }
+            else
+            {
+                target.Columns.Add("Value", type);
+            }
         }
 
         private static void PopulateObjectRowFrom<T>(DataRow target, T source)
@@ -31,17 +48,14 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
                     {
                         continue;
                     }
-                    target[pi.Name] = pi.GetValue(source);
+                    var value = pi.GetValue(source);
+                    target[pi.Name] = value ?? DBNull.Value;
                 }
             }
         }
 
         private static void SetupObjectDataTableColumns(DataTable target, Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException("The type cannot be null");
-            }
             var propertyInfos = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var pi in propertyInfos)
             {
@@ -52,7 +66,16 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
                     {
                         continue;
                     }
-                    target.Columns.Add(pi.Name, pi.PropertyType);
+                    var nullableType = Nullable.GetUnderlyingType(pi.PropertyType);
+                    if (nullableType != null)
+                    {
+                        var dc = target.Columns.Add(pi.Name, nullableType);
+                        dc.AllowDBNull = true;
+                    }
+                    else
+                    {
+                        target.Columns.Add(pi.Name, pi.PropertyType);
+                    }
                 }
 
             }
