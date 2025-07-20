@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CA.Blocks.DataAccess.Builders
 {
-    public abstract class SqlStringBuilder<SP>()
+    public abstract class SqlStringBuilder<SP>
         where SP : class, IDataParameter
     {
         private StringBuilder _sqlsb = new StringBuilder();

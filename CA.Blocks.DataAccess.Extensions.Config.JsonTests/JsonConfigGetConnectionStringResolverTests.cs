@@ -39,7 +39,7 @@ namespace CA.Blocks.DataAccess.Extensions.Config.JsonTests
         }
 
 
-        public class ConnectionStringDbTest : CA.Blocks.DataAccess.DataAccessCore
+        public class ConnectionStringDbTest : DataAccessCore
         {
             public ConnectionStringDbTest() : base(new JsonConfigGetConnectionStringResolverDataAccessConfig(_testConfig, "JsonConfigGetConnectionStringResolverKEY"), null)
             {

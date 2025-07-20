@@ -64,7 +64,7 @@ namespace CA.Blocks.DataAccessUnitTests.Base
 
         public object this[string name] => resultSet.Rows[currentPosition][name];
 
-        object System.Data.IDataRecord.this[int i] => resultSet.Rows[currentPosition][i];
+        object IDataRecord.this[int i] => resultSet.Rows[currentPosition][i];
 
         public object GetValue(int i)
         {

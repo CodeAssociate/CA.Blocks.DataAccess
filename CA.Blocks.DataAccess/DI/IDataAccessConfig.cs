@@ -11,7 +11,7 @@ namespace CA.Blocks.DataAccess.DI
     public class DataAccessConfig : IDataAccessConfig
     {
 
-        [System.Obsolete(@"The parameter for configName is no longer used and can safely be removed, 
+        [Obsolete(@"The parameter for configName is no longer used and can safely be removed, 
 The intent was to have the ability to has a single database component to multiple databases, this was never implemented fully as the there are to may combinations
 like sharding, split schemas, horizontal segmentation     
 we delegate this responsibility to the delegate to the IDataAccessKeyToConnectionStringResolver and assume each Data layer is connecting to a 

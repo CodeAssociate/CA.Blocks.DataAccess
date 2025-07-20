@@ -131,32 +131,32 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.TestSets.DateDimension
             IsFirstMondayInMonth = GetFirstMondayInMonth(date) == date;
         }
 
-        public DateTime Date { get; set; }
-        public string DateKey { get; set; }
+        public DateTime Date { get; private set; }
+        public string DateKey { get; private set; }
 
-        public short Year { get; set; }
-        public byte Month { get; set; }
-        public byte Day { get; set; }
+        public short Year { get; private set; }
+        public byte Month { get; private set; }
+        public byte Day { get; private set; }
 
-        public byte DayOfWeek { get; set; } // 0 is sunday
+        public byte DayOfWeek { get; private set; } // 0 is sunday
 
-        public short DayOfYear { get; set; }
+        public short DayOfYear { get; private set; }
 
-        public string Quarter { get; set; } // we assume Quarter runs by physical year ir Jan Feb Mar is Q1
+        public string Quarter { get; private set; } // we assume Quarter runs by physical year ir Jan Feb Mar is Q1
 
-        public string QuarterKey { get; set; }
+        public string QuarterKey { get; private set; }
 
-        public string MonthKey { get; set; }
-        public string MonthShortName { get; set; }
-        public string MonthName { get; set; }
-        public string DayName { get; set; }
+        public string MonthKey { get; private set; }
+        public string MonthShortName { get; private set; }
+        public string MonthName { get; private set; }
+        public string DayName { get; private set; }
 
-        public bool IsFirstDayMonth { get; set; }
-        public bool IsLastDayMonth { get; set; }
-        public bool IsLastWeekdayInMonth { get; set; }
-        public bool IsFirstWeekDayInMonth { get; set; }
-        public bool IsLastFridayInMonth { get; set; }
-        public bool IsFirstMondayInMonth { get; set; }
+        public bool IsFirstDayMonth { get; private set; }
+        public bool IsLastDayMonth { get; private set; }
+        public bool IsLastWeekdayInMonth { get; private set;}
+        public bool IsFirstWeekDayInMonth { get; private set; }
+        public bool IsLastFridayInMonth { get; private set; }
+        public bool IsFirstMondayInMonth { get; private set; }
     }
 
 

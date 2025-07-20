@@ -20,7 +20,22 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
             Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
             Assert.That(result.Rows.Count, Is.EqualTo(9));
         }
+        
+        
+        [TestCase]
+        public void ToValueDataTable_NullInt()
+        {
+            var testList = new List<int?> { null, 1 };
 
+            var result = testList.ToValueDataTable();
+
+            ClassicAssert.IsNotNull(result);
+            Assert.That(result.Columns.Count, Is.EqualTo(1));
+            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Value"));
+            Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
+            Assert.That(result.Rows.Count, Is.EqualTo(2));
+        }
+        
         [TestCase]
         public void ToValueDataTable_String()
         {
@@ -41,9 +56,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
             public int Id { get; set; }
             public string Value { get; set; } = null!;
         }
-
-
-
+        
         [TestCase]
         public void ToDataTable_Object()
         {
@@ -68,6 +81,36 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
             Assert.That(result.Rows[0][1], Is.EqualTo("a"));
         }
 
+        public class TestComplexObjectWithNull
+        {
+            public int? Id { get; set; }
+            public string? Value { get; set; } = null!;
+        }
+        
+        [TestCase]
+        public void ToDataTable_ObjectWithNull()
+        {
+            var testList = new List<TestComplexObjectWithNull>
+            {
+                new TestComplexObjectWithNull{Id = 1, Value = null},
+                new TestComplexObjectWithNull{Id = null, Value = "b"},
+                new TestComplexObjectWithNull{Id = 3, Value = "c"},
+                new TestComplexObjectWithNull{Id = null, Value = null },
+            };
+
+            var result = testList.ToObjectDataTable();
+
+            ClassicAssert.IsNotNull(result);
+            Assert.That(result.Columns.Count, Is.EqualTo(2));
+            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Id"));
+            Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
+            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("Value"));
+            Assert.That(result.Columns[1].DataType, Is.EqualTo(typeof(string)));
+            Assert.That(result.Rows.Count, Is.EqualTo(4));
+            Assert.That(result.Rows[0][0], Is.EqualTo(1));
+            Assert.That(result.Rows[0][1], Is.EqualTo(DBNull.Value));
+        }
+        
 
         private static void CustomPopulateObject(DataRow target, TestComplexObject source)
         {

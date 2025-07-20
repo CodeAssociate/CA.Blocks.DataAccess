@@ -37,7 +37,7 @@ namespace CA.Blocks.DataAccess.Extensions
         {
             int? result = null;
             var sqlParam = cmd.Parameters["Return"];
-            if (sqlParam != null && sqlParam.DbType == DbType.Int32 && sqlParam.Direction == ParameterDirection.ReturnValue)
+            if (sqlParam.DbType == DbType.Int32 && sqlParam.Direction == ParameterDirection.ReturnValue)
             {
                 if (sqlParam.Value != null && sqlParam.Value != DBNull.Value)
                     result = (int)sqlParam.Value;
