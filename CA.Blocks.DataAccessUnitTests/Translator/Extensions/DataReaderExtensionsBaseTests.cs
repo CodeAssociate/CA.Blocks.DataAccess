@@ -13,6 +13,14 @@ public class DataReaderExtensionsBaseTests
         public DateTime DateCol { get; set; }
     }
 
+    protected class TestDataObjectRequired
+    {
+        public required int IntCol { get; set; }
+        public string? StringCol { get; set; }
+        public required Guid GuidCol { get; set; }
+        public DateTime DateCol { get; set; }
+    }
+
     protected DataTable GenerateTestData(int count)
     {
         return GenerateTestData(1, count);

@@ -48,7 +48,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
                 new DbColToTypeMapping{DestinationName = "Id2", SourceNameName = "id", Converter  = new LongDbColToTypeConverter()},
                 new DbColToTypeMapping{DestinationName = "Name2", SourceNameName = "name", Converter  = new StringDbColToTypeConverter()},
             }
-        })
+        }, () => new temp2())
         {
         }
     }

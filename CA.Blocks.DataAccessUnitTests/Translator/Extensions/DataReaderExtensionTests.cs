@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using CA.Blocks.DataAccess.Translator.Extensions;
-using CA.Blocks.DataAccessUnitTests.Translator.Extensions;
-using NUnit.Framework;
+﻿using CA.Blocks.DataAccess.Translator.Extensions;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
 {
@@ -20,6 +16,21 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             var result = dataReader.ToListOf<TestDataObject>();
             Assert.That(result.Count, Is.EqualTo(numberOfRecords));
             Assert.That(numberOfRecords, Is.EqualTo(result[numberOfRecords -1].IntCol));
+            Assert.That(result.Count(x => x.DateCol < testDate), Is.EqualTo(0));
+        }
+
+
+
+        [Test]
+        public void DataReaderExtensions_ToListOf2()
+        {
+            var numberOfRecords = 10;
+            var testDate = DateTime.Now;
+            var dataReader = GenerateTestDataReader(numberOfRecords);
+
+            var result = dataReader.ToListOf<TestDataObjectRequired>();
+            Assert.That(result.Count, Is.EqualTo(numberOfRecords));
+            Assert.That(numberOfRecords, Is.EqualTo(result[numberOfRecords - 1].IntCol));
             Assert.That(result.Count(x => x.DateCol < testDate), Is.EqualTo(0));
         }
 
