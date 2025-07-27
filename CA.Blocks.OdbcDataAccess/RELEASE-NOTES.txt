@@ -1,2 +1,5 @@
-﻿v.3.5
+﻿v.3.6
+- Bump System.Data.Odbc to 9.0.7
+
+v.3.5
 - Added build packages for .NET 9

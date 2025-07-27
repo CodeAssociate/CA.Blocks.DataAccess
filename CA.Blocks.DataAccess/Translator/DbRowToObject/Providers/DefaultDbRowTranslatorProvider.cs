@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions;
+﻿using CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbColToType.Mappings;
 using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Mappings;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
 {
@@ -26,7 +27,15 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             return string.IsNullOrWhiteSpace(byName) ? $"{targetType}" : $"{targetType}-{byName}";
         }
 
-        public DbRowToObjectMappings GenerateDefaultMappingsFor<T>() where T : new()
+        private Func<T> NewFactoryFor<T>()
+        {
+            var expression = Expression.New(typeof(T));
+            Expression<Func<T>> lambda = Expression.Lambda<Func<T>>(expression);
+            return lambda.Compile();
+        }
+
+
+        public DbRowToObjectMappings GenerateDefaultMappingsFor<T>()
         {
             DbRowToObjectMappings mappings = new DbRowToObjectMappings();
             var myObjectFields = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -100,7 +109,10 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             TryAdd(translator, byName);
         }
 
-        public IDbRowTranslator<T> Resolve<T>(string byName = "") where T : new()
+
+
+
+        public IDbRowTranslator<T> Resolve<T>(string byName = "")
         {
             var targetType = typeof(T);
             var key = GetKey(targetType, byName);
@@ -109,7 +121,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             {
                 if (targetType.IsClass)
                 {
-                    typeConverter = new Db2ObjectTranslator<T>(GenerateDefaultMappingsFor<T>());
+                    typeConverter = new Db2ObjectTranslator<T>(GenerateDefaultMappingsFor<T>(), NewFactoryFor<T>());
                     TryAdd<T>(key, (IDbRowTranslator<T>)typeConverter, false);
                 }
                 else

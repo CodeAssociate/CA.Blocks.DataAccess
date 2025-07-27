@@ -7,7 +7,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 {
     public static class DataReaderSingleRowExtensions
     {
-        public static T ToFirstOrDefault<T>(this IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        public static T ToFirstOrDefault<T>(this IDataReader dbReader, Func<IDataReader, T> translate)
         {
             T result;
             try
@@ -20,13 +20,13 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             }
             return result;
         }
-        public static T ToFirstOrDefault<T>(this IDataReader dbReader) where T : new()
+        public static T ToFirstOrDefault<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             return ToFirstOrDefault(dbReader, translator.Translate);
         }
 
-        public static T ToFirst<T>(this IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        public static T ToFirst<T>(this IDataReader dbReader, Func<IDataReader, T> translate)
         {
             T result = ToFirstOrDefault(dbReader, translate);
             if (result == null || result.Equals(default(T)))
@@ -36,13 +36,13 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return result;
         }
 
-        public static T ToFirst<T>(this IDataReader dbReader) where T : new()
+        public static T ToFirst<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             return ToFirst(dbReader, translator.Translate);
         }
 
-        public static T ToSingle<T>(this IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        public static T ToSingle<T>(this IDataReader dbReader, Func<IDataReader, T> translate) 
         {
 
             T result = ToSingleOrDefault(dbReader, translate);
@@ -53,13 +53,13 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return result;
         }
 
-        public static T ToSingle<T>(this IDataReader dbReader) where T : new()
+        public static T ToSingle<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             return ToSingle(dbReader, translator.Translate);
         }
 
-        public static T ToSingleOrDefault<T>(this IDataReader dbReader, Func<IDataReader, T> translate) where T : new()
+        public static T ToSingleOrDefault<T>(this IDataReader dbReader, Func<IDataReader, T> translate)
         {
             T result;
             try
@@ -77,7 +77,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return result;
         }
 
-        public static T ToSingleOrDefault<T>(this IDataReader dbReader) where T : new()
+        public static T ToSingleOrDefault<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             return ToSingleOrDefault(dbReader, translator.Translate);

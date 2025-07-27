@@ -62,7 +62,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         }
 
 
-		public static IList<T> ToListOf<T>(this IDataReader dbReader) where T : new()
+		public static IList<T> ToListOf<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             return ToListOf(dbReader, translator.Translate);
@@ -89,7 +89,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 	        return result;
         }
 
-		public static IDictionary<Key, T> ToDictionary<Key, T> (this IDataReader dbReader, Func<T, Key> keySelector) where T : new ()
+		public static IDictionary<Key, T> ToDictionary<Key, T> (this IDataReader dbReader, Func<T, Key> keySelector)
         {
 	        var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
 	        return ToDictionary(dbReader, translator.Translate, keySelector);
@@ -125,8 +125,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             Func<IDataReader, T1> translate1,
             Func<IDataReader, T2> translate2
             )
-            where T1 : new()
-            where T2 : new()
         {
             ResultsSet<T1, T2> result = new ResultsSet<T1, T2>();
             {
@@ -151,8 +149,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         }
 
         public static ResultsSet<T1, T2> ToResultsSet<T1, T2>(this IDataReader dbReader)
-            where T1 : new()
-            where T2 : new()
         {
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T1>();
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();
@@ -166,9 +162,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             Func<IDataReader, T2> translate2,
             Func<IDataReader, T3> translate3
         )
-            where T1 : new()
-            where T2 : new()
-            where T3 : new()
         {
             ResultsSet<T1, T2, T3> result = new ResultsSet<T1, T2, T3>();
             {
@@ -202,9 +195,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         }
 
         public static ResultsSet<T1, T2, T3> ToResultsSet<T1, T2, T3>(this IDataReader dbReader)
-            where T1 : new()
-            where T2 : new()
-            where T3 : new()
         {
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T1>();
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();
@@ -219,10 +209,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             Func<IDataReader, T3> translate3,
             Func<IDataReader, T4> translate4
         )
-            where T1 : new()
-            where T2 : new()
-            where T3 : new()
-            where T4 : new()
         {
             ResultsSet<T1, T2, T3, T4> result = new ResultsSet<T1, T2, T3, T4>();
             {
@@ -266,10 +252,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         }
 
         public static ResultsSet<T1, T2, T3, T4> ToResultsSet<T1, T2, T3, T4>(this IDataReader dbReader)
-            where T1 : new()
-            where T2 : new()
-            where T3 : new()
-            where T4 : new()
         {
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T1>();
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();
@@ -287,11 +269,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
          Func<IDataReader, T4> translate4,
          Func<IDataReader, T5> translate5
      )
-         where T1 : new()
-         where T2 : new()
-         where T3 : new()
-         where T4 : new()
-         where T5 : new()
         {
             ResultsSet<T1, T2, T3, T4, T5> result = new ResultsSet<T1, T2, T3, T4, T5>();
             {
@@ -347,11 +324,6 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         }
 
         public static ResultsSet<T1, T2, T3, T4, T5> ToResultsSet<T1, T2, T3, T4, T5>(this IDataReader dbReader)
-            where T1 : new()
-            where T2 : new()
-            where T3 : new()
-            where T4 : new()
-            where T5 : new()
         {
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T1>();
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();

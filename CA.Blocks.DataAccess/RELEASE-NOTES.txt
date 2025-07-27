@@ -1,4 +1,7 @@
-﻿v.3.5
+﻿v3.6
+- Add support filling an object that has the new required word
+
+v.3.5
 - Added build packages for .NET 9
 - Added SqlStringBuilder for abstract Bulding on sql statements
 - Add support TimeOnly and DateOnly in the ExecuteScalarWithConvert methods

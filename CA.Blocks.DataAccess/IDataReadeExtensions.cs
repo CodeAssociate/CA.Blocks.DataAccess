@@ -213,14 +213,14 @@ namespace CA.Blocks.DataAccess
         public static DateTime? AsNullDateTime(this IDataReader dr, string colName)
         {
             // benchmark  iw we only get the GetOrdinal once not twice
-            //return AsNullDateTime(dr, dr.GetOrdinal(colName));
+            return AsNullDateTime(dr, dr.GetOrdinal(colName));
             //vrs 
-            if (dr.IsDBNull(dr.GetOrdinal(colName)))
-                return null;
-            else
-            {
-                return Convert.ToDateTime(dr[colName]);
-            }
+            //if (dr.IsDBNull(dr.GetOrdinal(colName)))
+            //    return null;
+            //else
+            //{
+            //    return Convert.ToDateTime(dr[colName]);
+            //}
         }
 
         public static DateTime? AsNullDateTime(this IDataReader dr, int columnIndex)
@@ -439,10 +439,7 @@ namespace CA.Blocks.DataAccess
         // Nulls
         public static int? AsNullInt(this IDataReader dr, string colName)
         {
-            if (dr.IsDBNull(dr.GetOrdinal(colName)))
-                return null;
-            else
-                return Convert.ToInt32(dr[colName]);
+            return AsNullInt(dr, dr.GetOrdinal(colName));
         }
 
         public static int? AsNullInt(this IDataReader dr, int columnIndex)

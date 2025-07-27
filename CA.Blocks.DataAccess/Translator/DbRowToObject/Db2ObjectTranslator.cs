@@ -1,19 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
+using CA.Blocks.DataAccess.Translator.DbRowToObject.Mappings;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Mappings;
 
 namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 {
-    public class Db2ObjectTranslator<T> : IDbRowTranslator<T> where T : new()
+    public class Db2ObjectTranslator<T> : IDbRowTranslator<T>
     {
         private readonly DbRowToObjectMappings _mappings;
+        private readonly Func<T>  _factory;
 
-        public Db2ObjectTranslator(DbRowToObjectMappings mappings)
+
+        public Db2ObjectTranslator(DbRowToObjectMappings mappings, Func<T> factory)
         {
             _mappings = mappings;
+            _factory = factory;
         }
 
         internal DbRowToObjectMappings Mappings => _mappings;
@@ -28,7 +32,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
             T item = default(T);
             if (dr != null)
             {
-                item = new T();
+                item = _factory();
                 Translate(dr, item);
             }
             return item;
@@ -48,7 +52,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
             T result = default(T);
             if (dr != null && !dr.IsClosed)
             {
-                result = new T();
+                result = _factory(); 
                 Translate(dr, result);
             }
             return result;
