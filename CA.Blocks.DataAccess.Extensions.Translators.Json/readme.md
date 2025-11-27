@@ -29,6 +29,12 @@ Direct Usage .NET 6 + can be as above by also detail with null values and interf
 
     // r will be a type of IYourObject? and will can be null is null in the DB
 
+    Or contral with a specific backing type 
+    var target = new JsonDbInterfacedColToTypeConverter<
+                    IReadOnlyList<YourObject>, List<YourObject>>
+                    (new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+    
+    // this will return IReadOnlyList<YourObject>
 ```
 
 
