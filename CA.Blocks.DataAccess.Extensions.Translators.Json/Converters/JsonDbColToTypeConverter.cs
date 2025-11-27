@@ -49,6 +49,7 @@ namespace CA.Blocks.DataAccess.Extensions.Translators.Json.Converters
         public class NullJsonDbColToTypeConverter<T> : BaseDbColToTypeConverter<T?>
         {
             private readonly JsonSerializerOptions? _options;
+
             public NullJsonDbColToTypeConverter(JsonSerializerOptions options)
             {
                 _options = options;
