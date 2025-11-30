@@ -1,3 +1,5 @@
-﻿v.3.5
+﻿v3.6
+- Addded GeneralJsonDbColToTypeConverter which can take in a factory for T this will allow the code to deserialize to an Interface for example IReadonlyList
+
+v3.5
 - Added build packages for .NET 9
-- Addded JsonDbInterfacedColToTypeConverter 
