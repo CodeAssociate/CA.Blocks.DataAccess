@@ -1,88 +1,33 @@
-﻿using System.Data;
-using System.Text.Json;
-using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+﻿using System.Text.Json;
 
 namespace CA.Blocks.DataAccess.Extensions.Translators.Json.Converters
 {
-    public class JsonDbColToTypeConverter<T> : BaseDbColToTypeConverter<T> where T : new()
+
+
+    /// <summary>
+    /// This is a instance of the GeneralJsonDbColToTypeConverter with the factory set as new T()
+    /// </summary>
+    public class JsonDbColToTypeConverter<T> : GeneralJsonDbColToTypeConverter<T> where T : new()
     {
-        private readonly JsonSerializerOptions _options;
-        public JsonDbColToTypeConverter(JsonSerializerOptions options)
+        public JsonDbColToTypeConverter(JsonSerializerOptions options) : base(options, () => new T())
         {
-            _options = options;
+ 
         }
 
-        public JsonDbColToTypeConverter()
-        {
-            _options = null;
-        }
-
-        private T ToObject(string json)
-        {
-            return string.IsNullOrEmpty(json) ? new T() : JsonSerializer.Deserialize<T>(json, _options);
-        }
-
-        public override T GetDataValue(DataRow dr, string columnName)
-        {
-            return ToObject(dr.AsString(columnName));
-        }
-
-        public override T GetDataValue(IDataReader dr, string columnName)
-        {
-            return ToObject(dr.AsString(columnName));
-        }
-
-        public override T GetDataValue(DataRow dr, int columnIndex)
-        {
-            return ToObject(dr.AsString(columnIndex));
-        }
-
-        public override T GetDataValue(IDataReader dr, int columnIndex)
-        {
-            return ToObject(dr.AsString(columnIndex));
-        }
     }
 
 #if NET6_0_OR_GREATER
 #nullable enable
         // We have to be using C# 7.3 + to use nullable reference types 
-        public class NullJsonDbColToTypeConverter<T> : BaseDbColToTypeConverter<T?>
+
+        /// <summary>
+        /// This is a instance of the GeneralJsonDbColToTypeConverter with the factory set as default will support nullable types on C# 7.3 +
+        /// </summary>   
+        public class NullJsonDbColToTypeConverter<T> : GeneralJsonDbColToTypeConverter<T?>
         {
-            private readonly JsonSerializerOptions? _options;
-
-            public NullJsonDbColToTypeConverter(JsonSerializerOptions options)
+             public NullJsonDbColToTypeConverter(JsonSerializerOptions options) : base(options, () => default)
             {
-                _options = options;
-            }
-
-            public NullJsonDbColToTypeConverter()
-            {
-                _options = null;
-            }
-
-            private T? ToObject(string json)
-            {
-                return string.IsNullOrEmpty(json) ? default(T?) : JsonSerializer.Deserialize<T>(json, _options);
-            }
-
-            public override T? GetDataValue(DataRow dr, string columnName)
-            {
-                return ToObject(dr.AsString(columnName));
-            }
-
-            public override T? GetDataValue(IDataReader dr, string columnName)
-            {
-                return ToObject(dr.AsString(columnName));
-            }
-
-            public override T? GetDataValue(DataRow dr, int columnIndex)
-            {
-                return ToObject(dr.AsString(columnIndex));
-            }
-
-            public override T? GetDataValue(IDataReader dr, int columnIndex)
-            {
-                return ToObject(dr.AsString(columnIndex));
+ 
             }
         }
 #nullable restore

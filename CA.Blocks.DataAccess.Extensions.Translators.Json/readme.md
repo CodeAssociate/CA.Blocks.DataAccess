@@ -24,17 +24,15 @@ Direct Usage .NET standard a null value will be returned as Default(YourObject)
 
 Direct Usage .NET 6 + can be as above by also detail with null values and interfaces
 ``` C#
-    var target = new NullJsonDbColToTypeConverter<IYourObject>(new JsonSerializerOptions{ PropertyNameCaseInsensitive = true});
+    var target = new GeneralJsonDbColToTypeConverter<IReadOnlyList<MyObject>>
+                (
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true },
+                    () => new List<MyObject>()
+                );
+
     var r = target.GetDataValue(dataRow, "col");
 
-    // r will be a type of IYourObject? and will can be null is null in the DB
-
-    Or contral with a specific backing type 
-    var target = new JsonDbInterfacedColToTypeConverter<
-                    IReadOnlyList<YourObject>, List<YourObject>>
-                    (new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-    
-    // this will return IReadOnlyList<YourObject>
+    // r will be a type of IReadOnlyList<MyObject> if the db is empty backing object will be List<MyObject> but returned as IReadOnlyList<MyObject>
 ```
 
 
