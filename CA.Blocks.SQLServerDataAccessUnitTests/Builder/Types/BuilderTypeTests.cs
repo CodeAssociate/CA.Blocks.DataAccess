@@ -12,8 +12,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
     {
         protected void TestRoundTripType<T>(T value)
         {
-            var sqlBuilder = new SafeSqlBuilder();
-            sqlBuilder.AddSql($"Select {value:@testValue} as Test");
+            var sqlBuilder = new SafeSqlBuilder($"Select {value:@testValue} as Test");
             var sqlcmd = sqlBuilder.BuildSqlCommand();
 
             var result = this.ExecuteScalarAs<T>(sqlcmd);

@@ -1,15 +1,34 @@
 ﻿#if NET6_0_OR_GREATER
 using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
 namespace CA.Blocks.SQLServerDataAccess.Builder
 {
-    public class SafeSqlBuilder()
+    public class SafeSqlBuilder
     {
         private StringBuilder _sb = new StringBuilder();
         private List<SqlParameter> _parameters = [];
+
+
+        public SafeSqlBuilder()
+        {
+
+        }
+
+        public SafeSqlBuilder(string sql)
+        {
+            AddSql(sql);
+        }
+
+        public SafeSqlBuilder(SqlStringHandler builder)
+        {
+            AddSql(builder);
+        }
+
+
 
         public void AddSql(string sql)
         {
@@ -24,6 +43,18 @@ namespace CA.Blocks.SQLServerDataAccess.Builder
             {
                 _parameters.AddRange(sqlParams);
             }
+        }
+
+        public void AddSqlLine(string sql)
+        {
+            AddSql(sql);
+            _sb.Append(Environment.NewLine);
+        }
+
+        public void AddSqlLine(SqlStringHandler builder)
+        {
+            AddSql(builder);
+            _sb.Append(Environment.NewLine);
         }
 
         public SqlCommand BuildSqlCommand()
