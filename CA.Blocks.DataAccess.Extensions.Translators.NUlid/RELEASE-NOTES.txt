@@ -1,2 +1,6 @@
-﻿v.3.5
+﻿v3.7
+- Added build packages for .NET 10
+- Bump NUlid to 1.7.3
+
+v.3.5
 - Added build packages for .NET 9

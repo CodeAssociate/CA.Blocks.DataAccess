@@ -1,4 +1,8 @@
-﻿v.3.6
+﻿v3.7
+- Added build packages for .NET 10
+- Bump the Microsoft.Data.Sqlite to use 10.0"
+
+v.3.6
 - Microsoft.Data.Sqlite updated to 9.07
 
 v.3.5

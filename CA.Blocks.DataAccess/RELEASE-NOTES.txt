@@ -1,4 +1,7 @@
-﻿v3.6
+﻿v3.7
+- Added build packages for .NET 10
+
+v3.6
 - Add support filling an object that has the new required word
 
 v.3.5

@@ -22,7 +22,7 @@ variables:
 - name: Major
   value: '3'
 - name: Minor
-  value: '6'
+  value: '7'
 - name: Patch
   value: $[counter(variables['BuildID'], 0)]
 - name: SemanticVersion
@@ -92,11 +92,11 @@ steps:
 #   displayName: 'NuGetToolInstaller' 
   
 - task: UseDotNet@2
-  displayName: 'Install .NET 9 SDK'
+  displayName: 'Install .NET 10 SDK'
   continueOnError: false
   inputs:
     packageType: 'sdk'
-    version: '9.0.x'
+    version: '10.0.x'
     
 - task: DotNetCoreCLI@2
   displayName: 'Restore packages'
