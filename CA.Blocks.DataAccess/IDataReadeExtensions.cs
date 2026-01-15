@@ -266,8 +266,6 @@ namespace CA.Blocks.DataAccess
         }
         #endregion
 
-
-
         #region Double
         public static double AsDouble(this IDataReader dr, string colName)
         {
@@ -452,7 +450,6 @@ namespace CA.Blocks.DataAccess
 
         #endregion
 
-
         #region UInt
         public static uint AsUInt(this IDataReader dr, string colName)
         {
@@ -484,7 +481,6 @@ namespace CA.Blocks.DataAccess
         }
 
         #endregion
-
 
         #region Long
         public static long AsLong(this IDataReader dr, string colName)
@@ -612,7 +608,6 @@ namespace CA.Blocks.DataAccess
                 return Convert.ToUInt16(dr[columnIndex]);
         }
         #endregion
-
 
         #region String
 

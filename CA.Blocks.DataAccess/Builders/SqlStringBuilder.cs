@@ -25,7 +25,7 @@ namespace CA.Blocks.DataAccess.Builders
             var sqlParam = p as SP;
             if (sqlParam == null)
             {
-                throw new ArgumentException("The parameter must be a IDataParameter to use it directly");
+                throw new ArgumentException("The parameter must be a IDataParameter to use it directly. The typical usage will be {object:@ParameterName} example @id as int will be {id:@id} you can also use sql Escape ie {id:[]} will generate [id]");
             }
 
             _sqlsb.Append(sqlParam.ParameterName);
