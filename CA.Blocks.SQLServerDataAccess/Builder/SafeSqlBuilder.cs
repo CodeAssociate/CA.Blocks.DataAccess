@@ -12,7 +12,6 @@ namespace CA.Blocks.SQLServerDataAccess.Builder
         private StringBuilder _sb = new StringBuilder();
         private List<SqlParameter> _parameters = [];
 
-
         public SafeSqlBuilder()
         {
 
@@ -29,12 +28,15 @@ namespace CA.Blocks.SQLServerDataAccess.Builder
         }
 
 
-
         public void AddSql(string sql)
         {
             _sb.Append(sql);
         }
 
+        /// <summary>
+        /// Will append the SQL text and parameters from the SqlStringHandler
+        /// </summary>
+        /// <param name="builder"></param>
         public void AddSql(SqlStringHandler builder)
         {
             _sb.Append(builder.GetFormattedText());

@@ -44,7 +44,5 @@ namespace CA.Blocks.DataAccess.Extensions
             }
             return result;
         }
-
-
     }
 }

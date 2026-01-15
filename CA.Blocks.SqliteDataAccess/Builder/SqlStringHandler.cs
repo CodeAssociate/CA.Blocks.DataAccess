@@ -1,21 +1,18 @@
 ﻿#if NET6_0_OR_GREATER
-
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-
-namespace CA.Blocks.SQLServerDataAccess.Builder
+namespace CA.Blocks.SqliteDataAccess.Builder
 {
-
     [InterpolatedStringHandler]
     public readonly struct SqlStringHandler
     {
-        private readonly SqlServerSqlStringBuilder _builder;
+        private readonly SqlliteSqlStringBuilder _builder;
 
         public SqlStringHandler(int literalLength, int formattedCount)
         {
-            _builder = new SqlServerSqlStringBuilder();
+            _builder = new SqlliteSqlStringBuilder();
         }
 
         public void AppendLiteral(string s)
@@ -30,19 +27,16 @@ namespace CA.Blocks.SQLServerDataAccess.Builder
 
         public void AppendFormatted<T>(T t, string format)
         {
-            if (format == "[]" && t != null && t is string)
+            if (format == "``" && t != null && t is string)
             {
                 var sqObjectlName = t as string;
 
-                if (sqObjectlName.Contains('['))
+                if (sqObjectlName.Contains('`'))
                 {
-                    throw new SqlBuilderException("Invalid character '[' in SQL identifier.");
+                    throw new SqlBuilderException("Invalid character '`' in SQL identifier.");
                 }
-                if (sqObjectlName.Contains(']'))
-                {
-                    throw new SqlBuilderException("Invalid character ']' in SQL identifier.");
-                }
-                _builder.AppendSql("[" + sqObjectlName + "]");
+         
+                _builder.AppendSql('`' + sqObjectlName + '`');
                 return;
             }
             _builder.AppendNewSqlParameter(t, format);
@@ -50,7 +44,7 @@ namespace CA.Blocks.SQLServerDataAccess.Builder
 
         internal string GetFormattedText() => _builder.ToSqlStatement();
 
-        internal IList<SqlParameter> GetParameters()
+        internal IList<SqliteParameter> GetParameters()
         {
             return _builder.GetParameters();
         }

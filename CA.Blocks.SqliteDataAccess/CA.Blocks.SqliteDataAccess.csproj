@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,7 +63,7 @@
     <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
   </ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="8.0.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="10.0.102" PrivateAssets="All" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="readme.md">

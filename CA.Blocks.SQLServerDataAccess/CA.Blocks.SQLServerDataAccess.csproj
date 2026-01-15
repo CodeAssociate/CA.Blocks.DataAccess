@@ -41,7 +41,7 @@
     <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
   </ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="8.0.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="10.0.102" PrivateAssets="All" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\CA.Blocks.SQLServerDataAccess\readme.md">

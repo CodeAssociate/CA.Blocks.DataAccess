@@ -5,7 +5,6 @@ using System.Reflection;
 
 namespace CA.Blocks.DataAccess.DataTableHelpers
 {
-
     public static class DataTableHelpers
     {
         private static void PopulateValueRowFrom<T>(DataRow target, T source) 
@@ -18,7 +17,6 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
             {
                 target[0] = source;
             }
-            
         }
 
         private static void SetupValueDataTableColumns(DataTable target, Type type)
