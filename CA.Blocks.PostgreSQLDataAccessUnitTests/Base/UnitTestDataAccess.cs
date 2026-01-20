@@ -1,28 +1,48 @@
 ﻿using CA.Blocks.DataAccess.DI;
-using CA.Blocks.DataAccess.Model.Paging;
-using CA.Blocks.DataAccessTestDataForUnitTests.ConnectionStringResolver;
-using CA.Blocks.MySQLDataAccess;
-using MySqlConnector;
-using System.Data;
-using System.Text;
+using CA.Blocks.PostgreSQLDataAccess;
+using Npgsql;
 
-namespace CA.Blocks.MySQLDataAccessUnitTests.Base
+namespace CA.Blocks.PostgreSQLDataAccessUnitTests.Base
 {
+
+    public static class TestConnectionStrings
+    {
+        public const string Empty_TEMP_DB =
+            "Host=192.168.1.76; Username=test; Password=abcDEF123;SSL Mode=Disable;";
+    }
+
+    public class LocalSqlServerUnitTestStringsResolver : IDataAccessKeyToConnectionStringResolver
+    {
+        /// <summary>
+        /// Provides the mapping from the name in code to the name in the Connection string Stored in the app.config or web.config file
+        /// </summary>
+        /// <param name="connectionStringKey">The Connection string known to the code</param>
+        /// <returns> The Connection string to be used by the ADO.NET provider.</returns>
+        public string GetConnectionString(string connectionStringKey)
+        {
+            return TestConnectionStrings.Empty_TEMP_DB;
+        }
+    }
+
     /*
-         <configuration>
+            <configuration>
             <connectionStrings>    
                 <add name="localsqlserverhost" connectionString="Server=(local);Database=tempdb;Integrated Security=SSPI" providerName="System.Data.SqlClient"/>
             </connectionStrings>
-         </configuration>
-         */
+            </configuration>
+            */
     // this class exposes the internal workings so we can test
-    public class UnitTestDataAccess : MySqlDataAccess
+    public class UnitTestDataAccess : PostgresDataAccess
     {
-        public UnitTestDataAccess() : base (
-            new DataAccessConfig( 
-                new DataAccessConfigOptions { ConnectionStringKey = "notused" }, 
-                new LocalFileConnectionStringResolver("MySQLDataAccessConnectionString.txt"))
-            )
+        public UnitTestDataAccess() : this(new DataAccessConfigOptions
+        { 
+                ConnectionStringKey = "localsqlserverhost" })
+        {
+        }
+
+        public UnitTestDataAccess(DataAccessConfigOptions options) : base(
+            new DataAccessConfig(options, new LocalSqlServerUnitTestStringsResolver())
+        )
         {
         }
 
@@ -32,39 +52,42 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
 
         protected string DropTestTableSQL()
         {
-            return $"DROP TABLE IF EXISTS {unitTestTableName};";
+            return @$"
+                drop table if exists {unitTestTableName}";
         }
 
         protected string CreateTestTable(string coltype)
         {
-            return $"CREATE TABLE {unitTestTableName} (id int NOT NULL AUTO_INCREMENT, col {coltype},  PRIMARY KEY (id) )";
+            return $"Create table if not exists {unitTestTableName} (id int GENERATED ALWAYS AS IDENTITY, col {coltype} )";
 
         }
 
         protected string InsertTestDataSQL(string data)
         {
-            return  $"Insert into {unitTestTableName} (col) values ({data})";
+            return $"Insert into {unitTestTableName} (col) values ({data})";
         }
 
-        protected string SelectTestDataSQL()
+        protected string SelectTestDataSQL(string filter = "")
         {
-            return $"Select col from {unitTestTableName} /*##FILTER##*/";
+            return $"Select col from {unitTestTableName} {filter}";
         }
 
-
+        
         // This is a backdoor used for unit testing to setup and teardown test data in the local sql server
         //  this is a helper function and bypasses all the security features around the block.
         public void ExecuteNonQuery(string query)
         {
-            var cmd = CreateTextCommand(query);
-            ExecuteNonQuery(cmd); 
+            NpgsqlCommand cmd = CreateTextCommand(query);
+            ExecuteNonQuery(cmd);
         }
 
-
-        public new DataTable ExecuteDataTable(MySqlCommand cmd, PagingRequest page)
+        /*
+        public new DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
         {
-           return base.ExecuteDataTable(cmd, page);
+            return base.ExecuteDataTable(cmd, page);
         }
+
+        */
 
 
         //public new IList<T> ExecuteToListOf<T>(SqlCommand cmd) where T : new()
@@ -72,6 +95,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
         //    return base.ExecuteToListOf<T>(cmd);
         //}
 
+        /*
         protected string DataTableToText(DataTable dt)
         {
             var maxLengths = new int[dt.Columns.Count];
@@ -117,6 +141,8 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
             }
             return sb.ToString();
         }
+        */
 
     }
 }
+

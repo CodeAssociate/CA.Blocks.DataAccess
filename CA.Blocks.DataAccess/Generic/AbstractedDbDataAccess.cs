@@ -40,7 +40,7 @@ namespace CA.Blocks.DataAccess.Generic
 			return (DbDataAdapter)Activator.CreateInstance(typeof(ADP), (CMD)cmd);
 		}
 
-		private CON CreateNewConnection()
+		protected CON CreateNewConnection()
 		{
 			return (CON)Activator.CreateInstance(typeof(CON), ConnectionString);
 		}

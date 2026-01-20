@@ -21,6 +21,10 @@ public static class UlidDataHelper
                 throw new InvalidDataException("Data not a valid Ulid");
             }
         }
+        if (dbDataValue is Guid gvalue)
+        {
+            return new Ulid(gvalue);
+        }
         else
         {
             // if not stored as string assumes it is stored as binary
@@ -45,9 +49,6 @@ public static class UlidDataHelper
         Ulid? val = GetValueFromRowAsNullUlid(dr, dc);
         return DataHelper.ThrowExceptionIfIsNull(val, dc.ColumnName, "Ulid");
     }
-
-
-
 
     public static Ulid? GetValueFromRowAsNullUlid(DataRow dr, string sColumnName)
     {

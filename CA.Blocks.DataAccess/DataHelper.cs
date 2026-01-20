@@ -996,24 +996,45 @@ namespace CA.Blocks.DataAccess
 
         // Below support for .NET6+ 
 #if NET6_0_OR_GREATER
+        public static DateOnly? ConverDbValueToDateOnly(object dbValue)
+        {
+            if (dbValue == null)
+            {
+                return (DateOnly?)null;
+            }
+            else
+            {
+                // Some drivers will do the convertion for us ( postgres ) 
+                // others Sql server still use DateTime
+                if (dbValue is DateOnly dateOnly)
+                {
+                    return dateOnly;
+                }
+                else
+                {
+                    return DateOnly.FromDateTime((DateTime)(dbValue));
+                }
+            }
+        }
+
 
 
         public static DateOnly? GetValueFromRowAsNullDateOnly(DataRow dr, string sColumnName)
         {
             var dbValue = GetValueFromRow(dr, sColumnName);
-            return dbValue == null ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)(dbValue));
+            return ConverDbValueToDateOnly(dbValue);
         }
 
         public static DateOnly? GetValueFromRowAsNullDateOnly(DataRow dr, int columnIndex)
         {
             var dbValue = GetValueFromRow(dr, columnIndex);
-            return dbValue == null ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)(dbValue));
+            return ConverDbValueToDateOnly(dbValue);
         }
 
         public static DateOnly? GetValueFromRowAsNullDateOnly(DataRow dr, DataColumn dc)
         {
             var dbValue = GetValueFromRow(dr, dc);
-            return dbValue == null ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)(dbValue));
+            return ConverDbValueToDateOnly(dbValue);
         }
 
         public static DateOnly GetValueFromRowAsDateOnly(DataRow dr, string sColumnName)
@@ -1034,22 +1055,43 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, dc.ColumnName, "DateOnly");
         }
 
+        public static TimeOnly? ConverDbValueToTimeOnly(object dbValue)
+        {
+            if (dbValue == null)
+            {
+                return (TimeOnly?)null;
+            }
+            else
+            {
+                // Some drivers will do the convertion for us ( postgres ) 
+                // others Sql server still use TimeSpan
+                if (dbValue is TimeOnly timeOnly)
+                {
+                    return timeOnly;
+                }
+                else
+                {
+                    return TimeOnly.FromTimeSpan((TimeSpan)(dbValue));
+                }
+            }
+        }
+
         public static TimeOnly? GetValueFromRowAsNullTimeOnly(DataRow dr, string sColumnName)
         {
             var dbValue = GetValueFromRow(dr, sColumnName);
-            return dbValue == null ? (TimeOnly?)null : TimeOnly.FromTimeSpan((TimeSpan)(dbValue));
+            return ConverDbValueToTimeOnly(dbValue);
         }
 
         public static TimeOnly? GetValueFromRowAsNullTimeOnly(DataRow dr, int columnIndex)
         {
             var dbValue = GetValueFromRow(dr, columnIndex);
-            return dbValue == null ? (TimeOnly?)null : TimeOnly.FromTimeSpan((TimeSpan)(dbValue));
+            return ConverDbValueToTimeOnly(dbValue);
         }
 
         public static TimeOnly? GetValueFromRowAsNullTimeOnly(DataRow dr, DataColumn dc)
         {
             var dbValue = GetValueFromRow(dr, dc);
-            return dbValue == null ? (TimeOnly?)null : TimeOnly.FromTimeSpan((TimeSpan)(dbValue));
+            return ConverDbValueToTimeOnly(dbValue);
         }
 
         public static TimeOnly GetValueFromRowAsTimeOnly(DataRow dr, string sColumnName)

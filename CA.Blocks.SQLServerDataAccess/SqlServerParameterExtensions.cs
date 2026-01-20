@@ -311,7 +311,7 @@ namespace CA.Blocks.SQLServerDataAccess
 
         #region SqlDbType.Float  (Single)
 
-        private static SqlParameter ToSqlParameterDouble(float? input, string strParameterName)
+        private static SqlParameter ToSqlParameterSingle(float? input, string strParameterName)
         {
             return new SqlParameter(strParameterName, SqlDbType.Real)
             {
@@ -321,12 +321,12 @@ namespace CA.Blocks.SQLServerDataAccess
 
         public static SqlParameter ToSqlParameter(this float input, string strParameterName)
         {
-            return ToSqlParameterDouble(input, strParameterName);
+            return ToSqlParameterSingle(input, strParameterName);
         }
 
         public static SqlParameter ToSqlParameter(this float? input, string strParameterName)
         {
-            return ToSqlParameterDouble(input, strParameterName);
+            return ToSqlParameterSingle(input, strParameterName);
         }
         #endregion
 
