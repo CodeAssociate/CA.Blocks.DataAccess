@@ -1,5 +1,6 @@
 ﻿#if NET6_0_OR_GREATER
 
+using CA.Blocks.DataAccess.Builder;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;

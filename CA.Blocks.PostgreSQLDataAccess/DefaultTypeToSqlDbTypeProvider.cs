@@ -1,4 +1,5 @@
 ﻿using CA.Blocks.DataAccess;
+using CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Providers;
 using NpgsqlTypes;
 using System.Collections.Concurrent;
 
@@ -24,6 +25,7 @@ namespace CA.Blocks.PostgreSQLDataAccess
             _typeMappings = new ConcurrentDictionary<string, NpgsqlDbType>();
 
             TryAdd(typeof(long), NpgsqlDbType.Bigint);
+            TryAdd(typeof(long[]), NpgsqlDbType.Array | NpgsqlDbType.Bigint);
             TryAdd(typeof(long?), NpgsqlDbType.Bigint);
 
             
@@ -100,12 +102,13 @@ namespace CA.Blocks.PostgreSQLDataAccess
             TryAdd(typeof(string), NpgsqlDbType.Varchar); // default
             TryAdd(typeof(string), NpgsqlDbType.Text, "Text");
             TryAdd(typeof(string), NpgsqlDbType.Char, "Char");
-            
-#if NET6_0_OR_GREATER
+            TryAdd(typeof(string), NpgsqlDbType.Json, "Json");
+            TryAdd(typeof(string), NpgsqlDbType.Jsonb, "Jsonb");
+
             // time 
             TryAdd(typeof(TimeOnly), NpgsqlDbType.Time);
             TryAdd(typeof(TimeOnly?), NpgsqlDbType.Time);
-#endif
+
             /*
             // Structured need to be client registered
             // Udt needs to be client registered
@@ -116,6 +119,9 @@ namespace CA.Blocks.PostgreSQLDataAccess
 
             // Add more mappings as needed
              */
+
+
+            
         }
 
 

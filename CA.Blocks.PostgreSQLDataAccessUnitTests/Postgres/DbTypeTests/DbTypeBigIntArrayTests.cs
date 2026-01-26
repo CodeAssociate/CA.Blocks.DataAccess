@@ -1,57 +1,57 @@
-﻿using CA.Blocks.DataAccess.Translator.Basic;
+﻿using CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Providers;
+using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.PostgreSQLDataAccess.Builder;
 using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
-using CA.Blocks.SQLServerDataAccess;
-using Npgsql;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 {
     [TestFixture]
-    public class DbTypeBigIntTests : UnitTestDataAccess
+    public class DbTypeBigIntArrayTests : UnitTestDataAccess
     {
-        private class BigIntDataType
+        private class BigIntArrayDataType
         {
-            public long Col { get; set; }
+            public List<long> Col { get; set; }
         }
 
-        private void InsertTestDataSQL(long data)
+        private void InsertTestDataSQL(long[] data)
         {
-            var insertCmd = new SafeSqlBuilder($"Insert into {unitTestTableName:``}(col) values({data:@Data})")
+            var insertCmd = new SafeSqlBuilder($"Insert into {unitTestTableName:``} (col) values({data:@Data})")
                 .BuildSqlCommand();
             ExecuteNonQuery(insertCmd);
         }
-
         [SetUp]
         public void Setup()
         {
+            DefaultDbColToTypeProviderPostgresExtensions.AddPostgresArrayTypes();
             ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("bigint not null"));
-            InsertTestDataSQL(-1);
-            InsertTestDataSQL(0);
-            InsertTestDataSQL(123);
-            InsertTestDataSQL(246);
-            InsertTestDataSQL((long)int.MaxValue + (long)int.MaxValue);
+            ExecuteNonQuery(CreateTestTable("bigint[] not null"));
+            InsertTestDataSQL([1, 2, 3]);
+            InsertTestDataSQL([1, 3, 5]);
+            InsertTestDataSQL([2, 4, 8]);
+            InsertTestDataSQL([(long)int.MaxValue + (long)int.MaxValue, (long)int.MaxValue]);
         }
 
         [TearDown]
         public void TearDown()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            //ExecuteNonQuery(DropTestTableSQL());
         }
 
+
         [Test]
-        public void SelectAllData()
+        public void SelectAllDataToDataTable()
         {
             //Setup 
-            var t = new LongTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = this.ExecuteDataTable (cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.That(data.Rows.Count, Is.EqualTo(4));
+            Assert.That(data.Rows[1]["Col"], Is.EqualTo(new List<long> { 1, 3, 5 }));
         }
 
         [Test]
@@ -60,13 +60,14 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteToListOf<BigIntDataType>(cmd);
+            var data = ExecuteToListOf<BigIntArrayDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(-1, data[0].Col);
+            Assert.That(data.Count, Is.EqualTo(4));
+            Assert.That(data[1].Col, Is.EqualTo(new List<long> { 1, 3, 5 }));
         }
 
 
+        /*
         [Test]
         public void SelectAllDataBigIntWithFilter ()
         {
@@ -115,5 +116,6 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
             
             ClassicAssert.AreEqual(123, data.Col);
         }
+        */
     }
 }

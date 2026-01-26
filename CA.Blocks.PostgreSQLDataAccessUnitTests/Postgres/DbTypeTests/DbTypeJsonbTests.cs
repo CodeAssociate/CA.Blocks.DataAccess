@@ -1,15 +1,16 @@
-﻿using System.Text.Json;
-using CA.Blocks.DataAccess.Extensions.Translators.Json.Converters;
+﻿using CA.Blocks.DataAccess.Extensions.Translators.Json.Converters;
 using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
+using CA.Blocks.PostgreSQLDataAccess.Builder;
 using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+using System.Text.Json;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
 [TestFixture]
-public class DbTypeJsonTests : UnitTestDataAccess
+public class DbTypeJsonbTests : UnitTestDataAccess
 {
     private class ColourValueDataType
     {
@@ -24,7 +25,9 @@ public class DbTypeJsonTests : UnitTestDataAccess
 
     private void InsertTestDataAsText(string data)
     {
-        ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data)));
+        var insertCmd = new SafeSqlBuilder($"Insert into {unitTestTableName:``}(col) values({data:@Data|json})")
+        .BuildSqlCommand();
+        ExecuteNonQuery(insertCmd);
     }
 
     [SetUp]
@@ -35,7 +38,10 @@ public class DbTypeJsonTests : UnitTestDataAccess
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         }));
         ExecuteNonQuery(DropTestTableSQL());
-        ExecuteNonQuery(CreateTestTable("json not null"));
+        ExecuteNonQuery(CreateTestTable("jsonb not null"));
+
+        
+
         InsertTestDataAsText(@"
 [
 {""color"": ""red"",""value"": ""#f00""},
