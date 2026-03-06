@@ -112,6 +112,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
         {
             try
             {
+                
                 return GetDataValue(dr, columnIndex);
             }
             catch (IndexOutOfRangeException ex)

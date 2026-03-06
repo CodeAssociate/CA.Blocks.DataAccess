@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>987.654.3210.0</AssemblyVersion>
+    <FileVersion>987.654.3210.0</FileVersion>
+    <Version>987.654.3210</Version>
+    <RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
+    <AssemblyName>CA.Blocks.PostgreSQLDataAccess</AssemblyName>
+    <RootNamespace>CA.Blocks.PostgreSQLDataAccess</RootNamespace>
+    <Authors>Kevin Bosch</Authors>
+    <Company>Ravin Enterprises Limited</Company>
+    <Title>CA.Blocks.PostgreSQLDataAccess</Title>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>@RELEASE-NOTES.txt</PackageReleaseNotes>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;postgres</PackageTags>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="10.0.102" PrivateAssets="All" />
+    <PackageReference Include="Npgsql" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\CA.Blocks.PostgreSQLDataAccess\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  
+</Project>

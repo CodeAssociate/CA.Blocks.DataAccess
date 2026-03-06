@@ -706,8 +706,7 @@ namespace CA.Blocks.DataAccess
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
-            else
-                return DateOnly.FromDateTime((DateTime)(dr[colName]));
+            return DataHelper.ConverDbValueToDateOnly(dr[colName]); 
         }
 
         public static DateOnly? AsNullDateOnly(this IDataReader dr, int columnIndex)
@@ -715,7 +714,9 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-                return DateOnly.FromDateTime((DateTime)(dr[columnIndex]));
+            {
+                return DataHelper.ConverDbValueToDateOnly(dr[columnIndex]);
+            }
         }
         #endregion
 
@@ -738,15 +739,21 @@ namespace CA.Blocks.DataAccess
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
             else
-                return TimeOnly.FromTimeSpan((TimeSpan)(dr[colName]));
+            {
+                return DataHelper.ConverDbValueToTimeOnly(dr[colName]);
+            }
         }
+           
 
         public static TimeOnly? AsNullTimeOnly(this IDataReader dr, int columnIndex)
         {
             if (dr.IsDBNull(columnIndex))
                 return null;
             else
-                return TimeOnly.FromTimeSpan((TimeSpan)(dr[columnIndex]));
+
+            {
+                return DataHelper.ConverDbValueToTimeOnly(dr[columnIndex]);
+            }
         }
         #endregion
 #endif

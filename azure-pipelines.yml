@@ -22,7 +22,7 @@ variables:
 - name: Major
   value: '3'
 - name: Minor
-  value: '7'
+  value: '8'
 - name: Patch
   value: $[counter(variables['BuildID'], 0)]
 - name: SemanticVersion
@@ -116,6 +116,7 @@ steps:
             !**/*SQLServerDataAccessUnitTests.csproj
             !**/*MySQLDataAccessUnitTests.csproj
             !**/*OdbcDataAccessUnitTests.csproj
+            !**/*PostgreSQLDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
           --collect "Code coverage"

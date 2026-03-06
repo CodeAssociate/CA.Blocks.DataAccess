@@ -1,9 +1,10 @@
-﻿using System.Data;
-using System.Text;
-using CA.Blocks.DataAccess.DI;
+﻿using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Model.Paging;
+using CA.Blocks.DataAccessTestDataForUnitTests.ConnectionStringResolver;
 using CA.Blocks.MySQLDataAccess;
 using MySqlConnector;
+using System.Data;
+using System.Text;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.Base
 {
@@ -20,7 +21,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
         public UnitTestDataAccess() : base (
             new DataAccessConfig( 
                 new DataAccessConfigOptions { ConnectionStringKey = "notused" }, 
-                new MySQLTestDataAccessKeyToConnectionStringResolver())
+                new LocalFileConnectionStringResolver("MySQLDataAccessConnectionString.txt"))
             )
         {
         }

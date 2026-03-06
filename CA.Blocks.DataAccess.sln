@@ -50,6 +50,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.OdbcDataAccess", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CA.Blocks.OdbcDataAccessUnitTests", "CA.Blocks.OdbcDataAccessUnitTests\CA.Blocks.OdbcDataAccessUnitTests.csproj", "{F67486AC-D90B-4A0D-B89E-D13DB1308CD4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.PostgreSQLDataAccess", "CA.Blocks.PostgreSQLDataAccess\CA.Blocks.PostgreSQLDataAccess.csproj", "{D4753BA3-9EF5-4C35-BE2A-03634603EAD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.PostgreSQLDataAccessUnitTests", "CA.Blocks.PostgreSQLDataAccessUnitTests\CA.Blocks.PostgreSQLDataAccessUnitTests.csproj", "{FF3621BE-35A9-4D9C-886A-218B63E8A9E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +136,14 @@ Global
 		{F67486AC-D90B-4A0D-B89E-D13DB1308CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F67486AC-D90B-4A0D-B89E-D13DB1308CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F67486AC-D90B-4A0D-B89E-D13DB1308CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4753BA3-9EF5-4C35-BE2A-03634603EAD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4753BA3-9EF5-4C35-BE2A-03634603EAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4753BA3-9EF5-4C35-BE2A-03634603EAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4753BA3-9EF5-4C35-BE2A-03634603EAD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF3621BE-35A9-4D9C-886A-218B63E8A9E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF3621BE-35A9-4D9C-886A-218B63E8A9E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF3621BE-35A9-4D9C-886A-218B63E8A9E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF3621BE-35A9-4D9C-886A-218B63E8A9E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
