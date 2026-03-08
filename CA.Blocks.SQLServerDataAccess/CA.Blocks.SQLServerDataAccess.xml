@@ -38,6 +38,12 @@
             provides a class for Null Token. Ie don't use tokens.   at this point this will be the same as  using the SqlServerDataAccess to access the Azure SQL database
             </summary>
         </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.SafeSqlBuilder.AddSql(CA.Blocks.SQLServerDataAccess.Builder.SqlStringHandler)">
+            <summary>
+            Will append the SQL text and parameters from the SqlStringHandler
+            </summary>
+            <param name="builder"></param>
+        </member>
         <member name="T:CA.Blocks.SQLServerDataAccess.SqlServerDataAccess">
             <summary>
             Provides a SQL server implementation for DataAccessCore

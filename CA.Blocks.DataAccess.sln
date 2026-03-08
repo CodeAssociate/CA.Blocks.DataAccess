@@ -54,6 +54,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.PostgreSQLDataAcc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.PostgreSQLDataAccessUnitTests", "CA.Blocks.PostgreSQLDataAccessUnitTests\CA.Blocks.PostgreSQLDataAccessUnitTests.csproj", "{FF3621BE-35A9-4D9C-886A-218B63E8A9E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.PostgresSQLDataAccessTests", "CA.Blocks.PostgresSQLDataAccessTests\CA.Blocks.PostgresSQLDataAccessTests.csproj", "{B7E74E51-1C9F-4C21-994B-9CD2D395FCE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CA.Blocks.PostgresAppHost", "CA.Blocks.PostgresAppHost\CA.Blocks.PostgresAppHost.csproj", "{33EFFC92-F7A7-4D61-9CD3-CDDB7117557F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,6 +148,14 @@ Global
 		{FF3621BE-35A9-4D9C-886A-218B63E8A9E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF3621BE-35A9-4D9C-886A-218B63E8A9E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF3621BE-35A9-4D9C-886A-218B63E8A9E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7E74E51-1C9F-4C21-994B-9CD2D395FCE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7E74E51-1C9F-4C21-994B-9CD2D395FCE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7E74E51-1C9F-4C21-994B-9CD2D395FCE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7E74E51-1C9F-4C21-994B-9CD2D395FCE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33EFFC92-F7A7-4D61-9CD3-CDDB7117557F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33EFFC92-F7A7-4D61-9CD3-CDDB7117557F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33EFFC92-F7A7-4D61-9CD3-CDDB7117557F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33EFFC92-F7A7-4D61-9CD3-CDDB7117557F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
