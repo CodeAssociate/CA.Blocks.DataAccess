@@ -9,6 +9,7 @@
     <IsTestProject>true</IsTestProject>
     <OutputType>Library</OutputType>
     <PlatformTarget>x86</PlatformTarget>
+    <EnableMSTestRunner>true</EnableMSTestRunner>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

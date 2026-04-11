@@ -6,6 +6,8 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 {
     //NOTE Postgres has not fix size binary
     // TODO you can use a bit(a) will need to do example...
+
+    [Collection("DbTypeTests")]
     public class DbTypeBinaryTests : UnitTestDataAccess, IDisposable
     {
         private class BinaryDataType

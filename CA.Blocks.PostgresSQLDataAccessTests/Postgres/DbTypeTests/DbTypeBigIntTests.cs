@@ -7,6 +7,7 @@ using Npgsql;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 {
+    [Collection("DbTypeTests")]
     public class DbTypeBigIntTests : UnitTestDataAccess, IDisposable
     {
         private class BigIntDataType

@@ -5,6 +5,7 @@ using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
+[Collection("DbTypeTests")]
 public class DbTypeDateOnlyTests : UnitTestDataAccess, IDisposable
 {
     private DateOnly _testDate;

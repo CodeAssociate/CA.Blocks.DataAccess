@@ -7,6 +7,7 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
 // Note The fractional precision is determined by the database's lc_monetary setting.
 // Default is two fractional digits
+[Collection("DbTypeTests")]
 public class DbTypeMoneyTests : UnitTestDataAccess, IDisposable
 {
     private class MoneyDataType

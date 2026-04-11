@@ -4,6 +4,7 @@ using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
+[Collection("DbTypeTests")]
 public class DbTypeNCharTests : UnitTestDataAccess, IDisposable
 {
     private void InsertTestDataSQL(char data)

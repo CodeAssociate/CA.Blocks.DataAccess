@@ -4,6 +4,7 @@ using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
+[Collection("DbTypeTests")]
 public class DbTypeVarCharTests : UnitTestDataAccess, IDisposable
 {
     private const string  TEST_DATA = "varchar data";

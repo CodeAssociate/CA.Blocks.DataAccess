@@ -3,6 +3,7 @@ using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 {
+    [Collection("DbTypeTests")]
     public class DbTypeBitTests : UnitTestDataAccess, IDisposable
     {
         private class BoolDataType

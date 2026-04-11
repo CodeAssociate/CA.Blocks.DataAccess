@@ -5,9 +5,12 @@ using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 {
-   
+
+    [Collection("DbTypeTests")]
     public class DbTypeBigIntArrayTests : UnitTestDataAccess, IDisposable
     {
+
+
         public DbTypeBigIntArrayTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
@@ -39,26 +42,6 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
             ExecuteNonQuery(insertCmd);
         }
 
-        /*
-        [SetUp]
-        public void Setup()
-        {
-            DefaultDbColToTypeProviderPostgresExtensions.AddPostgresArrayTypes();
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("bigint[] not null"));
-            InsertTestDataSQL([1, 2, 3]);
-            InsertTestDataSQL([1, 3, 5]);
-            InsertTestDataSQL([2, 4, 8]);
-            InsertTestDataSQL([(long)int.MaxValue + (long)int.MaxValue, (long)int.MaxValue]);
-        }*/
-
-        /*
-        [TearDown]
-        public void TearDown()
-        {
-            //ExecuteNonQuery(DropTestTableSQL());
-        }
-        */
 
         [Fact]
         public void SelectAllDataToDataTable()
@@ -70,8 +53,6 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
             //Assert
             Assert.Equal(4, data.Rows.Count);
             Assert.Equal(new List<long> { 1, 3, 5 }, data.Rows[1]["Col"]);
-            //Assert.That(data.Rows.Count, Is.EqualTo(4));
-            //Assert.That(data.Rows[1]["Col"], Is.EqualTo(new List<long> { 1, 3, 5 }));
         }
 
         [Fact]
@@ -82,12 +63,8 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
             //Act
             var data = ExecuteToListOf<BigIntArrayDataType>(cmd);
             //Assert
-            //Assert.That(data.Count, Is.EqualTo(4));
-            //Assert.That(data[1].Col, Is.EqualTo(new List<long> { 1, 3, 5 }));
             Assert.Equal(4, data.Count);
             Assert.Equal(new List<long> { 1, 3, 5 }, data[1].Col);
         }
-
-
     }
 }

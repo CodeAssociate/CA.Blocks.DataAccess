@@ -1,7 +1,5 @@
 
 using CA.Blocks.DataAccess.Extensions.Translators.NUlid;
-using CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Converters;
-using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
@@ -10,6 +8,7 @@ using NUlid;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
+[Collection("DbTypeTests")]
 public class DbTypeUlidAsStringTests : UnitTestDataAccess, IDisposable
 {
     private IList<Ulid> _testData = new List<Ulid>();
@@ -118,6 +117,7 @@ public class DbTypeUlidAsStringTests : UnitTestDataAccess, IDisposable
 ///
 ///
 
+[Collection("DbTypeTests")]
 public class DbTypeUlidAsUuidTests : UnitTestDataAccess, IDisposable
 {
     private IList<Ulid> _testData = new List<Ulid>();

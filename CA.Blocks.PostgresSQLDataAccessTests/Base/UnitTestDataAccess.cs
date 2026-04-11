@@ -41,7 +41,9 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.Base
         }
 
 
-        protected const string unitTestTableName = "ca_blocks_unittest_temp_testtable";
+        protected string unitTestTableName = "ca_blocks_unittest_temp_testtable";
+
+
         public const string UNIT_TEST_COL_NAME = "Col";
 
         protected string DropTestTableSQL()
@@ -85,20 +87,6 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.Base
             NpgsqlCommand cmd = CreateTextCommand(query);
             ExecuteNonQuery(cmd);
         }
-
-        /*
-        public new DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
-        {
-            return base.ExecuteDataTable(cmd, page);
-        }
-
-        */
-
-
-        //public new IList<T> ExecuteToListOf<T>(SqlCommand cmd) where T : new()
-        //{
-        //    return base.ExecuteToListOf<T>(cmd);
-        //}
     }
 }
 

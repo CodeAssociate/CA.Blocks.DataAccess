@@ -116,7 +116,6 @@ steps:
             !**/*SQLServerDataAccessUnitTests.csproj
             !**/*MySQLDataAccessUnitTests.csproj
             !**/*OdbcDataAccessUnitTests.csproj
-            !**/*PostgreSQLDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
           --collect "Code coverage"

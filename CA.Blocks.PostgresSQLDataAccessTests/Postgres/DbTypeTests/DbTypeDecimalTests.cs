@@ -5,6 +5,7 @@ using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
+[Collection("DbTypeTests")]
 public class DbTypeDecimalTests : UnitTestDataAccess, IDisposable
 {
     private class DecimalDataType
@@ -12,7 +13,7 @@ public class DbTypeDecimalTests : UnitTestDataAccess, IDisposable
         public Decimal Col { get; set; }
     }
 
-    private void InsertTestDataSQL(double data)
+    private void InsertTestDataSQL(decimal data)
     {
         ExecuteNonQuery(InsertTestDataSQL($"{data}"));
     }
@@ -20,12 +21,12 @@ public class DbTypeDecimalTests : UnitTestDataAccess, IDisposable
     public DbTypeDecimalTests()
     {
         ExecuteNonQuery(DropTestTableSQL());
-        ExecuteNonQuery(CreateTestTable("decimal(20,10) not null"));
-        InsertTestDataSQL(-1.2);
+        ExecuteNonQuery(CreateTestTable("NUMERIC(24,12) not null"));
+        InsertTestDataSQL(-1.2M);
         InsertTestDataSQL(0);
-        InsertTestDataSQL(123.456);
+        InsertTestDataSQL(123.456M);
         InsertTestDataSQL(int.MaxValue);
-        InsertTestDataSQL(123456789.987654321);
+        InsertTestDataSQL(123456789.987654321M);
     }
 
     public new void Dispose()
@@ -55,6 +56,7 @@ public class DbTypeDecimalTests : UnitTestDataAccess, IDisposable
         //Assert
         Assert.Equal(5, data.Count);
         Assert.Equal(-1.2M, data[0].Col);
+        Assert.Equal(123.456M, data[2].Col);
         Assert.Equal(123456789.987654321M, data[4].Col);
     }
 

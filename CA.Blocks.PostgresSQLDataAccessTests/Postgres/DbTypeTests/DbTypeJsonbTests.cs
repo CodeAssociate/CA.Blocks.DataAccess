@@ -7,6 +7,7 @@ using System.Text.Json;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
+[Collection("DbTypeTests")]
 public class DbTypeJsonbTests : UnitTestDataAccess, IDisposable
 {
     private class ColourValueDataType

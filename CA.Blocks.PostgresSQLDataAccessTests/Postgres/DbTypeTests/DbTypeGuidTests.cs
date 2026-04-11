@@ -6,6 +6,7 @@ using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
+[Collection("DbTypeTests")]
 public class DbTypeGuidTests : UnitTestDataAccess, IDisposable
 {
     private const string TestGuidValue = "CE69B300-F9EA-4F3B-BBA8-676D12737E3E";

@@ -6,6 +6,7 @@ using Npgsql;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 {
+    [Collection("DbTypeTests")]
     public class DbTypeInt16Tests : UnitTestDataAccess, IDisposable
     {
         private class ShortDataType
