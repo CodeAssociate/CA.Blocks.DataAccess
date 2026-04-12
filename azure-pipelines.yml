@@ -119,6 +119,7 @@ steps:
        publishTestResults: false 
        projects: |
             **/*Tests.csproj
+            !**/*DataAccessTestDataForUnitTests.csproj
             !**/*SQLServerDataAccessUnitTests.csproj
             !**/*MySQLDataAccessUnitTests.csproj
             !**/*OdbcDataAccessUnitTests.csproj
