@@ -124,7 +124,6 @@ steps:
             !**/*OdbcDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
-          --coverage 
 
 - task: DotNetCoreCLI@2
   displayName: 'Test'
@@ -140,6 +139,7 @@ steps:
             !**/*OdbcDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
+          --coverage 
 
 - task: DotNetCoreCLI@2
   displayName: 'Pack'
