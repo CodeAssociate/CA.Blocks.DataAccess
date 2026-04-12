@@ -118,7 +118,7 @@ steps:
             !**/*OdbcDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
-          --collect "Code coverage"
+          --coverage
           /p:ExcludeByAttribute=Obsolete
 
 - task: DotNetCoreCLI@2
