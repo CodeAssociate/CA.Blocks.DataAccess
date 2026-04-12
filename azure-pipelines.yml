@@ -110,7 +110,7 @@ steps:
         command: restore
 
 # WE have a dependency on SQL so only run the DataAccessUnitTests and SqliteDataAccessUnitTests tests which can run in memory
-
+#todo add --coverage removed for not to get aspire running
 - task: DotNetCoreCLI@2
   displayName: 'Build and Test'
   continueOnError: false
@@ -124,7 +124,6 @@ steps:
             !**/*OdbcDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
-          # --coverage remove for not to get aspire running
 
 - task: DotNetCoreCLI@2
   inputs:
