@@ -8,17 +8,18 @@
 		<Version>987.654.3210</Version>
 		<RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
 
-	    <Authors>Kevin Bosch</Authors>
-	    <Company>Ravin Enterprises Limited</Company>
-	    <Title>CA.Blocks.DataAccess</Title>
-	    <RepositoryType>git</RepositoryType>
-	    <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
-	    <PackageReadmeFile>readme.md</PackageReadmeFile>
-	    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	    <PackageReleaseNotes>@RELEASE-NOTES.txt</PackageReleaseNotes>
-	    <PackageTags>data;micro-orm;sql;ca.blocks;ado.net</PackageTags>
-	    <IncludeSymbols>True</IncludeSymbols>
-	    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	  <Authors>Kevin Bosch</Authors>
+	  <Company>Ravin Enterprises Limited</Company>
+	  <Title>CA.Blocks.DataAccess</Title>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
+	  <PackageReadmeFile>readme.md</PackageReadmeFile>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageReleaseNotes>@RELEASE-NOTES.txt</PackageReleaseNotes>
+	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net</PackageTags>
+	  <IncludeSymbols>True</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="10.0.102" PrivateAssets="All" />

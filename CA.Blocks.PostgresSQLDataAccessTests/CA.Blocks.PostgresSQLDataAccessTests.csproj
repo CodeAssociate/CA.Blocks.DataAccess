@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>CA.Blocks.PostgresSQLDataAccessTests</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>

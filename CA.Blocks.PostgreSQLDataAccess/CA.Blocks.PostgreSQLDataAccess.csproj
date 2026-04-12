@@ -22,7 +22,7 @@
     <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;postgres</PackageTags>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
