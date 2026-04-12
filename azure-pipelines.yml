@@ -124,7 +124,7 @@ steps:
             !**/*OdbcDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
-          --coverage
+          # --coverage remove for not to get aspire running
 
 - task: DotNetCoreCLI@2
   inputs:
