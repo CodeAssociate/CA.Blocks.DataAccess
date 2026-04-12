@@ -1,5 +1,6 @@
 using System.Text;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
@@ -12,7 +13,7 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
     {
         private class BinaryDataType
         {
-            public byte[] Col { get; set; }
+            public required byte[] Col { get; set; }
         }
 
         private void InsertTestDataToBinarySQL(string data)
@@ -54,7 +55,7 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
             //Setup
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteToListOf<BinaryDataType>(cmd);
+            var data = Execute(cmd).ToListOf<BinaryDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));

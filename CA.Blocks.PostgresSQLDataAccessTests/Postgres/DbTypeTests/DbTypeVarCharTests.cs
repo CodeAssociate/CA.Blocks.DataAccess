@@ -58,6 +58,6 @@ public class DbTypeVarCharTests : UnitTestDataAccess, IDisposable
         var data = t.Translate(ExecuteDataTable(cmd));
 
         //Asert
-        Assert.Equal(1, data.Count);
+        Assert.Single(data);
     }
 }

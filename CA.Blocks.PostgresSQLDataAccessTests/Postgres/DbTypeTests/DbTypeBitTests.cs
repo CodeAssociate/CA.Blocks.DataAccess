@@ -1,4 +1,3 @@
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
@@ -50,7 +49,7 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
             var data = ExecuteToListOf<BoolDataType>(cmd);
             //Assert
             Assert.Equal(2, data.Count);
-            Assert.Equal(true, data[0].Col);
+            Assert.True(data[0].Col);
         }
 
 
@@ -59,14 +58,13 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
         public void SelectAllDataWithFilter ()
         {
             //setup
-            const bool testvalue = true;
             var cmd = CreateTextCommand(SelectTestDataSQL("Where col = B'1'"));
 
             //Act
             var data = this.ExecuteObjectList(cmd);
 
             //Asert
-            Assert.Equal(1, data.Count);
+            Assert.Single(data);
         }
     }
 }

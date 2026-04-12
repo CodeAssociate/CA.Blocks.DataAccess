@@ -1,4 +1,5 @@
-﻿using CA.Blocks.PostgreSQLDataAccess.Builder;
+﻿using CA.Blocks.DataAccess.Translator.Extensions;
+using CA.Blocks.PostgreSQLDataAccess.Builder;
 using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 
 
@@ -32,7 +33,7 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 
         private class BigIntArrayDataType
         {
-            public List<long> Col { get; set; }
+            public required List<long> Col { get; init; }
         }
 
         private void InsertTestDataSQL(long[] data)
@@ -61,7 +62,7 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteToListOf<BigIntArrayDataType>(cmd);
+            var data = Execute(cmd).ToListOf<BigIntArrayDataType>();
             //Assert
             Assert.Equal(4, data.Count);
             Assert.Equal(new List<long> { 1, 3, 5 }, data[1].Col);

@@ -8,7 +8,7 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.Base
 
     public static class TestConnectionStrings
     {
-        public static string TestDataBaseConnectionString { get; set; }
+        public  static string? TestDataBaseConnectionString { get; set; }
     }
 
     public class LocalSqlServerUnitTestStringsResolver : IDataAccessKeyToConnectionStringResolver
@@ -20,7 +20,7 @@ namespace CA.Blocks.PostgreSQLDataAccessUnitTests.Base
         /// <returns> The Connection string to be used by the ADO.NET provider.</returns>
         public string GetConnectionString(string connectionStringKey)
         {
-            return TestConnectionStrings.TestDataBaseConnectionString;
+            return TestConnectionStrings.TestDataBaseConnectionString!;
         }
     }
 

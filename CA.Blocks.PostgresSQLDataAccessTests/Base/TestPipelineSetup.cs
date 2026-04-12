@@ -20,7 +20,7 @@ namespace CA.Blocks.PostgresSQLDataAccessTests.Base
     {
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
         private IDistributedApplicationTestingBuilder? _appHost;
-        private DistributedApplication _app;
+        private DistributedApplication? _app;
 
         public CancellationToken CancellationToken { get; private set; }
         public string? ConnectionString { get; private set; }
@@ -84,7 +84,10 @@ namespace CA.Blocks.PostgresSQLDataAccessTests.Base
 
         public async ValueTask StopAsync()
         {
-            await _app.DisposeAsync();
+            if (_app != null)
+            {
+                await _app.DisposeAsync();
+            }
 
             await Task.CompletedTask;
         }

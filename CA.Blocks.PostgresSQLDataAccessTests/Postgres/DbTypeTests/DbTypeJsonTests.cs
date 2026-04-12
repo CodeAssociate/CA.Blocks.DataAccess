@@ -11,13 +11,13 @@ public class DbTypeJsonTests : UnitTestDataAccess, IDisposable
 {
     private class ColourValueDataType
     {
-        public string Color { get; set; }
-        public string Value { get; set; }
+        public required string Color { get; set; }
+        public required string Value { get; set; }
     }
 
     private class JsonDataExample
     {
-        public IList<ColourValueDataType> col { get; set; }
+        public required IList<ColourValueDataType> col { get; set; }
     }
 
     private void InsertTestDataAsText(string data)

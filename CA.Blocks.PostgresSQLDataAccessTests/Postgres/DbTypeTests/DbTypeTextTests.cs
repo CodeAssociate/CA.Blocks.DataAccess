@@ -1,5 +1,6 @@
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 using CA.Blocks.SQLServerDataAccess;
 
@@ -10,7 +11,7 @@ public class DbTypeTextTests : UnitTestDataAccess, IDisposable
 {
     private class StringDataType
     {
-        public string Col { get; set; }
+        public required string Col { get; set; }
     }
 
     private const string  TEST_DATA = "text data";
@@ -56,7 +57,7 @@ public class DbTypeTextTests : UnitTestDataAccess, IDisposable
         //Setup
         var cmd = CreateTextCommand(SelectTestDataSQL());
         //Act
-        var data = ExecuteToListOf<StringDataType>(cmd);
+        var data = Execute(cmd).ToListOf<StringDataType>();
         //Assert
         Assert.Equal(5, data.Count);
         Assert.Equal(TEST_DATA, data[0].Col);
@@ -75,6 +76,6 @@ public class DbTypeTextTests : UnitTestDataAccess, IDisposable
         var data = t.Translate(ExecuteDataTable(cmd));
 
         //Asert
-        Assert.Equal(1, data.Count);
+        Assert.Single(data);
     }
 }
