@@ -112,7 +112,22 @@ steps:
 # WE have a dependency on SQL so only run the DataAccessUnitTests and SqliteDataAccessUnitTests tests which can run in memory
 #todo add --coverage removed for not to get aspire running
 - task: DotNetCoreCLI@2
-  displayName: 'Build and Test'
+  displayName: 'Build'
+  continueOnError: false
+  inputs:
+       command: build
+       publishTestResults: false 
+       projects: |
+            **/*.csproj
+            !**/*DataAccessTestDataForUnitTests.csproj
+            !**/*SQLServerDataAccessUnitTests.csproj
+            !**/*MySQLDataAccessUnitTests.csproj
+            !**/*OdbcDataAccessUnitTests.csproj
+       arguments: >
+          --configuration $(BuildConfiguration)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Test'
   continueOnError: false
   inputs:
        command: test
