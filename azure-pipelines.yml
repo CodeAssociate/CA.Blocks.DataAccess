@@ -118,7 +118,7 @@ steps:
        command: test
        publishTestResults: false 
        projects: |
-            **/*.csproj
+            **/*Tests.csproj
             !**/*SQLServerDataAccessUnitTests.csproj
             !**/*MySQLDataAccessUnitTests.csproj
             !**/*OdbcDataAccessUnitTests.csproj
