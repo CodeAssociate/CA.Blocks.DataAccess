@@ -97,6 +97,11 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '10.0.x'
+
+- script: |
+    curl -sSL https://aspire.dev/install.sh | bash
+    echo "##vso[task.prependpath]$HOME/.aspire/bin"
+  displayName: 'Install Aspire CLI (Linux)'
     
 - task: DotNetCoreCLI@2
   displayName: 'Restore packages'
@@ -105,24 +110,39 @@ steps:
         command: restore
 
 # WE have a dependency on SQL so only run the DataAccessUnitTests and SqliteDataAccessUnitTests tests which can run in memory
-
 - task: DotNetCoreCLI@2
-  displayName: 'Build and Test'
+  displayName: 'Build'
   continueOnError: false
   inputs:
-       command: test
+       command: build
+       publishTestResults: false 
        projects: |
             **/*.csproj
+            !**/*DataAccessTestDataForUnitTests.csproj
             !**/*SQLServerDataAccessUnitTests.csproj
             !**/*MySQLDataAccessUnitTests.csproj
             !**/*OdbcDataAccessUnitTests.csproj
-            !**/*PostgreSQLDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
-          --collect "Code coverage"
-          /p:ExcludeByAttribute=Obsolete
 
 - task: DotNetCoreCLI@2
+  displayName: 'Test'
+  continueOnError: false
+  inputs:
+       command: test
+       publishTestResults: false 
+       projects: |
+            **/*Tests.csproj
+            !**/*DataAccessTestDataForUnitTests.csproj
+            !**/*SQLServerDataAccessUnitTests.csproj
+            !**/*MySQLDataAccessUnitTests.csproj
+            !**/*OdbcDataAccessUnitTests.csproj
+       arguments: >
+          --configuration $(BuildConfiguration)
+          --coverage 
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack'
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj;!**/*Tests.csproj;!**/*Benchmarks.csproj'

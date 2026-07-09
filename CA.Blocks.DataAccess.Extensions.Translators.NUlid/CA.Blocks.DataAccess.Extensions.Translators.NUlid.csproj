@@ -21,7 +21,7 @@
 	  <PackageTags>Extensions,CA.Blocks.DataAccess,NUlid,Ulid</PackageTags>
 	  <IncludeSymbols>True</IncludeSymbols>
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>

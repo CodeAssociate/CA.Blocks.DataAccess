@@ -21,10 +21,11 @@
 	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;odbc</PackageTags>
 	  <IncludeSymbols>True</IncludeSymbols>
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.Odbc" Version="10.0.2" />
+    <PackageReference Include="System.Data.Odbc" Version="10.0.5" />
   </ItemGroup>
 
   <ItemGroup>
