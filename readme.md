@@ -25,10 +25,8 @@ I am the author of this framework and an independent consultant specializing in 
 # TODO form to book a discovery call.
 
 If your database CPU is spiking, your APIs are lagging, or your batch processes are locking tables, let's chat.
-👉 **[Book a 15-Minute Technical Discovery Call](https://www.codeassociate.com)** 
+👉 ** [Book a 15-Minute Technical Discovery Call](https://CodeAssociate.github.io/CA.Blocks.DataAccess/Index.html)
 
-
----
 
 ## 🚀 Why CA.Blocks.DataAccess?
 
