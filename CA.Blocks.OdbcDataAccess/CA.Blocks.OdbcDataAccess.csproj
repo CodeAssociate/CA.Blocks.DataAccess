@@ -7,7 +7,7 @@
 	  <AssemblyVersion>987.654.3210.0</AssemblyVersion>
 	  <FileVersion>987.654.3210.0</FileVersion>
 	  <Version>987.654.3210</Version>
-	  <RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CodeAssociate/CA.Blocks.DataAccess</RepositoryUrl>
 	  <AssemblyName>CA.Blocks.OdbcDataAccess</AssemblyName>
 	  <RootNamespace>CA.Blocks.OdbcDataAccess</RootNamespace>
 	  <Authors>Kevin Bosch</Authors>
@@ -38,5 +38,11 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@
 	  <AssemblyVersion>987.654.3210.0</AssemblyVersion>
 	  <FileVersion>987.654.3210.0</FileVersion>
 	  <Version>987.654.3210</Version>
-	  <RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/CodeAssociate/CA.Blocks.DataAccess</RepositoryUrl>
 	  <AssemblyName>CA.Blocks.DataAccess.Model</AssemblyName>
 	  <RootNamespace>CA.Blocks.DataAccess.Model</RootNamespace>
 	  <Authors>Kevin Bosch</Authors>
@@ -31,7 +31,11 @@
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="10.0.300" PrivateAssets="All" />
+	
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
   <ItemGroup>
     <None Include="..\CA.Blocks.DataAccess.Model\readme.md">

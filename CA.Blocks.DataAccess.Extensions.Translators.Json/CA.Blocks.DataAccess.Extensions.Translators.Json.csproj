@@ -6,7 +6,7 @@
 		<AssemblyVersion>987.654.3210.0</AssemblyVersion>
 		<FileVersion>987.654.3210.0</FileVersion>
 		<Version>987.654.3210</Version>
-		<RepositoryUrl>https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CodeAssociate/CA.Blocks.DataAccess</RepositoryUrl>
 
 	  <Authors>Kevin Bosch</Authors>
 	  <Company>Ravin Enterprises Limited</Company>
@@ -22,7 +22,10 @@
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="10.0.300" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
 		<PackageReference Include="System.Text.Json" Version="10.0.9" />
 	</ItemGroup>
 	<ItemGroup>

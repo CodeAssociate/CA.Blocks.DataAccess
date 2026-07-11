@@ -1,15 +1,16 @@
 # CA.Blocks.DataAccess
 
 [![NuGet Downloads](https://img.shields.io/nuget/dt/CA.Blocks.DataAccess?color=blue&label=NuGet%20Downloads)](https://www.nuget.org/packages/CA.Blocks.DataAccess/)
-![Target](https://img.shields.io/badge/.NET-8.0%20%7C%209.0-purple)[![NuGet version (CA.Blocks.DataAccess)](https://img.shields.io/nuget/v/CA.Blocks.DataAccess.svg?style=flat-square)](https://www.nuget.org/packages/CA.Blocks.DataAccess/)
+![Target](https://img.shields.io/badge/.NET-8.0%20%7C%209.0%20%7C%2010.0-purple)
+[![NuGet version (CA.Blocks.DataAccess)](https://img.shields.io/nuget/v/CA.Blocks.DataAccess.svg?style=flat-square)](https://www.nuget.org/packages/CA.Blocks.DataAccess/)
 [![Build Status](https://dev.azure.com/RavinEnterprises/CA.Blocks/_apis/build/status/CA.Blocks.DataAccess?branchName=master)](https://dev.azure.com/RavinEnterprises/CA.Blocks/_build/latest?definitionId=2&branchName=master)
 
 - [Homepage](https://www.codeassociate.com/)
 - [Documentation](https://www.codeassociate.com/Blocks/DataAccess/)
 - [NuGet Package SQL Server](https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/)
 - [NuGet Package My SQL](https://www.nuget.org/packages/CA.Blocks.MySQLDataAccess/)
-- [NuGet Package SQlite](https://www.nuget.org/packages/CA.Blocks.SQLLiteDataAccess/) 
-
+- [NuGet Package Sqlite](https://www.nuget.org/packages/CA.Blocks.SQLLiteDataAccess/) 
+- [NuGet Package odbc](https://www.nuget.org/packages/CA.Blocks.OdbcDataAccess/) 
 
 ### Dapper-level speed with advanced SQL translation control and optimized parameter mapping.
 
@@ -22,10 +23,8 @@
 ## 💡 Looking to Optimize Your .NET Database Performance?
 I am the author of this framework and an independent consultant specializing in diagnosing and fixing severe database performance bottlenecks in .NET applications (especially scaling past Entity Framework limitations). 
 
-# TODO form to book a discovery call.
-
 If your database CPU is spiking, your APIs are lagging, or your batch processes are locking tables, let's chat.
-👉 ** [Book a 15-Minute Technical Discovery Call](https://CodeAssociate.github.io/CA.Blocks.DataAccess/Index.html)
+👉 ** [Book a 15-Minute Technical Discovery Call](https://codeassociate.github.io/CA.Blocks.DataAccess/contact.html)
 
 
 ## 🚀 Why CA.Blocks.DataAccess?
