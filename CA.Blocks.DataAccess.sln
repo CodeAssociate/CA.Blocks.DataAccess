@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		azure-pipelines.yml = azure-pipelines.yml
+		docs\contact.html = docs\contact.html
 		Directory.Build.props = Directory.Build.props
 		prep-project-file.ps1 = prep-project-file.ps1
 		readme.md = readme.md
