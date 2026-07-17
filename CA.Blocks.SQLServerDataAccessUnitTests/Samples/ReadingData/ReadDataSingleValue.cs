@@ -1,12 +1,9 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess.DI;
-using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
-    [TestFixture]
     public class ReadDataSingleValue
     {
 
@@ -58,59 +55,62 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
 
 
-        [Test]
+        [Fact]
         public void GetSysObjectsCount()
         {
             var target = new ExampleReadDataSingleValue();
             var executeResult = target.GetSysObjectsCount();
 
-            TestContext.WriteLine($"{executeResult}");
+            Console.WriteLine($"{executeResult}");
         }
 
-        [Test]
+        [Fact]
         public void GetSysObjectsCountReturnObject()
         {
             var target = new ExampleReadDataSingleValue();
             var executeResult = target.GetSysObjectsCountReturnObject();
 
-            TestContext.WriteLine($"{executeResult}");
+            Console.WriteLine($"{executeResult}");
         }
 
 
-        [Test]
+        [Fact]
         public void GetValueThatMightBeNull()
         {
             var target = new ExampleReadDataSingleValue();
             var executeResult = target.GetValueThatMightBeNull();
-            ClassicAssert.IsNull(executeResult);
+            Assert.Null(executeResult);
 
         }
 
-        [Test]
+        [Fact]
         public void GetValueThatMightBeNull2()
         {
             var target = new ExampleReadDataSingleValue();
             var executeResult = target.GetValueThatMightBeNull2();
-            ClassicAssert.IsNull(executeResult);
+            Assert.Null(executeResult);
 
         }
 
-        [Test]
+        [Fact]
         public void GetValueThatMustBeConverted()
         {
             var target = new ExampleReadDataSingleValue();
             var executeResult = target.GetValueThatMustBeConverted();
-            TestContext.WriteLine($"{executeResult}");
+            Console.WriteLine($"{executeResult}");
 
         }
 
-        [Test]
+        [Fact]
         public void GetDateTimeValue()
         {
             var target = new ExampleReadDataSingleValue();
             var executeResult = target.GetDateTimeValue();
-            TestContext.WriteLine($"{executeResult}");
+            Console.WriteLine($"{executeResult}");
 
         }
     }
 }
+
+
+

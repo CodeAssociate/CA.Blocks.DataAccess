@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.Models
@@ -26,3 +26,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.Models
 
 
 }
+
+
+
+

@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer;
 
-[TestFixture]
 public class SqlServerParameterAsDataTableTests : SqlServerDataAccess
 {
 
@@ -35,7 +32,7 @@ END";
     }
 
 
-    [Test]
+    [Fact]
     public void TestWithIntArray()
     {
         // Setup
@@ -49,10 +46,10 @@ END";
 
         // act
         var list = Execute(cmd).ToSingleNamedColumnList<int>("Value");
-        ClassicAssert.AreEqual(testList.Count, list.Count);
+        Assert.Equal(testList.Count, list.Count);
     }
 
-    [Test]
+    [Fact]
     public void TestWithStringArray()
     {
         // Setup
@@ -66,6 +63,9 @@ END";
 
         // act
         var list = Execute(cmd).ToSingleNamedColumnList<string>("Value");
-        ClassicAssert.AreEqual(testList.Count, list.Count);
+        Assert.Equal(testList.Count, list.Count);
     }
 }
+
+
+

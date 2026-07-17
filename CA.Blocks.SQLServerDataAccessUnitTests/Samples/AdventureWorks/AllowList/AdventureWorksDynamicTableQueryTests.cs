@@ -1,46 +1,43 @@
-﻿using System.Data;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using System.Data;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowList
 {
 
-    [TestFixture]
     public class AdventureWorksDynamicTableQueryTests
     {
         private readonly AdventureWorksDynamicTableQuery _adventureWorksDataAccess;
         public AdventureWorksDynamicTableQueryTests()
         {
             _adventureWorksDataAccess = new AdventureWorksDynamicTableQuery();
+            Init();
         }
 
 
-        [SetUp]
         public void Init()
         {
             try
             {
                 if (!_adventureWorksDataAccess.DBExists())
                 {
-                    Assert.Ignore("The AdventureWorks database does not  exist");
+                    throw Xunit.Sdk.SkipException.ForSkip("The AdventureWorks database does not exist");
                 }
             }
             catch 
             {
-                Assert.Ignore("The AdventureWorks database does not exist");
+                throw Xunit.Sdk.SkipException.ForSkip("The AdventureWorks database does not exist");
             }
         }
 
 
-        [Test]
+        [Fact]
         public void SelectDynamicTableFromSalesSchema_Valid()
         {
             var dtResult = _adventureWorksDataAccess.SelectDynamicTableFromSalesSchema("vSalesPerson");
-            ClassicAssert.IsNotNull(dtResult);
-            ClassicAssert.Greater(dtResult.Rows.Count, 0);
+            Assert.NotNull(dtResult);
+            Assert.True(dtResult.Rows.Count > 0);
         }
 
-        [Test]
+        [Fact]
         public void SelectDynamicTableFromSalesSchema_BadTableName()
         {
             var exception = Assert.Throws<DataException>(() =>
@@ -49,11 +46,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
                 }
             );
 
-            ClassicAssert.True(exception.Message.Contains("BadTableName"));
+            Assert.True(exception.Message.Contains("BadTableName"));
         }
 
 
-        [Test]
+        [Fact]
         public void SelectDynamicTableFromSalesSchema_WrongSchema()
         {
             var exception = Assert.Throws<DataException>(() =>
@@ -62,8 +59,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
                 }
             );
 
-            ClassicAssert.True(exception.Message.Contains("Person"));
+            Assert.True(exception.Message.Contains("Person"));
         }
 
     }
 }
+
+
+

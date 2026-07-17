@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters;
-using NUnit.Framework;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
-    [TestFixture]
-    public class ShortListDbColToTypeConverterTests : BaseDbColToTypeConverterTests
+        public class ShortListDbColToTypeConverterTests : BaseDbColToTypeConverterTests
     {
-        [Test]
-        [TestCase(0, null, (short)0)]
-        [TestCase(1, "", (short)0)]
-        [TestCase(1, "1,2,3,4,5",(short)1, (short)2, (short)3, (short)4, (short)5) ]
-        [TestCase(1, "1, 2,3, 4 , 5", (short)1, (short)2, (short)3, (short)4, (short)5)]
+        [Theory]
+        [InlineData(0, null, (short)0)]
+        [InlineData(1, "", (short)0)]
+        [InlineData(1, "1,2,3,4,5",(short)1, (short)2, (short)3, (short)4, (short)5) ]
+        [InlineData(1, "1, 2,3, 4 , 5", (short)1, (short)2, (short)3, (short)4, (short)5)]
         public void DbColToTypeConverterTest(int rowNumber, string? dbValue, params short[] numbers)
         {
             var dt = CreateTestTable(typeof(string), dbValue);
@@ -25,11 +23,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             }
 
             var target = new ShortListDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expected, target.GetDataValue(dataReader, 1));
         }
     }
 }

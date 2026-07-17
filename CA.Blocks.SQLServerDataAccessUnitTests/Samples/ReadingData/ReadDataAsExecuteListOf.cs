@@ -1,17 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess.DI;
-using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess.Builder;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
-    [TestFixture]
     public class ReadDataAsExecuteListOf
     {
         public class ExampleSysObject
@@ -145,29 +143,29 @@ WHERE xtype = @xtype";
 
         }
 
-        [Test]
+        [Fact]
         public void ExecuteSpWho()
         {
             var target = new ExampleReadDataAsExecuteListOf();
             var executeResult = target.ExecSpWho();
             foreach (var o in executeResult)
             {
-                TestContext.WriteLine($"{o.spid},{o.ecid},{o.status},{o.loginame},{o.hostname},{o.blk},{o.dbname},{o.cmd},{o.request_id}");
+                Console.WriteLine($"{o.spid},{o.ecid},{o.status},{o.loginame},{o.hostname},{o.blk},{o.dbname},{o.cmd},{o.request_id}");
             }
         }
 
-        [Test]
+        [Fact]
         public void ExecuteSpWhoAdoNet()
         {
             var target = new ExampleReadDataAsExecuteListOf();
             var executeResult = target.ExecSpWhoAdonet();
             foreach (var o in executeResult)
             {
-                TestContext.WriteLine($"{o.spid},{o.ecid},{o.status},{o.loginame},{o.hostname},{o.blk},{o.dbname},{o.cmd},{o.request_id}");
+                Console.WriteLine($"{o.spid},{o.ecid},{o.status},{o.loginame},{o.hostname},{o.blk},{o.dbname},{o.cmd},{o.request_id}");
             }
         }
 
-        [Test]
+        [Fact]
         public void ExecuteToListOfDev()
         {
             var target = new ExampleReadDataAsExecuteListOf();
@@ -175,28 +173,28 @@ WHERE xtype = @xtype";
 
             foreach (var o in executeResult)
             {
-                TestContext.WriteLine($"{o.Id},{o.Name},{o.XType},{o.CreateDate}");
+                Console.WriteLine($"{o.Id},{o.Name},{o.XType},{o.CreateDate}");
             }
 
             var executeResult2 = target.ReadSysObjectsOfType2("S");
 
             foreach (var o in executeResult)
             {
-                TestContext.WriteLine($"{o.Id},{o.Name},{o.XType},{o.CreateDate}");
+                Console.WriteLine($"{o.Id},{o.Name},{o.XType},{o.CreateDate}");
             }
 
             var sysObjectById = target.GetSysObjectById(executeResult2[0].Id);
-            TestContext.WriteLine($"{sysObjectById.Id},{sysObjectById.Name},{sysObjectById.XType},{sysObjectById.CreateDate}");
+            Console.WriteLine($"{sysObjectById.Id},{sysObjectById.Name},{sysObjectById.XType},{sysObjectById.CreateDate}");
         }
 
 
-        [Test]
+        [Fact]
         public void GetSysObjectByName()
         {
             var target = new ExampleReadDataAsExecuteListOf();
             var executeResult = target.GetSysObjectByName();
 
-            TestContext.WriteLine($"{executeResult.id},{executeResult.name},{executeResult.refdate}");
+            Console.WriteLine($"{executeResult.id},{executeResult.name},{executeResult.refdate}");
         }
 
 
@@ -204,7 +202,7 @@ WHERE xtype = @xtype";
         {
             foreach (var o in results)
             {
-                TestContext.WriteLine($"{o.Id},{o.Name},{o.XType},{o.CreateDate}");
+                Console.WriteLine($"{o.Id},{o.Name},{o.XType},{o.CreateDate}");
             }
         }
 
@@ -251,7 +249,7 @@ WHERE xtype = @xtype";
         }
 
 
-        [Test]
+        [Fact]
         public async Task GetSysObjectByNameSyncVsrAsync()
         {
 
@@ -266,16 +264,16 @@ WHERE xtype = @xtype";
 
                 if (syncTime < asyncTime)
                 {
-                    TestContext.WriteLine($"try {i} SyncWinner - {syncTime} vrs {asyncTime}" );
+                    Console.WriteLine($"try {i} SyncWinner - {syncTime} vrs {asyncTime}" );
                 }
                 else
                 {
-                    TestContext.WriteLine($"try {i} ASyncWinner - {syncTime} vrs {asyncTime}" );
+                    Console.WriteLine($"try {i} ASyncWinner - {syncTime} vrs {asyncTime}" );
                 }
             }
         }
 
-        [Test]
+        [Fact]
         public void GetSysObjectByNameInterpolatedString()
         {
 
@@ -290,13 +288,16 @@ WHERE xtype = @xtype";
 
                 if (directTime < interpolatedTime)
                 {
-                    TestContext.WriteLine($"try {i} InterpolatedWinner - {directTime} vrs {interpolatedTime}");
+                    Console.WriteLine($"try {i} InterpolatedWinner - {directTime} vrs {interpolatedTime}");
                 }
                 else
                 {
-                    TestContext.WriteLine($"try {i} DirectWinner - {directTime} vrs {interpolatedTime}");
+                    Console.WriteLine($"try {i} DirectWinner - {directTime} vrs {interpolatedTime}");
                 }
             }
         }
     }
 }
+
+
+

@@ -1,24 +1,23 @@
-﻿using System;
+using System;
 using System.Data;
 using CA.Blocks.SQLServerDataAccess;
-using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests;
 
-[TestFixture]
 public class DefaultTypeToSqlDbTypeProviderTests
 {
-
-    [TestCase(typeof(string), SqlDbType.NVarChar)]
-    [TestCase(typeof(string), SqlDbType.VarChar, "VarChar")]
-    [TestCase(typeof(string), SqlDbType.VarChar, "varchar")]
-    [TestCase(typeof(long), SqlDbType.BigInt)]
-    [TestCase(typeof(long?), SqlDbType.BigInt)]
-    //[TestCase(typeof(string), SqlDbType.NVarChar)]
-    public void DefaultMappings(Type source, SqlDbType dbtype, string specific = null)
+    [Theory]
+    [InlineData(typeof(string), SqlDbType.NVarChar, null)]
+    [InlineData(typeof(string), SqlDbType.VarChar, "VarChar")]
+    [InlineData(typeof(string), SqlDbType.VarChar, "varchar")]
+    [InlineData(typeof(long), SqlDbType.BigInt, null)]
+    [InlineData(typeof(long?), SqlDbType.BigInt, null)]
+    public void DefaultMappings(Type source, SqlDbType dbtype, string? specific)
     {
         var r = DefaultTypeToSqlDbTypeProvider.DefaultInstance.Resolve(source, specific);
-        Assert.That(r, Is.EqualTo(dbtype));
+        Assert.Equal(dbtype, r);
     }
-
 }
+
+
+

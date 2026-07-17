@@ -1,279 +1,277 @@
-﻿using CA.Blocks.DataAccess.Translator.Extensions;
-using NUnit.Framework.Legacy;
+using CA.Blocks.DataAccess.Translator.Extensions;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions;
 
-[TestFixture]
 public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTests
 {
     #region Single
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToSingle_ValidRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToSingleAsync<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToSingle_ValidRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToSingle<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToSingle_InvalidNoRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(0);
 
-        var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
+        var exception = await Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
             _ = await dataReader.ToSingleAsync<TestDataObject>();
 
         });
-        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
-        ClassicAssert.True(exception.Message.Contains("No row"));
+        Assert.True(exception.Message.Contains("Expected Single Result"));
+        Assert.True(exception.Message.Contains("No row"));
     }
 
-    [Test]
-    public void DataReaderExtensions_ToSingle_InvalidNoRowTask()
+    [Fact]
+    public async Task DataReaderExtensions_ToSingle_InvalidNoRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(0);
 
-        var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
+        var exception = await Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
             _ = await dataReader.ToSingle<TestDataObject>();
 
         });
-        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
-        ClassicAssert.True(exception.Message.Contains("No row"));
+        Assert.True(exception.Message.Contains("Expected Single Result"));
+        Assert.True(exception.Message.Contains("No row"));
     }
 
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToSingle_InvalidMoreThanOneRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(2);
 
-        var exception = Assert.ThrowsAsync<System.Data.DataException>(async() =>
+        var exception = await Assert.ThrowsAsync<System.Data.DataException>(async() =>
         {
             _ = await dataReader.ToSingleAsync<TestDataObject>();
 
         });
-        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
-        ClassicAssert.True(exception.Message.Contains("more"));
+        Assert.True(exception.Message.Contains("Expected Single Result"));
+        Assert.True(exception.Message.Contains("more"));
     }
 
-    [Test]
-    public void DataReaderExtensions_ToSingle_InvalidMoreThanOneRowTask()
+    [Fact]
+    public async Task DataReaderExtensions_ToSingle_InvalidMoreThanOneRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(2);
 
-        var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
+        var exception = await Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
             _ = await dataReader.ToSingle<TestDataObject>();
 
         });
-        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
-        ClassicAssert.True(exception.Message.Contains("more"));
+        Assert.True(exception.Message.Contains("Expected Single Result"));
+        Assert.True(exception.Message.Contains("more"));
     }
 
     #endregion 
 
     #region SingleOrDefault
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToSingleOrDefault_ValidRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToSingleOrDefaultAsync<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToSingleOrDefault_ValidRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToSingleOrDefault<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToSingleOrDefault_ValidNoRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(0);
         var result = await dataReader.ToSingleOrDefaultAsync<TestDataObject>();
-        Assert.That(result, Is.EqualTo(default(TestDataObject)));
+        Assert.Equal(default(TestDataObject), result);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToSingleOrDefault_ValidNoRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(0);
         var result = await dataReader.ToSingleOrDefault<TestDataObject>();
-        Assert.That(result, Is.EqualTo(default(TestDataObject)));
+        Assert.Equal(default(TestDataObject), result);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToSingleOrDefault_InvalidMoreThanOneRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(2);
 
-        var exception = Assert.ThrowsAsync<System.Data.DataException>(async () => 
+        var exception = await Assert.ThrowsAsync<System.Data.DataException>(async () => 
         {
             _ = await dataReader.ToSingleOrDefaultAsync<TestDataObject>();
 
         });
-        Assert.That(exception.Message.Contains("Expected Single Result"), Is.True);
-        Assert.That(exception.Message.Contains("more"), Is.True);
+        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("more", exception.Message);
     }
 
-    [Test]
-    public void DataReaderExtensions_ToSingleOrDefault_InvalidMoreThanOneRowTask()
+    [Fact]
+    public async Task DataReaderExtensions_ToSingleOrDefault_InvalidMoreThanOneRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(2);
 
-        var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
+        var exception = await Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
             _ = await dataReader.ToSingleOrDefault<TestDataObject>();
 
         });
-        Assert.That(exception.Message.Contains("Expected Single Result"), Is.True);
-        Assert.That(exception.Message.Contains("more"), Is.True);
+        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("more", exception.Message);
     }
 
     #endregion 
 
     #region First 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirst_ValidRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToFirstAsync<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirst_ValidRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToFirst<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirst_InvalidNoRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(0);
 
-        var exception = Assert.ThrowsAsync<System.Data.DataException>(async () => 
+        var exception = await Assert.ThrowsAsync<System.Data.DataException>(async () => 
         {
             _ = await dataReader.ToFirstAsync<TestDataObject>();
 
         });
-        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
-        ClassicAssert.True(exception.Message.Contains("No row"));
+        Assert.True(exception.Message.Contains("Expected Single Result"));
+        Assert.True(exception.Message.Contains("No row"));
     }
 
-    [Test]
-    public void DataReaderExtensions_ToFirst_InvalidNoRowTask()
+    [Fact]
+    public async Task DataReaderExtensions_ToFirst_InvalidNoRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(0);
 
-        var exception = Assert.ThrowsAsync<System.Data.DataException>(async () =>
+        var exception = await Assert.ThrowsAsync<System.Data.DataException>(async () =>
         {
             _ = await dataReader.ToFirst<TestDataObject>();
 
         });
-        ClassicAssert.True(exception.Message.Contains("Expected Single Result"));
-        ClassicAssert.True(exception.Message.Contains("No row"));
+        Assert.True(exception.Message.Contains("Expected Single Result"));
+        Assert.True(exception.Message.Contains("No row"));
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirst_ValidMoreThanOneRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(2);
 
         var result = await dataReader.ToFirstAsync<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirst_ValidMoreThanOneRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(2);
 
         var result = await dataReader.ToFirst<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
     #endregion
 
     #region First Or Default 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirstOrDefault_ValidRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToFirstOrDefaultAsync<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirstOrDefault_ValidRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(1);
         var result = await dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirstOrDefaultValidNoRow()
     {
         var dataReader = await  GenerateTestDataReaderAsync(0);
         var result = await dataReader.ToFirstOrDefaultAsync<TestDataObject>();
-        Assert.That(result, Is.EqualTo(default(TestDataObject)));
+        Assert.Equal(default(TestDataObject), result);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirstOrDefaultValidNoRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(0);
         var result = await dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.That(result, Is.EqualTo(default(TestDataObject)));
+        Assert.Equal(default(TestDataObject), result);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirstOrDefault_ValidMoreThanOneRow()
     {
         var dataReader = await GenerateTestDataReaderAsync(2);
 
         var result = await dataReader.ToFirstOrDefaultAsync<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToFirstOrDefault_ValidMoreThanOneRowTask()
     {
         var dataReader = GenerateTestDataReaderAsync(2);
 
         var result = await dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
     #endregion 
 }

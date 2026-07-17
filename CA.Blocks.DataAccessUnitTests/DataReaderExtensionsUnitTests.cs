@@ -1,11 +1,10 @@
-﻿using System.Data;
+using System.Data;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccessUnitTests.Base;
 
 namespace CA.Blocks.DataAccessUnitTests
 {
-    [TestFixture]
-    public class DataReaderExtensionsUnitTests
+        public class DataReaderExtensionsUnitTests
     {
         // we use a simple mock of reader using a data table
         private static IDataReader CreateTestTable(Type dbType, object? testData)
@@ -24,10 +23,10 @@ namespace CA.Blocks.DataAccessUnitTests
         }
 
 
-        [Test]
-        [TestCase(true)]
-        [TestCase(false)]
-        [TestCase(null)]
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        [InlineData(null)]
         public void GetValueFromRowAsBool(bool? expected)
         {
             bool? actual;
@@ -36,89 +35,85 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsBool("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsBool(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsNullBool("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullBool(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
 
 
-        [Test]
-        [TestCase(123)]
-        [TestCase(byte.MinValue)]
-        [TestCase(byte.MaxValue)]
-        [TestCase(null)]
+        [Theory]
+        [InlineData((byte)123)]
+        [InlineData(byte.MinValue)]
+        [InlineData(byte.MaxValue)]
+        [InlineData(null)]
         public void GetValueFromRowAsByte(byte? expected)
         {
             byte? actual;
             var dr = CreateTestTable(typeof(byte), expected);
             dr.Read();
-            Assert.Multiple(() =>
-            {
+            
                 if (expected.HasValue)
                 {
                     actual = dr.AsByte("col");
-                    Assert.That(actual, Is.EqualTo(expected));
+                    Assert.Equal(expected, actual);
 
                     actual = dr.AsByte(1);
-                    Assert.That(actual, Is.EqualTo(expected));
+                    Assert.Equal(expected, actual);
                 }
                 else
                 {
                     actual = dr.AsNullByte("col");
-                    Assert.That(actual, Is.Null);
+                    Assert.Null(actual);
 
                     actual = dr.AsNullByte(1);
-                    Assert.That(actual, Is.Null);
+                    Assert.Null(actual);
                 }
-            });
         }
 
-        [Test]
-        [TestCase(12345)]
-        [TestCase(short.MinValue)]
-        [TestCase(short.MaxValue)]
-        [TestCase(null)]
+        [Theory]
+        [InlineData((short)12345)]
+        [InlineData(short.MinValue)]
+        [InlineData(short.MaxValue)]
+        [InlineData(null)]
         public void GetValueFromRowAsShort(short? expected)
         {
             short? actual;
             var dr = CreateTestTable(typeof(short), expected);
             dr.Read();
-            Assert.Multiple(() =>
-            {
+            
                 if (expected.HasValue)
                 {
                     actual = dr.AsShort("col");
-                    Assert.That(actual, Is.EqualTo(expected));
+                    Assert.Equal(expected, actual);
 
                     actual = dr.AsShort(1);
-                    Assert.That(actual, Is.EqualTo(expected));
+                    Assert.Equal(expected, actual);
                 }
                 else
                 {
                     actual = dr.AsNullShort("col");
-                    Assert.That(actual, Is.Null);
+                    Assert.Null(actual);
 
                     actual = dr.AsNullShort(1);
-                    Assert.That(actual, Is.Null);
+                    Assert.Null(actual);
                 }
-            });
         }
 
-        [Test]
-        [TestCase(1234567)]
-        [TestCase(int.MinValue)]
-        [TestCase(int.MaxValue)]
-        [TestCase(null)]
+        [Theory]
+        [InlineData(1234567)]
+        [InlineData(int.MinValue)]
+        [InlineData(int.MaxValue)]
+        [InlineData(null)]
         public void GetValueFromRowAsInt(int? expected)
         {
             int? actual;
@@ -127,26 +122,26 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsInt("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsInt(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsNullInt("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullInt(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
 
-        [Test]
-        [TestCase(1234567)]
-        [TestCase(long.MinValue)]
-        [TestCase(long.MaxValue)]
-        [TestCase(null)]
+        [Theory]
+        [InlineData(1234567L)]
+        [InlineData(long.MinValue)]
+        [InlineData(long.MaxValue)]
+        [InlineData(null)]
         public void GetValueFromRowAsLong(long? expected)
         {
             long? actual;
@@ -155,26 +150,26 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsLong("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsLong(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsNullLong("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullLong(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
 
-        [Test]
-        [TestCase("new")]
-        [TestCase("empty")]
-        [TestCase("7009B509-098F-4AF4-97C8-CF354B4E0D77")]
-        [TestCase(null)]
+        [Theory]
+        [InlineData("new")]
+        [InlineData("empty")]
+        [InlineData("7009B509-098F-4AF4-97C8-CF354B4E0D77")]
+        [InlineData(null)]
         public void GetValueFromRowAsGuid(string? testData)
         {
             Guid? expected = null;
@@ -200,58 +195,59 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsGuid("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsGuid(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsNullGuid("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullGuid(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
 
 
 
-        [Test]
-        [TestCase(0)]
-        [TestCase(1234567.345)]
-        [TestCase(-1234567890.1234567)]
-        [TestCase(1234567890.12345678)]
-        [TestCase(null)]
-        public void GetValueFromRowAsDecimal(decimal? expected)
+        [Theory]
+        [InlineData(0d)]
+        [InlineData(1234567.345d)]
+        [InlineData(-1234567890.1234567d)]
+        [InlineData(1234567890.12345678d)]
+        [InlineData(null)]
+        public void GetValueFromRowAsDecimal(double? expected)
         {
+            decimal? expectedDecimal = expected.HasValue ? (decimal?)expected.Value : null;
             decimal? actual;
-            var dr = CreateTestTable(typeof(decimal), expected);
+            var dr = CreateTestTable(typeof(decimal), expectedDecimal);
             dr.Read();
-            if (expected.HasValue)
+            if (expectedDecimal.HasValue)
             {
                 actual = dr.AsDecimal("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expectedDecimal, actual);
 
                 actual = dr.AsDecimal(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expectedDecimal, actual);
             }
             else
             {
                 actual = dr.AsNullDecimal("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullDecimal(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
 
-        [Test]
-        [TestCase(0)]
-        [TestCase(1234567.345)]
-        [TestCase(-1234567890.1234567)]
-        [TestCase(1234567890.12345678)]
-        [TestCase(null)]
+        [Theory]
+        [InlineData(0d)]
+        [InlineData(1234567.345d)]
+        [InlineData(-1234567890.1234567d)]
+        [InlineData(1234567890.12345678d)]
+        [InlineData(null)]
         public void GetValueFromRowAsDouble(double? expected)
         {
             double? actual;
@@ -260,27 +256,27 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsDouble("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsDouble(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsNullDouble("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullDouble(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
 
-        [Test]
-        [TestCase((Single)0)]
-        [TestCase((Single)1234567.345)]
-        [TestCase((Single) (-12567890.1234567))]
-        [TestCase((Single)12345890.12345678)]
-        [TestCase(null)]
+        [Theory]
+        [InlineData((Single)0)]
+        [InlineData((Single)1234567.345)]
+        [InlineData((Single) (-12567890.1234567))]
+        [InlineData((Single)12345890.12345678)]
+        [InlineData(null)]
         public void GetValueFromRowAsSingle(Single? expected)
         {
 
@@ -290,28 +286,28 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsSingle("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsSingle(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsNullSingle("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullSingle(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
 
 
-        [Test]
-        [TestCase('a')]
-        [TestCase('Z')]
-        [TestCase('*')]
-        [TestCase('~')]
-        [TestCase(null)]
+        [Theory]
+        [InlineData('a')]
+        [InlineData('Z')]
+        [InlineData('*')]
+        [InlineData('~')]
+        [InlineData(null)]
         public void GetValueFromRowAsChar(char? expected)
         {
             Char? actual;
@@ -320,28 +316,28 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsChar("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsChar(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsNullChar("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullChar(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
 
-        [Test]
-        [TestCase("now")]
-        [TestCase("2-Jan-2019")]
-        [TestCase("2-Jan-2019 12:39:22")]
-        [TestCase("2-Jan-2019 23:59:59")]
-        [TestCase("2-Jan-2019 00:00:01.333")]
-        [TestCase(null)]
+        [Theory]
+        [InlineData("now")]
+        [InlineData("2-Jan-2019")]
+        [InlineData("2-Jan-2019 12:39:22")]
+        [InlineData("2-Jan-2019 23:59:59")]
+        [InlineData("2-Jan-2019 00:00:01.333")]
+        [InlineData(null)]
         public void GetValueFromRowAsDateTime(string? testData)
         {
             DateTime? expected = null;
@@ -363,29 +359,29 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsDateTime("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsDateTime(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsNullDateTime("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullDateTime(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
 
 
 
-        [Test]
-        [TestCase("asdasd")]
-        [TestCase("asd-0432 ")]
-        [TestCase("&*(*(&*Y()))")]
-        [TestCase("")]
-        [TestCase(null)]
+        [Theory]
+        [InlineData("asdasd")]
+        [InlineData("asd-0432 ")]
+        [InlineData("&*(*(&*Y()))")]
+        [InlineData("")]
+        [InlineData(null)]
         public void GetValueFromRowAsString(string? expected)
         {
             string actual;
@@ -394,33 +390,33 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected != null)
             {
                 actual = dr.AsString("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsString(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsString("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsString(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsString("col", true);
-                Assert.That(actual, Is.EqualTo(string.Empty));
+                Assert.Equal(string.Empty, actual);
 
                 actual = dr.AsString(1, true);
-                Assert.That(actual, Is.EqualTo(string.Empty));
+                Assert.Equal(string.Empty, actual);
             }
         }
 
 
-        [Test]
-        [TestCase("now")]
-        [TestCase("00:00:00")]
-        [TestCase("23:44:34.333")]
-        [TestCase(null)]
+        [Theory]
+        [InlineData("now")]
+        [InlineData("00:00:00")]
+        [InlineData("23:44:34.333")]
+        [InlineData(null)]
         public void GetValueFromRowAsTimeSpan(string? testData)
         {
             TimeSpan? expected = null;
@@ -442,18 +438,18 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 actual = dr.AsTimeSpan("col");
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
 
                 actual = dr.AsTimeSpan(1);
-                Assert.That(actual, Is.EqualTo(expected));
+                Assert.Equal(expected, actual);
             }
             else
             {
                 actual = dr.AsNullTimeSpan("col");
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
 
                 actual = dr.AsNullTimeSpan(1);
-                Assert.That(actual, Is.Null);
+                Assert.Null(actual);
             }
         }
     }

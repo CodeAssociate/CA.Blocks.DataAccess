@@ -1,14 +1,11 @@
-﻿using CA.Blocks.DataAccess;
+using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeEnumStringTests : UnitTestDataAccess
+    public class DbTypeEnumStringTests : UnitTestDataAccess, IDisposable
     {
         public enum MyTestEnum
         {
@@ -27,8 +24,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeEnumStringTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("varchar(32) not null"));
@@ -40,14 +36,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -55,13 +50,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = this.ExecuteToListOf<StringEnumDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(MyTestEnum.Foo, data[0].Col);
-            ClassicAssert.AreEqual(MyTestEnum.Bar, data[3].Col);
-            ClassicAssert.AreEqual(MyTestEnum.ForBar, data[4].Col);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(MyTestEnum.Foo, data[0].Col);
+            Assert.Equal(MyTestEnum.Bar, data[3].Col);
+            Assert.Equal(MyTestEnum.ForBar, data[4].Col);
         }
         
-        [Test]
+        [Fact]
         public void SelectAllDataWithWithTranslator()
         {
             //setup
@@ -71,7 +66,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
             
-            ClassicAssert.AreEqual(testValue, data.Col);
+            Assert.Equal(testValue, data.Col);
         }
     }
 }
+
+
+
+

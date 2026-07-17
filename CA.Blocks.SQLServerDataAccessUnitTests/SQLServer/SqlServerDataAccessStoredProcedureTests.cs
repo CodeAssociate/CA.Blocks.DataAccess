@@ -1,15 +1,12 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using CA.Blocks.DataAccess;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using Microsoft.Data.SqlClient;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
-    [TestFixture]
-    public class SqlServerDataAccessStoredProcedureTests : UnitTestDataAccess
+    public class SqlServerDataAccessStoredProcedureTests : UnitTestDataAccess, IDisposable
     {
 
         
@@ -20,8 +17,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         }
 
 
-        [OneTimeSetUp]
-        public void Setup()
+        public SqlServerDataAccessStoredProcedureTests()
         {
             DropExistingTesttoredProcedure("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output");
             string sqlTestProc =
@@ -41,8 +37,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             ExecuteNonQuery(CreateTextCommand(sqlTestProc2));
         }
 
-        [OneTimeTearDown]
-        public void Teardown()
+        public new void Dispose()
         {
             DropExistingTesttoredProcedure("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output");
             DropExistingTesttoredProcedure("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput");
@@ -64,43 +59,43 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         }
         
 
-        [Test]
+        [Fact]
         public void ExecuteSpwhoWithNoReturnValue()
         {
             var cmd = CreateStoredProcedureCommand("sp_who");
             var result = ExecuteDataTable(cmd);
-            ClassicAssert.IsTrue(result.Rows.Count > 0);
+            Assert.True(result.Rows.Count > 0);
         }
 
-        [Test]
+        [Fact]
         public void ExecuteSpwhoWithNoReturnValueToObject()
         {
             var cmd = CreateStoredProcedureCommand("sp_who");
             var result = ExecuteToListOf<SpWhoResult>(cmd);
-            ClassicAssert.IsTrue(result.Count > 0);
+            Assert.True(result.Count > 0);
         }
 
-        [Test]
+        [Fact]
         public void ExecuteSpWhoWithParameter()
         {
             string loginName = "sa";
             var cmd = CreateStoredProcedureCommand("sp_who").WithParameter(loginName.ToSqlParameter("@loginame"));
             var result = ExecuteToListOf<SpWhoResult>(cmd);
-            ClassicAssert.IsTrue(result.Count > 0);
+            Assert.True(result.Count > 0);
         }
 
-        [Test]
+        [Fact]
         public void ExecuteSpWhoWithReturnValue()
         {
             var cmd = CreateStoredProcedureCommand("sp_who").WithReturnResult();
             var result = ExecuteDataTable(cmd);
             var spReturnValue = cmd.GetReturnResult();
-            ClassicAssert.AreEqual(0, spReturnValue);
-            ClassicAssert.IsTrue(result.Rows.Count > 0);
+            Assert.Equal(0, spReturnValue);
+            Assert.True(result.Rows.Count > 0);
         }
 
 
-        [Test]
+        [Fact]
         public void Execute_CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output()
         {
             int intOutput = 0;
@@ -108,10 +103,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var cmd = CreateStoredProcedureCommand("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output").WithParameter(sqlOutputParamParam);
             ExecuteNonQuery(cmd);
             intOutput = sqlOutputParamParam.ToValue<int>();
-            ClassicAssert.AreEqual(123, intOutput);
+            Assert.Equal(123, intOutput);
         }
 
-        [Test]
+        [Fact]
         public void CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput()
         {
             int intInput = 123;
@@ -119,10 +114,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var cmd = CreateStoredProcedureCommand("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput").WithParameter(sqlInOutParam);
             ExecuteNonQuery(cmd);
             intInput = sqlInOutParam.ToValue<int>();
-            ClassicAssert.AreEqual(246, intInput);
+            Assert.Equal(246, intInput);
         }
 
 
 
     }
 }
+
+
+

@@ -1,4 +1,4 @@
-﻿
+
 using System.Data;
 using System.Text;
 using CA.Blocks.DataAccess;
@@ -6,8 +6,7 @@ using CA.Blocks.DataAccess;
 
 namespace CA.Blocks.DataAccessUnitTests
 {
-    [TestFixture]
-    public class DataRowExtensionsUnitTests
+        public class DataRowExtensionsUnitTests
     {
         /// <summary>
         /// Create a test table with the first row as null and the second row as the testData value for type dbType
@@ -45,21 +44,21 @@ namespace CA.Blocks.DataAccessUnitTests
         {
             if (expected.HasValue)
             {
-                Assert.That(actual, Is.Not.Null);
-                Assert.That(actual!.Value, Is.EqualTo(expected));
+                Assert.NotNull(actual);
+                Assert.Equal(expected, actual!.Value);
             }
             else
             {
-                Assert.That(actual.HasValue, Is.False);
+                Assert.False(actual.HasValue);
             }
         }
         
         // There is not null value for Binary it is simple a zero length array
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, "Test Data ")]
-        [TestCase(1, "Test Date 2")]
-        [TestCase(1, "")]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, "Test Data ")]
+        [InlineData(1, "Test Date 2")]
+        [InlineData(1, "")]
         public void GetValueFromRowAsBinary(int rowNumber, string? testValue)
         {
             byte[]? expected = null;
@@ -70,41 +69,37 @@ namespace CA.Blocks.DataAccessUnitTests
             var dt = CreateTestTable(typeof(byte[]), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsBinary("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsBinary(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsBinary(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsBinary("col"));
+                Assert.Equal(expected, dataRow.AsBinary(1));
+                Assert.Equal(expected, dataRow.AsBinary(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsBinary("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsBinary(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsBinary("col"));
+                Assert.Equal(expected, dataReader.AsBinary(1));
         }
 
-        [Test]
-        [TestCase(1, true)]
-        [TestCase(1, false)]
+        [Theory]
+        [InlineData(1, true)]
+        [InlineData(1, false)]
         public void GetValueFromRowAsBool(int rowNumber, bool expected)
         {
             var dt = CreateTestTable(typeof(bool), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsBool("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsBool(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsBool(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsBool("col"));
+                Assert.Equal(expected, dataRow.AsBool(1));
+                Assert.Equal(expected, dataRow.AsBool(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsBool("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsBool(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsBool("col"));
+                Assert.Equal(expected, dataReader.AsBool(1));
         }
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, true)]
-        [TestCase(1, false)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, true)]
+        [InlineData(1, false)]
         public void GetValueFromRowAsBool_AsNullTests(int rowNumber, bool? expected)
         {
             var dt = CreateTestTable(typeof(bool), expected);
@@ -119,30 +114,28 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullBool(1));
         }
 
-        [Test]
-        [TestCase(1, (byte)0)]
-        [TestCase(1, (byte)213)]
+        [Theory]
+        [InlineData(1, (byte)0)]
+        [InlineData(1, (byte)213)]
         public void GetValueFromRowAsByte(int rowNumber, byte expected)
         {
             var dt = CreateTestTable(typeof(byte), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsByte("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsByte(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsByte(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsByte("col"));
+                Assert.Equal(expected, dataRow.AsByte(1));
+                Assert.Equal(expected, dataRow.AsByte(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsByte("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsByte(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsByte("col"));
+                Assert.Equal(expected, dataReader.AsByte(1));
         }
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, (byte)0)]
-        [TestCase(1, (byte)128)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (byte)0)]
+        [InlineData(1, (byte)128)]
         public void GetValueFromRowAsByte_AsNullTests(int rowNumber, byte? expected)
         {
             var dt = CreateTestTable(typeof(byte), expected);
@@ -157,30 +150,28 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullByte(1));
         }
         
-        [Test]
-        [TestCase(1, '*')]
-        [TestCase(1, '0')]
+        [Theory]
+        [InlineData(1, '*')]
+        [InlineData(1, '0')]
         public void GetValueFromRowAsChar(int rowNumber, char expected)
         {
             var dt = CreateTestTable(typeof(char), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsChar("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsChar(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsChar(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsChar("col"));
+                Assert.Equal(expected, dataRow.AsChar(1));
+                Assert.Equal(expected, dataRow.AsChar(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsChar("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsChar(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsChar("col"));
+                Assert.Equal(expected, dataReader.AsChar(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, 'a')]
-        [TestCase(1, 'Z')]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, 'a')]
+        [InlineData(1, 'Z')]
         public void GetValueFromRowAsChar_AsNullTests(int rowNumber, char? expected)
         {
             var dt = CreateTestTable(typeof(char), expected);
@@ -195,12 +186,12 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullChar(1));
         }
 
-        [Test]
-        [TestCase(1, "now")]
-        [TestCase(1, "2-Jan-2019")]
-        [TestCase(1, "2-Jan-2019 12:39:22")]
-        [TestCase(1, "2-Jan-2019 23:59:59")]
-        [TestCase(1, "2-Jan-2019 00:00:01.333")]
+        [Theory]
+        [InlineData(1, "now")]
+        [InlineData(1, "2-Jan-2019")]
+        [InlineData(1, "2-Jan-2019 12:39:22")]
+        [InlineData(1, "2-Jan-2019 23:59:59")]
+        [InlineData(1, "2-Jan-2019 00:00:01.333")]
         public void GetValueFromRowAsDateTime(int rowNumber, string testDate)
         {
             DateTime? expected = null;
@@ -220,20 +211,18 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsDateTime("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsDateTime(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsDateTime(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsDateTime("col"));
+                Assert.Equal(expected, dataRow.AsDateTime(1));
+                Assert.Equal(expected, dataRow.AsDateTime(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsDateTime("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsDateTime(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsDateTime("col"));
+                Assert.Equal(expected, dataReader.AsDateTime(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, "1-Jan-2019")]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, "1-Jan-2019")]
         public void GetValueFromRowAsDateTime_AsNullTests(int rowNumber, string? testDate)
         {
             DateTime? expected = null;
@@ -254,65 +243,63 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullDateTime(1));
         }
 
-        [Test]
-        [TestCase(1, 987.456)]
-        public void GetValueFromRowAsDecimal(int rowNumber, decimal expected)
+        [Theory]
+        [InlineData(1, 987.456d)]
+        public void GetValueFromRowAsDecimal(int rowNumber, double expected)
         {
-            var dt = CreateTestTable(typeof(decimal), expected);
+            var expectedDecimal = (decimal)expected;
+            var dt = CreateTestTable(typeof(decimal), expectedDecimal);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsDecimal("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsDecimal(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsDecimal(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expectedDecimal, dataRow.AsDecimal("col"));
+                Assert.Equal(expectedDecimal, dataRow.AsDecimal(1));
+                Assert.Equal(expectedDecimal, dataRow.AsDecimal(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsDecimal("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsDecimal(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expectedDecimal, dataReader.AsDecimal("col"));
+                Assert.Equal(expectedDecimal, dataReader.AsDecimal(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, 987.456)]
-        public void GetValueFromRowAsDecimal_AsNullTests(int rowNumber, decimal? expected)
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, 987.456d)]
+        public void GetValueFromRowAsDecimal_AsNullTests(int rowNumber, double? expected)
         {
-            var dt = CreateTestTable(typeof(decimal), expected);
+            decimal? expectedDecimal = expected.HasValue ? (decimal?)expected.Value : null;
+            var dt = CreateTestTable(typeof(decimal), expectedDecimal);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
             
-            AssertNullable(expected, dataRow.AsNullDecimal("col"));
-            AssertNullable(expected, dataRow.AsNullDecimal(1));
-            AssertNullable(expected, dataRow.AsNullDecimal(dt.Columns["col"]));
+            AssertNullable(expectedDecimal, dataRow.AsNullDecimal("col"));
+            AssertNullable(expectedDecimal, dataRow.AsNullDecimal(1));
+            AssertNullable(expectedDecimal, dataRow.AsNullDecimal(dt.Columns["col"]));
             
-            AssertNullable(expected, dataReader.AsNullDecimal("col"));
-            AssertNullable(expected, dataReader.AsNullDecimal(1));
+            AssertNullable(expectedDecimal, dataReader.AsNullDecimal("col"));
+            AssertNullable(expectedDecimal, dataReader.AsNullDecimal(1));
         }
         
-        [Test]
-        [TestCase(1, (double)987.456)]
+        [Theory]
+        [InlineData(1, (double)987.456)]
         public void GetValueFromRowAsDouble(int rowNumber, double expected)
         {
             var dt = CreateTestTable(typeof(double), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
+            
 
-                Assert.That(dataRow.AsDouble("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsDouble(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsDouble(dt.Columns["col"]), Is.EqualTo(expected));
+                Assert.Equal(expected, dataRow.AsDouble("col"));
+                Assert.Equal(expected, dataRow.AsDouble(1));
+                Assert.Equal(expected, dataRow.AsDouble(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsDouble("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsDouble(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsDouble("col"));
+                Assert.Equal(expected, dataReader.AsDouble(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, 987.456)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, 987.456)]
         public void GetValueFromRowAsDouble_AsNullTests(int rowNumber, double? expected)
         {
             var dt = CreateTestTable(typeof(double), expected);
@@ -327,29 +314,27 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullDouble(1));
         }
         
-        [Test]
-        [TestCase(1, (float)987.456)]
+        [Theory]
+        [InlineData(1, (float)987.456)]
         public void GetValueFromRowAsFloat(int rowNumber, float expected)
         {
             var dt = CreateTestTable(typeof(float), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsFloat("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsFloat(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsFloat(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsFloat("col"));
+                Assert.Equal(expected, dataRow.AsFloat(1));
+                Assert.Equal(expected, dataRow.AsFloat(dt.Columns["col"]));
 
                 // Single / float  a float is a single The use of "float" in C# seems to be a throwback to its C/C++ heritage. a float" still maps to the System.Single type in C# so use single where you can
-                Assert.That(dataReader.AsSingle("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsSingle(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsSingle("col"));
+                Assert.Equal(expected, dataReader.AsSingle(1));
         }
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, (float)987.456)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (float)987.456)]
         public void GetValueFromRowAsFloat_AsNullTests(int rowNumber, float? expected)
         {
             var dt = CreateTestTable(typeof(float), expected);
@@ -365,10 +350,10 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullSingle(1));
         }
         
-        [Test]
-        [TestCase(1, "new")]
-        [TestCase(1, "empty")]
-        [TestCase(1, "7009B509-098F-4AF4-97C8-CF354B4E0D77")]
+        [Theory]
+        [InlineData(1, "new")]
+        [InlineData(1, "empty")]
+        [InlineData(1, "7009B509-098F-4AF4-97C8-CF354B4E0D77")]
 
         public void GetValueFromRowAsGuid(int rowNumber, string testDate)
         {
@@ -393,20 +378,18 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsGuid("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsGuid(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsGuid(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsGuid("col"));
+                Assert.Equal(expected, dataRow.AsGuid(1));
+                Assert.Equal(expected, dataRow.AsGuid(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsGuid("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsGuid(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsGuid("col"));
+                Assert.Equal(expected, dataReader.AsGuid(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, "7009B509-098F-4AF4-97C8-CF354B4E0D76")]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, "7009B509-098F-4AF4-97C8-CF354B4E0D76")]
         public void GetValueFromRowAsGuid_AsNullTests(int rowNumber, string? testDate)
         {
             Guid? expected = null;
@@ -427,30 +410,28 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullGuid(1));
         }
 
-        [Test]
-        [TestCase(1, 1234567)]
-        [TestCase(1, int.MinValue)]
-        [TestCase(1, int.MaxValue)]
+        [Theory]
+        [InlineData(1, 1234567)]
+        [InlineData(1, int.MinValue)]
+        [InlineData(1, int.MaxValue)]
         public void GetValueFromRowAsInt(int rowNumber, int expected)
         {
             var dt = CreateTestTable(typeof(int), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsInt("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsInt(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsInt(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsInt("col"));
+                Assert.Equal(expected, dataRow.AsInt(1));
+                Assert.Equal(expected, dataRow.AsInt(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsInt("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsInt(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsInt("col"));
+                Assert.Equal(expected, dataReader.AsInt(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, 1456789)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, 1456789)]
         public void GetValueFromRowAsInt_AsNullTests(int rowNumber, int? expected)
         {
             var dt = CreateTestTable(typeof(int), expected);
@@ -465,10 +446,10 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullInt(1));
         }
         
-        [Test]
-        [TestCase(1, (long)1234567890)]
-        [TestCase(1, long.MinValue)]
-        [TestCase(1, long.MaxValue)]
+        [Theory]
+        [InlineData(1, (long)1234567890)]
+        [InlineData(1, long.MinValue)]
+        [InlineData(1, long.MaxValue)]
         public void GetValueFromRowAsLong(int rowNumber, long expected)
         {
             var dt = CreateTestTable(typeof(long), expected);
@@ -476,20 +457,18 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsLong("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsLong(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsLong(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsLong("col"));
+                Assert.Equal(expected, dataRow.AsLong(1));
+                Assert.Equal(expected, dataRow.AsLong(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsLong("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsLong(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsLong("col"));
+                Assert.Equal(expected, dataReader.AsLong(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, (long)123456789)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (long)123456789)]
         public void GetValueFromRowAsLong_AsNullTests(int rowNumber, long? expected)
         {
             var dt = CreateTestTable(typeof(long), expected);
@@ -504,32 +483,30 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullLong(1));
         }
         
-        [Test]
-        [TestCase(1, (sbyte)122)]
-        [TestCase(1, sbyte.MinValue)]
-        [TestCase(1, sbyte.MaxValue)]
+        [Theory]
+        [InlineData(1, (sbyte)122)]
+        [InlineData(1, sbyte.MinValue)]
+        [InlineData(1, sbyte.MaxValue)]
         public void GetValueFromRowAsSbyte(int rowNumber, sbyte expected)
         {
             var dt = CreateTestTable(typeof(sbyte), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsSbyte("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsSbyte(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsSbyte(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsSbyte("col"));
+                Assert.Equal(expected, dataRow.AsSbyte(1));
+                Assert.Equal(expected, dataRow.AsSbyte(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsSbyte("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsSbyte(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsSbyte("col"));
+                Assert.Equal(expected, dataReader.AsSbyte(1));
         }
 
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, (sbyte)-12)]
-        [TestCase(1, (sbyte)13)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (sbyte)-12)]
+        [InlineData(1, (sbyte)13)]
         public void GetValueFromRowAsSbyte_AsNullTests(int rowNumber, sbyte? expected)
         {
             var dt = CreateTestTable(typeof(sbyte), expected);
@@ -544,10 +521,10 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullSbyte(1));
         }
         
-        [Test]
-        [TestCase(1, (short)1442)]
-        [TestCase(1, short.MinValue)]
-        [TestCase(1, short.MaxValue)]
+        [Theory]
+        [InlineData(1, (short)1442)]
+        [InlineData(1, short.MinValue)]
+        [InlineData(1, short.MaxValue)]
         public void GetValueFromRowAsShort(int rowNumber, short expected)
         {
             var dt = CreateTestTable(typeof(short), expected);
@@ -555,26 +532,26 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataReader = GetDataReader(rowNumber, dt);
 
             var actual = dataRow.AsShort("col");
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.Equal(expected, actual);
 
             actual = dataRow.AsShort(1);
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.Equal(expected, actual);
 
             actual = dataRow.AsShort(dt.Columns["col"]);
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.Equal(expected, actual);
 
             actual = dataReader.AsShort("col");
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.Equal(expected, actual);
 
             actual = dataReader.AsShort(1);
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.Equal(expected, actual);
         }
 
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, (short)-12)]
-        [TestCase(1, (short)13)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (short)-12)]
+        [InlineData(1, (short)13)]
         public void GetValueFromRowAsShort_AsNullTests(int rowNumber, short? expected)
         {
             var dt = CreateTestTable(typeof(short), expected);
@@ -589,32 +566,30 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullShort(1));
         }
         
-        [Test]
-        [TestCase(1, (float)1442.34)]
-        [TestCase(1, float.MinValue)]
-        [TestCase(1, float.MaxValue)]
+        [Theory]
+        [InlineData(1, (float)1442.34)]
+        [InlineData(1, float.MinValue)]
+        [InlineData(1, float.MaxValue)]
         public void GetValueFromRowAsSingle(int rowNumber, float expected)
         {
             var dt = CreateTestTable(typeof(float), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsSingle("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsSingle(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsSingle(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsSingle("col"));
+                Assert.Equal(expected, dataRow.AsSingle(1));
+                Assert.Equal(expected, dataRow.AsSingle(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsSingle("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsSingle(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsSingle("col"));
+                Assert.Equal(expected, dataReader.AsSingle(1));
         }
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, (float)-12.23)]
-        [TestCase(1,(float)13.56)]
-        public void GetValueFromRowAsShort_AsNullTests(int rowNumber, float? expected)
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (float)-12.23)]
+        [InlineData(1,(float)13.56)]
+        public void GetValueFromRowAsSingle_AsNullTests(int rowNumber, float? expected)
         {
             var dt = CreateTestTable(typeof(float), expected);
             var dataRow = GetDataRow(rowNumber, dt);
@@ -628,71 +603,65 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullSingle(1));
         }
 
-        [Test]
-        [TestCase(1, "")]
-        [TestCase(1, "12345")]
-        [TestCase(1, "734^%$%$^$^%")]
+        [Theory]
+        [InlineData(1, "")]
+        [InlineData(1, "12345")]
+        [InlineData(1, "734^%$%$^$^%")]
         public void GetValueFromRowAsString(int rowNumber, string expected)
         {
             var dt = CreateTestTable(typeof(string), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
+            
 
-                Assert.That(dataRow.AsString("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsString(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsString(dt.Columns["col"]), Is.EqualTo(expected));
+                Assert.Equal(expected, dataRow.AsString("col"));
+                Assert.Equal(expected, dataRow.AsString(1));
+                Assert.Equal(expected, dataRow.AsString(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsString("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsString(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsString("col"));
+                Assert.Equal(expected, dataReader.AsString(1));
         }
         
         
-        [Test]
-        [TestCase(0, null)]
+        [Theory]
+        [InlineData(0, null)]
         public void GetValueFromRowAsString_NullTests(int rowNumber, string? data)
         {
             var dt = CreateTestTable(typeof(string), data);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsString("col"), Is.EqualTo(null));
-                Assert.That(dataRow.AsString(1), Is.EqualTo(null));
-                Assert.That(dataRow.AsString(dt.Columns["col"]), Is.EqualTo(null));
+            
+                Assert.Equal(null, dataRow.AsString("col"));
+                Assert.Equal(null, dataRow.AsString(1));
+                Assert.Equal(null, dataRow.AsString(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsString("col"), Is.EqualTo(null));
-                Assert.That(dataReader.AsString(1), Is.EqualTo(null));
-            });
+                Assert.Equal(null, dataReader.AsString("col"));
+                Assert.Equal(null, dataReader.AsString(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
+        [Theory]
+        [InlineData(0, null)]
         public void GetValueFromRowAsString_NullTestsEmptyString(int rowNumber, string? data)
         {
             var dt = CreateTestTable(typeof(string), data);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsString("col", true), Is.EqualTo(string.Empty));
-                Assert.That(dataRow.AsString(1, true), Is.EqualTo(string.Empty));
-                Assert.That(dataRow.AsString(dt.Columns["col"], true), Is.EqualTo(string.Empty));
+            
+                Assert.Equal(string.Empty, dataRow.AsString("col", true));
+                Assert.Equal(string.Empty, dataRow.AsString(1, true));
+                Assert.Equal(string.Empty, dataRow.AsString(dt.Columns["col"], true));
 
-                Assert.That(dataReader.AsString("col", true), Is.EqualTo(string.Empty));
-                Assert.That(dataReader.AsString(1, true), Is.EqualTo(string.Empty));
-            });
+                Assert.Equal(string.Empty, dataReader.AsString("col", true));
+                Assert.Equal(string.Empty, dataReader.AsString(1, true));
         }
 
-        [Test]
-        [TestCase(1, "now")]
-        [TestCase(1, "00:00:00")]
-        [TestCase(1, "23:44:34.333")]
+        [Theory]
+        [InlineData(1, "now")]
+        [InlineData(1, "00:00:00")]
+        [InlineData(1, "23:44:34.333")]
         public void GetValueFromRowAsTimeSpan(int rowNumber, string testDate)
         {
             TimeSpan? expected = null;
@@ -712,20 +681,18 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsTimeSpan("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsTimeSpan(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsTimeSpan(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsTimeSpan("col"));
+                Assert.Equal(expected, dataRow.AsTimeSpan(1));
+                Assert.Equal(expected, dataRow.AsTimeSpan(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsTimeSpan("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsTimeSpan(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsTimeSpan("col"));
+                Assert.Equal(expected, dataReader.AsTimeSpan(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, "22:21:20")]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, "22:21:20")]
         public void GetValueFromRowAsTimeSpan_AsNullTests(int rowNumber, string? testDate)
         {
             TimeSpan? expected = null;
@@ -746,10 +713,10 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullTimeSpan(1));
         }
         
-        [Test]
-        [TestCase(1, (uint)1234567890)]
-        [TestCase(1, uint.MinValue)]
-        [TestCase(1, uint.MaxValue)]
+        [Theory]
+        [InlineData(1, (uint)1234567890)]
+        [InlineData(1, uint.MinValue)]
+        [InlineData(1, uint.MaxValue)]
         public void GetValueFromRowAsUInt(int rowNumber, uint expected)
         {
             var dt = CreateTestTable(typeof(uint), expected);
@@ -758,22 +725,20 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataReader = GetDataReader(rowNumber, dt);
            
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsUInt("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsUInt(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsUInt(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsUInt("col"));
+                Assert.Equal(expected, dataRow.AsUInt(1));
+                Assert.Equal(expected, dataRow.AsUInt(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsUInt("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsUInt(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsUInt("col"));
+                Assert.Equal(expected, dataReader.AsUInt(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, (uint)123456789)]
-        [TestCase(1, uint.MinValue)]
-        [TestCase(1, uint.MaxValue)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (uint)123456789)]
+        [InlineData(1, uint.MinValue)]
+        [InlineData(1, uint.MaxValue)]
         public void GetValueFromRowAsUInt_AsNullTests(int rowNumber, uint? expected)
         {
             var dt = CreateTestTable(typeof(uint), expected);
@@ -788,32 +753,30 @@ namespace CA.Blocks.DataAccessUnitTests
             AssertNullable(expected, dataReader.AsNullUInt(1));
         }
 
-        [Test]
-        [TestCase(1, (ulong)1234567890)]
-        [TestCase(1, ulong.MinValue)]
-        [TestCase(1, ulong.MaxValue)]
+        [Theory]
+        [InlineData(1, (ulong)1234567890)]
+        [InlineData(1, ulong.MinValue)]
+        [InlineData(1, ulong.MaxValue)]
         public void GetValueFromRowAsULong(int rowNumber, ulong expected)
         {
             var dt = CreateTestTable(typeof(ulong), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsULong("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsULong(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsULong(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsULong("col"));
+                Assert.Equal(expected, dataRow.AsULong(1));
+                Assert.Equal(expected, dataRow.AsULong(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsULong("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsULong(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsULong("col"));
+                Assert.Equal(expected, dataReader.AsULong(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, (ulong)123456789)]
-        [TestCase(1, ulong.MinValue)]
-        [TestCase(1, ulong.MaxValue)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (ulong)123456789)]
+        [InlineData(1, ulong.MinValue)]
+        [InlineData(1, ulong.MaxValue)]
         public void GetValueFromRowAsULong_AsNullTests(int rowNumber, ulong? expected)
         {
             var dt = CreateTestTable(typeof(ulong), expected);
@@ -829,33 +792,31 @@ namespace CA.Blocks.DataAccessUnitTests
         }
         
         
-        [Test]
-        [TestCase(1, (ushort)12345)]
-        [TestCase(1, ushort.MinValue)]
-        [TestCase(1, ushort.MaxValue)]
+        [Theory]
+        [InlineData(1, (ushort)12345)]
+        [InlineData(1, ushort.MinValue)]
+        [InlineData(1, ushort.MaxValue)]
         public void GetValueFromRowAsUShort(int rowNumber, ushort expected)
         {
             var dt = CreateTestTable(typeof(ushort), expected);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(dataRow.AsUShort("col"), Is.EqualTo(expected));
-                Assert.That(dataRow.AsUShort(1), Is.EqualTo(expected));
-                Assert.That(dataRow.AsUShort(dt.Columns["col"]), Is.EqualTo(expected));
+            
+                Assert.Equal(expected, dataRow.AsUShort("col"));
+                Assert.Equal(expected, dataRow.AsUShort(1));
+                Assert.Equal(expected, dataRow.AsUShort(dt.Columns["col"]));
 
-                Assert.That(dataReader.AsUShort("col"), Is.EqualTo(expected));
-                Assert.That(dataReader.AsUShort(1), Is.EqualTo(expected));
-            });
+                Assert.Equal(expected, dataReader.AsUShort("col"));
+                Assert.Equal(expected, dataReader.AsUShort(1));
         }
         
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, (ushort)12345)]
-        [TestCase(1, ushort.MinValue)]
-        [TestCase(1, ushort.MaxValue)]
-        public void GetValueFromRowAsULong_AsNullTests(int rowNumber, ushort? expected)
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (ushort)12345)]
+        [InlineData(1, ushort.MinValue)]
+        [InlineData(1, ushort.MaxValue)]
+        public void GetValueFromRowAsUShort_AsNullTests(int rowNumber, ushort? expected)
         {
             var dt = CreateTestTable(typeof(ushort), expected);
             var dataRow = GetDataRow(rowNumber, dt);

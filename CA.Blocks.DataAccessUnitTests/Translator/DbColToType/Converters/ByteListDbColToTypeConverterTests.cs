@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters;
-using NUnit.Framework;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
-    [TestFixture]
-    public class ByteListDbColToTypeConverterTests : BaseDbColToTypeConverterTests
+        public class ByteListDbColToTypeConverterTests : BaseDbColToTypeConverterTests
     {
-        [Test]
-        [TestCase(0, null, (byte)0)]
-        [TestCase(1, "", (byte)0)]
-        [TestCase(1, "1,2,3,4,5",(byte)1, (byte)2, (byte)3, (byte)4, (byte)5) ]
-        [TestCase(1, "1, 2,3, 4 , 5", (byte)1, (byte)2, (byte)3, (byte)4, (byte)5)]
+        [Theory]
+        [InlineData(0, null, new byte[] { 0 })]
+        [InlineData(1, "", (byte)0)]
+        [InlineData(1, "1,2,3,4,5",(byte)1, (byte)2, (byte)3, (byte)4, (byte)5) ]
+        [InlineData(1, "1, 2,3, 4 , 5", (byte)1, (byte)2, (byte)3, (byte)4, (byte)5)]
         public void DbColToTypeConverterTest(int rowNumber, string? dbValue, params byte[] numbers)
         {
             var dt = CreateTestTable(typeof(string), dbValue);
@@ -25,11 +23,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             }
 
             var target = new ByteListDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expected, target.GetDataValue(dataReader, 1));
         }
     }
 }

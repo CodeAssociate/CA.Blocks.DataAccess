@@ -1,15 +1,12 @@
-﻿using System.Linq;
+using System.Linq;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeNVarCharMaxTests : UnitTestDataAccess
+    public class DbTypeNVarCharMaxTests : UnitTestDataAccess, IDisposable
     {
         // https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/configuring-parameters-and-parameter-data-types
 
@@ -28,24 +25,22 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(string.Format("N'{0}'", data)));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeNVarCharMaxTests()
         {
-            testDataValueForMax = string.Concat(Enumerable.Repeat("0123456789→", 500)); // Create a string 5500 char long
-            testDataValueShort = string.Concat(Enumerable.Repeat("0123456789→", 300)); // Create a string 3300 char long
+            testDataValueForMax = string.Concat(Enumerable.Repeat("0123456789?", 500)); // Create a string 5500 char long
+            testDataValueShort = string.Concat(Enumerable.Repeat("0123456789?", 300)); // Create a string 3300 char long
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("NVarChar(Max) not null"));
             InsertTestDataAsText(testDataValueForMax);
             InsertTestDataAsText(testDataValueShort);
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllData()
         {
             //Setup 
@@ -54,14 +49,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(2, data.Count);
-            ClassicAssert.AreEqual(testDataValueForMax, data[0] );
-            ClassicAssert.AreEqual(testDataValueShort, data[1]);
+            Assert.Equal(2, data.Count);
+            Assert.Equal(testDataValueForMax, data[0] );
+            Assert.Equal(testDataValueShort, data[1]);
 
         }
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -70,12 +65,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<StringDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(2, data.Count);
-            ClassicAssert.AreEqual(testDataValueForMax, data[0].Col);
-            ClassicAssert.AreEqual(testDataValueShort, data[1].Col);
+            Assert.Equal(2, data.Count);
+            Assert.Equal(testDataValueForMax, data[0].Col);
+            Assert.Equal(testDataValueShort, data[1].Col);
         }
 
-        [Test]
+        [Fact]
         public void SelectDataWithLargeFilter()
         {
             //setup
@@ -87,10 +82,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
-        [Test]
+        [Fact]
         public void SelectDataWithLargeSmallFilter()
         {
             //setup
@@ -101,8 +96,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
     }
 }
+
+
+

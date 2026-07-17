@@ -1,25 +1,23 @@
-﻿using CA.Blocks.SQLServerDataAccess.Builder;
-using NUnit.Framework;
+using CA.Blocks.SQLServerDataAccess.Builder;
 using System;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder
 {
-    [TestFixture]
     public class SafeSqlBuilderTests
     {
 
-        [Test]
+        [Fact]
         public void Basic_Test()
         {
             var target = new SafeSqlBuilder();
             int id = 123;
             target.AddSql($"Select * From Table1 where Id = {id:@id}");
             var resultCommnet = target.BuildSqlCommand();
-            Assert.That(resultCommnet.CommandText, Is.EqualTo("Select * From Table1 where Id = @id"));
-            Assert.That(resultCommnet.Parameters.Count, Is.EqualTo(1));
+            Assert.Equal("Select * From Table1 where Id = @id", resultCommnet.CommandText);
+            Assert.Equal(1, resultCommnet.Parameters.Count);
         }
 
-        [Test]
+        [Fact]
         public void Basic_SQlNameTest()
         {
             var target = new SafeSqlBuilder();
@@ -27,11 +25,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder
             string scehma = "test";
             target.AddSql($"Select * From {scehma:[]}.[Table1] where Id = {id:@id}");
             var resultCommnet = target.BuildSqlCommand();
-            Assert.That(resultCommnet.CommandText, Is.EqualTo("Select * From [test].[Table1] where Id = @id"));
-            Assert.That(resultCommnet.Parameters.Count, Is.EqualTo(1));
+            Assert.Equal("Select * From [test].[Table1] where Id = @id", resultCommnet.CommandText);
+            Assert.Equal(1, resultCommnet.Parameters.Count);
         }
 
-        [Test]
+        [Fact]
         public void Basic_Test_not_Suported()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -44,3 +42,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder
         }
     }
 }
+
+
+
+

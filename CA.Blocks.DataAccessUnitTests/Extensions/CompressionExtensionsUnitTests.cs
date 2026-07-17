@@ -1,14 +1,12 @@
-﻿using System.Text;
+using System.Text;
 using CA.Blocks.DataAccess.Extensions;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.DataAccessUnitTests.Extensions
 {
-    [TestFixture]
-    public  class CompressionExtensionsUnitTests
+        public  class CompressionExtensionsUnitTests
     {
 
-        [Test]
+        [Fact]
         public void CompressDecompressAsUnicodeString()
         {
             // Compression will only work on 200+ strings anything smaller is viable
@@ -18,11 +16,11 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions
             var compressedData = testData.CompressString(Encoding.Unicode);
 
             var decompressResult = compressedData.DecompressToString(Encoding.Unicode);
-            ClassicAssert.True(compressedData.Length < testData.Length);
-            Assert.That(decompressResult, Is.EqualTo(testData));
+            Assert.True(compressedData.Length < testData.Length);
+            Assert.Equal(testData, decompressResult);
         }
 
-        [Test]
+        [Fact]
         public void CompressDecompressAsNVarchar() // this is an alias for Encoding.Unicode)
         {
             string testData = $"{Guid.NewGuid()}-{Guid.NewGuid()}-{Guid.NewGuid()}";
@@ -31,12 +29,12 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions
             var compressedData = testData.CompressToSqlNVarcharString();
 
             var decompressResult = compressedData.DecompressToSqlNVarcharString();
-            ClassicAssert.True(compressedData.Length < testData.Length);
-            Assert.That(decompressResult, Is.EqualTo(testData));
+            Assert.True(compressedData.Length < testData.Length);
+            Assert.Equal(testData, decompressResult);
         }
 
 
-        [Test]
+        [Fact]
         public void CompresslDecompressAsASASCIIString()
         {
             // Compression will only work on 200+ strings anything smaller is viable
@@ -46,11 +44,11 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions
             var compressedData = testData.CompressString(Encoding.ASCII);
 
             var decompressResult = compressedData.DecompressToString(Encoding.ASCII);
-            ClassicAssert.True(compressedData.Length < testData.Length);
-            Assert.That(decompressResult, Is.EqualTo(testData));
+            Assert.True(compressedData.Length < testData.Length);
+            Assert.Equal(testData, decompressResult);
         }
 
-        [Test]
+        [Fact]
         public void CompressDecompressAsVarchar() // this is an alias for Encoding.ASCII it is the safe option as we do not know the server ASCII to be safe as we don't know the server encoding
         {
             string testData = $"{Guid.NewGuid()}-{Guid.NewGuid()}-{Guid.NewGuid()}";
@@ -59,8 +57,8 @@ namespace CA.Blocks.DataAccessUnitTests.Extensions
             var compressedData = testData.CompressToSQLVarcharString();
 
             var decompressResult = compressedData.DecompressToSQLVarcharString();
-            ClassicAssert.True(compressedData.Length < testData.Length);
-            Assert.That(decompressResult, Is.EqualTo(testData));
+            Assert.True(compressedData.Length < testData.Length);
+            Assert.Equal(testData, decompressResult);
         }
     }
 }

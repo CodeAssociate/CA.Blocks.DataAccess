@@ -1,14 +1,12 @@
-﻿using CA.Blocks.DataAccess;
+using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions;
 
-[TestFixture]
 public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
 {
 
-    [Test]
+    [Fact]
     public async Task DbDataReaderExtensions_ToListOfAsync()
     {
         var numberOfRecords = 10;
@@ -16,12 +14,12 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
         var dataReaderTask = GenerateTestDataReaderAsync(numberOfRecords);
 
         var result = await dataReaderTask.ToListOf<TestDataObject>();
-        Assert.That(result, Has.Count.EqualTo(numberOfRecords));
-        Assert.That(numberOfRecords, Is.EqualTo(result[numberOfRecords - 1].IntCol));
-        Assert.That(result.Count(x => x.DateCol < testDate), Is.EqualTo(0));
+        Assert.Equal(numberOfRecords, result.Count);
+        Assert.Equal(result[numberOfRecords - 1].IntCol, numberOfRecords);
+        Assert.Equal(0, result.Count(x => x.DateCol < testDate));
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToDictionaryAsync()
     {
 	    var numberOfRecords = 10;
@@ -29,203 +27,203 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
 	    var dataReader = GenerateTestDataReaderAsync(numberOfRecords);
 
 	    var result = await dataReader.ToDictionaryAsync<int, TestDataObject>(x => x.IntCol);
-	    Assert.That(result.Count, Is.EqualTo(numberOfRecords));
-	    Assert.That(numberOfRecords, Is.EqualTo(result[numberOfRecords].IntCol));
+	    Assert.Equal(numberOfRecords, result.Count);
+	    Assert.Equal(result[numberOfRecords].IntCol, numberOfRecords);
     }
 
 
-	[Test]
+	[Fact]
     public async Task DbDataReaderExtensions_ToSingleNamedColumnListAsync_String()
     {
         var numberOfRecords = 10;
         var dataReaderTask = GenerateTestDataReaderAsync(numberOfRecords);
 
         var result = await dataReaderTask.ToSingleNamedColumnList<string>("StringCol");
-        Assert.That(result, Has.Count.EqualTo(numberOfRecords));
-        Assert.That(result[numberOfRecords - 1], Does.Contain(numberOfRecords.ToString()));
+        Assert.Equal(numberOfRecords, result.Count);
+        Assert.Contains(numberOfRecords.ToString(), result[numberOfRecords - 1]);
     }
 
-    [Test]
+    [Fact]
     public async Task DbDataReaderExtensions_ToSingleNamedColumnListAsync_StringAsync()
     {
         var numberOfRecords = 10;
         var dataReaderTask = await GenerateTestDataReaderAsync(numberOfRecords);
 
         var result = await dataReaderTask.ToSingleNamedColumnListAsync<string>("StringCol");
-        Assert.That(result.Count, Is.EqualTo(numberOfRecords));
-        ClassicAssert.True(result[numberOfRecords - 1].Contains(numberOfRecords.ToString()));
+        Assert.Equal(numberOfRecords, result.Count);
+        Assert.True(result[numberOfRecords - 1].Contains(numberOfRecords.ToString()));
     }
 
 
-    [Test]
+    [Fact]
     public async Task DbDataReaderExtensions_ToSingleNamedColumnListAsync_IntCustom()
     {
         var numberOfRecords = 10;
         var dataReaderTask = GenerateTestDataReaderAsync(numberOfRecords);
 
         var result = await dataReaderTask.ToSingleNamedColumnList<int>("intCol", (reader, s) => reader.AsInt(s));
-        Assert.That(result.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result[numberOfRecords - 1], Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Count);
+        Assert.Equal(numberOfRecords, result[numberOfRecords - 1]);
     }
 
-    [Test]
+    [Fact]
     public async Task DbDataReaderExtensions_ToSingleNamedColumnListAsync_IntCustomAsync()
     {
         var numberOfRecords = 10;
         var dataReaderTask = await GenerateTestDataReaderAsync(numberOfRecords);
 
         var result = await dataReaderTask.ToSingleNamedColumnListAsync<int>("intCol", (reader, s) => reader.AsInt(s));
-        Assert.That(result.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result[numberOfRecords - 1], Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Count);
+        Assert.Equal(numberOfRecords, result[numberOfRecords - 1]);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToResultsSet2()
     {
         var numberOfRecords = 10;
         var dataReader = GenerateTestDataSetReaderAsync(2, 10);
 
         var result = await dataReader.ToResultsSet<TestDataObject, TestDataObject>();
-        Assert.That(result.Results1, Has.Count.EqualTo(numberOfRecords));
-        Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Results1.Count);
+        Assert.Equal(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
+        Assert.Equal(numberOfRecords, result.Results2.Count);
+        Assert.Equal(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToResultsSet2Async()
     {
         var numberOfRecords = 10;
         var dataReader = await GenerateTestDataSetReaderAsync(2, 10);
 
         var result = await dataReader.ToResultsSetAsync<TestDataObject, TestDataObject>();
-        Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Results1.Count);
+        Assert.Equal(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
+        Assert.Equal(numberOfRecords, result.Results2.Count);
+        Assert.Equal(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
     }
 
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToResultsSet3()
     {
         var numberOfRecords = 10;
         var dataReader = GenerateTestDataSetReaderAsync(3, 10);
 
         var result = await dataReader.ToResultsSet<TestDataObject, TestDataObject, TestDataObject>();
-        Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Results1.Count);
+        Assert.Equal(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
+        Assert.Equal(numberOfRecords, result.Results2.Count);
+        Assert.Equal(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
+        Assert.Equal(numberOfRecords, result.Results3.Count);
+        Assert.Equal(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToResultsSet3Async()
     {
         var numberOfRecords = 10;
         var dataReader = await GenerateTestDataSetReaderAsync(3, 10);
 
         var result = await dataReader.ToResultsSetAsync<TestDataObject, TestDataObject, TestDataObject>();
-        Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Results1.Count);
+        Assert.Equal(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
+        Assert.Equal(numberOfRecords, result.Results2.Count);
+        Assert.Equal(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
+        Assert.Equal(numberOfRecords, result.Results3.Count);
+        Assert.Equal(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToResultsSet4()
     {
         var numberOfRecords = 10;
         var dataReader = GenerateTestDataSetReaderAsync(4, 10);
 
         var result = await dataReader.ToResultsSet<TestDataObject, TestDataObject, TestDataObject, TestDataObject>();
-        Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Results1.Count);
+        Assert.Equal(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
+        Assert.Equal(numberOfRecords, result.Results2.Count);
+        Assert.Equal(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
+        Assert.Equal(numberOfRecords, result.Results3.Count);
+        Assert.Equal(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results4.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results4[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 4));
+        Assert.Equal(numberOfRecords, result.Results4.Count);
+        Assert.Equal(numberOfRecords * 4, result.Results4[numberOfRecords - 1].IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToResultsSet4Async()
     {
         var numberOfRecords = 10;
         var dataReader = await GenerateTestDataSetReaderAsync(4, 10);
 
         var result = await dataReader.ToResultsSetAsync<TestDataObject, TestDataObject, TestDataObject, TestDataObject>();
-        Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Results1.Count);
+        Assert.Equal(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
+        Assert.Equal(numberOfRecords, result.Results2.Count);
+        Assert.Equal(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
+        Assert.Equal(numberOfRecords, result.Results3.Count);
+        Assert.Equal(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results4.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results4[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 4));
+        Assert.Equal(numberOfRecords, result.Results4.Count);
+        Assert.Equal(numberOfRecords * 4, result.Results4[numberOfRecords - 1].IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToResultsSet5()
     {
         var numberOfRecords = 10;
         var dataReader = GenerateTestDataSetReaderAsync(5, 10);
 
         var result = await dataReader.ToResultsSet<TestDataObject, TestDataObject, TestDataObject, TestDataObject, TestDataObject>();
-        Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Results1.Count);
+        Assert.Equal(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
+        Assert.Equal(numberOfRecords, result.Results2.Count);
+        Assert.Equal(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
+        Assert.Equal(numberOfRecords, result.Results3.Count);
+        Assert.Equal(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results4.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results4[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 4));
+        Assert.Equal(numberOfRecords, result.Results4.Count);
+        Assert.Equal(numberOfRecords * 4, result.Results4[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results5.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results5[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 5));
+        Assert.Equal(numberOfRecords, result.Results5.Count);
+        Assert.Equal(numberOfRecords * 5, result.Results5[numberOfRecords - 1].IntCol);
     }
 
-    [Test]
+    [Fact]
     public async Task DataReaderExtensions_ToResultsSet5Async()
     {
         var numberOfRecords = 10;
         var dataReader = await GenerateTestDataSetReaderAsync(5, 10);
 
         var result = await dataReader.ToResultsSetAsync<TestDataObject, TestDataObject, TestDataObject, TestDataObject, TestDataObject>();
-        Assert.That(result.Results1.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results1[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords));
+        Assert.Equal(numberOfRecords, result.Results1.Count);
+        Assert.Equal(numberOfRecords, result.Results1[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results2.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results2[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 2));
+        Assert.Equal(numberOfRecords, result.Results2.Count);
+        Assert.Equal(numberOfRecords * 2, result.Results2[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results3.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results3[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 3));
+        Assert.Equal(numberOfRecords, result.Results3.Count);
+        Assert.Equal(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results4.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results4[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 4));
+        Assert.Equal(numberOfRecords, result.Results4.Count);
+        Assert.Equal(numberOfRecords * 4, result.Results4[numberOfRecords - 1].IntCol);
 
-        Assert.That(result.Results5.Count, Is.EqualTo(numberOfRecords));
-        Assert.That(result.Results5[numberOfRecords - 1].IntCol, Is.EqualTo(numberOfRecords * 5));
+        Assert.Equal(numberOfRecords, result.Results5.Count);
+        Assert.Equal(numberOfRecords * 5, result.Results5[numberOfRecords - 1].IntCol);
     }
 
 

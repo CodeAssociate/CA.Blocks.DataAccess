@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -7,7 +7,6 @@ using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 {
@@ -15,15 +14,16 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 
     // Shows how to use the ExecuteObjectList to get a list of dyanmic objects from a SQL query.
     // This is handy for very quick development
-    [TestFixture]
-    public class SqlLiteLocalFIleDataAccessTests : LocalFileUnitTestDataAccess
+    public class SqlLiteLocalFIleDataAccessTests : LocalFileUnitTestDataAccess, IDisposable
     {
-
-        [SetUp]
-        public void CreateMasterTestTable()
+        public SqlLiteLocalFIleDataAccessTests()
         {
             var cmd = CreateTextCommand("create table if not exists Test1 (id int identity(1,1), col int)");
             ExecuteNonQuery(cmd);
+        }
+
+        public new void Dispose()
+        {
         }
 
         public IList<sqliteMaster> GetSqlliteMasterObjects()
@@ -33,18 +33,18 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 		}
 
 
-        [Test]
+        [Fact]
         public void GetsqliteMasterData()
         {
 	        var results = GetSqlliteMasterObjects();
 
 			foreach (var o in results)
             {
-                TestContext.WriteLine($"{o.name},{o.type},{o.rootpage},{o.sql}");
+                Console.WriteLine($"{o.name},{o.type},{o.rootpage},{o.sql}");
             }
         }
 
-        [Test]
+        [Fact]
         public void CreateDataTest()
         {
             var sql = "Insert into Test1(col) values (@i)"; 
@@ -59,3 +59,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 
     }
 }
+
+
+
+
+

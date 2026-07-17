@@ -1,16 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text.Json;
 using CA.Blocks.DataAccess.Extensions.Translators.Json.Converters;
 using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests;
 
-[TestFixture]
-public class DbTypeJsonTests : UnitTestDataAccess
+public class DbTypeJsonTests : UnitTestDataAccess, IDisposable
 {
     private class ColourValueDataType
     {
@@ -28,9 +25,8 @@ public class DbTypeJsonTests : UnitTestDataAccess
         ExecuteNonQuery(InsertTestDataSQL(string.Format("N'{0}'", data)));
     }
 
-    [SetUp]
-    public void Setup()
-    {
+    public DbTypeJsonTests()
+        {
         DefaultDbColToTypeProvider.DefaultInstance.Add(new NullJsonDbColToTypeConverter<IList<ColourValueDataType>>(new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -57,14 +53,13 @@ public class DbTypeJsonTests : UnitTestDataAccess
 ");
     }
 
-    [TearDown]
-    public void TearDown()
-    {
+    public new void Dispose()
+        {
         ExecuteNonQuery(DropTestTableSQL());
     }
 
 
-    [Test]
+    [Fact]
     public void SelectAllData()
     {
         //Setup 
@@ -73,7 +68,10 @@ public class DbTypeJsonTests : UnitTestDataAccess
         //Act
         var result = Execute(cmd).ToListOf<JsonDataExample>();
 
-        ClassicAssert.AreEqual(2, result.Count);
-        ClassicAssert.AreEqual("black", result[1].col[6].Color );
+        Assert.Equal(2, result.Count);
+        Assert.Equal("black", result[1].col[6].Color );
     }
 }
+
+
+

@@ -1,12 +1,11 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions;
+using CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions;
 using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
 {
-    [TestFixture]
-    public class DefaultDbRowTranslatorProviderTests
+        public class DefaultDbRowTranslatorProviderTests
     {
         //We only need the structure to generate the mapping
         [ExcludeFromCodeCoverage()]
@@ -36,26 +35,26 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
         }
 
 
-        [Test]
+        [Fact]
         public void GenerateDefaultMappingsForTest()
         {
             var result = new DefaultDbRowTranslatorProvider();
             var mappingSet = result.GenerateDefaultMappingsFor<CustomClass1>();
-            Assert.That(mappingSet.MappingSet.Count, Is.EqualTo(2));
-            Assert.That(mappingSet.MappingSet[0].DestinationName, Is.EqualTo("Id"));
-            Assert.That(mappingSet.MappingSet[1].DestinationName, Is.EqualTo("Name"));
+            Assert.Equal(2, mappingSet.MappingSet.Count);
+            Assert.Equal("Id", mappingSet.MappingSet[0].DestinationName);
+            Assert.Equal("Name", mappingSet.MappingSet[1].DestinationName);
         }
 
-        [Test]
+        [Fact]
         public void GenerateDefaultMappingsForTest2()
         {
             var result = new DefaultDbRowTranslatorProvider();
             var mappingSet = result.GenerateDefaultMappingsFor<CustomClass2>();
-            Assert.That(mappingSet.MappingSet.Count, Is.EqualTo(2));
-            Assert.That(mappingSet.MappingSet[0].DestinationName, Is.EqualTo("Id"));
-            Assert.That(mappingSet.MappingSet[1].DestinationName, Is.EqualTo("ListOfNumbers"));
-            Assert.That(mappingSet.MappingSet[1].SourceNameName, Is.EqualTo("ListSource"));
-            Assert.That(mappingSet.MappingSet[1].Converter.GetType().FullName, Is.EqualTo(typeof(IntListDbColToTypeConverter).FullName));
+            Assert.Equal(2, mappingSet.MappingSet.Count);
+            Assert.Equal("Id", mappingSet.MappingSet[0].DestinationName);
+            Assert.Equal("ListOfNumbers", mappingSet.MappingSet[1].DestinationName);
+            Assert.Equal("ListSource", mappingSet.MappingSet[1].SourceNameName);
+            Assert.Equal(typeof(IntListDbColToTypeConverter).FullName, mappingSet.MappingSet[1].Converter.GetType().FullName);
         }
     }
 }

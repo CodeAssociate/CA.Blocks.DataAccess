@@ -1,16 +1,15 @@
-﻿using CA.Blocks.OdbcDataAccess.Specialized;
-using System.Data.Odbc;
 using CA.Blocks.DataAccess.Translator.Extensions;
-
+using CA.Blocks.OdbcDataAccess.Specialized;
+using System.Data.Odbc;
+using Xunit;
 
 namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.TextFile
 {
-    public class Employee
+	public class Employee
 	{
 		public int EmployeeID { get; set; }
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
-
 		public string? EmailAddress { get; set; }
 	}
 
@@ -18,9 +17,7 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.TextFile
 	{
 		private string GetEmployeesSql(string filter = "")
 		{
-
-			return
-				$"SELECT * FROM Employees.csv {filter}";
+			return $"SELECT * FROM Employees.csv {filter}";
 		}
 
 		public IList<Employee> GetEmployees()
@@ -29,58 +26,46 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.TextFile
 			return Execute(cmd).ToListOf<Employee>();
 		}
 
-
 		public Employee? GetEmployee(string email)
 		{
-			var cmd = CreateTextCommand(GetEmployeesSql($"Where EmailAddress = ?"));
+			var cmd = CreateTextCommand(GetEmployeesSql("Where EmailAddress = ?"));
 			cmd.Parameters.Add(new OdbcParameter { Value = email, OdbcType = OdbcType.VarChar });
 			return Execute(cmd).ToFirstOrDefault<Employee>();
 		}
 	}
 
-	public class MyTextFileDataAccessTest()
+	public class MyTextFileDataAccessTest
 	{
-		[Test]
+		[Fact]
 		public void SimpleGetEmployeesTest()
 		{
 			if (ODBC_Test_Helper.DriverExists("Microsoft Text Driver (*.txt; *.csv)"))
 			{
 				var sourcePath = TestFilePathResolver.ResolveTestFilePath("Examples\\TextFile");
-				TestContext.Out.WriteLine(sourcePath);
+				Console.WriteLine(sourcePath);
 				var target = new MyTextFileDataAccess(sourcePath);
 				var employeeList = target.GetEmployees();
 				foreach (var employee in employeeList)
 				{
-					TestContext.Out.WriteLine(
-						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
+					Console.WriteLine($"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
-			}
-			else
-			{
-				Assert.Inconclusive("Obdc Driver not installed");
 			}
 		}
 
-		[Test]
+		[Fact]
 		public void SimpleGetEmployeeTest()
 		{
 			if (ODBC_Test_Helper.DriverExists("Microsoft Text Driver (*.txt; *.csv)"))
 			{
 				var sourcePath = TestFilePathResolver.ResolveTestFilePath("Examples\\TextFile");
-				TestContext.Out.WriteLine(sourcePath);
+				Console.WriteLine(sourcePath);
 				var target = new MyTextFileDataAccess(sourcePath);
 				var employee = target.GetEmployee("steven@northwindtraders.com");
 				if (employee != default)
 				{
-					TestContext.Out.WriteLine(
-						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
+					Console.WriteLine($"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
 			}
-			else
-			{
-				Assert.Inconclusive("Obdc Driver not installed");
-			}
-
 		}
 	}
 }

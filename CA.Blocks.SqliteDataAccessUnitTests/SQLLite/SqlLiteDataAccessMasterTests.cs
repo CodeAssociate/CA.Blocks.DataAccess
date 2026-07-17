@@ -1,12 +1,10 @@
-﻿using System.Data;
+using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 {
@@ -20,80 +18,77 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 
     // Shows how to use the ExecuteObjectList to get a list of dyanmic objects from a SQL query.
     // This is handy for very quick development
-    [TestFixture]
-    public class SqlLiteDataAccessMasterTests : UnitTestDataAccess
+    public class SqlLiteDataAccessMasterTests : UnitTestDataAccess, IDisposable
     {
 
         public bool TraceCalled = false;
         public bool DbErrorCalled = false;
-        public SqlLiteDataAccessMasterTests() : base(new DataAccessConfigOptions
-            {DebugTrace = true, TraceExceptions = true})
-        {
-
-        }
-
-        [SetUp]
-        public void CreateMasterTestTable()
+        public SqlLiteDataAccessMasterTests()
+            : base(new DataAccessConfigOptions { DebugTrace = true, TraceExceptions = true })
         {
             var cmd = CreateTextCommand("create table if not exists CABLOCKS_TestMasterTable (id int identity(1,1), col int )");
             ExecuteNonQuery(cmd);
         }
+
+        public new void Dispose()
+        {
+        }
         
         protected override void TraceDbStatement(IDbCommand cmd)
         {
-            TestContext.WriteLine($"Trace = {cmd.CommandText}");
+            Console.WriteLine($"Trace = {cmd.CommandText}");
             base.TraceDbStatement(cmd); // to trigger code coverage
             TraceCalled = true;
         }
 
         protected override void TraceDbError(IDbCommand cmd, DbException ex)
         {
-            TestContext.WriteLine($"Error with cmd - {cmd.CommandText}");
-            TestContext.WriteLine($"Error Detail - {ex.Message}");
+            Console.WriteLine($"Error with cmd - {cmd.CommandText}");
+            Console.WriteLine($"Error Detail - {ex.Message}");
             base.TraceDbError(cmd, ex); // to trigger code coverage
             DbErrorCalled = true;
         }
         
-        [Test]
+        [Fact]
         public void GetsqliteMasterData()
         {
             var cmd = CreateTextCommand("Select * from sqlite_master");
             var result = ExecuteToListOf<sqliteMaster>(cmd);
             foreach (var o in result)
             {
-                TestContext.WriteLine($"{o.name},{o.type},{o.rootpage},{o.sql}");
+                Console.WriteLine($"{o.name},{o.type},{o.rootpage},{o.sql}");
             }
         }
         
-        [Test]
+        [Fact]
         public void GetsqliteMasterDataDynamicList()
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = ExecuteObjectList(cmd);
-            ClassicAssert.IsTrue(result.Count > 0);
+            Assert.True(result.Count > 0);
         }
         
-        [Test]
+        [Fact]
         public void GetsqliteMasterDataDynamicSingle()
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = ExecuteObject(cmd);
-            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result.name);
+            Assert.Equal("CABLOCKS_TestMasterTable", result.name);
         }
 
         
         
-        [Test]
+        [Fact]
         public void GetsqliteMasterData_AssertTrace()
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master");
             var result = ExecuteToListOf<sqliteMaster>(cmd);
-            ClassicAssert.IsTrue(TraceCalled);
+            Assert.True(TraceCalled);
         }
 
 
@@ -111,28 +106,28 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 
         }
 
-        [Test]
+        [Fact]
         public void GetsqliteMasterData_AssertTrace1()
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master limit 1");
             var result = ExecuteTo<sqliteMaster>(cmd, CustomReader);
-            ClassicAssert.IsTrue(TraceCalled);
+            Assert.True(TraceCalled);
         }
 
 
-        [Test]
+        [Fact]
         public void GetsqliteMasterData_AssertTraceWithScalar()
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select name from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = ExecuteScalarAs<string>(cmd);
-            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result);
-            ClassicAssert.IsTrue(TraceCalled);
+            Assert.Equal("CABLOCKS_TestMasterTable", result);
+            Assert.True(TraceCalled);
         }
         
-        [Test]
+        [Fact]
         public async Task GetsqliteMasterData_AssertTraceWithScalarAsync()
         {
             TraceCalled = false;
@@ -140,11 +135,11 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = await ExecuteScalarAsAsync<string>(cmd);
         
-            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result);
-            ClassicAssert.IsTrue(TraceCalled);
+            Assert.Equal("CABLOCKS_TestMasterTable", result);
+            Assert.True(TraceCalled);
         }
 
-        [Test]
+        [Fact]
         public async Task GetsqliteMasterData_ExecuteToAsync()
         {
             TraceCalled = false;
@@ -152,37 +147,35 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = await ExecuteToAsync<sqliteMaster>(cmd);
     
-            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result.name);
-            ClassicAssert.IsTrue(TraceCalled);
+            Assert.Equal("CABLOCKS_TestMasterTable", result.name);
+            Assert.True(TraceCalled);
         }
         
         
-        [Test]
-        public void GetsqliteMasterData_ExecuteToListOfAsync()
+        [Fact]
+        public async Task GetsqliteMasterData_ExecuteToListOfAsync()
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
-            var result = ExecuteToListOfAsync<sqliteMaster>(cmd);
-            result.Wait();
-            ClassicAssert.AreEqual(1, result.Result.Count);
-            ClassicAssert.AreEqual("CABLOCKS_TestMasterTable", result.Result[0].name);
-            ClassicAssert.IsTrue(TraceCalled);
+            var result = await ExecuteToListOfAsync<sqliteMaster>(cmd);
+            Assert.Single(result);
+            Assert.Equal("CABLOCKS_TestMasterTable", result[0].name);
+            Assert.True(TraceCalled);
         }
         
-        [Test]
-        public void GetsqliteMasterData_AssertTraceWithExecuteScalarWithConvertAsAsync()
+        [Fact]
+        public async Task GetsqliteMasterData_AssertTraceWithExecuteScalarWithConvertAsAsync()
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select rootpage from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             // the data will be in from db return as string
-            var result = ExecuteScalarWithConvertAsAsync<string>(cmd);
-            result.Wait();
-            ClassicAssert.IsTrue(TraceCalled);
+            await ExecuteScalarWithConvertAsAsync<string>(cmd);
+            Assert.True(TraceCalled);
         }
         
-        [Test]
+        [Fact]
         public void GetsqliteMasterData_AssertDbErrorCalled()
         {
             DbErrorCalled = false;
@@ -194,7 +187,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             catch 
             {
             }
-            ClassicAssert.IsTrue(DbErrorCalled);
+            Assert.True(DbErrorCalled);
         }
         
         
@@ -204,3 +197,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 
     }
 }
+
+
+
+
+

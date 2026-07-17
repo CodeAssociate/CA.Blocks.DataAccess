@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,12 +10,9 @@ using CA.Blocks.DataAccessTestDataForUnitTests.TestTypes;
 using CA.Blocks.SQLServerDataAccess;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json.Linq;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests
 {
-    [TestFixture]
     public class SqlParameterExtensionsTests : BaseToSqlParameterTests 
     {
 
@@ -26,7 +23,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
 
 
 
-        //[Test]
+        //[Fact]
         //public void bla()
         //{
             
@@ -46,19 +43,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
         //    //Act
         //    var sqlparam = paramValues[0];
         //    //Assert
-        //    ClassicAssert.AreEqual(DbType.Int32, sqlparam.DbType);
-        //    ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-        //    ClassicAssert.AreEqual("@target", sqlparam.ParameterName);
-        //    ClassicAssert.AreEqual(target, sqlparam.Value);
+        //    Assert.Equal(DbType.Int32, sqlparam.DbType);
+        //    Assert.Equal(ParameterDirection.Input, sqlparam.Direction);
+        //    Assert.Equal("@target", sqlparam.ParameterName);
+        //    Assert.Equal(target, sqlparam.Value);
 
-        //    ClassicAssert.AreEqual(DbType.AnsiString, paramValues[1].DbType);
-        //    ClassicAssert.AreEqual(ParameterDirection.Input, paramValues[1].Direction);
-        //    ClassicAssert.AreEqual("@targetName", paramValues[1].ParameterName);
-        //    ClassicAssert.AreEqual(targetName, paramValues[1].Value);
+        //    Assert.Equal(DbType.AnsiString, paramValues[1].DbType);
+        //    Assert.Equal(ParameterDirection.Input, paramValues[1].Direction);
+        //    Assert.Equal("@targetName", paramValues[1].ParameterName);
+        //    Assert.Equal(targetName, paramValues[1].Value);
         //}
 
 
-        [Test]
+        [Fact]
         public void ToSqlParameter_TypeTests()
         {
             var testedTypes = new List<TypeToDbParameterResult>();
@@ -115,10 +112,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             {
                 foreach (var type in AnyUntestedTypes)
                 {
-                    TestContext.WriteLine($"{type.FullName} is missing a ToSqlParameterTest");
+                    Console.WriteLine($"{type.FullName} is missing a ToSqlParameterTest");
                 }
 
-                Assert.Warn("There are Untested ToSqlParameter types ");
+                Assert.Fail("There are Untested ToSqlParameter types ");
 
 
             }
@@ -126,7 +123,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
 
         // Note this is long form of the test above ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestInt32, DbType.Int32)
         // leave this test to help explain the intention of the the generic abstract code
-        [Test]
+        [Fact]
         public void ToSqlParameterInt32()
         {
             // Setup
@@ -134,15 +131,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             // Act
             var sqlparam = target.ToSqlParameter("@target");
             //Assert
-            ClassicAssert.AreEqual(DbType.Int32, sqlparam.DbType);
-            ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            ClassicAssert.AreEqual("@target", sqlparam.ParameterName);
-            ClassicAssert.AreEqual(target, sqlparam.Value);
+            Assert.Equal(DbType.Int32, sqlparam.DbType);
+            Assert.Equal(ParameterDirection.Input, sqlparam.Direction);
+            Assert.Equal("@target", sqlparam.ParameterName);
+            Assert.Equal(target, sqlparam.Value);
         }
 
 
         // Note this is second test if value is nullable type ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestInt32, DbType.Int32)
-        [Test]
+        [Fact]
         public void ToSqlParameterInt32NullValue()
         {
             // Setup
@@ -150,14 +147,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             // Act
             var sqlparam = target.ToSqlParameter("@target");
             //Assert
-            ClassicAssert.AreEqual(DbType.Int32, sqlparam.DbType);
-            ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            ClassicAssert.AreEqual("@target", sqlparam.ParameterName);
-            ClassicAssert.AreEqual(DBNull.Value, sqlparam.Value);
+            Assert.Equal(DbType.Int32, sqlparam.DbType);
+            Assert.Equal(ParameterDirection.Input, sqlparam.Direction);
+            Assert.Equal("@target", sqlparam.ParameterName);
+            Assert.Equal(DBNull.Value, sqlparam.Value);
         }
 
 
-        [Test]
+        [Fact]
         public void ToSqlParameterStringTestTrim()
         {
             // Setup
@@ -165,15 +162,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             // Act
             var sqlparam = testdata.ToSqlParameter("@test", trimInputTo:15);
             //Assert
-            ClassicAssert.AreEqual(DbType.String, sqlparam.DbType);
-            ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            ClassicAssert.AreEqual(false, sqlparam.IsNullable);
-            ClassicAssert.AreEqual("@test", sqlparam.ParameterName);
-            ClassicAssert.AreEqual("012345678901234", sqlparam.Value);
+            Assert.Equal(DbType.String, sqlparam.DbType);
+            Assert.Equal(ParameterDirection.Input, sqlparam.Direction);
+            Assert.Equal(false, sqlparam.IsNullable);
+            Assert.Equal("@test", sqlparam.ParameterName);
+            Assert.Equal("012345678901234", sqlparam.Value);
         }
 
 
-        [Test]
+        [Fact]
         public void ToSqlParameterStringTestTrimEmpty()
         {
             // Setup
@@ -181,11 +178,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             // Act
             var sqlparam = testdata.ToSqlParameter("@test", trimInputTo: 15);
             //Assert
-            ClassicAssert.AreEqual(DbType.String, sqlparam.DbType);
-            ClassicAssert.AreEqual(ParameterDirection.Input, sqlparam.Direction);
-            ClassicAssert.AreEqual(false, sqlparam.IsNullable);
-            ClassicAssert.AreEqual("@test", sqlparam.ParameterName);
-            ClassicAssert.AreEqual("", sqlparam.Value);
+            Assert.Equal(DbType.String, sqlparam.DbType);
+            Assert.Equal(ParameterDirection.Input, sqlparam.Direction);
+            Assert.Equal(false, sqlparam.IsNullable);
+            Assert.Equal("@test", sqlparam.ParameterName);
+            Assert.Equal("", sqlparam.Value);
         }
 
         // TODO the Overriders with optional parameters 
@@ -195,3 +192,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
 
     }
 }
+
+
+
+

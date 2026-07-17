@@ -1,15 +1,12 @@
-ï»¿using System;
+using System;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeNVarCharTests : UnitTestDataAccess
+    public class DbTypeNVarCharTests : UnitTestDataAccess, IDisposable
     {
         private const string  TEST_DATA = "nvarchar data";
 
@@ -17,10 +14,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
         {
             ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
         }
-
-        [SetUp]
-        public void Setup()
-        {
+        public DbTypeNVarCharTests()
+{
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("NVarChar(50) not null"));
             InsertTestDataAsTextSQL(TEST_DATA);
@@ -28,16 +23,14 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             InsertTestDataAsTextSQL(Guid.NewGuid().ToString());
             InsertTestDataAsTextSQL(Guid.NewGuid().ToString());
             InsertTestDataAsTextSQL(Guid.NewGuid().ToString());
-            InsertTestDataAsTextSQL("Ã¤");
+            InsertTestDataAsTextSQL("ä");
         }
-
-        [TearDown]
-        public void TearDown()
-        {
+        public new void Dispose()
+{
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataBinary()
         {
             //Setup 
@@ -45,13 +38,13 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToSingleNamedColumnList<string>(UNIT_TEST_COL_NAME);
             //Assert
-            ClassicAssert.AreEqual(6, data.Count);
-            ClassicAssert.AreEqual(TEST_DATA, data[0]);
-            ClassicAssert.AreEqual("Ã¤", data[5]);
+            Assert.True(data.Count == 6);
+            Assert.Equal(TEST_DATA, data[0]);
+            Assert.Equal("ä", data[5]);
         }
 
         
-        [Test]
+        [Fact]
         public void SelectDataBinaryWithFilter()
         {
             //setup
@@ -63,8 +56,14 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = Execute(cmd).ToSingleNamedColumnList<string>(UNIT_TEST_COL_NAME);
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Single(data);
         }
 
     }
 }
+
+
+
+
+
+

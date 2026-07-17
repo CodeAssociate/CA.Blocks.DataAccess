@@ -1,14 +1,11 @@
-﻿using CA.Blocks.DataAccess;
+using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeBitTests : UnitTestDataAccess
+    public class DbTypeBitTests : UnitTestDataAccess, IDisposable
     {
         private class BoolDataType
         {
@@ -20,8 +17,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(data? "1":"0"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeBitTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("bit not null"));
@@ -29,13 +25,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataSQL(false);
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllData()
         {
             //Setup 
@@ -44,10 +39,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = this.ExecuteObjectList(cmd);
             //Assert
-            ClassicAssert.AreEqual(2, data.Count);
+            Assert.Equal(2, data.Count);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -56,11 +51,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<BoolDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(2, data.Count);
-            ClassicAssert.AreEqual(true, data[0].Col);
+            Assert.Equal(2, data.Count);
+            Assert.Equal(true, data[0].Col);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataWithFilter ()
         {
             //setup
@@ -72,10 +67,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = this.ExecuteObjectList(cmd);
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataWithWithTranslator()
         {
             //setup
@@ -86,8 +81,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
             
-            ClassicAssert.AreEqual(testvalue, data.Col);
+            Assert.Equal(testvalue, data.Col);
         }
         
     }
 }
+
+
+
+

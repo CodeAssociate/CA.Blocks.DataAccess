@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections.Generic;
 using System.Linq;
 using CA.Blocks.DataAccess.Extensions.Translators.NUlid;
@@ -9,13 +9,10 @@ using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using NUlid;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeUlidAsStringTests : UnitTestDataAccess
+    public class DbTypeUlidAsStringTests : UnitTestDataAccess, IDisposable
     {
         private IList<Ulid> _testData = new List<Ulid>();
 
@@ -30,6 +27,20 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"'{data.ToString()}'"));
         }
 
+        public DbTypeUlidAsStringTests()
+        {
+            DefaultDbColToTypeProvider.DefaultInstance.TryAdd(new UlidDbColToTypeConverter());
+            LoadTestData();
+
+            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(CreateTestTable("char(26) not null"));
+
+            foreach (var item in _testData)
+            {
+                InsertTestDataSQL(item);
+            }
+        }
+
 
         private void LoadTestData()
         {
@@ -42,36 +53,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         }
 
-        [OneTimeSetUp]
-        public void RegisterTypeConverter()
-        {
-            DefaultDbColToTypeProvider.DefaultInstance.TryAdd(new UlidDbColToTypeConverter());
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-     
-
-            LoadTestData();
-
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("char(26) not null"));
-
-            foreach (var item in _testData)
-            {
-                InsertTestDataSQL(item);
-            }
-
-        }
-
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllData()
         {
             //Setup 
@@ -80,11 +67,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.Equal(5, data.Count);
         }
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -92,14 +79,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = Execute(cmd).ToListOf<UlidDataType>();
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(new Ulid("01H5HHY4ZG3CXE07C8TJKBCR0V"), data[0].Col);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(new Ulid("01H5HHY4ZG3CXE07C8TJKBCR0V"), data[0].Col);
         }
 
 
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataWithFilter()
         {
             //setup
@@ -111,10 +98,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = Execute(cmd).ToListOf<UlidDataType>();
 
             //Asert
-            ClassicAssert.AreEqual(3, data.Count);
+            Assert.Equal(3, data.Count);
         }
 
-        [Test]
+        [Fact]
         public void SelectSingleWithFilter()
         {
             var testvalue = new Ulid("01H5S949ZG5HW7F1B0HTBWF3RR");
@@ -125,7 +112,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = Execute(cmd).ToFirstOrDefault<UlidDataType>();
 
             //Asert
-            ClassicAssert.AreEqual(testvalue, data.Col);
+            Assert.Equal(testvalue, data.Col);
         }
     }
     ////
@@ -133,8 +120,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
     ///
     ///
 
-    [TestFixture]
-    public class DbTypeUlidAsBinaryTests : UnitTestDataAccess
+    public class DbTypeUlidAsBinaryTests : UnitTestDataAccess, IDisposable
     {
         private IList<Ulid> _testData = new List<Ulid>();
 
@@ -155,6 +141,20 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"{ToBinaryString(data)}"));
         }
 
+        public DbTypeUlidAsBinaryTests()
+        {
+            DefaultDbColToTypeProvider.DefaultInstance.TryAdd(new UlidDbColToTypeConverter());
+            LoadTestData();
+
+            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(CreateTestTable("binary(16) not null"));
+
+            foreach (var item in _testData)
+            {
+                InsertTestDataSQL(item);
+            }
+        }
+
 
         private void LoadTestData()
         {
@@ -167,36 +167,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         }
 
-        [OneTimeSetUp]
-        public void RegisterTypeConverter()
-        {
-            DefaultDbColToTypeProvider.DefaultInstance.TryAdd(new UlidDbColToTypeConverter());
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-         
-
-            LoadTestData();
-
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("binary(16) not null"));
-
-            foreach (var item in _testData)
-            {
-                InsertTestDataSQL(item);
-            }
-
-        }
-
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllData()
         {
             //Setup 
@@ -205,11 +181,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.Equal(5, data.Count);
         }
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -217,14 +193,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = Execute(cmd).ToListOf<UlidDataType>();
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(new Ulid("01H5HHY4ZG3CXE07C8TJKBCR0V"), data[0].Col);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(new Ulid("01H5HHY4ZG3CXE07C8TJKBCR0V"), data[0].Col);
         }
 
 
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataWithFilter()
         {
             //setup
@@ -236,10 +212,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = Execute(cmd).ToListOf<UlidDataType>();
 
             //Asert
-            ClassicAssert.AreEqual(3, data.Count);
+            Assert.Equal(3, data.Count);
         }
 
-        [Test]
+        [Fact]
         public void SelectSingleWithFilter()
         {
             var testvalue = new Ulid("01H5S949ZG5HW7F1B0HTBWF3RR");
@@ -250,7 +226,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = Execute(cmd).ToFirstOrDefault<UlidDataType>();
 
             //Asert
-            ClassicAssert.AreEqual(testvalue, data.Col);
+            Assert.Equal(testvalue, data.Col);
         }
     }
 }
+
+
+

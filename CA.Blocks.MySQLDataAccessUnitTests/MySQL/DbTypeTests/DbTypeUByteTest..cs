@@ -1,13 +1,11 @@
-﻿using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeBUyteTests : UnitTestDataAccess
+public class DbTypeBUyteTests : UnitTestDataAccess, IDisposable
     {
         private class ByteDataType
         {
@@ -19,8 +17,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeBUyteTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("tinyint UNSIGNED not null")); // Ravin 0-255
@@ -32,14 +29,12 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             InsertTestDataSQL(byte.MinValue);
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
-
-        [Test]
-        public void SelectAllData()
+        [Fact]
+public void SelectAllData()
         {
             //Setup 
             var t = new ByteTranslator(UNIT_TEST_COL_NAME);
@@ -47,11 +42,10 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(6, data.Count);
+            Assert.Equal(6, data.Count);
         }
-
-        [Test]
-        public void SelectAllDataToListOf()
+        [Fact]
+public void SelectAllDataToListOf()
         {
             //Setup 
 
@@ -59,13 +53,12 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = ExecuteToListOf<ByteDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(6, data.Count);
-            ClassicAssert.AreEqual(byte.MaxValue, data[4].Col);
-            ClassicAssert.AreEqual(byte.MinValue, data[5].Col);
+            Assert.Equal(6, data.Count);
+            Assert.Equal(byte.MaxValue, data[4].Col);
+            Assert.Equal(byte.MinValue, data[5].Col);
         }
-
-        [Test]
-        public void SelectAllDataByteWithFilter ()
+        [Fact]
+public void SelectAllDataByteWithFilter ()
         {
             //setup
             const byte testvalue = 123; 
@@ -77,9 +70,11 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
 
     }
 }
+
+

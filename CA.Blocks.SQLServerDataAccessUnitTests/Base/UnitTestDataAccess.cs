@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using Microsoft.Data.SqlClient;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
@@ -91,3 +91,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 
     }
 }
+
+
+
+

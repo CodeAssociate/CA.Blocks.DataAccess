@@ -1,21 +1,17 @@
-﻿
+
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeBitTests : UnitTestDataAccess
+    public class DbTypeBitTests : UnitTestDataAccess, IDisposable
     {
         private void InsertTestDataSQL(bool data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data? "1":"0"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeBitTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("bit not null"));
@@ -23,13 +19,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             InsertTestDataSQL(false);
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataBitInt()
         {
             //Setup 
@@ -38,10 +33,10 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = ExecuteObjectList(cmd);
             //Assert
-            ClassicAssert.AreEqual(2, data.Count);
+            Assert.True(data.Count == 2);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataWithFilter ()
         {
             //setup
@@ -53,9 +48,14 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = this.ExecuteObjectList(cmd);
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Single(data);
         }
 
 
     }
 }
+
+
+
+
+

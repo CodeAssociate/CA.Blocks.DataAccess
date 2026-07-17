@@ -1,15 +1,12 @@
-﻿using System.Linq;
+using System.Linq;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeVarCharMaxTests : UnitTestDataAccess
+    public class DbTypeVarCharMaxTests : UnitTestDataAccess, IDisposable
     {
         // https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/configuring-parameters-and-parameter-data-types
 
@@ -28,8 +25,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data)));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeVarCharMaxTests()
         {
             testDataValueForMax = string.Concat(Enumerable.Repeat("0123456789", 1000)); // Create a string 10000 char long
             testDataValueShort = string.Concat(Enumerable.Repeat("0123456789", 600)); // Create a string 6000 char long
@@ -39,13 +35,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataAsText(testDataValueShort);
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllData()
         {
             //Setup 
@@ -54,12 +49,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(2, data.Count);
-            ClassicAssert.AreEqual(testDataValueForMax, data[0]);
-            ClassicAssert.AreEqual(testDataValueShort, data[1]);
+            Assert.Equal(2, data.Count);
+            Assert.Equal(testDataValueForMax, data[0]);
+            Assert.Equal(testDataValueShort, data[1]);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -67,12 +62,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<StringDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(2, data.Count);
-            ClassicAssert.AreEqual(testDataValueForMax, data[0].Col);
-            ClassicAssert.AreEqual(testDataValueShort, data[1].Col);
+            Assert.Equal(2, data.Count);
+            Assert.Equal(testDataValueForMax, data[0].Col);
+            Assert.Equal(testDataValueShort, data[1].Col);
         }
 
-        [Test]
+        [Fact]
         public void SelectDataWithLargeFilter()
         {
             //setup
@@ -84,10 +79,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
-        [Test]
+        [Fact]
         public void SelectDataWithLargeFilterNoType()
         {
             //setup
@@ -99,11 +94,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
 
-        [Test]
+        [Fact]
         public void SelectDataWithLargeSmallFilter()
         {
             //setup
@@ -114,10 +109,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
-        [Test]
+        [Fact]
         public void SelectDataWithLargeSmallFilter_NoType()
         {
             //setup
@@ -128,8 +123,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
     }
 }
+
+
+

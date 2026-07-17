@@ -1,14 +1,11 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeVarCharTests : UnitTestDataAccess
+    public class DbTypeVarCharTests : UnitTestDataAccess, IDisposable
     {
         private const string  TEST_DATA = "varchar data";
 
@@ -17,8 +14,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeVarCharTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("varchar(50) not null"));
@@ -29,13 +25,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestData(Guid.NewGuid().ToString());
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataBinary()
         {
             //Setup 
@@ -44,12 +39,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(TEST_DATA, data[0]);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(TEST_DATA, data[0]);
         }
 
         
-        [Test]
+        [Fact]
         public void SelectDataBinaryWithFilter()
         {
             //setup
@@ -62,7 +57,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
     }
 }
+
+
+
+

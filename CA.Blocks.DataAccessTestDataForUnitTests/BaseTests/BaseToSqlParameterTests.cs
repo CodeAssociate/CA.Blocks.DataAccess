@@ -1,5 +1,4 @@
 ﻿#if NET6_0_OR_GREATER
-using NUnit.Framework;
 using System;
 using System.Data.Common;
 using System.Data;
@@ -7,7 +6,7 @@ using System.Linq;
 using CA.Blocks.DataAccessTestDataForUnitTests.AssertExtensions;
 using System.Collections.Generic;
 using CA.Blocks.DataAccessTestDataForUnitTests.TestTypes;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
 {
@@ -40,7 +39,7 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
             var target = methodForType.FirstOrDefault();
 
 
-			ClassicAssert.IsNotNull(target, $"There is no ToSqlParameter Method for Type - {typeof(T).FullName}");
+			Assert.NotNull(target);
 
 
 			var targetParameters = target.GetParameters();
@@ -71,10 +70,11 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
             }
 
 			// assert
-			ClassicAssert.AreEqual(expectedDbType, sqlParam.DbType);
-			ClassicAssert.AreEqual(ParameterDirection.Input, sqlParam.Direction);
-			ClassicAssert.AreEqual(false, sqlParam.IsNullable);
-			ClassicAssert.AreEqual("@paramName", sqlParam.ParameterName);
+            Assert.NotNull(sqlParam);
+            Assert.Equal(expectedDbType, sqlParam.DbType);
+            Assert.Equal(ParameterDirection.Input, sqlParam.Direction);
+            Assert.Equal(false, sqlParam.IsNullable);
+            Assert.Equal("@paramName", sqlParam.ParameterName);
 
 			return sqlParam;
 
@@ -93,9 +93,8 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
             }
             else
             {
-
-				ClassicAssert.AreEqual(test, result.DbParameter.Value, $"{test.GetType().FullName}");
-
+                //Assert.Equal(test, result.DbParameter.Value, $"{test.GetType().FullName}");
+                Assert.Equal(test, result.DbParameter.Value);
             }
 
             if (IsNullable<T>())
@@ -103,9 +102,10 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
                 result.SourceType = typeof(T).GenericTypeArguments[0];
                 // Test Null values
                 T nullTest = default;
-                var nullDbParameter = ToSqlParameterTypeInstanceTestMain<T>((T)nullTest, expectedDbType);
+                var nullDbParameter = ToSqlParameterTypeInstanceTestMain<T>(nullTest, expectedDbType);
 
-				ClassicAssert.AreEqual(DBNull.Value, nullDbParameter.Value, $"{test.GetType().FullName}");
+                //Assert.Equal(DBNull.Value, nullDbParameter.Value, $"{test.GetType().FullName}");
+                Assert.Equal(DBNull.Value, nullDbParameter.Value);
 
             }
             return result;
@@ -120,7 +120,7 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
                 DbParameter = ToSqlParameterTypeInstanceTestMain<DateOnly>(test, expectedDbType)
             };
 
-			ClassicAssert.NotNull(result.DbParameter.Value);
+			Assert.NotNull(result.DbParameter.Value);
 
             if (compareAction != null)
             {
@@ -132,7 +132,8 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
             }
             // Test Null values
             var nullDbParameter = ToSqlParameterTypeInstanceTestMain<DateOnly?>(null, expectedDbType);
-            ClassicAssert.AreEqual(DBNull.Value, nullDbParameter.Value, $"{test.GetType().FullName}");
+            //Assert.Equal(DBNull.Value, nullDbParameter.Value, $"{test.GetType().FullName}");
+            Assert.Equal(DBNull.Value, nullDbParameter.Value);
             return result;
 
         }
@@ -144,7 +145,7 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
                 SourceType = typeof(TimeOnly),
                 DbParameter = ToSqlParameterTypeInstanceTestMain<TimeOnly>(test, expectedDbType)
             };
-			ClassicAssert.NotNull(result.DbParameter.Value);
+			Assert.NotNull(result.DbParameter.Value);
 
             if (compareAction != null)
             {
@@ -157,8 +158,8 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.BaseTests
 
             // Test Null values
             var nullDbParameter = ToSqlParameterTypeInstanceTestMain<TimeOnly?>(null, expectedDbType);
-			ClassicAssert.AreEqual(DBNull.Value, nullDbParameter.Value, $"{test.GetType().FullName}");
-
+            //Assert.Equal(DBNull.Value, nullDbParameter.Value, $"{test.GetType().FullName}");
+            Assert.Equal(DBNull.Value, nullDbParameter.Value);
             return result;
         }
 

@@ -1,24 +1,19 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 using Microsoft.Data.Sqlite;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeBigIntTests : UnitTestDataAccess
+    public class DbTypeBigIntTests : UnitTestDataAccess, IDisposable
     {
         private void InsertTestDataSQL(long data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
-
-        [SetUp]
-        public void Setup()
-        {
+        public DbTypeBigIntTests()
+{
 
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("bigint not null"));
@@ -28,14 +23,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             InsertTestDataSQL(246);
             InsertTestDataSQL((long)int.MaxValue + (long)int.MaxValue);
         }
-
-        [TearDown]
-        public void TearDown()
-        {
+        public new void Dispose()
+{
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataBigInt()
         {
             //Setup 
@@ -43,10 +36,10 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToSingleNamedColumnList<long>(UNIT_TEST_COL_NAME);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.True(data.Count == 5);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataBigIntWithFilter ()
         {
             //setup
@@ -58,11 +51,11 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = Execute(cmd).ToSingleNamedColumnList<long>(UNIT_TEST_COL_NAME);
 
             //Asert
-            ClassicAssert.AreEqual(3, data.Count);
+            Assert.True(data.Count == 3);
         }
 
         
-        [Test]
+        [Fact]
         public void SelectAllDataBigIntWithFilterAndSugger()
         {
             //setup
@@ -77,9 +70,14 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = Execute(cmd).ToSingleNamedColumnList<long>(UNIT_TEST_COL_NAME);
 
             //Asert
-            ClassicAssert.AreEqual(3, data.Count);
+            Assert.True(data.Count == 3);
         }
         
         
     }
 }
+
+
+
+
+

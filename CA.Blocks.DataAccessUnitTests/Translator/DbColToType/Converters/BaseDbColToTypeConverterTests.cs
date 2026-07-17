@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {

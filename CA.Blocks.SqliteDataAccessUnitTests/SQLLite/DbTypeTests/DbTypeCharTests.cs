@@ -1,23 +1,19 @@
-﻿using System.Linq;
+using System.Linq;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeCharTests : UnitTestDataAccess
+    public class DbTypeCharTests : UnitTestDataAccess, IDisposable
     {
         private void InsertTestDataSQL(char data)
         {
             ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeCharTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("char(1) not null"));
@@ -29,13 +25,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataChar()
         {
             //Setup 
@@ -44,10 +39,10 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToSingleNamedColumnList<char>(UNIT_TEST_COL_NAME);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.True(data.Count == 5);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataBigIntWithFilter ()
         {
             //setup
@@ -59,9 +54,13 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = Execute(cmd).ToSingleNamedColumnList<char>(UNIT_TEST_COL_NAME).FirstOrDefault();
 
             //Asert
-            ClassicAssert.AreEqual('A', data);
+            Assert.Equal('A', data);
         }
 
 
     }
 }
+
+
+
+

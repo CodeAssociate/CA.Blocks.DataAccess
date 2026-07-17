@@ -1,12 +1,10 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeStringEnumTests : UnitTestDataAccess
+public class DbTypeStringEnumTests : UnitTestDataAccess, IDisposable
     {
         public enum MyTestEnum
         {
@@ -15,8 +13,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ForBar= 4,
         }
 
-        [OneTimeSetUp]
-        public void Init()
+        static DbTypeStringEnumTests()
         {
             CA.Blocks.DataAccess.Translator.DbColToType.Providers.DefaultDbColToTypeProvider.DefaultInstance.Add(new EnumDbColToTypeConverter<MyTestEnum>());
         }
@@ -31,8 +28,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeStringEnumTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("varchar(32) not null"));
@@ -43,25 +39,24 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             InsertTestDataStringSQL("ForBar");
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
-
-
-        [Test]
-        public void SelectAllDataToListOf()
+        [Fact]
+public void SelectAllDataToListOf()
         {
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
             var data = this.ExecuteToListOf<StringEnumDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(MyTestEnum.Foo, data[0].Col);
-            ClassicAssert.AreEqual(MyTestEnum.Bar, data[3].Col);
-            ClassicAssert.AreEqual(MyTestEnum.ForBar, data[4].Col);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(MyTestEnum.Foo, data[0].Col);
+            Assert.Equal(MyTestEnum.Bar, data[3].Col);
+            Assert.Equal(MyTestEnum.ForBar, data[4].Col);
         }
     }
 }
+
+

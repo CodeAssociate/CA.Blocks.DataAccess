@@ -1,17 +1,13 @@
-﻿using System;
+using System;
 using System.Collections;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeNVarCharTests : UnitTestDataAccess
+    public class DbTypeNVarCharTests : UnitTestDataAccess, IDisposable
     {
         private class StringDataType
         {
@@ -19,15 +15,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         }
 
         private const string TEST_DATA = "nvarchar data";
-        private const string TEST_UTF8DATA = "语言处理"; //"语言处理" (which means "language processing" in Chinese):
+        private const string TEST_UTF8DATA = "????"; //"????" (which means "language processing" in Chinese):
 
         private void InsertTestDataAsText(string data)
         {
             ExecuteNonQuery(InsertTestDataSQL(string.Format("N'{0}'", data)));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeNVarCharTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("NVarChar(50) not null"));
@@ -39,13 +34,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataAsText(TEST_UTF8DATA);
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllData()
         {
             //Setup 
@@ -54,13 +48,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(6, data.Count);
-            ClassicAssert.AreEqual(TEST_DATA, data[0]);
-            ClassicAssert.AreEqual(TEST_UTF8DATA, data[5]);
+            Assert.Equal(6, data.Count);
+            Assert.Equal(TEST_DATA, data[0]);
+            Assert.Equal(TEST_UTF8DATA, data[5]);
         }
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -69,12 +63,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<StringDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(6, data.Count);
-            ClassicAssert.AreEqual(TEST_DATA, data[0].Col);
-            ClassicAssert.AreEqual(TEST_UTF8DATA, data[5].Col);
+            Assert.Equal(6, data.Count);
+            Assert.Equal(TEST_DATA, data[0].Col);
+            Assert.Equal(TEST_UTF8DATA, data[5].Col);
         }
 
-        [Test]
+        [Fact]
         public void SelectDataBinaryWithFilter()
         {
             //setup
@@ -87,11 +81,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
 
-        [Test]
+        [Fact]
         public void SelectDataBinaryWithUTF8Filter()
         {
             //setup
@@ -104,7 +98,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
     }
 }
+
+
+
+

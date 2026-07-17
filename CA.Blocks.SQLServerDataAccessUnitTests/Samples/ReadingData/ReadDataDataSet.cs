@@ -1,14 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using CA.Blocks.DataAccess.DI;
-using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
-    [TestFixture]
     public class ReadDataDataSet
     {
 
@@ -85,38 +82,41 @@ Select top 5 * from sys.indexes");
 
 
 
-        [Test]
+        [Fact]
         public void ExecuteDataSetDefault()
         {
             var target = new ReadDataDataSet.ExampleReadDataDataSet();
             var executeResult = target.GetRawDateSet();
-            ClassicAssert.AreEqual("Results", executeResult.Tables[0].TableName);
-            ClassicAssert.AreEqual("Results1", executeResult.Tables[1].TableName);
+            Assert.Equal("Results", executeResult.Tables[0].TableName);
+            Assert.Equal("Results1", executeResult.Tables[1].TableName);
 
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteDataSetWithNamedTables()
         {
             var target = new ReadDataDataSet.ExampleReadDataDataSet();
             var executeResult = target.GetRawDateSetWithNamedTables();
-            ClassicAssert.AreEqual("Sysobjects", executeResult.Tables[0].TableName);
-            ClassicAssert.AreEqual("SysIndexes", executeResult.Tables[1].TableName);
+            Assert.Equal("Sysobjects", executeResult.Tables[0].TableName);
+            Assert.Equal("SysIndexes", executeResult.Tables[1].TableName);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteDataSetIntoObject()
         {
             var target = new ReadDataDataSet.ExampleReadDataDataSet();
             var executeResult = target.GetExampleReturnMultiCollection();
-            ClassicAssert.IsNotNull(executeResult);
-            ClassicAssert.IsNotNull(executeResult.Sysobjects);
-            ClassicAssert.AreEqual(10, executeResult.Sysobjects.Count);
-            ClassicAssert.IsNotNull(executeResult.SysIndexes);
-            ClassicAssert.AreEqual(5, executeResult.SysIndexes.Count);
+            Assert.NotNull(executeResult);
+            Assert.NotNull(executeResult.Sysobjects);
+            Assert.Equal(10, executeResult.Sysobjects.Count);
+            Assert.NotNull(executeResult.SysIndexes);
+            Assert.Equal(5, executeResult.SysIndexes.Count);
         }
 
     }
 }
+
+
+

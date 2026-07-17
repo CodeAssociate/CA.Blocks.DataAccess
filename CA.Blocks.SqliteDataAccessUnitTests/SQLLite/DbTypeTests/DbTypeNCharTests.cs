@@ -1,38 +1,31 @@
-ï»¿using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeNCharTests : UnitTestDataAccess
+    public class DbTypeNCharTests : UnitTestDataAccess, IDisposable
     {
         private void InsertTestDataSQL(char data)
         {
             ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
         }
-
-        [SetUp]
-        public void Setup()
-        {
+        public DbTypeNCharTests()
+{
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("NChar not null"));
-            InsertTestDataSQL('Ã¤');
+            InsertTestDataSQL('ä');
             InsertTestDataSQL('B');
             InsertTestDataSQL('C');
             InsertTestDataSQL('D');
             InsertTestDataSQL('E');
         }
-
-        [TearDown]
-        public void TearDown()
-        {
+        public new void Dispose()
+{
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataNChar()
         {
             //Setup 
@@ -41,14 +34,14 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.True(data.Count == 5);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataNCharWithFilter ()
         {
             //setup
-            char testvalue = 'Ã¤';
+            char testvalue = 'ä';
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
@@ -57,10 +50,10 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = t.Translate(ExecuteDataRow(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(testvalue, data);
+            Assert.Equal(testvalue, data);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataNCharWithFilter1()
         {
             //setup
@@ -73,7 +66,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = t.Translate(ExecuteDataRow(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(testvalue, data);
+            Assert.Equal(testvalue, data);
         }
     }
 }
+
+
+
+
+

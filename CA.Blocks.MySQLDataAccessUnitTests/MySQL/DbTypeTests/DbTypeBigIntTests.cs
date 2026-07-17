@@ -1,13 +1,11 @@
-﻿using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeBigIntTests : UnitTestDataAccess
+public class DbTypeBigIntTests : UnitTestDataAccess, IDisposable
     {
         private class BigIntDataType
         {
@@ -19,8 +17,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeBigIntTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("bigint not null"));
@@ -31,14 +28,12 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             InsertTestDataSQL((long)int.MaxValue + (long)int.MaxValue);
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
-
-        [Test]
-        public void SelectAllData()
+        [Fact]
+public void SelectAllData()
         {
             //Setup 
             var t = new LongTranslator(UNIT_TEST_COL_NAME);
@@ -46,24 +41,21 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
 			//Assert
-			ClassicAssert.AreEqual(5, data.Count);
+			Assert.Equal(5, data.Count);
         }
-
-        [Test]
-        public void SelectAllDataToListOf()
+        [Fact]
+public void SelectAllDataToListOf()
         {
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
             var data = ExecuteToListOf<BigIntDataType>(cmd);
 			//Assert
-			ClassicAssert.AreEqual(5, data.Count);
-			ClassicAssert.AreEqual(-1, data[0].Col);
+			Assert.Equal(5, data.Count);
+			Assert.Equal(-1, data[0].Col);
         }
-
-
-        [Test]
-        public void SelectAllDataBigIntWithFilter ()
+        [Fact]
+public void SelectAllDataBigIntWithFilter ()
         {
             //setup
             const long testvalue = 123; 
@@ -75,12 +67,10 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
 			//Asert
-			ClassicAssert.AreEqual(3, data.Count);
+			Assert.Equal(3, data.Count);
         }
-
-        
-        [Test]
-        public void SelectAllDataBigIntWithFilterWithParameters()
+        [Fact]
+public void SelectAllDataBigIntWithFilterWithParameters()
         {
             //setup
             const long testvalue = 123;
@@ -92,7 +82,9 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
 			//Asert
-			ClassicAssert.AreEqual(3, data.Count);
+			Assert.Equal(3, data.Count);
         }
     }
 }
+
+

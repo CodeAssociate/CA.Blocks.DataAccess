@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using CA.Blocks.DataAccess.DI;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.Base;

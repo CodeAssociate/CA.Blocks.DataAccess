@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator;
 using CA.Blocks.DataAccessUnitTests.TestData;
@@ -6,7 +6,6 @@ using CA.Blocks.DataAccessUnitTests.TestData.StubObjects;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator;
 
-[TestFixture]
 public class SimpleDbReader2ObjectTranslatorTests
 {
     public class TestTranslator : SimpleDbReader2ObjectTranslator<TestDataClass>
@@ -24,7 +23,7 @@ public class SimpleDbReader2ObjectTranslatorTests
         }
     }
 
-    [Test]
+    [Fact]
     public void Translate_DataTable()
     {
         // setup 
@@ -34,8 +33,8 @@ public class SimpleDbReader2ObjectTranslatorTests
         var result = target.Translate(dt);
 
         // assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.Count, Is.EqualTo(10));
-        Assert.That(result[0].IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(10, result.Count);
+        Assert.Equal(1, result[0].IntCol);
     }
 }

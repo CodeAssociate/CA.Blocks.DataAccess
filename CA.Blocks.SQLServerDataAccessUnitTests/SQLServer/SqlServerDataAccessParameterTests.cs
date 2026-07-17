@@ -1,12 +1,9 @@
-﻿using CA.Blocks.DataAccess.DI;
+using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
-    [TestFixture]
     public class SqlServerDataAccessParameterTests : SqlServerDataAccess
     {
         public SqlServerDataAccessParameterTests()
@@ -31,7 +28,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 
         #region SqlDbType.Float 
 
-        [Test]
+        [Fact]
         public void QueryWithParameterDouble()
         {
             // Setup
@@ -46,7 +43,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             foreach (var item in list)
             {
-                ClassicAssert.IsTrue(item.avg_total_user_cost > testNumber);
+                Assert.True(item.avg_total_user_cost > testNumber);
             }
         }
 
@@ -61,7 +58,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         SqlDbType.Image;
         */
 
-        [Test]
+        [Fact]
         public void QueryWithParameterInt32()
         {
             // Setup
@@ -76,12 +73,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             foreach (var item in list)
             {
-                ClassicAssert.IsTrue(item.id > testid);
+                Assert.True(item.id > testid);
             }
         }
 
 
-        [Test]
+        [Fact]
         public void QueryWithParameterNullInt32()
         {
             // Setup
@@ -96,7 +93,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             foreach (var item in list)
             {
-                ClassicAssert.IsTrue(item.id > testid.Value);
+                Assert.True(item.id > testid.Value);
             }
         }
 
@@ -125,3 +122,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 
     }
 }
+
+
+
+
