@@ -1,4 +1,4 @@
-﻿//using System;
+//using System;
 //using Microsoft.Data.SqlClient;
 //using System.Diagnostics;
 //using CA.Blocks.SQLServerDataAccessUnitTests.Base;
@@ -19,20 +19,19 @@
 
 
 
-//    [TestFixture]
-//    public class BaseDb2ObjectTranslatorUnitTest : UnitTestDataAccess
+//    //    public class BaseDb2ObjectTranslatorUnitTest : UnitTestDataAccess
 //    {
 //        //private const string unitTestTableName = "CA_BLOCKS_UNITTEST_TEMP_TESTTABLE";
 
 //        #region TestSysobjects
-//        [Test]
+//        [Fact]
 //        public void BaseDb2ObjectTranslatorTestTestSysobjectsMapping()
 //        {
 //            var t = new BaseDb2ObjectTranslator<TestSysobjects>();
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
 //            var result = t.Translate(ExecuteDataTable(cmd));
 
-//            ClassicAssert.IsTrue(result.Count > 0);
+//            Assert.True(result.Count > 0);
 
 //            var outputFormat = "{0}\t{1}\t{2}\t{3}";
 //            Trace.WriteLine(string.Format(outputFormat, "id", "name", "xtype", "crdate"));
@@ -43,20 +42,20 @@
 //        }
 
 
-//        [Test]
+//        [Fact]
 //        public void BaseDb2ObjectTranslatorTestTestSysobjectsMapping2()
 //        {
 //            var t = new CustomTestSysobjectsTranslator();
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
 //            var result = t.Translate(ExecuteDataTable(cmd));
 
-//            ClassicAssert.IsTrue(result.Count > 0);
+//            Assert.True(result.Count > 0);
 
 //            var outputFormat = "{0}\t{1}\t{2}\t{3}\t{4}";
-//            TestContext.WriteLine(string.Format(outputFormat, "id", "name", "xtype", "crdate", "CrazyNameForRefDate"));
+//            Console.WriteLine(string.Format(outputFormat, "id", "name", "xtype", "crdate", "CrazyNameForRefDate"));
 //            foreach (var item in result)
 //            {
-//                TestContext.WriteLine(string.Format(outputFormat, item.id, item.name, item.xtype, item.crdate.Date, item.CrazyNameForRefDate));
+//                Console.WriteLine(string.Format(outputFormat, item.id, item.name, item.xtype, item.crdate.Date, item.CrazyNameForRefDate));
 //            }
 //        }
 //        #endregion
@@ -65,7 +64,7 @@
 
 
 //        #region Char
-//        [Test]
+//        [Fact]
 //        public void BaseDb2ObjectTranslatorTestCharMapping()
 //        {
 //            var da = new UnitTestDataAccess();
@@ -77,7 +76,7 @@
 //            SqlCommand cmd = CreateTextCommand(SelectTestDataSQL());
 //            var result = target.Translate(ExecuteDataRow(cmd));
             
-//            ClassicAssert.AreEqual('T', result.Col);
+//            Assert.Equal('T', result.Col);
 
 //            da.ExecuteNonQuery(DropTestTableSQL());
 //        }
@@ -86,7 +85,7 @@
 
 //        #region timespan
 
-//        [Test]
+//        [Fact]
 //        public void BaseDb2ObjectTranslatorTestTimeSpanMapping()
 //        {
 //            var da = new UnitTestDataAccess();
@@ -98,7 +97,7 @@
 //            var cmd = CreateTextCommand(SelectTestDataSQL());
 //            var result = target.Translate(ExecuteDataRow(cmd));
 
-//            ClassicAssert.AreEqual(new TimeSpan(1,2,3), result.Col);
+//            Assert.Equal(new TimeSpan(1,2,3), result.Col);
 
 //            da.ExecuteNonQuery(DropTestTableSQL());
 //        }
@@ -111,3 +110,7 @@
 //        #endregion 
 //    }
 //}
+
+
+
+

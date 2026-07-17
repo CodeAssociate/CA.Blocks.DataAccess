@@ -1,4 +1,4 @@
-﻿//using Microsoft.Data.SqlClient;
+//using Microsoft.Data.SqlClient;
 //using System.Diagnostics;
 //using CA.Blocks.DataAccess.Translator;
 //using CA.Blocks.SQLServerDataAccessUnitTests.Base;
@@ -15,12 +15,11 @@
 
 //    // Shows how to use the ExecuteObjectList to get a list of dyanmic objects from a SQL query.
 //    // This is handy for very quick development
-//    [TestFixture]
-//    public class SqlServerDataAccessExecuteObjectListTests : UnitTestDataAccess
+//    //    public class SqlServerDataAccessExecuteObjectListTests : UnitTestDataAccess
 //    {
 
 
-//        [Test]
+//        [Fact]
 //        public void GetDataAsDyanmicList()
 //        {
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
@@ -34,7 +33,7 @@
 
 //        // This will use the same dynamic function except it adds a little more work in converting the 
 //        // object into a known type rather than dyanmic
-//        [Test]
+//        [Fact]
 //        public void GetDataAsFixedTypeFromDynamic()
 //        {
 //              // Note we only support 1-1 mapping for now
@@ -52,3 +51,7 @@
 
 
 //}
+
+
+
+

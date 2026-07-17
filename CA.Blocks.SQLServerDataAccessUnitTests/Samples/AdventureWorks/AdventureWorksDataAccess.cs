@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
@@ -182,3 +182,7 @@ Create Table MyTable (Id int not null, Name varchar(10) not null);";
 
     }
 }
+
+
+
+

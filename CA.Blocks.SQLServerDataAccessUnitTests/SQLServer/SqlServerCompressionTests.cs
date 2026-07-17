@@ -1,16 +1,13 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Transactions;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
-    [TestFixture]
     public class SqlServerCompressionTests : UnitTestDataAccess
     {
         private string dropTempTestTable = @"If Exists (Select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = '_tempSqlServerSqlServerCompressionTests') 
@@ -55,7 +52,7 @@ END";
             ExecuteNonQuery(cmd);
         }
 
-        [Test]
+        [Fact]
         public void CompressToSQLNVarcharStringTests()
         {
             // setup 
@@ -79,11 +76,15 @@ END";
             var tresult = ExecuteTo<TestDataObj>(readAsString);
             // assert
 
-            ClassicAssert.AreEqual(bresult.Id, tresult.Id);
-            ClassicAssert.AreEqual(testData, bresult.dataValue);
-            ClassicAssert.AreEqual(testData,tresult.dataValue);
+            Assert.Equal(bresult.Id, tresult.Id);
+            Assert.Equal(testData, bresult.dataValue);
+            Assert.Equal(testData,tresult.dataValue);
            
             CleanUpTest();
         }
     }
 }
+
+
+
+

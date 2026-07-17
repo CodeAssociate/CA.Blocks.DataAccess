@@ -1,24 +1,21 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using CA.Blocks.DataAccess.DataTableHelpers;
-using NUnit.Framework;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccessTestDataForUnitTests.TestSets.DateDimension;
 using CA.Blocks.SQLServerDataAccess;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.BulkOperationExample
 {
 
 
-    [TestFixture]
     public class BulkDataTableOperations : SqlServerDataAccess
     {
         public BulkDataTableOperations() : base(new SimpleConnectionStringDataAccessConfig(
             "Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
 
         {
-
+            Setup();
         }
 
         private string DropTestTableIfExistsSQL()
@@ -100,7 +97,6 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
 )";
         }
 
-        [OneTimeSetUp]
         public void Setup()
         {
             ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
@@ -111,15 +107,8 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
 
         }
 
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-           //ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
-           //ExecuteNonQuery(CreateTextCommand(DropTestTableTypeIfExistsSQL()));
-        }
 
-
-        [Test, Order(1)]
+        [Fact]
         public void BulkInsertTest()
         {
             // This process inserts 365,243 rows 1000 years of date data. which is 4,748,159 cells, on local with fast disk this is 5 seconds
@@ -131,7 +120,7 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
             {
                 sw.Reset();
                 var testData = builder.GenerateDateDimensions(year, year +9);
-                ClassicAssert.IsNotNull(testData);
+                Assert.NotNull(testData);
 
                 sw.Start();
                 var dt = testData.ToObjectDataTable();
@@ -144,12 +133,15 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
                 ExecuteNonQuery(cmd);
                 sw.Stop();
                 var executeTime = sw.ElapsedMilliseconds - dtgGenTime;
-                TestContext.WriteLine($"Inserted {dt.Rows.Count} -> ObjectToDTTimems={dtgGenTime};DbExecuteTimems={executeTime}");
+                Console.WriteLine($"Inserted {dt.Rows.Count} -> ObjectToDTTimems={dtgGenTime};DbExecuteTimems={executeTime}");
             }
 
             var countcmd = CreateTextCommand("Select count(*) from CABLOCKS_DateDimension_Example");
             var rowCount = ExecuteScalarAs<int>(countcmd);
-            ClassicAssert.AreEqual(365243, rowCount);
+            Assert.Equal(365243, rowCount);
         }
     }
 }
+
+
+

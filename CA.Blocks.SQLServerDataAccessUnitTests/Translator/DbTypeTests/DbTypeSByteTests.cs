@@ -1,15 +1,12 @@
-﻿using CA.Blocks.DataAccess;
+using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeSByteTests : UnitTestDataAccess
+    public class DbTypeSByteTests : UnitTestDataAccess, IDisposable
     {
 
         private class SByteDataType
@@ -22,8 +19,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeSByteTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("smallint not null"));
@@ -34,14 +30,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataSQL(127);
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -50,12 +45,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<SByteDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(-128, data[0].Col);
-            ClassicAssert.AreEqual(127, data[4].Col);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(-128, data[0].Col);
+            Assert.Equal(127, data[4].Col);
         }
         
-        [Test]
+        [Fact]
         public void SelectAllDataWithWithTranslator()
         {
             //setup
@@ -65,8 +60,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
             
-            ClassicAssert.AreEqual(testValue, data.Col);
+            Assert.Equal(testValue, data.Col);
         }
 
     }
 }
+
+
+
+

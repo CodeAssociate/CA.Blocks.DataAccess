@@ -1,11 +1,9 @@
-﻿using CA.Blocks.DataAccess.DI;
+using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer;
 
-[TestFixture]
 public class SqlServerDataAccessUsingExistingConnectionTests : SqlServerDataAccess
 {
 	public SqlServerDataAccessUsingExistingConnectionTests()
@@ -16,7 +14,7 @@ public class SqlServerDataAccessUsingExistingConnectionTests : SqlServerDataAcce
 
 	}
 
-	[Test]
+	[Fact]
 	public void ExecuteExecuteScalarByte()
 	{
 		using (var conn = CreateSqlConnection())
@@ -26,7 +24,7 @@ public class SqlServerDataAccessUsingExistingConnectionTests : SqlServerDataAcce
 			cmd.Connection = conn;
 			// act
 			var spid = ExecuteScalarAs<short>(cmd);
-			TestContext.WriteLine(spid);
+			Console.WriteLine(spid);
 			
 			
 			var cmd2 = CreateTextCommand("Select @@SPID");
@@ -35,8 +33,8 @@ public class SqlServerDataAccessUsingExistingConnectionTests : SqlServerDataAcce
 			// by the time we get the newSpid the connection is wrapped up and back on the pool
 			// but it must not use the original  connection
 			var newSpid = ExecuteScalarAs<short>(cmd2);
-			TestContext.WriteLine(newSpid);
-			Assert.That(spid != newSpid);
+			Console.WriteLine(newSpid);
+            Assert.NotEqual(spid, newSpid);
 
 			// now execute a command using the original  connection
 			var cmd3 = CreateTextCommand("Select @@SPID");
@@ -44,8 +42,8 @@ public class SqlServerDataAccessUsingExistingConnectionTests : SqlServerDataAcce
 			// act
 			var ensureSameSpid = ExecuteScalarAs<short>(cmd3);
 
-			TestContext.WriteLine(ensureSameSpid);
-			Assert.That(spid == ensureSameSpid);
+			Console.WriteLine(ensureSameSpid);
+            Assert.Equal(spid, ensureSameSpid);
 
 
 			conn.Close(); // free use to be put back on the pool.
@@ -54,3 +52,6 @@ public class SqlServerDataAccessUsingExistingConnectionTests : SqlServerDataAcce
 	}
 
 }
+
+
+

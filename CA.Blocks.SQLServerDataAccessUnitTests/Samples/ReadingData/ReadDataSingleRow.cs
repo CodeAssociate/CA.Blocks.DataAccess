@@ -1,13 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using CA.Blocks.DataAccess.DI;
-using NUnit.Framework;
 using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
-    [TestFixture]
     public class ReadDataSingleRow
     {
 
@@ -44,18 +42,21 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
 
 
-        [Test]
+        [Fact]
         public void GetSysObjectByName()
         {
             var target = new ExampleReadDataSingleRow();
             var executeResult = target.GetSysObjectByName();
 
-            TestContext.WriteLine($"{executeResult.id},{executeResult.name},{executeResult.refdate}");
+            Console.WriteLine($"{executeResult.id},{executeResult.name},{executeResult.refdate}");
 
             var executeResult2 = target.GetSysObjectByName2();
 
-            TestContext.WriteLine($"{executeResult2.id},{executeResult2.name},{executeResult2.refdate}");
+            Console.WriteLine($"{executeResult2.id},{executeResult2.name},{executeResult2.refdate}");
         }
 
     }
 }
+
+
+

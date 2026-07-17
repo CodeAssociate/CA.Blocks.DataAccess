@@ -1,14 +1,11 @@
-﻿using System.Text;
+using System.Text;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeVarBinaryTests : UnitTestDataAccess
+    public class DbTypeVarBinaryTests : UnitTestDataAccess, IDisposable
     {
         private const string  TEST_DATA = "Binary Data 1";
 
@@ -17,8 +14,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(string.Format("CAST('{0}' as varbinary(50))", data)));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeVarBinaryTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("varbinary(50) not null"));
@@ -29,13 +25,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataAsBinarySQL("Binary Data 5");
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataBinary()
         {
             //Setup 
@@ -44,12 +39,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(TEST_DATA, Encoding.ASCII.GetString(data[0]));
+            Assert.Equal(5, data.Count);
+            Assert.Equal(TEST_DATA, Encoding.ASCII.GetString(data[0]));
         }
 
         
-        [Test]
+        [Fact]
         public void SelectDataBinaryWithFilter()
         {
             //setup
@@ -62,9 +57,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
 
     }
 }
+
+
+
+

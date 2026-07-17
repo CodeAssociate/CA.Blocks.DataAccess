@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,8 +14,6 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using Microsoft.Data.SqlClient;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -54,11 +52,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     }
 
 
-    [TestFixture]
     public class SqlServerDataAccessExecuteTo : UnitTestDataAccess
     {
-        [SetUp]
-        public void Setup()
+        public SqlServerDataAccessExecuteTo()
         {
            if (!DefaultDbRowTranslatorProvider.DefaultInstance.HasTranslatorFor<temp2>())
            {
@@ -66,29 +62,29 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
            }
         }
 
-        [Test]
+        [Fact]
         public void ExecuteToListOfDev()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects");
             var result = ExecuteToListOf<temp>(cmd);
-            ClassicAssert.Greater(result.Count, 0);
+            Assert.True(result.Count > 0);
             //foreach (var o in result)
             //{
-            //    TestContext.WriteLine($"{o.id},{o.name}");
+            //    Console.WriteLine($"{o.id},{o.name}");
             //}
             SqlCommand cmdSingle = CreateTextCommand("Select id, name from sysobjects where id=@id").WithParameter(result[0].id.ToSqlParameter("@id"));
             var singleResult  = ExecuteTo<temp>(cmd);
-            ClassicAssert.AreEqual(singleResult.id, result[0].id);
-            ClassicAssert.AreEqual(singleResult.name, result[0].name);
+            Assert.Equal(singleResult.id, result[0].id);
+            Assert.Equal(singleResult.name, result[0].name);
         }
 
-        [Test]
+        [Fact]
         public void ExecuteToListOfDevCustomTranslator()
         {
 
             var cmd = CreateDbCommand("Select id, name from sysobjects");
             var result = ExecuteToListOf<temp2>(cmd);
-            ClassicAssert.Greater(result.Count, 0);
+            Assert.True(result.Count > 0);
             var cmdSingle = CreateDbCommand("Select id, name from sysobjects where id=@id");
 
 			cmdSingle.Parameters.Add(result[0].Id2.ToSqlParameter("@id")); // << we what to replace this with a generic solution.
@@ -96,12 +92,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 			//cmdSingle.Parameters.Add(cmdSingle.CreateParameter().WithValueAs(result[0].Id2, "@Id"));
 			//cmdSingle.CreateParameter().WithValue(result[0].Id2, "@id");
 			var singleResult = ExecuteTo<temp>(cmd);
-            ClassicAssert.AreEqual(singleResult.id, result[0].Id2);
-            ClassicAssert.AreEqual(singleResult.name, result[0].Name2);
+            Assert.Equal(singleResult.id, result[0].Id2);
+            Assert.Equal(singleResult.name, result[0].Name2);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteToListOfDevCustomTranslatorUsingFunc()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name  from sysobjects");
@@ -112,12 +108,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
                 rowObj.Name2 = dr.AsString("name");
                 return rowObj;
             });
-            ClassicAssert.Greater(result.Count, 0);
+            Assert.True(result.Count > 0);
 
             SqlCommand cmdSingle = CreateTextCommand("Select id, name from sysobjects where id=@id").WithParameter(result[0].Id2.ToSqlParameter("@id"));
             var singleResult = ExecuteTo<temp>(cmd);
-            ClassicAssert.AreEqual(singleResult.id, result[0].Id2);
-            ClassicAssert.AreEqual(singleResult.name, result[0].Name2);
+            Assert.Equal(singleResult.id, result[0].Id2);
+            Assert.Equal(singleResult.name, result[0].Name2);
         }
 
         private temp2 LocalTranslate(IDataReader dr)
@@ -129,95 +125,95 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteToListOfDevCustomTranslatorUsingFunc1()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name  from sysobjects");
             var result = ExecuteToListOf<temp2>(cmd, LocalTranslate);
-            ClassicAssert.Greater(result.Count, 0);
+            Assert.True(result.Count > 0);
 
             SqlCommand cmdSingle = CreateTextCommand("Select id, name from sysobjects where id=@id").WithParameter(result[0].Id2.ToSqlParameter("@id"));
             var singleResult = ExecuteTo<temp>(cmd);
-            ClassicAssert.AreEqual(singleResult.id, result[0].Id2);
-            ClassicAssert.AreEqual(singleResult.name, result[0].Name2);
+            Assert.Equal(singleResult.id, result[0].Id2);
+            Assert.Equal(singleResult.name, result[0].Name2);
         }
 
 
 
-        [Test]
+        [Fact]
         public void ExecuteToListOfDevEmptyList()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where 1=2");
             var result = ExecuteToListOf<temp>(cmd);
-            ClassicAssert.AreEqual(result.Count, 0);
+            Assert.Equal(result.Count, 0);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteToListOfDevEmptySingle()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where 1=2");
             var result = ExecuteTo<temp>(cmd);
-            ClassicAssert.True(result == default);
+            Assert.True(result == default);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteToListOfStrutList()
         {
             int defaulint = default;
             SqlCommand cmd = CreateTextCommand("Select id from sysobjects where id <> @id").WithParameter(defaulint.ToSqlParameter("@id"));
             var result = ExecuteToListOf<int>(cmd);
-            ClassicAssert.Greater(result.Count, 0);
+            Assert.True(result.Count > 0);
             var shouldBeEmpty = result.Where(x => x == defaulint).ToList();
-            ClassicAssert.AreEqual(0 ,shouldBeEmpty.Count);
+            Assert.Equal(0 ,shouldBeEmpty.Count);
         }
 
 
         #region async Tests
 
-        [Test]
+        [Fact]
         public async Task ExecuteToListOfDevAsync()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects");
             var result = await  ExecuteToListOfAsync<temp>(cmd);
-            ClassicAssert.Greater(result.Count, 0);
+            Assert.True(result.Count > 0);
             //foreach (var o in result)
             //{
-            //    TestContext.WriteLine($"{o.id},{o.name}");
+            //    Console.WriteLine($"{o.id},{o.name}");
             //}
             SqlCommand cmdSingle = CreateTextCommand("Select id, name from sysobjects where id=@id").WithParameter(result[0].id.ToSqlParameter("@id"));
             var singleResult = await ExecuteToAsync<temp>(cmd);
-            ClassicAssert.AreEqual(singleResult.id, result[0].id);
-            ClassicAssert.AreEqual(singleResult.name, result[0].name);
+            Assert.Equal(singleResult.id, result[0].id);
+            Assert.Equal(singleResult.name, result[0].name);
         }
 
-        [Test]
+        [Fact]
         public async Task ExecuteToListOfDevEmptyListAsync()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where 1=2");
             var result = await ExecuteToListOfAsync<temp>(cmd);
-            ClassicAssert.AreEqual(result.Count, 0);
+            Assert.Equal(result.Count, 0);
         }
 
 
-        [Test]
+        [Fact]
         public async Task ExecuteToListOfDevEmptySingleAsync()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where 1=2");
             var result = await ExecuteToAsync<temp>(cmd);
-            ClassicAssert.True(result == default);
+            Assert.True(result == default);
         }
 
-        [Test]
+        [Fact]
         public async Task  ExecuteToListOfStrutListAsync()
         {
             int defaulInt = default;
             SqlCommand cmd = CreateTextCommand("Select id from sysobjects where id <> @id").WithParameter(defaulInt.ToSqlParameter("@id"));
             var result = await ExecuteToListOfAsync<int>(cmd);
-            ClassicAssert.Greater(result.Count, 0);
+            Assert.True(result.Count > 0);
             var shouldBeEmpty = result.Where(x => x == defaulInt).ToList();
-            ClassicAssert.AreEqual(0, shouldBeEmpty.Count);
+            Assert.Equal(0, shouldBeEmpty.Count);
         }
 
 
@@ -225,7 +221,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         #endregion
 
         #region BadTranslate 
-        [Test]
+        [Fact]
         public void ExecuteToListOfBadTranslate()
         {
             SqlCommand cmd = CreateTextCommand("Select id as id2, name from sysobjects");
@@ -233,19 +229,18 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteToListOfBadTranslateInvalidDateTypes()
         {
             SqlCommand cmd = CreateTextCommand("Select id as name, name as id from sysobjects");
             Assert.Throws<ConverterColumnBadDataException>(() => ExecuteToListOf<temp>(cmd));
         }
 
-        [Test]
-        public Task ExecuteToListOfBadTranslateAsync()
+        [Fact]
+        public async Task ExecuteToListOfBadTranslateAsync()
         {
             SqlCommand cmd = CreateTextCommand("Select id as id2, name from sysobjects");
-            Assert.ThrowsAsync<ConverterColumnNotFoundException>(() => ExecuteToListOfAsync<temp>(cmd));
-            return Task.CompletedTask;
+            await Assert.ThrowsAsync<ConverterColumnNotFoundException>(() => ExecuteToListOfAsync<temp>(cmd));
         }
 
         #endregion
@@ -253,3 +248,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     }
 
 }
+
+
+

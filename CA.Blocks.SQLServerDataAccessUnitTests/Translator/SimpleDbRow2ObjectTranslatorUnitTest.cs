@@ -1,4 +1,4 @@
-﻿//using Microsoft.Data.SqlClient;
+//using Microsoft.Data.SqlClient;
 //using System.Diagnostics;
 //using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 //using CA.Blocks.SQLServerDataAccessUnitTests.Translator.TestObjects;
@@ -6,20 +6,19 @@
 
 //namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
 //{
-//    [TestFixture]
-//    public class SimpleDbRow2ObjectTranslatorUnitTest : UnitTestDataAccess
+//    //    public class SimpleDbRow2ObjectTranslatorUnitTest : UnitTestDataAccess
 //    {
 
 
 //        #region TestSysobjects
-//        [Test]
+//        [Fact]
 //        public void BaseDb2ObjectTranslatorTestTestSysobjectsMapping()
 //        {
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
 
 //            var result = TestSysobjectsTranslator.CurrentInstance.Translate(ExecuteDataTable(cmd));
 
-//            ClassicAssert.IsTrue(result.Count > 0);
+//            Assert.True(result.Count > 0);
 
 //            var outputformat = "{0}\t{1}\t{2}\t{3}";
 //            Trace.WriteLine(string.Format(outputformat, "id", "name", "xtype", "crdate"));
@@ -32,3 +31,7 @@
 //        #endregion 
 //    }
 //}
+
+
+
+

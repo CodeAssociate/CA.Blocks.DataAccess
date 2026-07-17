@@ -1,9 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CA.Blocks.SQLServerDataAccess.Model;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -55,24 +53,27 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 
 
 
-    [TestFixture]
     public partial class SqlServerDataAccessContextTests
     {
-        [Test]
+        [Fact]
         public void GetSessionContextTests()
         {
             var target = new SessionContextUnitTestDataAccess();
             var stringContext = target.GetStringContextDataBase();
-            ClassicAssert.AreEqual(target.RandomStringContextValue, stringContext);
+            Assert.Equal(target.RandomStringContextValue, stringContext);
 
             var intContext = target.GetIntContextDataBase();
-            ClassicAssert.AreEqual(target.RandomIntContextValue, intContext);
+            Assert.Equal(target.RandomIntContextValue, intContext);
 
             var GuidContext = target.GetGuidContextDataBase();
-            ClassicAssert.AreEqual(target.RandomGuidContextValue, GuidContext);
+            Assert.Equal(target.RandomGuidContextValue, GuidContext);
         }
 
     }
 
 
 }
+
+
+
+

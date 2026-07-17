@@ -1,15 +1,12 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests;
 
-[TestFixture]
-public class DbTypeVarCharVersionTests : UnitTestDataAccess
+public class DbTypeVarCharVersionTests : UnitTestDataAccess, IDisposable
 {
 
     private class VersionDataType
@@ -23,9 +20,8 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess
         ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
     }
 
-    [SetUp]
-    public void Setup()
-    {
+    public DbTypeVarCharVersionTests()
+        {
         ExecuteNonQuery(DropTestTableSQL());
         ExecuteNonQuery(CreateTestTable("varchar(20) null"));
         InsertTestData(new Version(1,2).ToString());
@@ -34,13 +30,12 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess
         ExecuteNonQuery(InsertTestDataSQL("null"));
     }
 
-    [TearDown]
-    public void TearDown()
-    {
+    public new void Dispose()
+        {
         ExecuteNonQuery(DropTestTableSQL());
     }
 
-    [Test]
+    [Fact]
     public void SelectAllData()
     {
         //Setup 
@@ -49,16 +44,16 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess
 
         var data = Execute(cmd).ToListOf<VersionDataType>();
         //Assert
-        ClassicAssert.AreEqual(4, data.Count);
-        ClassicAssert.AreEqual(new Version("1.2"), data[0].Col);
-        ClassicAssert.AreEqual(new Version("1.2.3"), data[1].Col);
-        ClassicAssert.AreEqual(new Version("1.2.3.4"), data[2].Col);
-        ClassicAssert.IsNull(data[3].Col);
+        Assert.Equal(4, data.Count);
+        Assert.Equal(new Version("1.2"), data[0].Col);
+        Assert.Equal(new Version("1.2.3"), data[1].Col);
+        Assert.Equal(new Version("1.2.3.4"), data[2].Col);
+        Assert.Null(data[3].Col);
     }
 
 
 
-    [Test]
+    [Fact]
     public void SelectDataWithFilter()
     {
         //setup
@@ -69,6 +64,9 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess
         //Act
         var data = Execute(cmd).ToFirstOrDefault<VersionDataType>();
         //Asert
-        ClassicAssert.AreEqual(data.Col, testvalue);
+        Assert.Equal(data.Col, testvalue);
     }
 }
+
+
+

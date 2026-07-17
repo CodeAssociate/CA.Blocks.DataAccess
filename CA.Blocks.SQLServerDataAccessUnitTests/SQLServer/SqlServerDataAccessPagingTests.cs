@@ -1,32 +1,33 @@
-﻿using System.Data;
+using System.Data;
 using Microsoft.Data.SqlClient;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using CA.Blocks.DataAccess.Model.Paging;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
-    [TestFixture]
     public class SqlServerDataAccessPagingTests : UnitTestDataAccess
     {
-        [Test]
+        [Fact]
         public void GetBasicPagingRequest()
         {
             var target = new UnitTestDataAccess();
             SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
             DataTable dt = target.ExecuteDataTable(cmd, new PagingRequest(10, 0, "ID"));
-            ClassicAssert.AreEqual(10, dt.Rows.Count);
+            Assert.Equal(10, dt.Rows.Count);
         }
 
 
-        [Test]
+        [Fact]
         public void GetBasicPagingRequest_NoSpecifiedOrder()
         {
             var target = new UnitTestDataAccess();
             SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
             DataTable dt = target.ExecuteDataTable(cmd, new PagingRequest(10, 0));
-            ClassicAssert.AreEqual(10, dt.Rows.Count);
+            Assert.Equal(10, dt.Rows.Count);
         }
     }
 }
+
+
+
+

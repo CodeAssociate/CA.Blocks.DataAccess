@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -7,8 +7,6 @@ using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -61,14 +59,14 @@ END
         protected override void TraceTransientErrorDbError(IDbCommand cmd, DbException ex)
         {
             DbTransientErrorDbErrorCount++;
-            TestContext.WriteLine($"Try number {DbTransientErrorDbErrorCount} and fail with - {cmd.CommandText}");
+            Console.WriteLine($"Try number {DbTransientErrorDbErrorCount} and fail with - {cmd.CommandText}");
             base.TraceTransientErrorDbError(cmd, ex);
         }
 
         protected override void TraceDbError(IDbCommand cmd, DbException ex)
         {
             DbErrorDbErrorCount++;
-            TestContext.WriteLine($"Try number {DbTransientErrorDbErrorCount} and fail with - {cmd.CommandText}");
+            Console.WriteLine($"Try number {DbTransientErrorDbErrorCount} and fail with - {cmd.CommandText}");
             base.TraceDbError(cmd, ex);
         }
 
@@ -113,43 +111,40 @@ END
 
 
 
-    [TestFixture]
-    public class SqlServerDataAccessTransientErrorTests
+    public class SqlServerDataAccessTransientErrorTests : IDisposable
     {
         private TransientErrorUnitTestDataAccess _targetDal = new TransientErrorUnitTestDataAccess();
 
-        [SetUp]
-        public void Init()
+        public SqlServerDataAccessTransientErrorTests()
         {
             _targetDal.PrepTest();
 
         }
 
-        [TearDown]
-        public void Cleanup()
+        public void Dispose()
         {
             _targetDal.CleanUp();
         }
 
 
-        [Test]
+        [Fact]
         public void BasicTestTransientUsingScalarOneError()
         {
             var result = _targetDal.ExecuteTestScriptAsScalar(2);
-            ClassicAssert.AreEqual(1, _targetDal.DbTransientErrorDbErrorCount);
-            ClassicAssert.AreEqual(2, result);
+            Assert.Equal(1, _targetDal.DbTransientErrorDbErrorCount);
+            Assert.Equal(2, result);
         }
 
 
-        [Test]
+        [Fact]
         public void BasicTestTransientUsingScalarTwoErrors()
         {
             var result = _targetDal.ExecuteTestScriptAsScalar(3);
-            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-            ClassicAssert.AreEqual(3, result);
+            Assert.Equal(2, _targetDal.DbTransientErrorDbErrorCount);
+            Assert.Equal(3, result);
         }
 
-        [Test]
+        [Fact]
         public void BasicTestTransientUsingScalarThreeErrors()
         {
             try
@@ -159,40 +154,43 @@ END
             }
             catch (Exception ex)
             {
-	            ClassicAssert.IsInstanceOf(typeof(SqlException), ex);
-	            ClassicAssert.AreEqual(51234, ((SqlException) ex).Number);
-	            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-	            ClassicAssert.AreEqual(1, _targetDal.DbErrorDbErrorCount);
+	            Assert.IsType<SqlException>(ex);
+	            Assert.Equal(51234, ((SqlException) ex).Number);
+	            Assert.Equal(2, _targetDal.DbTransientErrorDbErrorCount);
+	            Assert.Equal(1, _targetDal.DbErrorDbErrorCount);
             }
         }
 
-        [Test]
+        [Fact]
         public void BasicTestTransientUsingScalar()
         {
             var result = _targetDal.ExecuteTestScriptAsScalar(3);
-            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-            ClassicAssert.AreEqual(3, result);
+            Assert.Equal(2, _targetDal.DbTransientErrorDbErrorCount);
+            Assert.Equal(3, result);
         }
 
 
-        [Test]
+        [Fact]
         public void BasicTestTransientUsingDataRow()
         {
             var result = _targetDal.ExecuteTestScriptAsDataRow(3);
-            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-            ClassicAssert.AreEqual(3, result);
+            Assert.Equal(2, _targetDal.DbTransientErrorDbErrorCount);
+            Assert.Equal(3, result);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteTestScriptAsScalarAsync()
         {
             var result = _targetDal.ExecuteTestScriptAsScalarAsync(3);
-            ClassicAssert.AreEqual(2, _targetDal.DbTransientErrorDbErrorCount);
-            ClassicAssert.AreEqual(3, result);
+            Assert.Equal(2, _targetDal.DbTransientErrorDbErrorCount);
+            Assert.Equal(3, result);
         }
 
     }
 
 
 }
+
+
+

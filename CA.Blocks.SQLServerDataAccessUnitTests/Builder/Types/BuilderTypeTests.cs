@@ -1,13 +1,11 @@
-﻿#nullable enable
+#nullable enable
 using System;
 using System.Data;
 using CA.Blocks.SQLServerDataAccess.Builder;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
 {
-    [TestFixture]
     public class BuilderTypeTests : UnitTestDataAccess
     {
         protected void TestRoundTripType<T>(T value)
@@ -16,16 +14,16 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
             var sqlcmd = sqlBuilder.BuildSqlCommand();
 
             var result = this.ExecuteScalarAs<T>(sqlcmd);
-            Assert.That(sqlcmd.CommandText, Is.EqualTo("Select @testValue as Test"));
-            Assert.That(sqlcmd.Parameters.Count, Is.EqualTo(1));
-            Assert.That(sqlcmd.Parameters[0].Value, value == null ? Is.EqualTo(DBNull.Value) : Is.EqualTo(value));
+            Assert.Equal("Select @testValue as Test", sqlcmd.CommandText);
+            Assert.Equal(1, sqlcmd.Parameters.Count);
+            Assert.Equal(value is null ? DBNull.Value : value, sqlcmd.Parameters[0].Value);
             if (typeof(T) == typeof(TimeOnly))
             {
-                Assert.That(result!.ToString(), Is.EqualTo(value!.ToString()));
+                Assert.Equal(value!.ToString(), result!.ToString());
             }
             else
             {
-                Assert.That(result, Is.EqualTo(value));
+                Assert.Equal(value, result);
             }
         }
 
@@ -37,10 +35,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
 
 
             var result = this.ExecuteScalarWithConvertAs<T>(sqlcmd);
-            Assert.That(sqlcmd.CommandText, Is.EqualTo("Select @testValue as Test"));
-            Assert.That(sqlcmd.Parameters.Count, Is.EqualTo(1));
-            Assert.That(sqlcmd.Parameters[0].Value, value == null ? Is.EqualTo(DBNull.Value) : Is.EqualTo(value));
-            Assert.That(result, Is.EqualTo(value));
+            Assert.Equal("Select @testValue as Test", sqlcmd.CommandText);
+            Assert.Equal(1, sqlcmd.Parameters.Count);
+            Assert.Equal(value is null ? DBNull.Value : value, sqlcmd.Parameters[0].Value);
+            Assert.Equal(value, result);
         }
 
 
@@ -55,34 +53,34 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
             var sqlcmd = sqlBuilder.BuildSqlCommand();
 
             var result = this.ExecuteScalarAs<T>(sqlcmd);
-            Assert.That(sqlcmd.CommandText, Is.EqualTo("Select @testValue as Test"));
-            Assert.That(sqlcmd.Parameters.Count, Is.EqualTo(1));
-            Assert.That(sqlcmd.Parameters[0].SqlDbType, Is.EqualTo(expectedType));
-            Assert.That(sqlcmd.Parameters[0].Value, value == null ? Is.EqualTo(DBNull.Value) : Is.EqualTo(value));
+            Assert.Equal("Select @testValue as Test", sqlcmd.CommandText);
+            Assert.Equal(1, sqlcmd.Parameters.Count);
+            Assert.Equal(expectedType, sqlcmd.Parameters[0].SqlDbType);
+            Assert.Equal(value is null ? DBNull.Value : value, sqlcmd.Parameters[0].Value);
 
-            Assert.That(result, Is.EqualTo(value));
+            Assert.Equal(value, result);
         }
 
 
-        [Test]
+        [Fact]
         public void BigIntTest()
         {
             TestRoundTripType<long>(123);
         }
 
-        [Test]
+        [Fact]
         public void BigIntNullTest()
         {
             TestRoundTripType<long?>(null);
         }
 
-        [Test]
+        [Fact]
         public void ByteTest()
         {
             TestRoundTripType<byte>(123);
         }
 
-        [Test]
+        [Fact]
         public void ByteNullTest()
         {
             TestRoundTripType<byte?>(null);
@@ -90,147 +88,147 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
 
 
 
-        [Test]
+        [Fact]
         public void BinaryTest()
         {
 
             TestRoundTripType<byte[]>(new byte[] {123, 124, 99, 98});
         }
 
-        [Test]
+        [Fact]
         public void BinaryTestNull()
         {
             TestRoundTripType<byte[]?>(null);
         }
 
-        [Test]
+        [Fact]
         public void BoolTest()
         {
 
             TestRoundTripType<bool>(true);
         }
 
-        [Test]
+        [Fact]
         public void BoolTestNull()
         {
             TestRoundTripType<bool?>(null);
         }
 
 
-        [Test]
+        [Fact]
         public void CharTest()
         {
             TestRoundTripTypeWithConvert<Char>('A');
         }
 
-        [Test]
+        [Fact]
         public void CharNullTest()
         {
             TestRoundTripTypeWithConvert<Char?>(null);
         }
 
-        [Test]
+        [Fact]
         public void DateOnlyTest()
         {
             TestRoundTripType<DateOnly>(new DateOnly(2025,2,28));
         }
 
-        [Test]
+        [Fact]
         public void DateTimeTest()
         {
             TestRoundTripType<DateTime>(DateTime.Now);
         }
 
-        [Test]
+        [Fact]
         public void DateTimeNullTest()
         {
             TestRoundTripType<DateTime?>(null);
         }
 
-        [Test]
+        [Fact]
         public void DecimalTest()
         {
             TestRoundTripType<Decimal>(123.456m);
         }
 
-        [Test]
+        [Fact]
         public void DecimalNullTest()
         {
             TestRoundTripType<Decimal?>(null);
             TestRoundTripType<Decimal?>(123.456m);
         }
 
-        [Test]
+        [Fact]
         public void DoubleTest()
         {
             TestRoundTripType<Double>(123.456);
         }
 
-        [Test]
+        [Fact]
         public void DoubleNullTest()
         {
             TestRoundTripType<Double?>(null);
             TestRoundTripType<Double?>(123.456);
         }
 
-        [Test]
+        [Fact]
         public void GuidTest()
         {
             TestRoundTripType<Guid>(Guid.NewGuid());
         }
 
-        [Test]
+        [Fact]
         public void GuidNullTest()
         {
             TestRoundTripType<Guid?>(null);
             TestRoundTripType<Guid?>(Guid.NewGuid());
         }
 
-        [Test]
+        [Fact]
         public void TimeOnlyNullTest()
         {
             TestRoundTripType<DateOnly?>(null);
         }
 
-        [Test]
+        [Fact]
         public void TimeOnlyTest()
         {
             TestRoundTripType<TimeOnly>(new TimeOnly(21, 22, 23));
         }
 
-        [Test]
+        [Fact]
         public void DateOnlyNullTest()
         {
             TestRoundTripType<DateOnly?>(null);
         }
 
 
-        [Test]
+        [Fact]
         public void StringTest()
         {
             TestRoundTripType<string>("Hello");
         }
-        [Test]
+        [Fact]
         public void StringTest_AsVarchar()
         {
             TestRoundTripTypeSpecificSqlType<string>("Hello", SqlDbType.VarChar);
         }
 
 
-        [Test]
+        [Fact]
         public void StringNullTest()
         {
             TestRoundTripType<string?>(null);
         }
 
 
-        [Test]
+        [Fact]
         public void IntTest()
         {
             TestRoundTripType<int>(123);
         }
 
-        [Test]
+        [Fact]
         public void IntNullTest()
         {
             TestRoundTripType<int?>(null);
@@ -239,3 +237,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
     }
 
 }
+
+
+
+

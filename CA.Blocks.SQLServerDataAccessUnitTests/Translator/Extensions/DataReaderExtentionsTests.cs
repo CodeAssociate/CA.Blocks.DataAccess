@@ -1,19 +1,16 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using Microsoft.Data.SqlClient;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
 {
-    [TestFixture]
     public class DataReaderExtentionsTests : UnitTestDataAccess
     {
-        [Test]
+        [Fact]
         public void ExeucteDataReaderAsString()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where name like @test")
@@ -21,11 +18,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
 
             var result = Execute(cmd).ToSingleNamedColumnList<string>("Name");
 
-            ClassicAssert.IsTrue(result.Count > 0);
+            Assert.True(result.Count > 0);
 
             foreach (var item in result)
             {
-                ClassicAssert.IsTrue(item.StartsWith("sys", StringComparison.CurrentCultureIgnoreCase));
+                Assert.True(item.StartsWith("sys", StringComparison.CurrentCultureIgnoreCase));
             }
         }
 
@@ -37,16 +34,16 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             public string name { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void ExeucteDataReaderToResultsSet()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects; Select * from sysindexes;");
 
             var result = Execute(cmd).ToResultsSet<sysobject, sysobject>();
 
-            ClassicAssert.IsTrue(result.Results1.Count > 0);
+            Assert.True(result.Results1.Count > 0);
 
-            ClassicAssert.IsTrue(result.Results2.Count > 0);
+            Assert.True(result.Results2.Count > 0);
             if (result.Results1.Count == result.Results2.Count)
             {
                 for (int i = 0; i < result.Results1.Count; i++)
@@ -66,8 +63,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             {
                // we good they not the same lists as they are different sizes
             }
-            ClassicAssert.IsTrue(result.Results1.Count != result.Results2.Count);
+            Assert.True(result.Results1.Count != result.Results2.Count);
         }
 
     }
 }
+
+
+
+

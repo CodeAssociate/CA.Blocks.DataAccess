@@ -1,15 +1,12 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeMoneyTests : UnitTestDataAccess
+    public class DbTypeMoneyTests : UnitTestDataAccess, IDisposable
     {
 
         private class MoneyDataType
@@ -23,8 +20,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"{data}"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeMoneyTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("money not null"));
@@ -35,13 +31,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataSQL(123456789.9876);
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllData()
         {
             //Setup 
@@ -49,11 +44,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteDataTable(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Rows.Count);
+            Assert.Equal(5, data.Rows.Count);
         }
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -61,12 +56,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<MoneyDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(-1.2, data[0].Col);
-            ClassicAssert.AreEqual(123456789.9876, data[4].Col);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(-1.2M, data[0].Col);
+            Assert.Equal(123456789.9876M, data[4].Col);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataFilter ()
         {
             //setup
@@ -78,10 +73,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = ExecuteToListOf<MoneyDataType>(cmd);
 
             //Asert
-            ClassicAssert.AreEqual(3, data.Count);
+            Assert.Equal(3, data.Count);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataWithWithTranslator()
         {
             //setup
@@ -91,8 +86,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
             
-            ClassicAssert.AreEqual(testValue, data.Col);
+            Assert.Equal(testValue, data.Col);
         }
 
     }
 }
+
+
+
+

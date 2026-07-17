@@ -1,4 +1,4 @@
-﻿namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.Models;
+namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.Models;
 
 public class ProductCategory
 {
@@ -19,3 +19,6 @@ public class ProductNameAndNumber
     public string Name { get; init; }
     public string ProductNumber { get; init; }
 }
+
+
+

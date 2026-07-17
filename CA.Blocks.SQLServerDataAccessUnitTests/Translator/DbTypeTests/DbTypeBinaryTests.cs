@@ -1,13 +1,10 @@
-﻿using System.Text;
+using System.Text;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeBinaryTests : UnitTestDataAccess
+    public class DbTypeBinaryTests : UnitTestDataAccess, IDisposable
     {
         private class BinaryDataType
         {
@@ -19,8 +16,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"CAST( '{data}' AS BINARY(16))"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeBinaryTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("binary(16) not null"));
@@ -31,13 +27,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataToBinarySQL("Binary data");
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllData()
         {
             //Setup 
@@ -45,10 +40,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteDataTable(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Rows.Count);
+            Assert.Equal(5, data.Rows.Count);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -57,14 +52,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = ExecuteToListOf<BinaryDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.Equal(5, data.Count);
 
-            TestContext.WriteLine();
+            Console.WriteLine();
 
-            ClassicAssert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
+            Assert.Equal("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataWithWithTranslator()
         {
             //setup
@@ -73,8 +68,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             
-            ClassicAssert.AreEqual("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
+            Assert.Equal("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
         }
 
     }
 }
+
+
+
+

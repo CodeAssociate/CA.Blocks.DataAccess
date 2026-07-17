@@ -1,14 +1,11 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
-    [TestFixture]
     public class SqlServerDataAccessExecuteScalarTests : SqlServerDataAccess
     {
         public SqlServerDataAccessExecuteScalarTests() 
@@ -20,7 +17,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteExecuteScalarByte()
         {
             // Setup
@@ -28,10 +25,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<byte>(cmd);
             //Assert
-            ClassicAssert.AreEqual((byte)1, result);
+            Assert.Equal((byte)1, result);
         }
 
-        [Test]
+        [Fact]
         public void ExecuteExecuteScalarShort()
         {
             // Setup
@@ -39,10 +36,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<short>(cmd);
             //Assert
-            ClassicAssert.AreEqual((short)1, result);
+            Assert.Equal((short)1, result);
         }
 
-        [Test]
+        [Fact]
         public void ExecuteExecuteScalarInt()
         {
             // Setup
@@ -50,26 +47,26 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<int>(cmd);
             //Assert
-            ClassicAssert.AreEqual((int)1, result);
+            Assert.Equal((int)1, result);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteExecuteScalarIntAsync()
         {
             // Setup
             var cmd = CreateTextCommand("Select Cast(1 as int) as col");
             // act
             var result = ExecuteScalarAsAsync<int>(cmd);
-            TestContext.WriteLine(result.Status);
+            Console.WriteLine(result.Status);
             result.Wait();
-            ClassicAssert.AreEqual(TaskStatus.RanToCompletion, result.Status);
+            Assert.Equal(TaskStatus.RanToCompletion, result.Status);
             //Assert
-            ClassicAssert.AreEqual((int)1, result.Result);
+            Assert.Equal((int)1, result.Result);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteExecuteScalarNullInt()
         {
             // Setup
@@ -77,11 +74,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<int?>(cmd);
             //Assert
-            ClassicAssert.IsNull(result);
+            Assert.Null(result);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteExecuteScalarIntWithConvert()
         {
             // Setup
@@ -89,11 +86,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarWithConvertAs<int>(cmd);
             //Assert
-            ClassicAssert.AreEqual((int)123, result);
+            Assert.Equal((int)123, result);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteExecuteScalarLong()
         {
             // Setup
@@ -101,11 +98,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<long>(cmd);
             //Assert
-            ClassicAssert.AreEqual((long)1, result);
+            Assert.Equal((long)1, result);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteExecuteScalarGuid()
         {
             // Setup
@@ -113,11 +110,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<Guid>(cmd);
             //Assert
-            ClassicAssert.AreEqual(new Guid("D79DB3C0-E5BE-4045-A37B-6DB923D37123"), result);
+            Assert.Equal(new Guid("D79DB3C0-E5BE-4045-A37B-6DB923D37123"), result);
         }
 
 
-        [Test]
+        [Fact]
         public void ExecuteExecuteScalarString()
         {
             // Setup
@@ -125,10 +122,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAsString(cmd);
             //Assert
-            ClassicAssert.AreEqual("String Value", result);
+            Assert.Equal("String Value", result);
         }
 
 
 
     }
 }
+
+
+
+

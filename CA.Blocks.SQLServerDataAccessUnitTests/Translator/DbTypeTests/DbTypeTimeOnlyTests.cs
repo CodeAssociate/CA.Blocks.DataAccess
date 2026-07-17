@@ -1,16 +1,13 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests;
 
-[TestFixture]
-public class DbTypeTimeOnlyTests : UnitTestDataAccess
+public class DbTypeTimeOnlyTests : UnitTestDataAccess, IDisposable
 {
     private TimeOnly _testDate;
 
@@ -24,9 +21,8 @@ public class DbTypeTimeOnlyTests : UnitTestDataAccess
         ExecuteNonQuery(InsertTestDataSQL($"'{time.Hour}:{time.Minute}'"));
     }
 
-    [SetUp]
-    public void Setup()
-    {
+    public DbTypeTimeOnlyTests()
+        {
         ExecuteNonQuery(DropTestTableSQL());
         ExecuteNonQuery(CreateTestTable("time not null"));
 
@@ -40,15 +36,14 @@ public class DbTypeTimeOnlyTests : UnitTestDataAccess
 
     }
 
-    [TearDown]
-    public void TearDown()
-    {
+    public new void Dispose()
+        {
         ExecuteNonQuery(DropTestTableSQL());
     }
 
 
 
-    [Test]
+    [Fact]
     public void SelectAllDataToListOf()
     {
         //Setup 
@@ -57,11 +52,11 @@ public class DbTypeTimeOnlyTests : UnitTestDataAccess
         //Act
         var data = ExecuteToListOf<TimeOnly>(cmd);
         //Assert
-        ClassicAssert.AreEqual(5, data.Count);
+        Assert.Equal(5, data.Count);
     }
 
 
-    [Test]
+    [Fact]
     public void SelectAllDataTimeOnlyWithFilter()
     {
         //setup
@@ -72,11 +67,11 @@ public class DbTypeTimeOnlyTests : UnitTestDataAccess
         var data = Execute(cmd).ToListOf<TimeOnlyDataType>();
 
         //Assert
-        ClassicAssert.AreEqual(2, data.Count);
+        Assert.Equal(2, data.Count);
     }
 
 
-    [Test]
+    [Fact]
     public void SelectAllDataWithWithTranslator()
     {
         //setup
@@ -86,6 +81,9 @@ public class DbTypeTimeOnlyTests : UnitTestDataAccess
         //Act
         var data = t.Translate(ExecuteDataRow(cmd));
 
-        ClassicAssert.AreEqual(testValue, data.Col);
+        Assert.Equal(testValue, data.Col);
     }
 }
+
+
+
