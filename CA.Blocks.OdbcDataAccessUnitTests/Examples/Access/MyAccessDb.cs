@@ -1,6 +1,7 @@
-﻿using System.Data.Odbc;
+using System.Data.Odbc;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.OdbcDataAccess.Specialized;
+using Xunit;
 
 namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Access
 {
@@ -12,15 +13,12 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Access
 		public string? EmailAddress { get; set; }
 	}
 
-	public class MyAccessDb (string sourceFileName, string password = "") : AccessAccessDb(sourceFileName, password)
+	public class MyAccessDb(string sourceFileName, string password = "") : AccessAccessDb(sourceFileName, password)
 	{
-
 		// This is private to prevent injection
 		private string GetEmployeesSql(string filter = "")
 		{
-
-			return
-				$"SELECT Employees.EmployeeID, Employees.LastName, Employees.FirstName, Employees.EmailAddress FROM Employees {filter};";
+			return $"SELECT Employees.EmployeeID, Employees.LastName, Employees.FirstName, Employees.EmailAddress FROM Employees {filter};";
 		}
 
 		public IList<Employee> GetEmployees()
@@ -29,7 +27,6 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Access
 			return Execute(cmd).ToListOf<Employee>();
 		}
 
-		
 		public Employee? GetEmployee(string email)
 		{
 			var cmd = CreateTextCommand(GetEmployeesSql("Where EmailAddress = ?"));
@@ -38,11 +35,9 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Access
 		}
 	}
 
-
-	public class AccessDbTest()
+	public class AccessDbTest
 	{
-
-		[Test]
+		[Fact]
 		public void SimpleGetEmployeesTest()
 		{
 			if (ODBC_Test_Helper.DriverExists("Microsoft Access Driver (*.mdb, *.accdb)"))
@@ -53,17 +48,12 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Access
 				var employeeList = target.GetEmployees();
 				foreach (var employee in employeeList)
 				{
-					TestContext.Out.WriteLine(
-						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
+					Console.WriteLine($"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
-			}
-			else
-			{
-				Assert.Inconclusive("Obdc Driver not installed");
 			}
 		}
 
-		[Test]
+		[Fact]
 		public void SimpleGetEmployeeTest()
 		{
 			if (ODBC_Test_Helper.DriverExists("Microsoft Access Driver (*.mdb, *.accdb)"))
@@ -73,15 +63,9 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Access
 				var employee = target.GetEmployee("steven@northwindtraders.com");
 				if (employee != default)
 				{
-					TestContext.Out.WriteLine(
-						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
+					Console.WriteLine($"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
 			}
-			else
-			{
-				Assert.Inconclusive("Obdc Driver not installed");
-			}
-
 		}
 	}
 }

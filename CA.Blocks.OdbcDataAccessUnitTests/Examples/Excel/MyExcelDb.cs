@@ -1,6 +1,7 @@
-﻿using CA.Blocks.OdbcDataAccess.Specialized;
-using System.Data.Odbc;
 using CA.Blocks.DataAccess.Translator.Extensions;
+using CA.Blocks.OdbcDataAccess.Specialized;
+using System.Data.Odbc;
+using Xunit;
 
 namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Excel
 {
@@ -9,7 +10,6 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Excel
 		public int EmployeeID { get; set; }
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
-
 		public string? EmailAddress { get; set; }
 	}
 
@@ -17,9 +17,7 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Excel
 	{
 		private string GetEmployeesSql(string filter = "")
 		{
-
-			return
-				$"SELECT * FROM [Employees$] {filter}";
+			return $"SELECT * FROM [Employees$] {filter}";
 		}
 
 		public IList<Employee> GetEmployees()
@@ -28,21 +26,19 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Excel
 			return Execute(cmd).ToListOf<Employee>();
 		}
 
-
 		public Employee? GetEmployee(string email)
 		{
-			var cmd = CreateTextCommand(GetEmployeesSql($"Where EmailAddress = ?"));
+			var cmd = CreateTextCommand(GetEmployeesSql("Where EmailAddress = ?"));
 			cmd.Parameters.Add(new OdbcParameter { Value = email, OdbcType = OdbcType.VarChar });
 			return Execute(cmd).ToFirstOrDefault<Employee>();
 		}
 	}
 
-	public class ExcelDataAccessTest()
+	public class ExcelDataAccessTest
 	{
-		[Test]
+		[Fact]
 		public void SimpleGetEmployeesTest()
 		{
-
 			if (ODBC_Test_Helper.DriverExists("Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)"))
 			{
 				var employeesXlsxs = TestFilePathResolver.ResolveTestFilePath("Examples\\Excel\\Employees.xlsx");
@@ -51,36 +47,24 @@ namespace CA.Blocks.OdbcDataAccessUnitTests.Examples.Excel
 				var employeeList = target.GetEmployees();
 				foreach (var employee in employeeList)
 				{
-					TestContext.Out.WriteLine(
-						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
+					Console.WriteLine($"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
-			}
-			else
-			{
-				Assert.Inconclusive("Obdc Driver not installed");
 			}
 		}
 
-		[Test]
+		[Fact]
 		public void SimpleGetEmployeeTest()
 		{
 			if (ODBC_Test_Helper.DriverExists("Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)"))
 			{
-
 				var employeesXlsxs = TestFilePathResolver.ResolveTestFilePath("Examples\\Excel\\Employees.xlsx");
-
 
 				var target = new MyExcelDb(employeesXlsxs);
 				var employee = target.GetEmployee("steven@northwindtraders.com");
 				if (employee != default)
 				{
-					TestContext.Out.WriteLine(
-						$"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
+					Console.WriteLine($"{employee.EmployeeID}, {employee.FirstName},{employee.LastName},{employee.EmailAddress}");
 				}
-			}
-			else
-			{
-				Assert.Inconclusive("Obdc Driver not installed");
 			}
 		}
 	}
