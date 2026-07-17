@@ -1,12 +1,10 @@
-﻿using CA.Blocks.MySQLDataAccess;
+using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeBitTests : UnitTestDataAccess
+public class DbTypeBitTests : UnitTestDataAccess, IDisposable
     {
         private class BoolDataType
         {
@@ -18,8 +16,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(data? "1":"0"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeBitTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("bit not null"));
@@ -27,14 +24,12 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             InsertTestDataSQL(false);
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
-
-        [Test]
-        public void SelectAllData()
+        [Fact]
+public void SelectAllData()
         {
             //Setup 
            
@@ -42,11 +37,10 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = this.ExecuteObjectList(cmd);
             //Assert
-            ClassicAssert.AreEqual(2, data.Count);
+            Assert.Equal(2, data.Count);
         }
-
-        [Test]
-        public void SelectAllDataToListOf()
+        [Fact]
+public void SelectAllDataToListOf()
         {
             //Setup 
 
@@ -54,12 +48,11 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = ExecuteToListOf<BoolDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(2, data.Count);
-            ClassicAssert.AreEqual(true, data[0].Col);
+            Assert.Equal(2, data.Count);
+            Assert.Equal(true, data[0].Col);
         }
-
-        [Test]
-        public void SelectAllDataWithFilter ()
+        [Fact]
+public void SelectAllDataWithFilter ()
         {
             //setup
             const bool testvalue = true;
@@ -70,9 +63,11 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = this.ExecuteObjectList(cmd);
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Equal(1, data.Count);
         }
 
 
     }
 }
+
+

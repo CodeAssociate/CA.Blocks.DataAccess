@@ -1,13 +1,11 @@
-﻿using System;
+using System;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeDecimalTests : UnitTestDataAccess
+public class DbTypeDecimalTests : UnitTestDataAccess, IDisposable
     {
 
         private class DecimalDataType
@@ -21,8 +19,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"{data}"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeDecimalTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("decimal(20,10) not null"));
@@ -33,39 +30,34 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             InsertTestDataSQL(123456789.987654321);
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
-
-        [Test]
-        public void SelectAllData()
+        [Fact]
+public void SelectAllData()
         {
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
             var data = ExecuteDataTable(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Rows.Count);
+            Assert.Equal(5, data.Rows.Count);
         }
-
-
-        [Test]
-        public void SelectAllDataToListOf()
+        [Fact]
+public void SelectAllDataToListOf()
         {
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
             var data = ExecuteToListOf<DecimalDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(-1.2, data[0].Col);
-            ClassicAssert.AreEqual(123456789.987654321, data[4].Col);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(-1.2m, data[0].Col);
+            Assert.Equal(123456789.9876543300m, data[4].Col);
         }
-
-        [Test]
-        public void SelectAllDataFilter ()
+        [Fact]
+public void SelectAllDataFilter ()
         {
             //setup
             const int testvalue = 123;
@@ -76,9 +68,11 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = ExecuteToListOf<DecimalDataType>(cmd);
 
             //Asert
-            ClassicAssert.AreEqual(3, data.Count);
+            Assert.Equal(3, data.Count);
         }
 
 
     }
 }
+
+

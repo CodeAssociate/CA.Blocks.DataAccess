@@ -1,15 +1,13 @@
-﻿using System;
+using System;
 using System.Text;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeVarBinaryTests : UnitTestDataAccess
+public class DbTypeVarBinaryTests : UnitTestDataAccess, IDisposable
     {
         private const string  TEST_DATA = "Binary Data 1";
 
@@ -20,8 +18,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"x'{hexdata.Replace("-", string.Empty)}'"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeVarBinaryTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("varbinary(50) not null"));
@@ -32,14 +29,12 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             InsertTestDataAsBinarySQL("Binary Data 5");
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
-
-        [Test]
-        public void SelectAllDataBinary()
+        [Fact]
+public void SelectAllDataBinary()
         {
             //Setup 
             var t = new BinaryTranslator(UNIT_TEST_COL_NAME);
@@ -47,13 +42,11 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(TEST_DATA, Encoding.ASCII.GetString(data[0]));
+            Assert.Equal(5, data.Count);
+            Assert.Equal(TEST_DATA, Encoding.ASCII.GetString(data[0]));
         }
-
-        
-        [Test]
-        public void SelectDataBinaryWithFilter()
+        [Fact]
+public void SelectDataBinaryWithFilter()
         {
             //setup
             byte[] testvalue = Encoding.ASCII.GetBytes(TEST_DATA);
@@ -65,10 +58,12 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
-            ClassicAssert.AreEqual(testvalue, data[0]);
+            Assert.Equal(1, data.Count);
+            Assert.Equal(testvalue, data[0]);
         }
 
 
     }
 }
+
+

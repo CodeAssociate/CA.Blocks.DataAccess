@@ -1,14 +1,13 @@
-﻿using CA.Blocks.DataAccess.DataTableHelpers;
+using CA.Blocks.DataAccess.DataTableHelpers;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccessTestDataForUnitTests.ConnectionStringResolver;
 using CA.Blocks.MySQLDataAccess;
-using NUnit.Framework;
+using Xunit;
 using System.Data;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.Samples
 {
-    [TestFixture]
-    public class ReadDataTable
+public class ReadDataTable
     {
 
         public class ReadDataTableDataAccess : MySqlDataAccess
@@ -27,16 +26,14 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Samples
             }
 
         }
-
-    
-
-        [Test]
-        public void GetGetInformationSchema()
+        [Fact]
+public void GetGetInformationSchema()
         {
             var target = new ReadDataTableDataAccess();
             var executeResult = target.GetInformationSchema();
-            TestContext.WriteLine(DataTableToTextHelper.OutPutAsAlignedText(executeResult));
+            Console.WriteLine(DataTableToTextHelper.OutPutAsAlignedText(executeResult));
 
         }
     }
 }
+

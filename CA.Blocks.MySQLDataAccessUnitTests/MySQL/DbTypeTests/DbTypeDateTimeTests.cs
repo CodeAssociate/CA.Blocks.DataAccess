@@ -1,14 +1,12 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeDateTimeTests : UnitTestDataAccess
+public class DbTypeDateTimeTests : UnitTestDataAccess, IDisposable
     {
         private DateTime _testDate;
 
@@ -22,8 +20,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'",data.ToString("yyyy-MM-dd HH:mm:ss"))));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeDateTimeTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("DateTime not null"));
@@ -36,14 +33,12 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             InsertTestDataSQL(_testDate.AddDays(-100));
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
            ExecuteNonQuery(DropTestTableSQL());
         }
-
-        [Test]
-        public void SelectAll()
+        [Fact]
+public void SelectAll()
         {
             //Setup 
             var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
@@ -51,13 +46,10 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.Equal(5, data.Count);
         }
-
-
-
-        [Test]
-        public void SelectAllDataToListOf()
+        [Fact]
+public void SelectAllDataToListOf()
         {
             //Setup 
 
@@ -65,13 +57,10 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = ExecuteToListOf<DateTimeDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.Equal(5, data.Count);
         }
-
-
-
-        [Test]
-        public void SelectAllDataDateTimeWithFilter()
+        [Fact]
+public void SelectAllDataDateTimeWithFilter()
         {
             //setup
             var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
@@ -82,9 +71,11 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(2, data.Count);
+            Assert.Equal(2, data.Count);
         }
 
 
     }
 }
+
+

@@ -1,7 +1,7 @@
-﻿//using System;
+//using System;
 //using System.IO;
 //using CA.Blocks.DataAccess.DI;
-//using NUnit.Framework;
+//using Xunit;
 
 //namespace CA.Blocks.MySQLDataAccessUnitTests.Base
 //{
@@ -54,3 +54,5 @@
 //        }
 //    }
 //}
+
+

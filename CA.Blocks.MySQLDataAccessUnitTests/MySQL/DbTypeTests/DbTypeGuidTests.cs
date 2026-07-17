@@ -1,15 +1,13 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeGuidTests : UnitTestDataAccess
+public class DbTypeGuidTests : UnitTestDataAccess, IDisposable
     {
 
         private class GuidDataType
@@ -23,8 +21,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL($"'{data.ToString()}'"));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeGuidTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             // My SQL  does not have a storage type for GUID best is char(36) to used as it or with binary storage 
@@ -36,27 +33,22 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             InsertTestDataSQL(Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E"));
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
-
-        [Test]
-        public void SelectAllData()
+        [Fact]
+public void SelectAllData()
         {
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
             var data = ExecuteDataTable(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Rows.Count);
+            Assert.Equal(5, data.Rows.Count);
         }
-
-
-
-        [Test]
-        public void SelectAllDataToListOf()
+        [Fact]
+public void SelectAllDataToListOf()
         {
             //Setup 
 
@@ -64,12 +56,11 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = ExecuteToListOf<GuidDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E"), data[4].Col);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E"), data[4].Col);
         }
-
-        [Test]
-        public void SelectAllDataWithFilter()
+        [Fact]
+public void SelectAllDataWithFilter()
         {
             //setup
             Guid testvalue = Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E");
@@ -80,12 +71,10 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = ExecuteTo<GuidDataType>(cmd);
             
             //Asert
-            ClassicAssert.AreEqual(testvalue, data.Col);
+            Assert.Equal(testvalue, data.Col);
         }
-
-        
-        [Test]
-        public void SelectAllDataWithFilterWithTranslator()
+        [Fact]
+public void SelectAllDataWithFilterWithTranslator()
         {
             //setup
             Guid testvalue = Guid.Parse("CE69B300-F9EA-4F3B-BBA8-676D12737E3E");
@@ -96,7 +85,8 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = t.Translate(ExecuteDataRow(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(testvalue, data.Col);
+            Assert.Equal(testvalue, data.Col);
         }
     }
 }
+

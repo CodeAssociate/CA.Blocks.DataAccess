@@ -1,12 +1,10 @@
-﻿using CA.Blocks.MySQLDataAccess;
+using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeUIntTests : UnitTestDataAccess
+public class DbTypeUIntTests : UnitTestDataAccess, IDisposable
     {
 
         private class UIntDataType
@@ -19,8 +17,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeUIntTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("int UNSIGNED not null")); 
@@ -31,25 +28,22 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             InsertTestDataSQL(uint.MaxValue);
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
-
-        [Test]
-        public void SelectAllData()
+        [Fact]
+public void SelectAllData()
         {
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
             var data = ExecuteDataTable(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Rows.Count);
+            Assert.Equal(5, data.Rows.Count);
         }
-
-        [Test]
-        public void SelectAllDataToListOf()
+        [Fact]
+public void SelectAllDataToListOf()
         {
             //Setup 
 
@@ -57,13 +51,11 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             //Act
             var data = ExecuteToListOf<UIntDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(uint.MaxValue, data[4].Col);
+            Assert.Equal(5, data.Count);
+            Assert.Equal(uint.MaxValue, data[4].Col);
         }
-
-
-        [Test]
-        public void SelectAllDataWithFilter ()
+        [Fact]
+public void SelectAllDataWithFilter ()
         {
             //setup
             const int testvalue = 123;
@@ -74,9 +66,11 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
             var data = ExecuteToListOf<UIntDataType>(cmd);
 
             //Asert
-            ClassicAssert.AreEqual(3, data.Count);
+            Assert.Equal(3, data.Count);
         }
 
 
     }
 }
+
+
