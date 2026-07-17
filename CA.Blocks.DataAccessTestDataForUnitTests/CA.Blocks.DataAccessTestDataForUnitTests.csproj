@@ -5,15 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="4.6.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3.assert" Version="3.2.2" />
   </ItemGroup>
 
 </Project>

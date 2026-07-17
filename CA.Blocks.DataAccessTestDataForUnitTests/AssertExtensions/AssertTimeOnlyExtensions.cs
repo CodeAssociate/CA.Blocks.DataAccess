@@ -1,7 +1,6 @@
 ﻿#if NET6_0_OR_GREATER
-using NUnit.Framework;
 using System;
-using NUnit.Framework.Legacy;
+using Xunit;
 
 namespace CA.Blocks.DataAccessTestDataForUnitTests.AssertExtensions
 {
@@ -9,10 +8,10 @@ namespace CA.Blocks.DataAccessTestDataForUnitTests.AssertExtensions
     {
         public static void IsSameValueAs(this TimeOnly expected, TimeSpan source)
         {
-	        ClassicAssert.AreEqual(expected.Hour, source.Hours);
-	        ClassicAssert.AreEqual(expected.Minute, source.Minutes);
-	        ClassicAssert.AreEqual(expected.Second, source.Seconds);
-	        ClassicAssert.AreEqual(expected.Millisecond, source.Milliseconds);
+	        Assert.Equal(expected.Hour, source.Hours);
+	        Assert.Equal(expected.Minute, source.Minutes);
+	        Assert.Equal(expected.Second, source.Seconds);
+	        Assert.Equal(expected.Millisecond, source.Milliseconds);
         }
 
     }
