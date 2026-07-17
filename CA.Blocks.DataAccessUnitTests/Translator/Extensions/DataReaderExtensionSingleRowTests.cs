@@ -1,21 +1,19 @@
-﻿using CA.Blocks.DataAccess.Translator.Extensions;
-using NUnit.Framework.Legacy;
+using CA.Blocks.DataAccess.Translator.Extensions;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions;
 
-[TestFixture]
 public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
 {
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToSingle_ValidRow()
     {
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToSingle<TestDataObject>();
-        ClassicAssert.NotNull(result);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToSingle_InvalidNoRow()
     {
         var dataReader = GenerateTestDataReader(0);
@@ -25,12 +23,12 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
             _ = dataReader.ToSingle<TestDataObject>(); 
 
         });
-        Assert.That(exception, Is.Not.Null);
-        Assert.That(exception!.Message, Does.Contain("Expected Single Result"));
-        Assert.That(exception!.Message, Does.Contain("No row"));
+        Assert.NotNull(exception);
+        Assert.Contains("Expected Single Result", exception!.Message);
+        Assert.Contains("No row", exception!.Message);
     }
 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToSingle_InvalidMoreThanOneRow()
     {
         var dataReader = GenerateTestDataReader(2);
@@ -40,29 +38,29 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
             _ = dataReader.ToSingle<TestDataObject>();
 
         });
-        Assert.That(exception!.Message, Does.Contain("Expected Single Result"));
-        Assert.That(exception!.Message, Does.Contain("more"));
+        Assert.Contains("Expected Single Result", exception!.Message);
+        Assert.Contains("more", exception!.Message);
     }
 
 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToSingleOrDefault_ValidRow()
     {
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToSingleOrDefault<TestDataObject>();
-        ClassicAssert.NotNull(result);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToSingleOrDefault_ValidNoRow()
     {
         var dataReader = GenerateTestDataReader(0);
         var result = dataReader.ToSingleOrDefault<TestDataObject>();
-        Assert.That(result, Is.EqualTo(default(TestDataObject)));
+        Assert.Equal(default(TestDataObject), result);
     }
 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToSingleOrDefault_InvalidMoreThanOneRow()
     {
         var dataReader = GenerateTestDataReader(2);
@@ -72,21 +70,21 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
             var result = dataReader.ToSingleOrDefault<TestDataObject>();
 
         });
-        Assert.That(exception!.Message, Does.Contain("Expected Single Result"));
-        Assert.That(exception!.Message, Does.Contain("more"));
+        Assert.Contains("Expected Single Result", exception!.Message);
+        Assert.Contains("more", exception!.Message);
     }
 
     #region First 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToFirst_ValidRow()
     {
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToFirst<TestDataObject>();
-        ClassicAssert.NotNull(result);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToFirst_InvalidNoRow()
     {
         var dataReader = GenerateTestDataReader(0);
@@ -96,47 +94,47 @@ public class DataReaderExtensionSingleRowTests : DataReaderExtensionsBaseTests
             var result = dataReader.ToFirst<TestDataObject>();
 
         });
-        Assert.That(exception!.Message, Does.Contain("Expected Single Result"));
-        Assert.That(exception!.Message, Does.Contain("No row"));
+        Assert.Contains("Expected Single Result", exception!.Message);
+        Assert.Contains("No row", exception!.Message);
     }
 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToFirst_ValidMoreThanOneRow()
     {
         var dataReader = GenerateTestDataReader(2);
 
         var result = dataReader.ToFirst<TestDataObject>();
-        ClassicAssert.NotNull(result);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
     #endregion
 
     #region First Or Default 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToFirstOrDefault_ValidRow()
     {
         var dataReader = GenerateTestDataReader(1);
         var result = dataReader.ToFirstOrDefault<TestDataObject>();
-        ClassicAssert.NotNull(result);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToFirstOrDefaultValidNoRow()
     {
         var dataReader = GenerateTestDataReader(0);
         var result = dataReader.ToFirstOrDefault<TestDataObject>();
-        Assert.That(result, Is.EqualTo(default(TestDataObject)));
+        Assert.Equal(default(TestDataObject), result);
     }
 
-    [Test]
+    [Fact]
     public void DataReaderExtensions_ToFirstOrDefault_ValidMoreThanOneRow()
     {
         var dataReader = GenerateTestDataReader(2);
 
         var result = dataReader.ToFirstOrDefault<TestDataObject>();
-        ClassicAssert.NotNull(result);
-        Assert.That(result.IntCol, Is.EqualTo(1));
+        Assert.NotNull(result);
+        Assert.Equal(1, result.IntCol);
     }
     #endregion 
 }

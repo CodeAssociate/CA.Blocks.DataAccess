@@ -1,15 +1,14 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
-    [TestFixture]
-    public class ShortDbColToTypeConverterTests : BaseDbColToTypeConverterTests
+        public class ShortDbColToTypeConverterTests : BaseDbColToTypeConverterTests
     {
-        [Test]
-        [TestCase(1, short.MinValue)]
-        [TestCase(1, 12345)]
-        [TestCase(1, short.MaxValue)]
+        [Theory]
+        [InlineData(1, short.MinValue)]
+        [InlineData(1, 12345)]
+        [InlineData(1, short.MaxValue)]
         public void DbColToTypeConverterTest(int rowNumber, int expected)
         {
             var dt = CreateTestTable(typeof(short), expected);
@@ -17,16 +16,16 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new ShortDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expected, target.GetDataValue(dataReader, 1));
         }
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, 123)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, (short)123)]
         public void NullDbColToTypeConverterTest(int rowNumber, short? expected)
         {
             var dt = CreateTestTable(typeof(short), expected);
@@ -34,11 +33,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new NullShortDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expected, target.GetDataValue(dataReader, 1));
         }
     }
 }

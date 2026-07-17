@@ -1,36 +1,33 @@
-﻿using System.Data;
+using System.Data;
 using System.Data.Common;
 using CA.Blocks.DataAccess.DI;
 
 namespace CA.Blocks.DataAccessUnitTests.DI
 {
-    [TestFixture]
-    public class EnvironmentVariableConnectionStringResolverTests
+    public class EnvironmentVariableConnectionStringResolverTests : IDisposable
     {
         private static string TestEnvironmentVariable =
             "CA.Blocks.DataAccessUnitTests.DI.EnvironmentVariableConnectionStringResolverTests";
 
         private string TestEnvironmentVariableValue = Guid.NewGuid().ToString();
 
-        [SetUp]
-        public void SetUpFixture()
+        public EnvironmentVariableConnectionStringResolverTests()
         {
             Environment.SetEnvironmentVariable(TestEnvironmentVariable, TestEnvironmentVariableValue);
         }
 
-        [TearDown]
-        public void TearDownFixture()
+        public void Dispose()
         {
-            Environment.SetEnvironmentVariable(TestEnvironmentVariable,null);
+            Environment.SetEnvironmentVariable(TestEnvironmentVariable, null);
         }
 
-        [Test]
+        [Fact]
         public void EnvironmentVariableConnectionStringResolverTest()
         {
             var target = new EnvironmentVariableConnectionStringResolver();
             var result = target.GetConnectionString(TestEnvironmentVariable);
 
-            Assert.That(result, Is.EqualTo(TestEnvironmentVariableValue));
+            Assert.Equal(TestEnvironmentVariableValue, result);
         }
 
         public class ConnectionStringDbTest : CA.Blocks.DataAccess.DataAccessCore
@@ -63,15 +60,15 @@ namespace CA.Blocks.DataAccessUnitTests.DI
             {
 				throw new NotImplementedException();
 			}
-		}
+        }
 
-        [Test]
+        [Fact]
         public void EnvironmentVariableConnectionStringResolverTestWithProvider()
         {
             var target = new ConnectionStringDbTest();
             var result = target.ExposeConnectionString();
 
-            Assert.That(result, Is.EqualTo(TestEnvironmentVariableValue));
+            Assert.Equal(TestEnvironmentVariableValue, result);
         }
     }
 }

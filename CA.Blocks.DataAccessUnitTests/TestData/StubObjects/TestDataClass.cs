@@ -1,4 +1,4 @@
-﻿namespace CA.Blocks.DataAccessUnitTests.TestData.StubObjects;
+namespace CA.Blocks.DataAccessUnitTests.TestData.StubObjects;
 
 public class TestDataClass
 {

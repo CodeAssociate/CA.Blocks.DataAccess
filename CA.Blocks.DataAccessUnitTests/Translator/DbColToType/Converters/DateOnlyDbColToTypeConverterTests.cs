@@ -1,13 +1,12 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters;
 
-[TestFixture]
 public class DateOnlyDbColToTypeConverterTests : BaseDbColToTypeConverterTests
 {
-    [Test]
-    [TestCase(1, "now")]
-    [TestCase(1, "2-Jan-2019")]
+    [Theory]
+    [InlineData(1, "now")]
+    [InlineData(1, "2-Jan-2019")]
     public void DbColToTypeConverterTest(int rowNumber, string testDate)
     {
         DateTime expecteddt = testDate == "now" ? DateTime.Now.Date : DateTime.Parse(testDate);
@@ -18,17 +17,17 @@ public class DateOnlyDbColToTypeConverterTests : BaseDbColToTypeConverterTests
         var dataReader = GetDataReader(rowNumber, dt);
 
         var target = new DateOnlyDbColToTypeConverter();
-        Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-        Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+        Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+        Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-        Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-        Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+        Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+        Assert.Equal(expected, target.GetDataValue(dataReader, 1));
     }
 
 
-    [Test]
-    [TestCase(0, null)]
-    [TestCase(1, "1-Jan-2019")]
+    [Theory]
+    [InlineData(0, null)]
+    [InlineData(1, "1-Jan-2019")]
     public void NullDbColToTypeConverterTest(int rowNumber, string? testDate)
     {
         DateTime? expectedDt = null;
@@ -44,10 +43,10 @@ public class DateOnlyDbColToTypeConverterTests : BaseDbColToTypeConverterTests
         var dataReader = GetDataReader(rowNumber, dt);
 
         var target = new NullDateOnlyDbColToTypeConverter();
-        Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-        Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+        Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+        Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-        Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-        Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+        Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+        Assert.Equal(expected, target.GetDataValue(dataReader, 1));
     }
 }

@@ -1,53 +1,51 @@
-﻿using CA.Blocks.DataAccess.DataTableHelpers;
+using CA.Blocks.DataAccess.DataTableHelpers;
 using System.Data;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 {
-    [TestFixture]
-    public class DataTableHelpersUnitTests
+        public class DataTableHelpersUnitTests
     {
-        [TestCase]
+        [Fact]
         public void ToValueDataTable_Int()
         {
             var testList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             var result = testList.ToValueDataTable();
 
-            ClassicAssert.IsNotNull(result);
-            Assert.That(result.Columns.Count, Is.EqualTo(1));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Value"));
-            Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
-            Assert.That(result.Rows.Count, Is.EqualTo(9));
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Columns.Count);
+            Assert.Equal("Value", result.Columns[0].ColumnName);
+            Assert.Equal(typeof(int), result.Columns[0].DataType);
+            Assert.Equal(9, result.Rows.Count);
         }
         
         
-        [TestCase]
+        [Fact]
         public void ToValueDataTable_NullInt()
         {
             var testList = new List<int?> { null, 1 };
 
             var result = testList.ToValueDataTable();
 
-            ClassicAssert.IsNotNull(result);
-            Assert.That(result.Columns.Count, Is.EqualTo(1));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Value"));
-            Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
-            Assert.That(result.Rows.Count, Is.EqualTo(2));
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Columns.Count);
+            Assert.Equal("Value", result.Columns[0].ColumnName);
+            Assert.Equal(typeof(int), result.Columns[0].DataType);
+            Assert.Equal(2, result.Rows.Count);
         }
         
-        [TestCase]
+        [Fact]
         public void ToValueDataTable_String()
         {
             var testList = new List<string> { "a", "b", "c", "d"};
 
             var result = testList.ToValueDataTable();
 
-            ClassicAssert.IsNotNull(result);
-            Assert.That(result.Columns.Count, Is.EqualTo(1));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Value"));
-            Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(string)));
-            Assert.That(result.Rows.Count, Is.EqualTo(4));
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Columns.Count);
+            Assert.Equal("Value", result.Columns[0].ColumnName);
+            Assert.Equal(typeof(string), result.Columns[0].DataType);
+            Assert.Equal(4, result.Rows.Count);
         }
 
 
@@ -57,7 +55,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
             public string Value { get; set; } = null!;
         }
         
-        [TestCase]
+        [Fact]
         public void ToDataTable_Object()
         {
             var testList = new List<TestComplexObject>
@@ -70,15 +68,15 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 
             var result = testList.ToObjectDataTable();
 
-            ClassicAssert.IsNotNull(result);
-            Assert.That(result.Columns.Count, Is.EqualTo(2));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Id"));
-            Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
-            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("Value"));
-            Assert.That(result.Columns[1].DataType, Is.EqualTo(typeof(string)));
-            Assert.That(result.Rows.Count, Is.EqualTo(4));
-            Assert.That(result.Rows[0][0], Is.EqualTo(1));
-            Assert.That(result.Rows[0][1], Is.EqualTo("a"));
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Columns.Count);
+            Assert.Equal("Id", result.Columns[0].ColumnName);
+            Assert.Equal(typeof(int), result.Columns[0].DataType);
+            Assert.Equal("Value", result.Columns[1].ColumnName);
+            Assert.Equal(typeof(string), result.Columns[1].DataType);
+            Assert.Equal(4, result.Rows.Count);
+            Assert.Equal(1, result.Rows[0][0]);
+            Assert.Equal("a", result.Rows[0][1]);
         }
 
         public class TestComplexObjectWithNull
@@ -87,7 +85,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
             public string? Value { get; set; } = null!;
         }
         
-        [TestCase]
+        [Fact]
         public void ToDataTable_ObjectWithNull()
         {
             var testList = new List<TestComplexObjectWithNull>
@@ -100,15 +98,15 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 
             var result = testList.ToObjectDataTable();
 
-            ClassicAssert.IsNotNull(result);
-            Assert.That(result.Columns.Count, Is.EqualTo(2));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Id"));
-            Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
-            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("Value"));
-            Assert.That(result.Columns[1].DataType, Is.EqualTo(typeof(string)));
-            Assert.That(result.Rows.Count, Is.EqualTo(4));
-            Assert.That(result.Rows[0][0], Is.EqualTo(1));
-            Assert.That(result.Rows[0][1], Is.EqualTo(DBNull.Value));
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Columns.Count);
+            Assert.Equal("Id", result.Columns[0].ColumnName);
+            Assert.Equal(typeof(int), result.Columns[0].DataType);
+            Assert.Equal("Value", result.Columns[1].ColumnName);
+            Assert.Equal(typeof(string), result.Columns[1].DataType);
+            Assert.Equal(4, result.Rows.Count);
+            Assert.Equal(1, result.Rows[0][0]);
+            Assert.Equal(DBNull.Value, result.Rows[0][1]);
         }
         
 
@@ -124,7 +122,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
             target.Columns.Add("Value", typeof(string));
         }
 
-        [TestCase]
+        [Fact]
         public void ToDataTable_Object_Custom()
         {
             var testList = new List<TestComplexObject>
@@ -137,15 +135,15 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
 
             var result = testList.ToObjectDataTable(SetupCustomObjectDataTable, CustomPopulateObject);
 
-            ClassicAssert.IsNotNull(result);
-            Assert.That(result.Columns.Count, Is.EqualTo(2));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Id"));
-            Assert.That(result.Columns[0].DataType, Is.EqualTo(typeof(int)));
-            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("Value"));
-            Assert.That(result.Columns[1].DataType, Is.EqualTo(typeof(string)));
-            Assert.That(result.Rows.Count, Is.EqualTo(4));
-            Assert.That(result.Rows[0][0], Is.EqualTo(1));
-            Assert.That(result.Rows[0][1], Is.EqualTo("a"));
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Columns.Count);
+            Assert.Equal("Id", result.Columns[0].ColumnName);
+            Assert.Equal(typeof(int), result.Columns[0].DataType);
+            Assert.Equal("Value", result.Columns[1].ColumnName);
+            Assert.Equal(typeof(string), result.Columns[1].DataType);
+            Assert.Equal(4, result.Rows.Count);
+            Assert.Equal(1, result.Rows[0][0]);
+            Assert.Equal("a", result.Rows[0][1]);
         }
 
     }

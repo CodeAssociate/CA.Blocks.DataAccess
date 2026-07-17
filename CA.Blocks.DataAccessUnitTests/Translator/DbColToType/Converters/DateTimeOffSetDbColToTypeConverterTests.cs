@@ -1,19 +1,17 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters;
-using NUnit.Framework;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
-    [TestFixture]
-    public class DateTimeOffSetDbColToTypeConverterTests : BaseDbColToTypeConverterTests
+        public class DateTimeOffSetDbColToTypeConverterTests : BaseDbColToTypeConverterTests
     {
-        [Test]
-        [TestCase(1, "now")]
-        [TestCase(1, "2-Jan-2019")]
-        [TestCase(1, "2-Jan-2019 12:39:22")]
-        [TestCase(1, "2-Jan-2019 23:59:59")]
-        [TestCase(1, "2-Jan-2019 00:00:01.333")]
+        [Theory]
+        [InlineData(1, "now")]
+        [InlineData(1, "2-Jan-2019")]
+        [InlineData(1, "2-Jan-2019 12:39:22")]
+        [InlineData(1, "2-Jan-2019 23:59:59")]
+        [InlineData(1, "2-Jan-2019 00:00:01.333")]
         public void DbColToTypeConverterTest(int rowNumber, string testDate)
         {
             DateTimeOffset? expected = null;
@@ -27,17 +25,17 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new DateTimeOffSetDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expected, target.GetDataValue(dataReader, 1));
         }
 
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, "1-Jan-2019")]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, "1-Jan-2019")]
         public void NullDbColToTypeConverterTest(int rowNumber, string? testDate)
         {
             DateTimeOffset? expected = null;
@@ -51,11 +49,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new NullDateTimeOffSetDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expected, target.GetDataValue(dataReader, 1));
         }
     }
 }

@@ -1,16 +1,14 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters;
-using NUnit.Framework;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
-    [TestFixture]
-    public class BtyeDbColToTypeConverterTests : BaseDbColToTypeConverterTests
+        public class BtyeDbColToTypeConverterTests : BaseDbColToTypeConverterTests
     {
-        [Test]
-        [TestCase(1, byte.MinValue)]
-        [TestCase(1, 1)]
-        [TestCase(1, byte.MaxValue)]
+        [Theory]
+        [InlineData(1, byte.MinValue)]
+        [InlineData(1, (byte)1)]
+        [InlineData(1, byte.MaxValue)]
         public void DbColToTypeConverterTest(int rowNumber, byte expected)
         {
             var dt = CreateTestTable(typeof(byte), expected);
@@ -18,18 +16,18 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new ByteDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expected, target.GetDataValue(dataReader, 1));
         }
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, byte.MinValue)]
-        [TestCase(1, 1)]
-        [TestCase(1, byte.MaxValue)]
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, byte.MinValue)]
+        [InlineData(1, (byte)1)]
+        [InlineData(1, byte.MaxValue)]
         public void NullDbColToTypeConverterTest(int rowNumber, byte? expected)
         {
             var dt = CreateTestTable(typeof(byte), expected);
@@ -37,11 +35,11 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new NullByteDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expected, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expected, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expected, target.GetDataValue(dataReader, 1));
         }
     }
 }

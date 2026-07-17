@@ -1,42 +1,43 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters
 {
-    [TestFixture]
-    public class DecimalDbColToTypeConverterTests : BaseDbColToTypeConverterTests
+        public class DecimalDbColToTypeConverterTests : BaseDbColToTypeConverterTests
     {
-        [Test]
-        [TestCase(1, 987.456)]
-        public void DbColToTypeConverterTest(int rowNumber, decimal expected)
+        [Theory]
+        [InlineData(1, 987.456d)]
+        public void DbColToTypeConverterTest(int rowNumber, double expected)
         {
-            var dt = CreateTestTable(typeof(decimal), expected);
+            var expectedDecimal = (decimal)expected;
+            var dt = CreateTestTable(typeof(decimal), expectedDecimal);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new DecimalDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expectedDecimal, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expectedDecimal, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expectedDecimal, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expectedDecimal, target.GetDataValue(dataReader, 1));
         }
 
-        [Test]
-        [TestCase(0, null)]
-        [TestCase(1, 987.456)]
-        public void NullDbColToTypeConverterTest(int rowNumber, decimal? expected)
+        [Theory]
+        [InlineData(0, null)]
+        [InlineData(1, 987.456d)]
+        public void NullDbColToTypeConverterTest(int rowNumber, double? expected)
         {
-            var dt = CreateTestTable(typeof(decimal), expected);
+            decimal? expectedDecimal = expected.HasValue ? (decimal?)expected.Value : null;
+            var dt = CreateTestTable(typeof(decimal), expectedDecimal);
             var dataRow = GetDataRow(rowNumber, dt);
             var dataReader = GetDataReader(rowNumber, dt);
 
             var target = new NullDecimalDbColToTypeConverter();
-            Assert.That(target.GetDataValue(dataRow, "col"), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, "col"), Is.EqualTo(expected));
+            Assert.Equal(expectedDecimal, target.GetDataValue(dataRow, "col"));
+            Assert.Equal(expectedDecimal, target.GetDataValue(dataReader, "col"));
 
-            Assert.That(target.GetDataValue(dataRow, 1), Is.EqualTo(expected));
-            Assert.That(target.GetDataValue(dataReader, 1), Is.EqualTo(expected));
+            Assert.Equal(expectedDecimal, target.GetDataValue(dataRow, 1));
+            Assert.Equal(expectedDecimal, target.GetDataValue(dataReader, 1));
         }
     }
 }

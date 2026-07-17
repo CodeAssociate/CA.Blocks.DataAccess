@@ -1,14 +1,13 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Converters;
 using System.Data;
 using CA.Blocks.DataAccess.Translator.DbColToType.Exceptions;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Exceptions
 {
-    [TestFixture]
-    public class ConverterColumnExceptions : BaseDbColToTypeConverterTests
+        public class ConverterColumnExceptions : BaseDbColToTypeConverterTests
     {
-        [Test]
+        [Fact]
         public void DbColToTypeConverterException_BadDataException()
         {
             var dt = CreateTestTable(typeof(string), "NotANumber");
@@ -26,7 +25,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Exceptions
         }
 
 
-        [Test]
+        [Fact]
         public void DbColToTypeConverterException_ColumnNotFoundExceptionName()
         {
             var dt = CreateTestTable(typeof(string), "GoodValue");
@@ -40,7 +39,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Exceptions
             });
         }
 
-        [Test]
+        [Fact]
         public void DbColToTypeConverterException_ColumnNotFoundExceptionName_Reader()
         {
             var dr = CreateTestTable(typeof(string), "GoodValue").CreateDataReader();
@@ -55,7 +54,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.DbColToType.Exceptions
         }
 
 
-        [Test]
+        [Fact]
         public void DbColToTypeConverterException_ColumnNotFoundExceptionIndex()
         {
             var dt = CreateTestTable(typeof(string), "GoodValue");
