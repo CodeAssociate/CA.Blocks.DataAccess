@@ -1,14 +1,11 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeDateTests : UnitTestDataAccess
+    public class DbTypeDateTests : UnitTestDataAccess, IDisposable
     {
         // SQLite does not have a storage class set aside for storing dates and/or times.Instead, the built-in Date And Time Functions of SQLite are capable of storing dates and times as TEXT, REAL, or INTEGER values:
         // TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").
@@ -16,9 +13,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
         {
             ExecuteNonQuery(InsertTestDataSQL($" date('{data:o}') "));
         }
-
-        [SetUp]
-        public void Setup()
+        public DbTypeDateTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("Date not null"));
@@ -28,14 +23,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             InsertTestDataSQL(DateTime.Now.AddDays(100).Date);
             InsertTestDataSQL(DateTime.Now.AddDays(-100).Date);
         }
-
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataDateTime()
         {
             //Setup 
@@ -43,11 +36,11 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToSingleNamedColumnList<DateTime>(UNIT_TEST_COL_NAME);
             //Assert
-            TestContext.Write(DataTableToText(ExecuteDataTable(cmd)));
-            ClassicAssert.AreEqual(5, data.Count);
+            Console.WriteLine(DataTableToText(ExecuteDataTable(cmd)));
+            Assert.True(data.Count == 5);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataDateTimeWithFilter()
         {
             //setup
@@ -64,9 +57,15 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = Execute(cmd).ToSingleNamedColumnList<DateTime>(UNIT_TEST_COL_NAME);
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Single(data);
         }
 
 
     }
 }
+
+
+
+
+
+

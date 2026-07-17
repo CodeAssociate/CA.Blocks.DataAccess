@@ -1,16 +1,13 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using CA.Blocks.SqliteDataAccess;
 using Microsoft.Data.Sqlite;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests;
 
-[TestFixture]
 public class SqliteParameterHelperTests
 {
 
@@ -116,7 +113,7 @@ UInt64			INTEGER	Large values overflow
 		return result;
 	}
 
-	[Test]
+	[Fact]
 	public void GetDefaultStorageTypeFor_Tests()
 	{
 		var testCases = GetTestCases();
@@ -125,11 +122,14 @@ UInt64			INTEGER	Large values overflow
 			// SetUp  + Act 
 			var result = SqliteParameterHelper.GetDefaultStorageTypeFor(testCase.TargetType);
 			// Asset
-			ClassicAssert.AreEqual(testCase.ExpectedResult, result);
+			Assert.Equal(testCase.ExpectedResult, result);
 
-			TestContext.WriteLine($"\t {testCase.TargetType.FullName} -> {testCase.ExpectedResult}.");
+			Console.WriteLine($"\t {testCase.TargetType.FullName} -> {testCase.ExpectedResult}.");
 		}
 	}
 
 
 }
+
+
+

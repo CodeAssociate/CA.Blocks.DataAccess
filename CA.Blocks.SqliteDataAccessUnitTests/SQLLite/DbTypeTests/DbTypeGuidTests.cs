@@ -1,17 +1,14 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeGuidTests : UnitTestDataAccess
+    public class DbTypeGuidTests : UnitTestDataAccess, IDisposable
     {
         private const string TestGuidValue = "CE69B300-F9EA-4F3B-BBA8-676D12737E3E";
         private class GuidDataType
@@ -25,10 +22,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var cmd = CreateTextCommand(InsertTestDataSQL("@data")).WithParameter(data.ToSqlParameter("@data"));
             ExecuteNonQuery(cmd);
         }
-
-        [SetUp]
-        public void Setup()
-        {
+        public DbTypeGuidTests()
+{
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("VARCHAR(36) not null"));
             InsertTestDataSQL(Guid.Empty);
@@ -37,14 +32,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             InsertTestDataSQL(Guid.NewGuid());
             InsertTestDataSQL(Guid.Parse(TestGuidValue));
         }
-
-        [TearDown]
-        public void TearDown()
-        {
+        public new void Dispose()
+{
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllData()
         {
             //Setup 
@@ -52,12 +45,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToListOf<GuidDataType>();
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.True(data.Count == 5);
         }
 
 
 
-        [Test]
+        [Fact]
         public void SelectAllDataToListOf()
         {
             //Setup 
@@ -66,11 +59,11 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = ExecuteToListOf<GuidDataType>(cmd);
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
-            ClassicAssert.AreEqual(Guid.Parse(TestGuidValue), data[4].Col);
+            Assert.True(data.Count == 5);
+            Assert.Equal(Guid.Parse(TestGuidValue), data[4].Col);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataTimeWithFilter()
         {
             //setup
@@ -83,11 +76,11 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = ExecuteTo<GuidDataType>(cmd);
 
             //Asert
-            ClassicAssert.IsNotNull(data);
-            ClassicAssert.AreEqual(testvalue, data.Col);
+            Assert.NotNull(data);
+            Assert.Equal(testvalue, data.Col);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataWithWithTranslator()
         {
             //setup
@@ -97,8 +90,13 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataRow(cmd));
 
-            ClassicAssert.IsNotNull(data);
-            ClassicAssert.AreEqual(testValue, data.Col);
+            Assert.NotNull(data);
+            Assert.Equal(testValue, data.Col);
         }
     }
 }
+
+
+
+
+

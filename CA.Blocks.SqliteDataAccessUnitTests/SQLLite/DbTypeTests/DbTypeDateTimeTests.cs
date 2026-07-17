@@ -1,22 +1,17 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeDateTimeTests : UnitTestDataAccess
+    public class DbTypeDateTimeTests : UnitTestDataAccess, IDisposable
     {
         private void InsertTestDataSQL(DateTime data)
         {
             ExecuteNonQuery(InsertTestDataSQL($" datetime('{data:o}') "));
         }
-
-        [SetUp]
-        public void Setup()
+        public DbTypeDateTimeTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("DateTime not null"));
@@ -26,14 +21,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             InsertTestDataSQL(DateTime.Now.AddDays(100));
             InsertTestDataSQL(DateTime.Now.AddDays(-100));
         }
-
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataDateTime()
         {
             //Setup 
@@ -41,11 +34,11 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToSingleNamedColumnList<DateTime>(UNIT_TEST_COL_NAME);
             //Assert
-            TestContext.Write(DataTableToText(ExecuteDataTable(cmd)));
-            ClassicAssert.AreEqual(5, data.Count);
+            Console.WriteLine(DataTableToText(ExecuteDataTable(cmd)));
+            Assert.True(data.Count == 5);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataDateTimeWithFilter()
         {
             //setup
@@ -58,9 +51,14 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = Execute(cmd).ToSingleNamedColumnList<DateTime>(UNIT_TEST_COL_NAME);
 
             //Asert
-            ClassicAssert.AreEqual(3, data.Count);
+            Assert.True(data.Count == 3);
         }
 
 
     }
 }
+
+
+
+
+

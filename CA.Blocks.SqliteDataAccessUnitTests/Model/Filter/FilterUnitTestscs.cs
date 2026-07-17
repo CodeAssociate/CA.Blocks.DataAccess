@@ -1,9 +1,7 @@
-﻿using System;
+using System;
 using CA.Blocks.DataAccess.Extensions;
 using CA.Blocks.DataAccess.Model.Filter;
 using CA.Blocks.SqliteDataAccess;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
 {
@@ -22,33 +20,32 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
     }
 
 
-    [TestFixture]
     public class FilterUnitTestscs
     {
-        [Test]
+        [Fact]
         public void BasicTest()
         {
             var target = new TestFilter();
             target.HasIntColFilter(123);
-			ClassicAssert.IsTrue(target.Parameters.Count == 1);
-            ClassicAssert.AreEqual("intCol = @value", target.ToSQLFilter());
+			Assert.True(target.Parameters.Count == 1);
+            Assert.Equal("intCol = @value", target.ToSQLFilter());
             var parameters = target.ToDbParameters();
-            ClassicAssert.AreEqual(1, parameters.Count);
+            Assert.Single(parameters);
 
 
 		}
 
-        [Test]
+        [Fact]
         public void BasicTestWithWhere()
         {
             var target = new TestFilter();
             target.HasIntColFilter(123);
-            ClassicAssert.IsTrue(target.Parameters.Count == 1);
-            ClassicAssert.AreEqual("WHERE intCol = @value", target.ToSQLFilter(true));
+            Assert.True(target.Parameters.Count == 1);
+            Assert.Equal("WHERE intCol = @value", target.ToSQLFilter(true));
         }
 
 
-        [Test]
+        [Fact]
         public void BasicBadFilterDiffrentTypes()
         {
             var target = new TestFilter();
@@ -56,7 +53,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
             Assert.Throws<ApplicationException>(() => target.HasShortColFilterBadColName(123));
         }
 
-        [Test]
+        [Fact]
 
         public void HasIntColFilter()
         {
@@ -65,14 +62,14 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
             Assert.Throws<ApplicationException>(() => target.HasIntColFilter(456));
         }
 
-        [Test]
+        [Fact]
         public void BasicTestSillyAnd()
         {
             var target = new TestFilter();
             target.HasIntColFilter(123);
             target.HasIntColFilter(123);
-            ClassicAssert.IsTrue(target.Parameters.Count == 1);
-            ClassicAssert.AreEqual("intCol = @value And intCol = @value", target.ToSQLFilter());
+            Assert.True(target.Parameters.Count == 1);
+            Assert.Equal("intCol = @value And intCol = @value", target.ToSQLFilter());
         }
 
         // This is an idea for now, to use FormattableString to set a filter
@@ -105,8 +102,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
             var objects = query.GetArguments();
             var args = Enumerable.Range(0, query.ArgumentCount).Select(i => (object)("@p" + i)).ToArray();
             var newquery = string.Format(query.Format, args);
-            TestContext.WriteLine(s);
-            TestContext.WriteLine(newquery);
+            Console.WriteLine(s);
+            Console.WriteLine(newquery);
             int i = 0;
             foreach (var o in objects)
             {
@@ -119,23 +116,23 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
                     {
                         var sqlparam =  method.Invoke(null, GetParametersForToSqlParameter(o, $"@p{i}", method.GetParameters().Length));
                        var sqlparm1 = (SqliteParameter) sqlparam; 
-                       TestContext.WriteLine($"{sqlparm1.ParameterName}-{sqlparm1.DbType}{sqlparm1.Value}");
+                       Console.WriteLine($"{sqlparm1.ParameterName}-{sqlparm1.DbType}{sqlparm1.Value}");
                     }
                     // need to work out if o has ToSQL
 
-                    TestContext.WriteLine(o.GetType().ToString());
-                    TestContext.WriteLine(o);
+                    Console.WriteLine(o.GetType().ToString());
+                    Console.WriteLine(o);
                 }
                 else
                 {
-                    TestContext.WriteLine("null");
+                    Console.WriteLine("null");
                 }
 
                 i++;
             }
         }
 
-        [Test]
+        [Fact]
         public void Debug()
         {
             https://www.meziantou.net/interpolated-strings-advanced-usages.htm
@@ -191,3 +188,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Model.Filter
     }
 
 }
+
+
+
+
+

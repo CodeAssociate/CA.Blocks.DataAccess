@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections.Generic;
 using System;
 using System.Data;
@@ -7,13 +7,10 @@ using CA.Blocks.DataAccessTestDataForUnitTests.BaseTests;
 using CA.Blocks.DataAccessTestDataForUnitTests.TestTypes;
 using CA.Blocks.SqliteDataAccess;
 using Microsoft.Data.Sqlite;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests
 {
-	[TestFixture]
-    public class SqlParameterExtensionsTests : BaseToSqlParameterTests
+	public class SqlParameterExtensionsTests : BaseToSqlParameterTests
     {
         public override DbParameter ToSqlParameterTypeInstanceTestMain<T>(T test, DbType expectedDbType)
         {
@@ -23,68 +20,68 @@ namespace CA.Blocks.SqliteDataAccessUnitTests
         // Due to SQLite's dynamic type system, parameter values are not converted. So will always be DbType.String  however we can test the SqliteType type
         public TypeToDbParameterResult Verify(TypeToDbParameterResult result, SqliteType expectedSqliteType)
         {
-            ClassicAssert.AreEqual(((SqliteParameter)result.DbParameter).SqliteType, expectedSqliteType);
+            Assert.Equal(((SqliteParameter)result.DbParameter).SqliteType, expectedSqliteType);
 
             return result;
         }
 
         private void IsDateTimeDbParameterExpectedResult(DateTime? expecteDateTime, DbParameter generatedParameter)
         {
-            ClassicAssert.IsNotNull(generatedParameter);
+            Assert.NotNull(generatedParameter);
             if (expecteDateTime.HasValue)
             {
-                ClassicAssert.IsNotNull(generatedParameter.Value);
+                Assert.NotNull(generatedParameter.Value);
                 DateTime actualDateTime = DateTime.Parse(generatedParameter.Value.ToString());
-                ClassicAssert.AreEqual(expecteDateTime, actualDateTime);
+                Assert.Equal(expecteDateTime, actualDateTime);
             }
             else
             {
-                ClassicAssert.IsNull(generatedParameter.Value);
+                Assert.Null(generatedParameter.Value);
             }
         }
 
         private void IsDateTimeOffsetDbParameterExpectedResult(DateTimeOffset? expecteDateTime, DbParameter generatedParameter)
         {
-            ClassicAssert.IsNotNull(generatedParameter);
+            Assert.NotNull(generatedParameter);
             if (expecteDateTime.HasValue)
             {
-                ClassicAssert.IsNotNull(generatedParameter.Value);
+                Assert.NotNull(generatedParameter.Value);
                 DateTimeOffset actualDateTime = DateTimeOffset.Parse(generatedParameter.Value.ToString());
-                ClassicAssert.AreEqual(expecteDateTime, actualDateTime);
+                Assert.Equal(expecteDateTime, actualDateTime);
             }
             else
             {
-                ClassicAssert.IsNull(generatedParameter.Value);
+                Assert.Null(generatedParameter.Value);
             }
         }
 
         private void IsDateOnlyDbParameterExpectedResult(DateOnly? expecteDate, DbParameter generatedParameter)
         {
-            ClassicAssert.IsNotNull(generatedParameter);
+            Assert.NotNull(generatedParameter);
             if (expecteDate.HasValue)
             {
-                ClassicAssert.IsNotNull(generatedParameter.Value);
+                Assert.NotNull(generatedParameter.Value);
                 DateOnly actualDate = DateOnly.Parse(generatedParameter.Value.ToString());
-                ClassicAssert.AreEqual(expecteDate, actualDate);
+                Assert.Equal(expecteDate, actualDate);
             }
             else
             {
-                ClassicAssert.IsNull(generatedParameter.Value);
+                Assert.Null(generatedParameter.Value);
             }
         }
 
         private void IsTimeOnlyDbParameterExpectedResult(TimeOnly? expecteTime, DbParameter generatedParameter)
         {
-            ClassicAssert.IsNotNull(generatedParameter);
+            Assert.NotNull(generatedParameter);
             if (expecteTime.HasValue)
             {
-                ClassicAssert.IsNotNull(generatedParameter.Value);
+                Assert.NotNull(generatedParameter.Value);
                 TimeOnly actualTime = TimeOnly.Parse(generatedParameter.Value.ToString());
-                ClassicAssert.AreEqual(expecteTime, actualTime);
+                Assert.Equal(expecteTime, actualTime);
             }
             else
             {
-                ClassicAssert.IsNull(generatedParameter.Value);
+                Assert.Null(generatedParameter.Value);
             }
         }
 
@@ -114,7 +111,7 @@ UInt32			INTEGER
 UInt64			INTEGER	Large values overflow
         */
 
-        [Test]
+        [Fact]
         public void ToSqlParameter_TypeTests()
         {
             
@@ -167,13 +164,17 @@ UInt64			INTEGER	Large values overflow
             {
                 foreach (var type in AnyUntestesTypes)
                 {
-                    TestContext.WriteLine($"{type.FullName} is missing a ToSqlParameterTest");
+                    Console.WriteLine($"{type.FullName} is missing a ToSqlParameterTest");
                 }
 
-                Assert.Warn("There are Untested ToSqlParameter types ");
+                Assert.Fail("There are Untested ToSqlParameter types ");
             }
         }
 
    
     }
 }
+
+
+
+

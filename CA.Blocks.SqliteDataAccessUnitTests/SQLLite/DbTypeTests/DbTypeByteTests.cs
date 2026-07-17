@@ -1,21 +1,17 @@
-﻿using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
-    [TestFixture]
-    public class DbTypeByteTests : UnitTestDataAccess
+    public class DbTypeByteTests : UnitTestDataAccess, IDisposable
     {
         private void InsertTestDataSQL(byte data)
         {
             ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
         }
 
-        [SetUp]
-        public void Setup()
+        public DbTypeByteTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("tinyint not null"));
@@ -26,13 +22,12 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             InsertTestDataSQL(byte.MaxValue);
         }
 
-        [TearDown]
-        public void TearDown()
+        public new void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataInt()
         {
             //Setup 
@@ -41,10 +36,10 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
             //Assert
-            ClassicAssert.AreEqual(5, data.Count);
+            Assert.True(data.Count == 5);
         }
 
-        [Test]
+        [Fact]
         public void SelectAllDataByteWithFilter ()
         {
             //setup
@@ -57,9 +52,14 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            ClassicAssert.AreEqual(1, data.Count);
+            Assert.Single(data);
         }
 
 
     }
 }
+
+
+
+
+
