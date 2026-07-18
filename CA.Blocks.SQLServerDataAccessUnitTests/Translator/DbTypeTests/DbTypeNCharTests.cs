@@ -16,14 +16,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("NChar not null"));
-            InsertTestDataSQL('ä');
+            InsertTestDataSQL('ï¿½');
             InsertTestDataSQL('B');
             InsertTestDataSQL('C');
             InsertTestDataSQL('D');
             InsertTestDataSQL('E');
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
@@ -44,7 +44,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataNCharWithFilter ()
         {
             //setup
-            char testvalue = 'ä';
+            char testvalue = 'ï¿½';
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLCharType.NChar));

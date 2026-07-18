@@ -37,7 +37,7 @@ public class DbTypeTimeOnlyTests : UnitTestDataAccess, IDisposable
 
     }
 
-    public new void Dispose()
+    public void Dispose()
         {
         ExecuteNonQuery(DropTestTableSQL());
     }

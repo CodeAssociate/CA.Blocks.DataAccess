@@ -31,7 +31,7 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess, IDisposable
         ExecuteNonQuery(InsertTestDataSQL("null"));
     }
 
-    public new void Dispose()
+    public void Dispose()
         {
         ExecuteNonQuery(DropTestTableSQL());
     }

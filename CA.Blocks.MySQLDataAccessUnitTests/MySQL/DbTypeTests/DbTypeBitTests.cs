@@ -50,7 +50,7 @@ public void SelectAllDataToListOf()
             var data = ExecuteToListOf<BoolDataType>(cmd);
             //Assert
             Assert.Equal(2, data.Count);
-            Assert.Equal(true, data[0].Col);
+            Assert.True(data[0].Col);
         }
         [Fact]
 public void SelectAllDataWithFilter ()

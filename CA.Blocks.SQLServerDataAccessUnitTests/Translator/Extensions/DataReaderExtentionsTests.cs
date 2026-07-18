@@ -29,6 +29,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
 
     
 
+      
         public class sysobject
         {
             public int id { get; set; }

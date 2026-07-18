@@ -54,7 +54,7 @@ public class DbTypeJsonTests : UnitTestDataAccess, IDisposable
 ");
     }
 
-    public new void Dispose()
+    public void Dispose()
         {
         ExecuteNonQuery(DropTestTableSQL());
     }
