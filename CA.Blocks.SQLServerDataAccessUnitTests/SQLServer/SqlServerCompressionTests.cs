@@ -8,6 +8,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
+    [Collection("DbIntegrationTests")]
     public class SqlServerCompressionTests : UnitTestDataAccess
     {
         private string dropTempTestTable = @"If Exists (Select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = '_tempSqlServerSqlServerCompressionTests') 

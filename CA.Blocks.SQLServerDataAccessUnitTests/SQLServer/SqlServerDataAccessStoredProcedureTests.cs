@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
+    [Collection("DbIntegrationTests")]
     public class SqlServerDataAccessStoredProcedureTests : UnitTestDataAccess, IDisposable
     {
 

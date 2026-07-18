@@ -5,6 +5,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeVarCharTests : UnitTestDataAccess, IDisposable
     {
         private const string  TEST_DATA = "varchar data";

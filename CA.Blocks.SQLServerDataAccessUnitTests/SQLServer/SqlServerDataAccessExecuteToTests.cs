@@ -52,6 +52,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     }
 
 
+    [Collection("DbIntegrationTests")]
     public class SqlServerDataAccessExecuteTo : UnitTestDataAccess
     {
         public SqlServerDataAccessExecuteTo()

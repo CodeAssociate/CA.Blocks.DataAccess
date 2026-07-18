@@ -5,6 +5,7 @@ using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
+[Collection("MySQLDbTypeTests")]
 public class DbTypeCharTests : UnitTestDataAccess, IDisposable
     {
         private class CharDataType
@@ -75,5 +76,6 @@ public void SelectAllDataBigIntWithFilter ()
 
     }
 }
+
 
 

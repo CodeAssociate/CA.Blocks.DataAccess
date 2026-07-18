@@ -6,6 +6,7 @@ using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
+[Collection("MySQLDbTypeTests")]
 public class DbTypeDateTimeTests : UnitTestDataAccess, IDisposable
     {
         private DateTime _testDate;
@@ -77,5 +78,6 @@ public void SelectAllDataDateTimeWithFilter()
 
     }
 }
+
 
 

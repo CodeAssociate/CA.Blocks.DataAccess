@@ -7,7 +7,12 @@ using CA.Blocks.DataAccess.Model.Paging;
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 {
     
-    public class LocalSqlServerUnitTestStringsResolver : IDataAccessKeyToConnectionStringResolver
+    public static class TestConnectionStrings
+    {
+        public  static string? TestDataBaseConnectionString { get; set; }
+    }
+
+    public class LocalUnitTestStringsResolver : IDataAccessKeyToConnectionStringResolver
     {
         /// <summary>
         /// Provides the mapping from the name in code to the name in the Connection string Stored in the app.config or web.config file
@@ -16,27 +21,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
         /// <returns> The Connection string to be used by the ADO.NET provider.</returns>
         public string GetConnectionString(string connectionStringKey)
         {
-            return TestConnectionStrings.LOCAL_TEMP_DB;
+            return TestConnectionStrings.TestDataBaseConnectionString!;
         }
     }
-
-    /*
-         <configuration>
-            <connectionStrings>    
-                <add name="localsqlserverhost" connectionString="Server=(local);Database=tempdb;Integrated Security=SSPI" providerName="System.Data.SqlClient"/>
-            </connectionStrings>
-         </configuration>
-         */
-    // this class exposes the internal workings so we can test
+    
     public class UnitTestDataAccess : SqlServerDataAccess
     {
-        public UnitTestDataAccess() : this (new DataAccessConfigOptions
+        protected UnitTestDataAccess() : this (new DataAccessConfigOptions
             {ConnectionStringKey = "localsqlserverhost"})
         {
         }
 
-        public UnitTestDataAccess(DataAccessConfigOptions options) : base (
-            new DataAccessConfig(options, new LocalSqlServerUnitTestStringsResolver())
+        protected UnitTestDataAccess(DataAccessConfigOptions options) : base (
+            new DataAccessConfig(options, new LocalUnitTestStringsResolver())
         )
         {
         }

@@ -5,6 +5,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeBitTests : UnitTestDataAccess, IDisposable
     {
         private class BoolDataType

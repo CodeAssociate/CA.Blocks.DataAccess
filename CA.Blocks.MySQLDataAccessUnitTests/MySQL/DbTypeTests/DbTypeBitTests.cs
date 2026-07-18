@@ -4,6 +4,7 @@ using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
+[Collection("MySQLDbTypeTests")]
 public class DbTypeBitTests : UnitTestDataAccess, IDisposable
     {
         private class BoolDataType
@@ -69,5 +70,6 @@ public void SelectAllDataWithFilter ()
 
     }
 }
+
 
 

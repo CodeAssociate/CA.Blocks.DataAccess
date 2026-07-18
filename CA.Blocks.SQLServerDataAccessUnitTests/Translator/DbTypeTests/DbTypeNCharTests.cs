@@ -4,6 +4,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeNCharTests : UnitTestDataAccess, IDisposable
     {
         private void InsertTestDataSQL(char data)

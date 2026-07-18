@@ -15,6 +15,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     }
 
 
+    [Collection("DbIntegrationTests")]
     public class SqlServerDataAccessExecuteNonQueryTests : UnitTestDataAccess
     {
         private string CreateTempTable = "Create table _tempSqlServerDataAccessExecuteNonQueryTests (id int, name varchar(10))";

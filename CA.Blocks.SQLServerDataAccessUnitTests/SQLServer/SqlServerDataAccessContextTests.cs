@@ -35,6 +35,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 
 
 
+    [Collection("DbIntegrationTests")]
     public partial class SqlServerDataAccessContextTests
     {
         [Fact]

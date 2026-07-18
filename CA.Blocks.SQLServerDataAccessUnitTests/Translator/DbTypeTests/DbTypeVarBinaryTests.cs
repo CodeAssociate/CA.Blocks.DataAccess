@@ -5,6 +5,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeVarBinaryTests : UnitTestDataAccess, IDisposable
     {
         private const string  TEST_DATA = "Binary Data 1";

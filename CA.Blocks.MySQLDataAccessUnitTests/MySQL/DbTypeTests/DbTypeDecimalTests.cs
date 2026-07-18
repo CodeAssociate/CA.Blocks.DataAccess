@@ -5,6 +5,7 @@ using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
+[Collection("MySQLDbTypeTests")]
 public class DbTypeDecimalTests : UnitTestDataAccess, IDisposable
     {
 
@@ -74,5 +75,6 @@ public void SelectAllDataFilter ()
 
     }
 }
+
 
 

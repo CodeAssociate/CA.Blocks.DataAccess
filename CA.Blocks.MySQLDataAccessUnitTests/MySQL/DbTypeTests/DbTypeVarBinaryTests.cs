@@ -7,6 +7,7 @@ using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
+[Collection("MySQLDbTypeTests")]
 public class DbTypeVarBinaryTests : UnitTestDataAccess, IDisposable
     {
         private const string  TEST_DATA = "Binary Data 1";
@@ -65,5 +66,6 @@ public void SelectDataBinaryWithFilter()
 
     }
 }
+
 
 

@@ -1,19 +1,10 @@
-using CA.Blocks.DataAccess.DI;
-using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer;
 
-public class SqlServerDataAccessUsingExistingConnectionTests : SqlServerDataAccess
+    [Collection("DbIntegrationTests")]
+public class SqlServerDataAccessUsingExistingConnectionTests : UnitTestDataAccess
 {
-	public SqlServerDataAccessUsingExistingConnectionTests()
-		: base(new DataAccessConfig(
-			new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" },
-			new LocalSqlServerUnitTestStringsResolver()))
-	{
-
-	}
-
 	[Fact]
 	public void ExecuteExecuteScalarByte()
 	{

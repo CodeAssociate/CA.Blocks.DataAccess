@@ -17,12 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Testing" Version="13.4.6" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.9.0" />
     <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CA.Blocks.DataAccessTestDataForUnitTests\CA.Blocks.DataAccessTestDataForUnitTests.csproj" />
+    <ProjectReference Include="..\CA.Blocks.MySqlAppHost\CA.Blocks.MySqlAppHost.csproj" />
     <ProjectReference Include="..\CA.Blocks.MySQLDataAccess\CA.Blocks.MySQLDataAccess.csproj" />
   </ItemGroup>
 

@@ -6,15 +6,9 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer;
 
-public class SqlServerParameterAsDataTableTests : SqlServerDataAccess
+    [Collection("DbIntegrationTests")]
+public class SqlServerParameterAsDataTableTests : UnitTestDataAccess
 {
-
-    public SqlServerParameterAsDataTableTests()
-        : base(new DataAccessConfig(new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" },
-            new LocalSqlServerUnitTestStringsResolver()))
-    {
-    }
-
     private void EnsureTableTypeExists(string type, string spec)
     {
         var createType = $@"

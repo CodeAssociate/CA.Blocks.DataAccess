@@ -1,15 +1,15 @@
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
-using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
+[Collection("MySQLDbTypeTests")]
 public class DbTypeBigIntTests : UnitTestDataAccess, IDisposable
     {
         private class BigIntDataType
         {
-            public long Col { get; set; }
+            public long Col { get; init; }
         }
 
         private void InsertTestDataSQL(long data)
@@ -33,7 +33,7 @@ public class DbTypeBigIntTests : UnitTestDataAccess, IDisposable
             ExecuteNonQuery(DropTestTableSQL());
         }
         [Fact]
-public void SelectAllData()
+        public void SelectAllData()
         {
             //Setup 
             var t = new LongTranslator(UNIT_TEST_COL_NAME);
@@ -44,7 +44,7 @@ public void SelectAllData()
 			Assert.Equal(5, data.Count);
         }
         [Fact]
-public void SelectAllDataToListOf()
+        public void SelectAllDataToListOf()
         {
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
@@ -55,7 +55,7 @@ public void SelectAllDataToListOf()
 			Assert.Equal(-1, data[0].Col);
         }
         [Fact]
-public void SelectAllDataBigIntWithFilter ()
+        public void SelectAllDataBigIntWithFilter ()
         {
             //setup
             const long testvalue = 123; 
@@ -70,7 +70,7 @@ public void SelectAllDataBigIntWithFilter ()
 			Assert.Equal(3, data.Count);
         }
         [Fact]
-public void SelectAllDataBigIntWithFilterWithParameters()
+        public void SelectAllDataBigIntWithFilterWithParameters()
         {
             //setup
             const long testvalue = 123;
@@ -86,5 +86,6 @@ public void SelectAllDataBigIntWithFilterWithParameters()
         }
     }
 }
+
 
 
