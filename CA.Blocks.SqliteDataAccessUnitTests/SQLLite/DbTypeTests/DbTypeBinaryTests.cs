@@ -11,7 +11,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
     {
         private class BinaryDataType
         {
-            public byte[] Col { get; set; }
+            public required byte[] Col { get; set; }
         }
 
         private void InsertTestDataToBinarySQL(string data)

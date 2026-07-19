@@ -42,6 +42,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
             {
                 if (_initialized) return;
                 await StartDb();
+                // you can use this for local db debugging 
+                //await StartDbLocal();
                 _initialized = true;
             }
             finally
@@ -50,6 +52,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
             }
         }
 
+        private async Task StartDbLocal()
+        {
+            TestConnectionStrings.TestDataBaseConnectionString = "Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True";
+            await Task.Delay(1, CancellationToken);
+        }
 
         private async Task StartDb()
         {

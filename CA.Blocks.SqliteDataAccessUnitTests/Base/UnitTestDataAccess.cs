@@ -72,7 +72,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Base
                 {
                     if (!row.IsNull(i))
                     {
-                        int length = row[i].ToString().Length;
+                        int length = row[i].ToString()!.Length;
 
                         if (length > maxLengths[i])
                         {
@@ -96,7 +96,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.Base
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
                         sb.Append(!row.IsNull(i)
-                            ? row[i].ToString().PadRight(maxLengths[i] + 2)
+                            ? row[i].ToString()?.PadRight(maxLengths[i] + 2)
                             : new string(' ', maxLengths[i] + 2));
                     }
 

@@ -9,7 +9,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
     {
         private void InsertTestDataSQL(char data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data)));
+            ExecuteNonQuery(InsertTestDataSQL($"N'{data}'"));
         }
 
         public DbTypeNCharTests()
@@ -41,7 +41,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         }
 
         [Fact]
-        public void SelectAllDataNCharWithFilter ()
+        public void SelectAllDataNCharWithFilter()
         {
             //setup
             char testvalue = '�';
@@ -49,16 +49,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLCharType.NChar));
 
-            //Act
             var data = t.Translate(ExecuteDataRow(cmd));
-
             //Asert
             Assert.Equal(testvalue, data);
-
- 
+            
         }
-
-
     }
 }
 
