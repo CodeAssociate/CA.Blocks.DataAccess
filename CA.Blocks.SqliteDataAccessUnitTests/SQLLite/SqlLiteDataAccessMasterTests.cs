@@ -3,6 +3,7 @@ using System.Data.Common;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 
@@ -10,10 +11,10 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
 {
     public class sqliteMaster
     {
-        public string name { get; set; }
-        public string type { get; set; }
+        public required string name { get; set; }
+        public required string type { get; set; }
         public int rootpage { get; set; }
-        public string sql { get; set; }
+        public required string sql { get; set; }
     }
 
     // Shows how to use the ExecuteObjectList to get a list of dyanmic objects from a SQL query.
@@ -53,7 +54,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
         public void GetsqliteMasterData()
         {
             var cmd = CreateTextCommand("Select * from sqlite_master");
-            var result = ExecuteToListOf<sqliteMaster>(cmd);
+            var result = Execute(cmd).ToListOf<sqliteMaster>();
             foreach (var o in result)
             {
                 Console.WriteLine($"{o.name},{o.type},{o.rootpage},{o.sql}");
@@ -87,7 +88,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master");
-            var result = ExecuteToListOf<sqliteMaster>(cmd);
+            var result = Execute(cmd).ToListOf<sqliteMaster>();
             Assert.True(TraceCalled);
         }
 
@@ -111,7 +112,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
         {
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master limit 1");
-            var result = ExecuteTo<sqliteMaster>(cmd, CustomReader);
+            var result = Execute(cmd).ToListOf<sqliteMaster>(CustomReader);
             Assert.True(TraceCalled);
         }
 
@@ -145,7 +146,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
-            var result = await ExecuteToAsync<sqliteMaster>(cmd);
+            var result = await ExecuteAsync(cmd).ToSingleOrDefault<sqliteMaster>();
     
             Assert.Equal("CABLOCKS_TestMasterTable", result.name);
             Assert.True(TraceCalled);
@@ -158,7 +159,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
-            var result = await ExecuteToListOfAsync<sqliteMaster>(cmd);
+            var result = await ExecuteAsync(cmd).ToListOf<sqliteMaster>();
             Assert.Single(result);
             Assert.Equal("CABLOCKS_TestMasterTable", result[0].name);
             Assert.True(TraceCalled);

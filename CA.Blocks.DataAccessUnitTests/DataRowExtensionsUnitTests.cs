@@ -633,12 +633,12 @@ namespace CA.Blocks.DataAccessUnitTests
             var dataReader = GetDataReader(rowNumber, dt);
 
             
-                Assert.Equal(null, dataRow.AsString("col"));
-                Assert.Equal(null, dataRow.AsString(1));
-                Assert.Equal(null, dataRow.AsString(dt.Columns["col"]));
+                Assert.Null(dataRow.AsString("col"));
+                Assert.Null(dataRow.AsString(1));
+                Assert.Null(dataRow.AsString(dt.Columns["col"]));
 
-                Assert.Equal(null, dataReader.AsString("col"));
-                Assert.Equal(null, dataReader.AsString(1));
+                Assert.Null(dataReader.AsString("col"));
+                Assert.Null(dataReader.AsString(1));
         }
         
         [Theory]

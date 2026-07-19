@@ -6,6 +6,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeByteTests : UnitTestDataAccess, IDisposable
     {
         private class ByteDataType
@@ -29,7 +30,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataSQL(byte.MaxValue);
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }

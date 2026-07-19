@@ -14,14 +14,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     // in most cases this will be the security context like user name. This is useful in case you want to 
     // do auditing, however the using the 
 
-    internal class TransientErrorUnitTestDataAccess : UnitTestDataAccess
+    internal class TransientErrorUnitTestDataAccess() : UnitTestDataAccess(new DataAccessConfigOptions
     {
-
-        public TransientErrorUnitTestDataAccess() : base(new DataAccessConfigOptions
-            { ConnectionStringKey = "localsqlserverhost", TransientErrorRetryRetryIntervalSeconds = 1, TransientErrorRetryTotalNumberOfTimesToTry = 3})
-        {
-        }
-
+        ConnectionStringKey = "ignored", 
+        TransientErrorRetryRetryIntervalSeconds = 1,
+        TransientErrorRetryTotalNumberOfTimesToTry = 3
+    })
+    {
         public int DbTransientErrorDbErrorCount { get; private set; }
         public int DbErrorDbErrorCount { get; private set; }
 
@@ -111,6 +110,7 @@ END
 
 
 
+    [Collection("DbIntegrationTests")]
     public class SqlServerDataAccessTransientErrorTests : IDisposable
     {
         private TransientErrorUnitTestDataAccess _targetDal = new TransientErrorUnitTestDataAccess();

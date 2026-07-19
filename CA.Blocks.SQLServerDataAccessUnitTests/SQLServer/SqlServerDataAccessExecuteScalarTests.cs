@@ -1,22 +1,10 @@
-using System;
-using System.Threading.Tasks;
-using CA.Blocks.DataAccess.DI;
-using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
-    public class SqlServerDataAccessExecuteScalarTests : SqlServerDataAccess
+    [Collection("DbIntegrationTests")]
+    public class SqlServerDataAccessExecuteScalarTests : UnitTestDataAccess
     {
-        public SqlServerDataAccessExecuteScalarTests() 
-            : base( new DataAccessConfig(
-                    new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" },
-                    new LocalSqlServerUnitTestStringsResolver()))
-        {
-   
-        }
-
-
         [Fact]
         public void ExecuteExecuteScalarByte()
         {

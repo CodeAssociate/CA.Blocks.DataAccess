@@ -7,6 +7,7 @@ using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 using CA.Blocks.PostgresSQLDataAccessTests.Base;
 using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 using Xunit.Sdk;
 using Xunit.v3;
 
@@ -15,15 +16,42 @@ using Xunit.v3;
 
 namespace CA.Blocks.PostgresSQLDataAccessTests.Base
 {
-    public class TestPipelineSetup : ITestPipelineStartup
+    [CollectionDefinition("DbTypeTests")]
+    public class DbTypeTestsCollection : ICollectionFixture<TestPipelineSetup> { }
+
+    public class TestPipelineSetup : ITestPipelineStartup, IAsyncLifetime
 
     {
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
-        private IDistributedApplicationTestingBuilder? _appHost;
-        private DistributedApplication? _app;
+        private static IDistributedApplicationTestingBuilder? _appHost;
+        private static DistributedApplication? _app;
+        private static readonly SemaphoreSlim _lock = new(1, 1);
+        private static bool _initialized = false;
 
         public CancellationToken CancellationToken { get; private set; }
         public string? ConnectionString { get; private set; }
+
+        public async ValueTask InitializeAsync() => await EnsureInitializedAsync();
+
+        public async ValueTask DisposeAsync() => await StopAsync();
+
+        private async Task EnsureInitializedAsync()
+        {
+            if (_initialized) return;
+            await _lock.WaitAsync();
+            try
+            {
+                if (_initialized) return;
+                await StartPostgresDb();
+                DefaultDbColToTypeProviderPostgresExtensions.AddPostgresArrayTypes();
+                DefaultDbColToTypeProvider.DefaultInstance.TryAdd(new UlidDbColToTypeConverter());
+                _initialized = true;
+            }
+            finally
+            {
+                _lock.Release();
+            }
+        }
 
 
         private async Task StartPostgresDb()
@@ -33,16 +61,6 @@ namespace CA.Blocks.PostgresSQLDataAccessTests.Base
             CancellationToken = cts.Token;
             
             _appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.CA_Blocks_PostgresAppHost>(CancellationToken);
-            /* We dont need logging for these tests avoid the overhead
-            _appHost.Services.AddLogging(logging =>
-            {
-                logging.SetMinimumLevel(LogLevel.Debug);
-                // Override the logging filters from the app's configuration
-                logging.AddFilter(_appHost.Environment.ApplicationName, LogLevel.Debug);
-                logging.AddFilter("Aspire.", LogLevel.Debug);
-                // To output logs to the xUnit.net ITestOutputHelper, consider adding a package from https://www.nuget.org/packages?q=xunit+logging
-            });
-            */
             _app = await _appHost.BuildAsync(CancellationToken).WaitAsync(DefaultTimeout, CancellationToken);
 
             await _app.StartAsync(CancellationToken).WaitAsync(DefaultTimeout, CancellationToken);
@@ -76,20 +94,26 @@ namespace CA.Blocks.PostgresSQLDataAccessTests.Base
 
         public async ValueTask StartAsync(IMessageSink diagnosticMessageSink)
         {
-            await StartPostgresDb();
-            DefaultDbColToTypeProviderPostgresExtensions.AddPostgresArrayTypes();
-            DefaultDbColToTypeProvider.DefaultInstance.TryAdd(new UlidDbColToTypeConverter());
-            await Task.CompletedTask;
+            await EnsureInitializedAsync();
         }
 
         public async ValueTask StopAsync()
         {
-            if (_app != null)
+            await _lock.WaitAsync();
+            try
             {
-                await _app.DisposeAsync();
+                if (_app != null)
+                {
+                    await _app.DisposeAsync();
+                    _app = null;
+                    _appHost = null;
+                    _initialized = false;
+                }
             }
-
-            await Task.CompletedTask;
+            finally
+            {
+                _lock.Release();
+            }
         }
     }
 }

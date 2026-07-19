@@ -6,6 +6,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeDecimalTests : UnitTestDataAccess, IDisposable
     {
 
@@ -31,7 +32,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataSQL(123456789.987654321);
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }

@@ -6,6 +6,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeCharTests : UnitTestDataAccess, IDisposable
     {
         private class CharDataType
@@ -30,7 +31,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }

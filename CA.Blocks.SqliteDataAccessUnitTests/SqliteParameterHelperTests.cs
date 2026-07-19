@@ -40,7 +40,7 @@ UInt64			INTEGER	Large values overflow
 
 	private class TestCase
 	{
-		public Type TargetType { get; init; }
+		public required Type TargetType { get; init; }
 		public SqliteType ExpectedResult { get; init; }
 	}
 

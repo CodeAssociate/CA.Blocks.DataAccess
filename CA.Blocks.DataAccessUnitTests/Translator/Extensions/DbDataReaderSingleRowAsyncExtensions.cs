@@ -34,8 +34,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingleAsync<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("No row", exception.Message);
     }
 
     [Fact]
@@ -48,8 +48,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingle<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("No row", exception.Message);
     }
 
 
@@ -63,8 +63,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingleAsync<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("more"));
+        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("more", exception.Message);
     }
 
     [Fact]
@@ -77,8 +77,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToSingle<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("more"));
+        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("more", exception.Message);
     }
 
     #endregion 
@@ -178,8 +178,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToFirstAsync<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("No row", exception.Message);
     }
 
     [Fact]
@@ -192,8 +192,8 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToFirst<TestDataObject>();
 
         });
-        Assert.True(exception.Message.Contains("Expected Single Result"));
-        Assert.True(exception.Message.Contains("No row"));
+        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("No row", exception.Message);
     }
 
     [Fact]

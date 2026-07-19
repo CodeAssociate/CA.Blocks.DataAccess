@@ -5,6 +5,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeVarCharTests : UnitTestDataAccess, IDisposable
     {
         private const string  TEST_DATA = "varchar data";
@@ -25,7 +26,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestData(Guid.NewGuid().ToString());
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }

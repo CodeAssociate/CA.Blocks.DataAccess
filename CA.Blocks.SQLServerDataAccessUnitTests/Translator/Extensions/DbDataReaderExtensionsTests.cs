@@ -8,6 +8,7 @@ using Microsoft.Data.SqlClient;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
 {
+    [Collection("DbIntegrationTests")]
     public class DbDataReaderExtensionsTests : UnitTestDataAccess
     {
         [Fact]

@@ -5,14 +5,14 @@ using CA.Blocks.DataAccess.Model.Paging;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
+    [Collection("DbIntegrationTests")]
     public class SqlServerDataAccessPagingTests : UnitTestDataAccess
     {
         [Fact]
         public void GetBasicPagingRequest()
         {
-            var target = new UnitTestDataAccess();
             SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
-            DataTable dt = target.ExecuteDataTable(cmd, new PagingRequest(10, 0, "ID"));
+            DataTable dt = ExecuteDataTable(cmd, new PagingRequest(10, 0, "ID"));
             Assert.Equal(10, dt.Rows.Count);
         }
 
@@ -20,14 +20,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         [Fact]
         public void GetBasicPagingRequest_NoSpecifiedOrder()
         {
-            var target = new UnitTestDataAccess();
             SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
-            DataTable dt = target.ExecuteDataTable(cmd, new PagingRequest(10, 0));
+            DataTable dt = ExecuteDataTable(cmd, new PagingRequest(10, 0));
             Assert.Equal(10, dt.Rows.Count);
         }
     }
 }
-
-
-
-

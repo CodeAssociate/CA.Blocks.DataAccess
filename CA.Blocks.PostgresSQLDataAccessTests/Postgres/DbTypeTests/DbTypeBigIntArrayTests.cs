@@ -2,9 +2,7 @@
 using CA.Blocks.PostgreSQLDataAccess.Builder;
 using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 
-
-
-namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
+namespace CA.Blocks.PostgresSQLDataAccessTests.Postgres.DbTypeTests
 {
 
     [Collection("DbTypeTests")]

@@ -13,7 +13,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
             var result = testList.ToValueDataTable();
 
             Assert.NotNull(result);
-            Assert.Equal(1, result.Columns.Count);
+            Assert.Single(result.Columns);
             Assert.Equal("Value", result.Columns[0].ColumnName);
             Assert.Equal(typeof(int), result.Columns[0].DataType);
             Assert.Equal(9, result.Rows.Count);
@@ -28,7 +28,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
             var result = testList.ToValueDataTable();
 
             Assert.NotNull(result);
-            Assert.Equal(1, result.Columns.Count);
+            Assert.Single(result.Columns);
             Assert.Equal("Value", result.Columns[0].ColumnName);
             Assert.Equal(typeof(int), result.Columns[0].DataType);
             Assert.Equal(2, result.Rows.Count);
@@ -42,7 +42,7 @@ namespace CA.Blocks.DataAccessUnitTests.DataTableHelpers
             var result = testList.ToValueDataTable();
 
             Assert.NotNull(result);
-            Assert.Equal(1, result.Columns.Count);
+            Assert.Single(result.Columns);
             Assert.Equal("Value", result.Columns[0].ColumnName);
             Assert.Equal(typeof(string), result.Columns[0].DataType);
             Assert.Equal(4, result.Rows.Count);

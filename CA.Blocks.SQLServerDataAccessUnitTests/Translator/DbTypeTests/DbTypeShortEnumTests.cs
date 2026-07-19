@@ -6,6 +6,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeEnumShortTests : UnitTestDataAccess, IDisposable
     {
         public enum MyTestEnum
@@ -39,7 +40,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataSQL(4);
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }

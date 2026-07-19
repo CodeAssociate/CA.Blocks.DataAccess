@@ -4,6 +4,7 @@ using Xunit;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.MySQL.DbTypeTests
 {
+[Collection("MySQLDbTypeTests")]
 public class DbTypeStringEnumTests : UnitTestDataAccess, IDisposable
     {
         public enum MyTestEnum
@@ -58,5 +59,6 @@ public void SelectAllDataToListOf()
         }
     }
 }
+
 
 

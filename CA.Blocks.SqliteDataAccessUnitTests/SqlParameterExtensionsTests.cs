@@ -31,7 +31,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests
             if (expecteDateTime.HasValue)
             {
                 Assert.NotNull(generatedParameter.Value);
-                DateTime actualDateTime = DateTime.Parse(generatedParameter.Value.ToString());
+                DateTime actualDateTime = DateTime.Parse(generatedParameter.Value.ToString() ?? "");
                 Assert.Equal(expecteDateTime, actualDateTime);
             }
             else
@@ -46,7 +46,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests
             if (expecteDateTime.HasValue)
             {
                 Assert.NotNull(generatedParameter.Value);
-                DateTimeOffset actualDateTime = DateTimeOffset.Parse(generatedParameter.Value.ToString());
+                DateTimeOffset actualDateTime = DateTimeOffset.Parse(generatedParameter.Value.ToString() ?? "");
                 Assert.Equal(expecteDateTime, actualDateTime);
             }
             else
@@ -61,7 +61,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests
             if (expecteDate.HasValue)
             {
                 Assert.NotNull(generatedParameter.Value);
-                DateOnly actualDate = DateOnly.Parse(generatedParameter.Value.ToString());
+                DateOnly actualDate = DateOnly.Parse(generatedParameter.Value.ToString() ?? "");
                 Assert.Equal(expecteDate, actualDate);
             }
             else
@@ -76,7 +76,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests
             if (expecteTime.HasValue)
             {
                 Assert.NotNull(generatedParameter.Value);
-                TimeOnly actualTime = TimeOnly.Parse(generatedParameter.Value.ToString());
+                TimeOnly actualTime = TimeOnly.Parse(generatedParameter.Value.ToString() ?? "");
                 Assert.Equal(expecteTime, actualTime);
             }
             else
@@ -127,7 +127,7 @@ UInt64			INTEGER	Large values overflow
             //Char => TEXT
             testedTypes.Add(Verify(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestChar, DbType.String), SqliteType.Text));
             // DateOnly	=> TEXT	yyyy-MM-dd
-            testedTypes.Add(Verify(ToSqlParameterTypeTestDateOnly(TestDotNetTypesToSqlParameter.TestDateOnly.Value, DbType.String, IsDateOnlyDbParameterExpectedResult), SqliteType.Text));
+            testedTypes.Add(Verify(ToSqlParameterTypeTestDateOnly(TestDotNetTypesToSqlParameter.TestDateOnly!.Value, DbType.String, IsDateOnlyDbParameterExpectedResult), SqliteType.Text));
             // DateTime	=> TEXT	yyyy-MM-dd HH:mm:ss.FFFFFFF
             testedTypes.Add(Verify(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestDateTme, DbType.String, IsDateTimeDbParameterExpectedResult), SqliteType.Text));
             // DateTimeOffset => TEXT	yyyy-MM-dd HH:mm:ss.FFFFFFFzzz
@@ -154,7 +154,7 @@ UInt64			INTEGER	Large values overflow
             testedTypes.Add(Verify(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestUnicodeString, DbType.String), SqliteType.Text));
 
             // Time and TimeSpan
-            testedTypes.Add(Verify(ToSqlParameterTypeTestTimeOnly(TestDotNetTypesToSqlParameter.TestTimeOnly.Value, DbType.String, IsTimeOnlyDbParameterExpectedResult), SqliteType.Text));
+            testedTypes.Add(Verify(ToSqlParameterTypeTestTimeOnly(TestDotNetTypesToSqlParameter.TestTimeOnly!.Value, DbType.String, IsTimeOnlyDbParameterExpectedResult), SqliteType.Text));
             testedTypes.Add(Verify(ToSqlParameterTypeTest(TestDotNetTypesToSqlParameter.TestTimeSpan, DbType.String), SqliteType.Text));
 
 

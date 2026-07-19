@@ -168,7 +168,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator.Extensions
             Assert.Equal(numberOfRecords, result.Results3.Count);
             Assert.Equal(numberOfRecords * 3, result.Results3[numberOfRecords - 1].IntCol);
 
-            Assert.Equal(0, result.Results4.Count);
+            Assert.Empty(result.Results4);
         }
     }
 

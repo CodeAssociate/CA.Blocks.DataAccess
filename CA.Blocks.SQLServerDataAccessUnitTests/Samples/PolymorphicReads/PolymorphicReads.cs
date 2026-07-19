@@ -1,8 +1,6 @@
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
-using System;
 using System.Data;
-using System.Threading.Tasks;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using Newtonsoft.Json;
@@ -92,7 +90,7 @@ Create Table CABLOCKS_PolymorphicReads_Example (Id INT not null  identity(1,1) p
             ExecuteNonQuery(CreateTextCommand(CreateTestTableSQL()));
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
         }

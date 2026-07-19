@@ -5,6 +5,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
 {
+    [Collection("DbIntegrationTests")]
     public class DynamicDbRow2ObjectTranslatorTests : UnitTestDataAccess
     {
         

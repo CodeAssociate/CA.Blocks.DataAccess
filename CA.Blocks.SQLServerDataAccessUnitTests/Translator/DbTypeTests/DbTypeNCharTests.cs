@@ -4,25 +4,26 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeNCharTests : UnitTestDataAccess, IDisposable
     {
         private void InsertTestDataSQL(char data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data)));
+            ExecuteNonQuery(InsertTestDataSQL($"N'{data}'"));
         }
 
         public DbTypeNCharTests()
         {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("NChar not null"));
-            InsertTestDataSQL('ä');
+            InsertTestDataSQL('ï¿½');
             InsertTestDataSQL('B');
             InsertTestDataSQL('C');
             InsertTestDataSQL('D');
             InsertTestDataSQL('E');
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
@@ -40,24 +41,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         }
 
         [Fact]
-        public void SelectAllDataNCharWithFilter ()
+        public void SelectAllDataNCharWithFilter()
         {
             //setup
-            char testvalue = 'ä';
+            char testvalue = 'ï¿½';
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLCharType.NChar));
 
-            //Act
             var data = t.Translate(ExecuteDataRow(cmd));
-
             //Asert
             Assert.Equal(testvalue, data);
-
- 
+            
         }
-
-
     }
 }
 

@@ -7,6 +7,7 @@ using Microsoft.Data.SqlClient;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeBigIntTests : UnitTestDataAccess, IDisposable
     {
         private class BigIntDataType
@@ -30,7 +31,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             InsertTestDataSQL((long)int.MaxValue + (long)int.MaxValue);
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }

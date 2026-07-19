@@ -7,6 +7,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests;
 
+    [Collection("DbIntegrationTests")]
 public class DbTypeJsonTests : UnitTestDataAccess, IDisposable
 {
     private class ColourValueDataType
@@ -53,7 +54,7 @@ public class DbTypeJsonTests : UnitTestDataAccess, IDisposable
 ");
     }
 
-    public new void Dispose()
+    public void Dispose()
         {
         ExecuteNonQuery(DropTestTableSQL());
     }

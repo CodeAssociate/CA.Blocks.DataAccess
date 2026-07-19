@@ -6,6 +6,7 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Builder.Types
 {
+    [Collection("DbIntegrationTests")]
     public class BuilderTypeTests : UnitTestDataAccess
     {
         protected void TestRoundTripType<T>(T value)

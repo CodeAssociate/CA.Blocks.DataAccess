@@ -4,14 +4,9 @@ using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
-    public class SqlServerDataAccessParameterTests : SqlServerDataAccess
+    [Collection("DbIntegrationTests")]
+    public class SqlServerDataAccessParameterTests : UnitTestDataAccess
     {
-        public SqlServerDataAccessParameterTests()
-            : base(new DataAccessConfig(
-                new DataAccessConfigOptions { ConnectionStringKey = "localsqlserverhost" },
-                new LocalSqlServerUnitTestStringsResolver()))
-        {
-        }
 
         /* TODO
         SqlDbType.BitInt;

@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
+    [Collection("DbIntegrationTests")]
     public class SqlServerDataAccessStoredProcedureTests : UnitTestDataAccess, IDisposable
     {
 
@@ -37,7 +38,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             ExecuteNonQuery(CreateTextCommand(sqlTestProc2));
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             DropExistingTesttoredProcedure("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output");
             DropExistingTesttoredProcedure("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput");

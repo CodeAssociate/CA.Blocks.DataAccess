@@ -12,6 +12,7 @@ using NUlid;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
+    [Collection("DbIntegrationTests")]
     public class DbTypeUlidAsStringTests : UnitTestDataAccess, IDisposable
     {
         private IList<Ulid> _testData = new List<Ulid>();
@@ -53,7 +54,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
@@ -120,6 +121,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
     ///
     ///
 
+    [Collection("DbIntegrationTests")]
     public class DbTypeUlidAsBinaryTests : UnitTestDataAccess, IDisposable
     {
         private IList<Ulid> _testData = new List<Ulid>();
@@ -167,7 +169,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             ExecuteNonQuery(DropTestTableSQL());
         }
