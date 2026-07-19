@@ -53,6 +53,11 @@ This repository is **actively maintained by the author** and serves as a core en
 
 ## 📖 Quick Start
 
+![ado Boiler plate](docs/_assets/AD_Boilerplate.jpg)
+
+![using the blocks abstract and distilled and clean data access](docs/_assets/Blocks_Distilled.jpg)
+
+
 Quick Start SQL server example:
 
 ```csharp
@@ -75,10 +80,10 @@ Quick Start SQL server example:
         public YourDataAccessClass() : base( new SimpleConnectionStringDataAccessConfig("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
         {}
         
-        public IList<SpWhoResult> ExecSpWho()
+        public async IList<SpWhoResult> ExecSpWho()
         {
             var cmd = CreateStoredProcedureCommand("sp_Who");
-            return Execute(cmd).ToListOf<SpWhoResult>();
+            return await ExecuteAsync(cmd).ToListOf<SpWhoResult>();
         }
     }
 ```
