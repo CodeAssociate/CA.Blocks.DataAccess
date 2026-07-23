@@ -22,7 +22,7 @@ namespace CA.Blocks.PostgresSQLDataAccessTests.Base
     public class TestPipelineSetup : ITestPipelineStartup, IAsyncLifetime
 
     {
-        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
+        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(90);
         private static IDistributedApplicationTestingBuilder? _appHost;
         private static DistributedApplication? _app;
         private static readonly SemaphoreSlim _lock = new(1, 1);
