@@ -14,7 +14,7 @@ pool:
 
 variables:
 - name: solution
-  value: '**/*.sln'
+  value: '**/*.slnx'
 - name: buildPlatform
   value: 'Any CPU'
 - name: buildConfiguration
@@ -119,8 +119,6 @@ steps:
        projects: |
             **/*.csproj
             !**/*DataAccessTestDataForUnitTests.csproj
-            !**/*SQLServerDataAccessUnitTests.csproj
-            !**/*MySQLDataAccessUnitTests.csproj
             !**/*OdbcDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
@@ -134,8 +132,6 @@ steps:
        projects: |
             **/*Tests.csproj
             !**/*DataAccessTestDataForUnitTests.csproj
-            !**/*SQLServerDataAccessUnitTests.csproj
-            !**/*MySQLDataAccessUnitTests.csproj
             !**/*OdbcDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
