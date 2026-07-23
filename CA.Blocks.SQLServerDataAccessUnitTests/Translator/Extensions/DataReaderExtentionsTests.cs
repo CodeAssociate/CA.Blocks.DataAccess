@@ -23,7 +23,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
 
             foreach (var item in result)
             {
-                Assert.True(item.StartsWith("sys", StringComparison.CurrentCultureIgnoreCase));
+                Assert.StartsWith("sys", item, StringComparison.CurrentCultureIgnoreCase);
             }
         }
 

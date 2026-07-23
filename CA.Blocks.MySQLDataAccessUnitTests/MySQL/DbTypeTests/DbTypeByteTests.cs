@@ -69,7 +69,7 @@ public void SelectAllDataByteWithFilter ()
             var data = ExecuteToListOf<ByteDataType>(cmd);
 
             //Asert
-            Assert.Equal(1, data.Count);
+            Assert.Single(data);
         }
 
 

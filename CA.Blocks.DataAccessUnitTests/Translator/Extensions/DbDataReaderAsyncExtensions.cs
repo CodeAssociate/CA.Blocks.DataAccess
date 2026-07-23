@@ -23,7 +23,6 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
     public async Task DataReaderExtensions_ToDictionaryAsync()
     {
 	    var numberOfRecords = 10;
-	    var testDate = DateTime.Now;
 	    var dataReader = GenerateTestDataReaderAsync(numberOfRecords);
 
 	    var result = await dataReader.ToDictionaryAsync<int, TestDataObject>(x => x.IntCol);
@@ -51,7 +50,7 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
 
         var result = await dataReaderTask.ToSingleNamedColumnListAsync<string>("StringCol");
         Assert.Equal(numberOfRecords, result.Count);
-        Assert.True(result[numberOfRecords - 1].Contains(numberOfRecords.ToString()));
+        Assert.Contains(numberOfRecords.ToString(), result[numberOfRecords - 1]);
     }
 
 
@@ -61,7 +60,7 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
         var numberOfRecords = 10;
         var dataReaderTask = GenerateTestDataReaderAsync(numberOfRecords);
 
-        var result = await dataReaderTask.ToSingleNamedColumnList<int>("intCol", (reader, s) => reader.AsInt(s));
+        var result = await dataReaderTask.ToSingleNamedColumnList("intCol", (reader, s) => reader.AsInt(s));
         Assert.Equal(numberOfRecords, result.Count);
         Assert.Equal(numberOfRecords, result[numberOfRecords - 1]);
     }
@@ -72,7 +71,7 @@ public class DbDataReaderAsyncExtensions : DataReaderExtensionsBaseTests
         var numberOfRecords = 10;
         var dataReaderTask = await GenerateTestDataReaderAsync(numberOfRecords);
 
-        var result = await dataReaderTask.ToSingleNamedColumnListAsync<int>("intCol", (reader, s) => reader.AsInt(s));
+        var result = await dataReaderTask.ToSingleNamedColumnListAsync("intCol", (reader, s) => reader.AsInt(s));
         Assert.Equal(numberOfRecords, result.Count);
         Assert.Equal(numberOfRecords, result[numberOfRecords - 1]);
     }

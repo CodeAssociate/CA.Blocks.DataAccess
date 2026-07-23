@@ -56,7 +56,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.9" />
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
+      <!-- 
+        Replace transitive dependency bundle_e_sqlite3 to address https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+        will rewind this once  Microsoft.Data.Sqlite as updated its ref 
+      -->
+      <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.12" />
   </ItemGroup>
 
   <ItemGroup>

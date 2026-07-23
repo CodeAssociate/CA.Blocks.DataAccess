@@ -164,7 +164,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             //Assert
             Assert.Equal(DbType.String, sqlparam.DbType);
             Assert.Equal(ParameterDirection.Input, sqlparam.Direction);
-            Assert.Equal(false, sqlparam.IsNullable);
+            Assert.False(sqlparam.IsNullable);
             Assert.Equal("@test", sqlparam.ParameterName);
             Assert.Equal("012345678901234", sqlparam.Value);
         }
@@ -180,7 +180,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             //Assert
             Assert.Equal(DbType.String, sqlparam.DbType);
             Assert.Equal(ParameterDirection.Input, sqlparam.Direction);
-            Assert.Equal(false, sqlparam.IsNullable);
+            Assert.False(sqlparam.IsNullable);
             Assert.Equal("@test", sqlparam.ParameterName);
             Assert.Equal("", sqlparam.Value);
         }

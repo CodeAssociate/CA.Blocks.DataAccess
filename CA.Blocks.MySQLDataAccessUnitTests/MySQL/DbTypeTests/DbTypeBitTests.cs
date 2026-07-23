@@ -64,7 +64,7 @@ public void SelectAllDataWithFilter ()
             var data = this.ExecuteObjectList(cmd);
 
             //Asert
-            Assert.Equal(1, data.Count);
+            Assert.Single(data);
         }
 
 
