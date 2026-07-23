@@ -18,7 +18,8 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
     public class TestPipelineSetup : ITestPipelineStartup, IAsyncLifetime
 
     {
-        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
+        // timeout is 120 to allow the pipelines to start if they need to pull mysql image and start the container
+        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(120);
         private static IDistributedApplicationTestingBuilder? _appHost;
         private static DistributedApplication? _app;
         private static readonly SemaphoreSlim _lock = new(1, 1);
