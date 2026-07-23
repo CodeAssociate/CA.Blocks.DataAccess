@@ -1,0 +1,13 @@
+﻿{
+  "solution": {
+    "path": "CA.Blocks.DataAccess.slnx",
+    "projects": [
+      "CA.Blocks.DataAccess.Model\\CA.Blocks.DataAccess.Model.csproj",
+      "CA.Blocks.DataAccessTestDataForUnitTests\\CA.Blocks.DataAccessTestDataForUnitTests.csproj",
+      "CA.Blocks.DataAccessUnitTests\\CA.Blocks.DataAccessUnitTests.csproj",
+      "CA.Blocks.DataAccess\\CA.Blocks.DataAccess.csproj",
+      "CA.Blocks.SqliteDataAccessUnitTests\\CA.Blocks.SqliteDataAccessUnitTests.csproj",
+      "CA.Blocks.SqliteDataAccess\\CA.Blocks.SqliteDataAccess.csproj",
+    ]
+  }
+}

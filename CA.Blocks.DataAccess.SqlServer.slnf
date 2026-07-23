@@ -1,0 +1,11 @@
+﻿{
+  "solution": {
+    "path": "CA.Blocks.DataAccess.slnx",
+    "projects": [
+      "CA.Blocks.SQLServer.AppHost\\CA.Blocks.SQLServer.AppHost.csproj",
+      "CA.Blocks.SQLServerDataAccessBenchmarks\\CA.Blocks.SQLServerDataAccessBenchmarks.csproj",
+      "CA.Blocks.SQLServerDataAccessUnitTests\\CA.Blocks.SQLServerDataAccessUnitTests.csproj",
+      "CA.Blocks.SQLServerDataAccess\\CA.Blocks.SQLServerDataAccess.csproj"
+    ]
+  }
+}

@@ -35,22 +35,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarAs<int>(cmd);
             //Assert
-            Assert.Equal((int)1, result);
+            Assert.Equal(1, result);
         }
 
 
         [Fact]
-        public void ExecuteExecuteScalarIntAsync()
+        public async Task ExecuteExecuteScalarIntAsync()
         {
             // Setup
             var cmd = CreateTextCommand("Select Cast(1 as int) as col");
             // act
-            var result = ExecuteScalarAsAsync<int>(cmd);
-            Console.WriteLine(result.Status);
-            result.Wait();
-            Assert.Equal(TaskStatus.RanToCompletion, result.Status);
+            var result = await ExecuteScalarAsAsync<int>(cmd);
             //Assert
-            Assert.Equal((int)1, result.Result);
+            Assert.Equal(1, result);
         }
 
 
@@ -74,7 +71,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             // act
             var result = ExecuteScalarWithConvertAs<int>(cmd);
             //Assert
-            Assert.Equal((int)123, result);
+            Assert.Equal(123, result);
         }
 
 
@@ -112,9 +109,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             Assert.Equal("String Value", result);
         }
-
-
-
     }
 }
 

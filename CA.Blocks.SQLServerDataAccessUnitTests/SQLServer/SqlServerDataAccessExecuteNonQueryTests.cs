@@ -31,31 +31,31 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         {
             SqlCommand cmd1 = CreateTextCommand(CreateTempTable);
             var cmd1result = ExecuteNonQuery(cmd1);
-            Assert.Equal(cmd1result, -1);
+            Assert.Equal(-1, cmd1result);
 
 
             SqlCommand cmd2 = CreateTextCommand(Insert1);
             var cmd2result = ExecuteNonQuery(cmd2);
-            Assert.Equal(cmd2result, 1);
+            Assert.Equal(1, cmd2result);
 
 
             SqlCommand cmd3 = CreateTextCommand(Insert2);
             var cmd3result = ExecuteNonQuery(cmd3);
-            Assert.Equal(cmd3result, 1);
+            Assert.Equal(1, cmd3result);
 
 
             SqlCommand cmd4 = CreateTextCommand(NoDelete);
             var cmd4result = ExecuteNonQuery(cmd4);
-            Assert.Equal(cmd4result, 0);
+            Assert.Equal(0, cmd4result);
 
             SqlCommand cmd5 = CreateTextCommand(Delete);
             var cmd5result = ExecuteNonQuery(cmd5);
-            Assert.Equal(cmd5result, 2);
+            Assert.Equal(2, cmd5result);
 
 
             SqlCommand cmd6 = CreateTextCommand(DropTable);
             var cmd6result = ExecuteNonQuery(cmd6);
-            Assert.Equal(cmd1result, -1);
+            Assert.Equal(-1, cmd1result);
 
         }
         #region async Tests
@@ -65,31 +65,31 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         {
             SqlCommand cmd1 = CreateTextCommand(CreateTempTable);
             var cmd1result = await ExecuteNonQueryAsync(cmd1);
-            Assert.Equal(cmd1result, -1);
+            Assert.Equal(-1, cmd1result);
 
 
             SqlCommand cmd2 = CreateTextCommand(Insert1);
             var cmd2result = await ExecuteNonQueryAsync(cmd2);
-            Assert.Equal(cmd2result, 1);
+            Assert.Equal(1, cmd2result);
 
 
             SqlCommand cmd3 = CreateTextCommand(Insert2);
             var cmd3result = await ExecuteNonQueryAsync(cmd3);
-            Assert.Equal(cmd3result, 1);
+            Assert.Equal(1, cmd3result);
 
 
             SqlCommand cmd4 = CreateTextCommand(NoDelete);
             var cmd4result = await ExecuteNonQueryAsync(cmd4);
-            Assert.Equal(cmd4result, 0);
+            Assert.Equal(0, cmd4result);
 
             SqlCommand cmd5 = CreateTextCommand(Delete);
             var cmd5result = await ExecuteNonQueryAsync(cmd5);
-            Assert.Equal(cmd5result, 2);
+            Assert.Equal(2, cmd5result);
 
 
             SqlCommand cmd6 = CreateTextCommand(DropTable);
             var cmd6result = await ExecuteNonQueryAsync(cmd6);
-            Assert.Equal(cmd1result, -1);
+            Assert.Equal(-1, cmd1result);
         }
 
         #endregion 

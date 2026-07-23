@@ -1,0 +1,34 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="azure-pipelines.yml" />
+    <File Path="docs/contact.html" />
+    <File Path="prep-project-file.ps1" />
+    <File Path="readme.md" />
+    <File Path="set-semantic-version.yaml" />
+  </Folder>
+  <Project Path="CA.Blocks.DataAccess.Extensions.Config.Json/CA.Blocks.DataAccess.Extensions.Config.Json.csproj" />
+  <Project Path="CA.Blocks.DataAccess.Extensions.Config.JsonTests/CA.Blocks.DataAccess.Extensions.Config.JsonTests.csproj" />
+  <Project Path="CA.Blocks.DataAccess.Extensions.Translators.Json/CA.Blocks.DataAccess.Extensions.Translators.Json.csproj" />
+  <Project Path="CA.Blocks.DataAccess.Extensions.Translators.JsonTests/CA.Blocks.DataAccess.Extensions.Translators.JsonTests.csproj" />
+  <Project Path="CA.Blocks.DataAccess.Extensions.Translators.NUlid/CA.Blocks.DataAccess.Extensions.Translators.NUlid.csproj" />
+  <Project Path="CA.Blocks.DataAccess.Extensions.Translators.NUlidTests/CA.Blocks.DataAccess.Extensions.Translators.NUlidTests.csproj" />
+  <Project Path="CA.Blocks.DataAccess.Model/CA.Blocks.DataAccess.Model.csproj" />
+  <Project Path="CA.Blocks.DataAccess/CA.Blocks.DataAccess.csproj" />
+  <Project Path="CA.Blocks.DataAccessTestDataForUnitTests/CA.Blocks.DataAccessTestDataForUnitTests.csproj" />
+  <Project Path="CA.Blocks.DataAccessUnitTests/CA.Blocks.DataAccessUnitTests.csproj" />
+  <Project Path="CA.Blocks.MySqlAppHost/CA.Blocks.MySqlAppHost.csproj" />
+  <Project Path="CA.Blocks.MySQLDataAccess/CA.Blocks.MySQLDataAccess.csproj" />
+  <Project Path="CA.Blocks.MySQLDataAccessUnitTests/CA.Blocks.MySQLDataAccessUnitTests.csproj" />
+  <Project Path="CA.Blocks.OdbcDataAccess/CA.Blocks.OdbcDataAccess.csproj" />
+  <Project Path="CA.Blocks.OdbcDataAccessUnitTests/CA.Blocks.OdbcDataAccessUnitTests.csproj" />
+  <Project Path="CA.Blocks.PostgresAppHost/CA.Blocks.PostgresAppHost.csproj" />
+  <Project Path="CA.Blocks.PostgreSQLDataAccess/CA.Blocks.PostgreSQLDataAccess.csproj" />
+  <Project Path="CA.Blocks.PostgresSQLDataAccessTests/CA.Blocks.PostgresSQLDataAccessTests.csproj" />
+  <Project Path="CA.Blocks.SqliteDataAccess/CA.Blocks.SqliteDataAccess.csproj" />
+  <Project Path="CA.Blocks.SqliteDataAccessUnitTests/CA.Blocks.SqliteDataAccessUnitTests.csproj" />
+  <Project Path="CA.Blocks.SQLServer.AppHost/CA.Blocks.SQLServer.AppHost.csproj" />
+  <Project Path="CA.Blocks.SQLServerDataAccess/CA.Blocks.SQLServerDataAccess.csproj" />
+  <Project Path="CA.Blocks.SQLServerDataAccessBenchmarks/CA.Blocks.SQLServerDataAccessBenchmarks.csproj" />
+  <Project Path="CA.Blocks.SQLServerDataAccessUnitTests/CA.Blocks.SQLServerDataAccessUnitTests.csproj" />
+</Solution>

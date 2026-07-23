@@ -146,7 +146,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where 1=2");
             var result = ExecuteToListOf<temp>(cmd);
-            Assert.Equal(result.Count, 0);
+            Assert.Empty(result);
         }
 
 
@@ -155,7 +155,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where 1=2");
             var result = ExecuteTo<temp>(cmd);
-            Assert.True(result == default);
+            Assert.True(result == null);
         }
 
 
@@ -167,7 +167,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var result = ExecuteToListOf<int>(cmd);
             Assert.True(result.Count > 0);
             var shouldBeEmpty = result.Where(x => x == defaulint).ToList();
-            Assert.Equal(0 ,shouldBeEmpty.Count);
+            Assert.Empty(shouldBeEmpty);
         }
 
 
@@ -194,7 +194,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where 1=2");
             var result = await ExecuteToListOfAsync<temp>(cmd);
-            Assert.Equal(result.Count, 0);
+            Assert.Empty(result);
         }
 
 
@@ -214,7 +214,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var result = await ExecuteToListOfAsync<int>(cmd);
             Assert.True(result.Count > 0);
             var shouldBeEmpty = result.Where(x => x == defaulInt).ToList();
-            Assert.Equal(0, shouldBeEmpty.Count);
+            Assert.Empty(shouldBeEmpty);
         }
 
 

@@ -82,7 +82,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            Assert.Equal(1, data.Count);
+            Assert.Single(data);
         }
 
 
@@ -99,7 +99,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var data = t.Translate(ExecuteDataTable(cmd));
 
             //Asert
-            Assert.Equal(1, data.Count);
+            Assert.Single(data);
         }
     }
 }

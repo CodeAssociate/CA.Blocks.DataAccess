@@ -46,7 +46,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
                 }
             );
 
-            Assert.True(exception.Message.Contains("BadTableName"));
+            Assert.Contains("BadTableName", exception.Message);
         }
 
 
@@ -59,7 +59,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
                 }
             );
 
-            Assert.True(exception.Message.Contains("Person"));
+            Assert.Contains("Person", exception.Message);
         }
 
     }

@@ -75,7 +75,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 
         public new DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
         {
-           return base.ExecuteDataTable(cmd, page);
+#pragma warning disable CS0618 // Type or member is obsolete we testing this still works
+            return base.ExecuteDataTable(cmd, page);
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
  
