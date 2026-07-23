@@ -8,7 +8,7 @@ trigger:
     include:
     - master
     - release/*
-    - feature
+    - feature/*
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -136,7 +136,17 @@ steps:
             !**/*OdbcDataAccessUnitTests.csproj
        arguments: >
           --configuration $(BuildConfiguration)
-          --coverage 
+          --coverage
+          --report-trx
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results'
+  condition: succeededOrFailed() # Runs even if a test fails
+  inputs:
+    testResultsFormat: 'VSTest' # VSTest format reads TRX files
+    testResultsFiles: '**/*.trx'
+    searchFolder: '$(Build.SourcesDirectory)'
+    
 
 - task: DotNetCoreCLI@2
   displayName: 'Pack'
