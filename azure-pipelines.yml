@@ -137,7 +137,6 @@ steps:
        arguments: >
           --configuration $(BuildConfiguration)
           --coverage
-          -- --report-trx
 
 - task: PublishTestResults@2
   displayName: 'Publish Test Results'
