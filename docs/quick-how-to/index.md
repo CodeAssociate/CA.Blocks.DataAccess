@@ -1,3 +1,11 @@
+---
+layout: default
+title: How to
+nav_order: 3
+description: "the how-to section provides simple examples of how to work with the blocks"
+has_children: true
+---
+
 ## The How to guide 
 The how-to section provides simple examples of how to work with the blocks. If you are looking for how to set up a connection, see the [Getting Started](../getting-started/getting-started.md) section.
 

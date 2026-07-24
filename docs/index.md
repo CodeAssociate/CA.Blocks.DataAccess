@@ -1,4 +1,11 @@
-﻿# CA.Blocks.DataAccess
+﻿---
+layout: default
+title: Home
+nav_order: 1
+description: "Overview and Quick Start for CA.Blocks.DataAccess."
+---
+
+# CA.Blocks.DataAccess
 A lightweight, high-performance C# data access layer designed to simplify repository patterns for database operations in .NET applications.
 
 ---

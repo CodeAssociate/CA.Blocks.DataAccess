@@ -1,3 +1,11 @@
+---
+layout: default
+title: Selecting Scalar Values
+description: "Selecting Scalar Values"
+parent: How To
+nav_order: 2
+---
+
 ## Selecting Scalar Values
 
 A scalar value refers to a single value, for example, a string or a number. So the underlying query will return a single value that will need to be converted. 

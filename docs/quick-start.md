@@ -1,3 +1,9 @@
+---
+layout: default
+title: Quick Start
+nav_order: 2
+---
+
 # Quick Start Guide
 
 This guide will help you get started with `CA.Blocks.DataAccess` in your .NET application.

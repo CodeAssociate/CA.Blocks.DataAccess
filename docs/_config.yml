@@ -1,0 +1,15 @@
+﻿title: CA.Blocks.DataAccess
+description: Data Access Layer Documentation for .NET
+
+# Tell GitHub Pages to pull the two-column sidebar theme
+remote_theme: pmarsceill/just-the-docs
+
+# Enable the built-in search bar at the top of the sidebar
+search_enabled: true
+
+# Link back to your source repository at the top of the sidebar
+aux_links:
+  "GitHub Repository": "https://github.com/CodeAssociate/CA.Blocks.DataAccess"
+
+# Enable heading anchors (click-to-copy section links)
+heading_anchors: true

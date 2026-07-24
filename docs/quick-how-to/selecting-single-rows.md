@@ -1,3 +1,11 @@
+---
+layout: default
+title: Select Single Object
+description: "Select Single Object"
+parent: How To
+nav_order: 1
+---
+
 ## Selecting Single Rows
 
 Selecting single rows from a database is a common task. There are two primary driving cases:
