@@ -1,6 +1,5 @@
 ﻿using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Model.Paging;
-using CA.Blocks.DataAccessTestDataForUnitTests.ConnectionStringResolver;
 using CA.Blocks.MySQLDataAccess;
 using MySqlConnector;
 using System.Data;
@@ -100,7 +99,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
                 {
                     if (!row.IsNull(i))
                     {
-                        int length = row[i].ToString().Length;
+                        int length = row[i].ToString()!.Length;
 
                         if (length > maxLengths[i])
                         {
@@ -124,7 +123,7 @@ namespace CA.Blocks.MySQLDataAccessUnitTests.Base
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
                         sb.Append(!row.IsNull(i)
-                            ? row[i].ToString().PadRight(maxLengths[i] + 2)
+                            ? row[i].ToString()!.PadRight(maxLengths[i] + 2)
                             : new string(' ', maxLengths[i] + 2));
                     }
 

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.Models;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
@@ -12,7 +11,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
             Init();
         }
 
-        public void Init()
+        private void Init()
         {
             try
             {

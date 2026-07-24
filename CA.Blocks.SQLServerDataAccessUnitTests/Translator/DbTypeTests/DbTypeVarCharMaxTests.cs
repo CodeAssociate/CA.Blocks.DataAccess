@@ -16,7 +16,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         private string testDataValueShort = string.Empty;
         private class StringDataType
         {
-            public string Col { get; set; }
+            public string? Col { get; set; }
         }
 
 

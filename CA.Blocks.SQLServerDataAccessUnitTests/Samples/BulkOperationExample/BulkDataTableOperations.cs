@@ -97,7 +97,7 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
 )";
         }
 
-        public void Setup()
+        private void Setup()
         {
             ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
             ExecuteNonQuery(CreateTextCommand(DropTestTableTypeIfExistsSQL()));

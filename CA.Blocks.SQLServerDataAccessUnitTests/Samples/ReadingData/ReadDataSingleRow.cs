@@ -1,5 +1,9 @@
-using System;
+// ReSharper disable InconsistentNaming
+
+
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
@@ -9,9 +13,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
         public class ExampleSysObject2
         {
-            public int id { get; set; }
-            public string name { get; set; }
-            public DateTime refdate { get; set; }
+            public int id { get; init; }
+            public required string name { get; init; }
+            public required DateTime refdate { get; init; }
         }
 
         [Collection("DbIntegrationTests")]
@@ -20,13 +24,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             public ExampleSysObject2 GetSysObjectByName()
             {
                 var cmd = CreateTextCommand("Select top 1 id, name, refdate  from Sysobjects");
-                return ExecuteTo<ExampleSysObject2>(cmd);
+                return Execute(cmd).ToSingle<ExampleSysObject2>();
             }
 
             public ExampleSysObject2 GetSysObjectByName2()
             {
                 var cmd = CreateTextCommand("Select top 1 * from Sysobjects");
-                return ExecuteTo<ExampleSysObject2>(cmd);
+                return Execute(cmd).ToSingle<ExampleSysObject2>();
             }
         }
 

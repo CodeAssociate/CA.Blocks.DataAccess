@@ -24,7 +24,7 @@ END";
         {
             public int Id { get; set; }
 
-            public string dataValue { get; set; }
+            public string? dataValue { get; set; }
         }
 
         public class TestDataObjTranslator : CA.Blocks.DataAccess.Translator.SimpleDbRow2ObjectTranslator<TestDataObj>

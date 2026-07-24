@@ -1,8 +1,10 @@
 using System.Diagnostics;
 using CA.Blocks.DataAccess;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using Microsoft.Data.SqlClient;
+// ReSharper disable InconsistentNaming
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
@@ -48,15 +50,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 
         public class SpWhoResult
         {
-            public int spid { get; set; }
-            public string status { get; set; }
+            public int spid { get; init; }
+            public required string status { get; init; }
             
-            public string loginame { get; set; }
-            public string hostname { get; set; }
-            public string blk { get; set; }
-            public string dbname { get; set; }
-            public string cmd { get; set; }
-            public int request_id { get; set; }
+            public required string loginame { get; init; }
+            public required string hostname { get; init; }
+            public required string blk { get; init; }
+            public required string dbname { get; init; }
+            public required string cmd { get; init; }
+            public int request_id { get; init; }
         }
         
 
@@ -72,7 +74,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public void ExecuteSpwhoWithNoReturnValueToObject()
         {
             var cmd = CreateStoredProcedureCommand("sp_who");
-            var result = ExecuteToListOf<SpWhoResult>(cmd);
+            var result = Execute(cmd).ToListOf<SpWhoResult>();
             Assert.True(result.Count > 0);
         }
 
@@ -81,7 +83,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         {
             string loginName = "sa";
             var cmd = CreateStoredProcedureCommand("sp_who").WithParameter(loginName.ToSqlParameter("@loginame"));
-            var result = ExecuteToListOf<SpWhoResult>(cmd);
+            var result = Execute(cmd).ToListOf<SpWhoResult>();
             Assert.True(result.Count > 0);
         }
 

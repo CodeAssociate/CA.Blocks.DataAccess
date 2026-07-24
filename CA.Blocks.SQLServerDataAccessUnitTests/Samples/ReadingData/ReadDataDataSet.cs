@@ -1,7 +1,9 @@
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language. Use as example to convert
+
+
 using System.Data;
-using CA.Blocks.DataAccess.DI;
-using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+// ReSharper disable InconsistentNaming
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
@@ -11,27 +13,27 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
         public class ExampleReturnMultiCollection
         {
-            public IList<ExampleSysObject> Sysobjects { get; set; }
+            public IList<ExampleSysObject>? Sysobjects { get; set; }
 
-            public IList<ExamplesSysIndex> SysIndexes { get; set; }
+            public IList<ExamplesSysIndex>? SysIndexes { get; set; }
         }
 
         public class ExampleSysObject
         {
             public int id { get; set; }
-            public string name { get; set; }
-            public DateTime refdate { get; set; }
+            public string? name { get; set; }
+            public DateTime? refdate { get; set; }
         }
 
         public class ExamplesSysIndex
         {
             public int object_id { get; set; }
     
-            public string name { get; set; }
+            public string? name { get; set; }
 
             public int index_id { get; set; }
 
-            public string type_desc { get; set; }
+            public string? type_desc { get; set; }
         }
 
 

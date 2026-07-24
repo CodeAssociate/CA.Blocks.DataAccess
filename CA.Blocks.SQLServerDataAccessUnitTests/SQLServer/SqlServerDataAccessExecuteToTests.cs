@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language. Use as example to convert
+
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccess.Translator.DbColToType.Exceptions;
@@ -15,12 +13,13 @@ using CA.Blocks.SQLServerDataAccess;
 using Microsoft.Data.SqlClient;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
+
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {
     internal class temp
     {
         public int id { get; set; }
-        public string name { get; set; }
+        public string? name { get; set; }
     }
 
     internal class temp3
@@ -28,12 +27,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public int id { get; set; }
 
         //[Description("StringDbColToTypeConverter")]
-        public string name { get; set; }
+        public string? name { get; set; }
     }
     public class temp2
     {
         public long Id2 { get; set; }
-        public string Name2 { get; set; }
+        public string? Name2 { get; set; }
     }
 
     public class Temp2CustomTranslator : Db2ObjectTranslator<temp2>

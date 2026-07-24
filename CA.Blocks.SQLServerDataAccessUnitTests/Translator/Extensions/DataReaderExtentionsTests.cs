@@ -1,6 +1,5 @@
-using System;
-using System.Diagnostics;
-using CA.Blocks.DataAccess;
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language. Use as example to convert
+
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
@@ -32,8 +31,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
       
         public class sysobject
         {
-            public int id { get; set; }
-            public string name { get; set; }
+            public int id { get; init; }
+            public required string name { get; init; }
         }
 
         [Fact]

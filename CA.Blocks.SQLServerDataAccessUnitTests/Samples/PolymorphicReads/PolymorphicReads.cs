@@ -1,4 +1,3 @@
-using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using System.Data;
 using CA.Blocks.DataAccess;
@@ -84,7 +83,7 @@ Create Table CABLOCKS_PolymorphicReads_Example (Id INT not null  identity(1,1) p
 												)";
         }
 
-        public void Setup()
+        private void Setup()
         {
             ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
 
@@ -117,12 +116,19 @@ Create Table CABLOCKS_PolymorphicReads_Example (Id INT not null  identity(1,1) p
             InsertShape(circle);
         }
 
-        private Shape ReadPolymorphicShape(IDataReader dr)
+        private Shape? ReadPolymorphicShape(IDataReader dr)
         {
             var typeOfShape = dr.AsString("TypeOfShape");
             var shape = dr.AsString("shape");
             var type = Type.GetType(typeOfShape);
-            return (Shape)JsonConvert.DeserializeObject(shape, type);
+            if (string.IsNullOrEmpty(shape))
+            {
+                throw new Exception($"shape is empty");
+            }
+            if (type == null)
+                throw new Exception($"Type {typeOfShape} not found");
+            
+            return (Shape?)JsonConvert.DeserializeObject(shape, type);
         }
 
         [Fact]
@@ -131,17 +137,17 @@ Create Table CABLOCKS_PolymorphicReads_Example (Id INT not null  identity(1,1) p
             InsertShapes();
 
             var cmd = CreateTextCommand("Select * from CABLOCKS_PolymorphicReads_Example");
-            var shapes = Execute(cmd).ToListOf<Shape>(ReadPolymorphicShape);
-            foreach (var shape in shapes)
+            var shapes = Execute(cmd).ToListOf<Shape?>(ReadPolymorphicShape);
+            foreach (var shape in shapes.Where(x =>  x !=  null))
             {
-                Console.WriteLine(shape.Describe);
+                Console.WriteLine(shape!.Describe);
                 Console.WriteLine(shape.Area());
             }
 
-            var asyncShapes = await ExecuteAsync(cmd).ToListOf<Shape>(ReadPolymorphicShape);
-            foreach (var shape in asyncShapes)
+            var asyncShapes = await ExecuteAsync(cmd).ToListOf<Shape?>(ReadPolymorphicShape);
+            foreach (var shape in shapes.Where(x =>  x !=  null))
             {
-                Console.WriteLine(shape.Describe);
+                Console.WriteLine(shape!.Describe);
                 Console.WriteLine(shape.Area());
             }
         }

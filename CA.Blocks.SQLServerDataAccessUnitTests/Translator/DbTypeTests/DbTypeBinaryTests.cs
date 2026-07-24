@@ -9,7 +9,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
     {
         private class BinaryDataType
         {
-            public byte[] Col { get; set; }
+            public byte[]? Col { get; set; }
         }
 
         private void InsertTestDataToBinarySQL(string data)
@@ -56,8 +56,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             Assert.Equal(5, data.Count);
 
             Console.WriteLine();
-
-            Assert.Equal("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
+            Assert.NotNull(data[4]);
+            Assert.NotNull(data[4].Col);
+            Assert.Equal("Binary data", Encoding.ASCII.GetString(data[4].Col!, 0, 11));
         }
 
         [Fact]
@@ -68,8 +69,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BinaryDataType>();
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));
-            
-            Assert.Equal("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
+            Assert.NotNull(data[4]);
+            Assert.NotNull(data[4].Col);
+            Assert.Equal("Binary data", Encoding.ASCII.GetString(data[4].Col!, 0, 11));
         }
 
     }

@@ -12,7 +12,7 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess, IDisposable
 
     private class VersionDataType
     {
-        public Version Col { get; set; }
+        public required Version Col { get; init; }
     }
 
 
