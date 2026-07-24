@@ -28,8 +28,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public string GetContextFromDataBase()
         {
             var cmd = CreateTextCommand("Select Cast(CONTEXT_INFO() as varchar(100)) as CONTEXTINFO");
-            string result = ExecuteScalar(cmd).ToString();
-            return result.Replace("\0", string.Empty);
+            string? result = ExecuteScalar(cmd).ToString();
+            return result?.Replace("\0", string.Empty) ?? "";
         }
     }
 

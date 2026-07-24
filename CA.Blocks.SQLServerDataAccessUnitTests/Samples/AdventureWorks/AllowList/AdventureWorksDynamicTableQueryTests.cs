@@ -13,7 +13,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
         }
 
 
-        public void Init()
+        private void Init()
         {
             try
             {

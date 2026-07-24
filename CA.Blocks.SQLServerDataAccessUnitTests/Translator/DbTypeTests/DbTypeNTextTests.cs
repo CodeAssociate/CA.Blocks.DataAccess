@@ -11,7 +11,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
     {
         private class StringDataType
         {
-            public string Col { get; set; }
+            public string? Col { get; set; }
         }
 
 
@@ -71,7 +71,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             const string testvalue = TEST_DATA;
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col like @testValue");
+#pragma warning disable CS0618 // Type or member is obsolete
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLStringType.NText));
+#pragma warning restore CS0618 // Type or member is obsolete
 
             //Act
             var data = t.Translate(ExecuteDataTable(cmd));

@@ -69,7 +69,7 @@ From  [Production].[Product]
         {
             var sql = ProductSummarySQL("where ProductID = @productId");
             var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
-            return ExecuteTo<ProductSummary>(cmd);
+            return Execute(cmd).ToSingle<ProductSummary>();
         }
 
         public ProductSummary GetProductSummaryUsingToFirstOrDefault(int productId)

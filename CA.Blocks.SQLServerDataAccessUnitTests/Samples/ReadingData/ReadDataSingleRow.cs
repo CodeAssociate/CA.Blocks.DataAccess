@@ -1,42 +1,36 @@
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using CA.Blocks.DataAccess.DI;
-using CA.Blocks.SQLServerDataAccess;
+// ReSharper disable InconsistentNaming
+
+
+using CA.Blocks.DataAccess.Translator.Extensions;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
+    [Collection("DbIntegrationTests")]
     public class ReadDataSingleRow
     {
 
         public class ExampleSysObject2
         {
-            public int id { get; set; }
-            public string name { get; set; }
-            public DateTime refdate { get; set; }
+            public int id { get; init; }
+            public required string name { get; init; }
+            public required DateTime refdate { get; init; }
         }
 
-        public class ExampleReadDataSingleRow : SqlServerDataAccess
+        [Collection("DbIntegrationTests")]
+        public class ExampleReadDataSingleRow : UnitTestDataAccess
         {
-            public ExampleReadDataSingleRow() : base(
-                new DataAccessConfig( new DataAccessConfigOptions { ConnectionStringKey = "notused" },
-                    new HardCodedConnectionStringsResolver(TestConnectionStrings.LOCAL_TEMP_DB))
-            )
-            {
-
-            }
-
-
             public ExampleSysObject2 GetSysObjectByName()
             {
                 var cmd = CreateTextCommand("Select top 1 id, name, refdate  from Sysobjects");
-                return ExecuteTo<ExampleSysObject2>(cmd);
+                return Execute(cmd).ToSingle<ExampleSysObject2>();
             }
 
             public ExampleSysObject2 GetSysObjectByName2()
             {
                 var cmd = CreateTextCommand("Select top 1 * from Sysobjects");
-                return ExecuteTo<ExampleSysObject2>(cmd);
+                return Execute(cmd).ToSingle<ExampleSysObject2>();
             }
         }
 

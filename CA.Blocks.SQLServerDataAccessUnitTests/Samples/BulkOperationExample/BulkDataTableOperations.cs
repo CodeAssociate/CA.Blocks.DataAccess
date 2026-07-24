@@ -4,16 +4,16 @@ using CA.Blocks.DataAccess.DataTableHelpers;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccessTestDataForUnitTests.TestSets.DateDimension;
 using CA.Blocks.SQLServerDataAccess;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.BulkOperationExample
 {
 
 
-    public class BulkDataTableOperations : SqlServerDataAccess
+    [Collection("DbIntegrationTests")]
+    public class BulkDataTableOperations : UnitTestDataAccess
     {
-        public BulkDataTableOperations() : base(new SimpleConnectionStringDataAccessConfig(
-            "Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
-
+        public BulkDataTableOperations() : base()
         {
             Setup();
         }
@@ -97,7 +97,7 @@ Create Type dbo.CABLOCKS_DateDimension_Example_type as Table
 )";
         }
 
-        public void Setup()
+        private void Setup()
         {
             ExecuteNonQuery(CreateTextCommand(DropTestTableIfExistsSQL()));
             ExecuteNonQuery(CreateTextCommand(DropTestTableTypeIfExistsSQL()));

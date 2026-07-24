@@ -12,7 +12,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
     {
         private class StringDataType
         {
-            public string Col { get; set; }
+            public string? Col { get; set; }
         }
 
         private const string TEST_DATA = "nvarchar data";

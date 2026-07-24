@@ -33,6 +33,8 @@ variables:
     value: $(Major).$(Minor).$(Patch)
   ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/master'),  ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
     value: $(Major).$(Minor).$(Patch)-prerelease
+  ${{ if and(  startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'), ne( variables['Build.Reason'], 'PullRequest' )  ) }}:
+    value: $(Major).$(Minor).$(Patch)-alpha
   ${{ if eq( variables['Build.Reason'], 'PullRequest' )  }}:
     value: $(Major).$(Minor).$(Patch)-alpha
 - name: PublishPackage
@@ -137,7 +139,6 @@ steps:
        arguments: >
           --configuration $(BuildConfiguration)
           --coverage
-          --report-trx
 
 - task: PublishTestResults@2
   displayName: 'Publish Test Results'

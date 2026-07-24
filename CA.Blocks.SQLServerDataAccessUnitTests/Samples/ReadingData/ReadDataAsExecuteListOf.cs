@@ -1,29 +1,27 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess.Builder;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
+    [Collection("DbIntegrationTests")]
     public class ReadDataAsExecuteListOf
     {
         public class ExampleSysObject
 		{
             public int Id { get; set; }
-            public string Name { get; set; }
-            public string XType { get; set; }
+            public required string Name { get; set; }
+            public required string XType { get; set; }
             public DateTime CreateDate { get; set; }
         }
 
         public class ExampleSysObject2
         {
             public int id { get; set; }
-            public string name { get; set; }
+            public required string name { get; set; }
             public DateTime refdate { get; set; }
         }
 
@@ -31,22 +29,18 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
         {
             public short spid { get; init; }
             public short ecid { get; init; }
-            public string status { get; init; }
-            public string loginame { get; init; }
-            public string hostname { get; init; }
-            public string blk { get; init; }
-            public string dbname { get; init; }
-            public string cmd { get; init; }
+            public required string status { get; init; }
+            public required string loginame { get; init; }
+            public required string hostname { get; init; }
+            public required string blk { get; init; }
+            public string? dbname { get; init; }
+            public required string cmd { get; init; }
             public int request_id { get; init; }
         }
 
-        public class ExampleReadDataAsExecuteListOf : SqlServerDataAccess
+        [Collection("DbIntegrationTests")]
+        public class ExampleReadDataAsExecuteListOf : UnitTestDataAccess
         {
-            public ExampleReadDataAsExecuteListOf() : base( new SimpleConnectionStringDataAccessConfig(TestConnectionStrings.LOCAL_TEMP_DB))
-            
-            {
-
-            }
             public IList<SpWhoResult> ExecSpWho()
             {
                 var cmd = CreateStoredProcedureCommand("sp_Who");
@@ -57,7 +51,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             public IList<SpWhoResult> ExecSpWhoAdonet()
             {
                 var result = new List<SpWhoResult>();
-                using (var connection = new SqlConnection("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
+                using (var connection = new SqlConnection(TestConnectionStrings.TestDataBaseConnectionString))
                 {
                     connection.Open();
                     using (var command = new SqlCommand("Exec sp_who", connection))
@@ -125,20 +119,20 @@ WHERE xtype = @xtype";
                 var cmd = CreateTextCommand(
                         "Select top 10 id as Id, name as Name, xtype as XType, crdate as CreateDate from sysobjects where xtype = @xtype")
                     .WithParameters(new List<SqlParameter> {xtype.ToSqlParameter("@xtype")});
-                return ExecuteToListOf<ExampleSysObject>(cmd);
+                return Execute(cmd).ToListOf<ExampleSysObject>();
             }
 
             public ExampleSysObject GetSysObjectById(int Id)
             {
                 var cmd = CreateTextCommand("Select top 1 id as Id, name as Name, xtype as XType, crdate as CreateDate from sysobjects where Id = @Id")
                     .WithParameters(new List<SqlParameter> { Id.ToSqlParameter("@Id") });
-                return ExecuteTo<ExampleSysObject>(cmd);
+                return Execute(cmd).ToSingle<ExampleSysObject>();
             }
 
             public ExampleSysObject2 GetSysObjectByName()
             {
                 var cmd = CreateTextCommand("Select top 1 * from Sysobjects");
-                return ExecuteTo<ExampleSysObject2>(cmd);
+                return Execute(cmd).ToSingle<ExampleSysObject2>();
             }
 
         }

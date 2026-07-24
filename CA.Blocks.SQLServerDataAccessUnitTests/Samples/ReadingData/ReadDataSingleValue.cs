@@ -1,22 +1,16 @@
 using System;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
+    [Collection("DbIntegrationTests")]
     public class ReadDataSingleValue
     {
 
-        public class ExampleReadDataSingleValue: SqlServerDataAccess
+        public class ExampleReadDataSingleValue: UnitTestDataAccess
         {
-            public ExampleReadDataSingleValue() : base(
-                new DataAccessConfig( new DataAccessConfigOptions { ConnectionStringKey = "notused" },
-                    new HardCodedConnectionStringsResolver(TestConnectionStrings.LOCAL_TEMP_DB))
-            )
-            {
-
-            }
-
             public object GetSysObjectsCountReturnObject()
             {
                 var cmd = CreateTextCommand("Select count(*) from Sysobjects");

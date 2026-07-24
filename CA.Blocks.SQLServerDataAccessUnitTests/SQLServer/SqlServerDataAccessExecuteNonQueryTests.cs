@@ -11,7 +11,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
     internal class TempNonQueryDate
     {
         public int id { get; set; }
-        public string name { get; set; }
+        public string? name { get; set; }
     }
 
 

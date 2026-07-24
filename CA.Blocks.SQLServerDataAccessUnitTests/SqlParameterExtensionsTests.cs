@@ -103,9 +103,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
             // To the Overload types
             // 
             // DateOnly At this point the DateOnly is passed through as a DateTime with DateOnly 
-            testedTypes.Add(ToSqlParameterTypeTestDateOnly(TestDotNetTypesToSqlParameter.TestDateOnly.Value, DbType.Date));
+            testedTypes.Add(ToSqlParameterTypeTestDateOnly(TestDotNetTypesToSqlParameter.TestDateOnly!.Value, DbType.Date));
 
-            testedTypes.Add(ToSqlParameterTypeTestTimeOnly(TestDotNetTypesToSqlParameter.TestTimeOnly.Value, DbType.Time));
+            testedTypes.Add(ToSqlParameterTypeTestTimeOnly(TestDotNetTypesToSqlParameter.TestTimeOnly!.Value, DbType.Time));
 
             var AnyUntestedTypes = GetUnTestedTypes(testedTypes);
             if (AnyUntestedTypes.Count > 0)
