@@ -53,4 +53,9 @@ Register your data access class in `Program.cs`:
 builder.Services.AddScoped<MyDataAccess>();
 ```
 
-For more detailed information, please refer to the specific provider documentation.
+## Next Steps
+
+Now that you have the basics down, explore the modular power of the library:
+
+- 🏗️ [Architecture & Design](architecture.md) — Learn about the "Pluggable Building Blocks".
+- 📦 [Package Reference](packages.md) — See all available database providers and extensions.

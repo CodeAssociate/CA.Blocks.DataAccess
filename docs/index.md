@@ -130,16 +130,18 @@ public class MyDataAccess : SqlServerDataAccess
 
 
 📖 Documentation & Guides
-We are in the process of providing detailed guides to learn more about setting up and extending the library:
-Topics coming soon:
 
-🚀 Quick Start Guide — Step-by-step setup and basic usage.
+Learn more about setting up and extending the library:
 
-⚙️ Configuration & DI Options — Connection strings, lifetime options, and extensions.
+🚀 [Quick Start Guide](quick-start.md) — Step-by-step setup and basic usage.
 
-🏗️ Architecture & Design — Overview of the Repository & Unit of Work patterns used.
+🏗️ [Architecture & Design](architecture.md) — How the "Pluggable Building Blocks" work together.
 
-🧪 Unit Testing Guide — How to mock repositories and write fast unit tests.
+📦 [Package Reference](packages.md) — A complete list of all NuGet packages and extensions.
+
+⚙️ Configuration & DI Options — Connection strings, lifetime options, and extensions. (Coming Soon)
+
+🧪 Unit Testing Guide — How to mock repositories and write fast unit tests. (Coming Soon)
 
 💡 Key Features
 Zero Boilerplate: Clean, generic repository implementation out of the box.
