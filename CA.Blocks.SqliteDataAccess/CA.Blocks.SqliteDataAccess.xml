@@ -74,6 +74,12 @@
             Gets/sets the delete command for this DataAdapter
             </summary>
         </member>
+        <member name="M:CA.Blocks.SqliteDataAccess.Builder.SafeSqlBuilder.AddSql(CA.Blocks.SqliteDataAccess.Builder.SqlStringHandler)">
+            <summary>
+            Will append the SQL text and parameters from the SqlStringHandler
+            </summary>
+            <param name="builder"></param>
+        </member>
         <member name="T:CA.Blocks.SqliteDataAccess.SqliteDataAccess">
             <summary>
             Provides a SQL Lite implementation for DataAccessCore

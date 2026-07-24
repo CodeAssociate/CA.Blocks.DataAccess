@@ -30,5 +30,6 @@ public class MyDataAccess : SqlServerDataAccess
         }
     ...
 }
-
 ```
+
+![using the blocks abstract and distilled and clean data access](docs/_assets/CA.Blocks.JsonConfigSettings.jpg)

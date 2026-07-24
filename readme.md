@@ -9,7 +9,8 @@
 - [Documentation](https://www.codeassociate.com/Blocks/DataAccess/)
 - [NuGet Package SQL Server](https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/)
 - [NuGet Package My SQL](https://www.nuget.org/packages/CA.Blocks.MySQLDataAccess/)
-- [NuGet Package Sqlite](https://www.nuget.org/packages/CA.Blocks.SQLLiteDataAccess/) 
+- [NuGet Package Sqlite](https://www.nuget.org/packages/CA.Blocks.SqliteDataAccess/) 
+- [NuGet Package Postgres](https://www.nuget.org/packages/CA.Blocks.PostgreSQLDataAccess/)
 - [NuGet Package odbc](https://www.nuget.org/packages/CA.Blocks.OdbcDataAccess/) 
 
 ### Dapper-level speed with advanced SQL translation control and optimized parameter mapping.
@@ -80,7 +81,7 @@ Quick Start SQL server example:
         public YourDataAccessClass() : base( new SimpleConnectionStringDataAccessConfig("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
         {}
         
-        public async IList<SpWhoResult> ExecSpWho()
+        public async Task<IList<SpWhoResult>> ExecSpWho()
         {
             var cmd = CreateStoredProcedureCommand("sp_Who");
             return await ExecuteAsync(cmd).ToListOf<SpWhoResult>();
