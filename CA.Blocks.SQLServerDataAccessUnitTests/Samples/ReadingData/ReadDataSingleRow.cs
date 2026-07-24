@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using CA.Blocks.DataAccess.DI;
-using CA.Blocks.SQLServerDataAccess;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
+    [Collection("DbIntegrationTests")]
     public class ReadDataSingleRow
     {
 
@@ -16,17 +14,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             public DateTime refdate { get; set; }
         }
 
-        public class ExampleReadDataSingleRow : SqlServerDataAccess
+        [Collection("DbIntegrationTests")]
+        public class ExampleReadDataSingleRow : UnitTestDataAccess
         {
-            public ExampleReadDataSingleRow() : base(
-                new DataAccessConfig( new DataAccessConfigOptions { ConnectionStringKey = "notused" },
-                    new HardCodedConnectionStringsResolver(TestConnectionStrings.LOCAL_TEMP_DB))
-            )
-            {
-
-            }
-
-
             public ExampleSysObject2 GetSysObjectByName()
             {
                 var cmd = CreateTextCommand("Select top 1 id, name, refdate  from Sysobjects");

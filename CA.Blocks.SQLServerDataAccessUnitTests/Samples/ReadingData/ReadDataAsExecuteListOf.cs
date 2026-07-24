@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess.Builder;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
+    [Collection("DbIntegrationTests")]
     public class ReadDataAsExecuteListOf
     {
         public class ExampleSysObject
@@ -40,13 +38,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             public int request_id { get; init; }
         }
 
-        public class ExampleReadDataAsExecuteListOf : SqlServerDataAccess
+        [Collection("DbIntegrationTests")]
+        public class ExampleReadDataAsExecuteListOf : UnitTestDataAccess
         {
-            public ExampleReadDataAsExecuteListOf() : base( new SimpleConnectionStringDataAccessConfig(TestConnectionStrings.LOCAL_TEMP_DB))
-            
-            {
-
-            }
             public IList<SpWhoResult> ExecSpWho()
             {
                 var cmd = CreateStoredProcedureCommand("sp_Who");
@@ -57,7 +51,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
             public IList<SpWhoResult> ExecSpWhoAdonet()
             {
                 var result = new List<SpWhoResult>();
-                using (var connection = new SqlConnection("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
+                using (var connection = new SqlConnection(TestConnectionStrings.TestDataBaseConnectionString))
                 {
                     connection.Open();
                     using (var command = new SqlCommand("Exec sp_who", connection))

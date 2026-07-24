@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
+    [Collection("DbIntegrationTests")]
     public class ReadDataDataSet
     {
 
@@ -35,15 +35,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
         }
 
 
-        public class ExampleReadDataDataSet : SqlServerDataAccess
+        public class ExampleReadDataDataSet : UnitTestDataAccess
         {
-            public ExampleReadDataDataSet() : base(
-                new DataAccessConfig(new DataAccessConfigOptions { ConnectionStringKey = "notused" },
-                    new HardCodedConnectionStringsResolver(TestConnectionStrings.LOCAL_TEMP_DB))
-            )
-            {
 
-            }
 
 
             public DataSet GetRawDateSet()

@@ -3,6 +3,7 @@ using CA.Blocks.SQLServerDataAccess;
 using System.Data;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
+using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 using Newtonsoft.Json;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.PolymorphicReads
@@ -57,10 +58,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.PolymorphicReads
     }
 
 
-
-    public class PolymorphicReads : SqlServerDataAccess, IDisposable
+    [Collection("DbIntegrationTests")]
+    public class PolymorphicReads : UnitTestDataAccess, IDisposable
     {
-        public PolymorphicReads() : base(new SimpleConnectionStringDataAccessConfig("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
+        public PolymorphicReads() : base()
         {
             Setup();
         }
