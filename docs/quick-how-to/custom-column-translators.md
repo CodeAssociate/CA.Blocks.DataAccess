@@ -1,18 +1,18 @@
 ### Custom Column Translators  
 
-While the Row Translators have the responsibility of mapping the Table structure which is in rows, columns and cells into the class structure with properties.  The focus on the Row Translators is at the row level, reading each row and doing the conversions. In doing the conversion we repeat the pattern for the columns within each row. Each column will have a known structured type and will have to get converted into a known property in C#. Working within the cells is the responsibility of the Column translators.
+While the row translators have the responsibility of mapping the table structure, which consists of rows, columns, and cells, into the class structure with properties, the focus of the row translators is at the row level—reading each row and performing the conversions. In doing the conversion, we repeat the pattern for the columns within each row. Each column will have a known structured type and will have to be converted into a known property in C#. Working within the cells is the responsibility of the column translators.
 
-The Col To Type Converters that are registered are the default Converters used with Automatic Mapping.  With Custom mapping, you can choose if you use the default converts or go direct.
+The column to type converters that are registered are the default converters used with automatic mapping. With custom mapping, you can choose whether to use the default converters or go direct.
 
 The Converters are high-frequency functions that can be executed millions of times in normal operation as such they need to balance performance with flexibility in mind whilst dealing with null values
 
-At its core, the Row Translators have the responsibility of getting to the cell level, and then they delegate the conversion to the Column Converter.
+At its core, the row translators have the responsibility of getting to the cell level, and then they delegate the conversion to the column converter.
 
-The best way of Explaining is by way of example:
+The best way of explaining is by way of example:
 
 
 ### The Humble Boolean.
-A boolean value can be true or false, or is defined as nullable can be true, false, null. So let's consider we have a cell from a database and we need to convert that to a boolean We know that the target is a boolean so we create BoolDbColToTypeConverter we can then ask the converter to convert a value from the database into the boolean, what will happen is this will converter will call the  GetDataValue ie
+A boolean value can be true or false, or if defined as nullable, can be true, false, or null. So let's consider we have a cell from a database and we need to convert that to a boolean. We know that the target is a boolean, so we create a `BoolDbColToTypeConverter`; we can then ask the converter to convert a value from the database into the boolean. What will happen is this converter will call `GetDataValue`, i.e.:
 
 ``` C#
     public override bool GetDataValue(IDataReader dr, string columnName)
@@ -20,7 +20,7 @@ A boolean value can be true or false, or is defined as nullable can be true, fal
         return dr.AsBool(columnName);
     }
 ```
-This then delegates the logic to DataReader extensions to get value from the data reader Column as a bool 
+This then delegates the logic to `DataReader` extensions to get the value from the data reader column as a bool:
 
 ``` C#
     public static bool AsBool(this IDataReader dr, string colName)
@@ -51,15 +51,15 @@ This then delegates the logic to DataReader extensions to get value from the dat
     }
 ```
 
-The Not null version is the same as the null version except it will Throw an Exception If the data returned was Null.  The code will resolve the index of the column and then finally deal with the boolean value. Dealing with the boolean value comes down to
-1) how to provider stores values. In SQL Server there is a bit field that can store a boolean, In MYSQL a boolean is stored as a Byte and in SQlite a boolean value is simply stored as an integer 0 == false and 1 is true.
-2) The Data type used for sorting the value, IN SQL Server, can use a string "True", "False" or 1, 0 this can be stored as a bit, byte, smallint, int or long. 
-3) How the code will detect this can convert the result. 
+The non-nullable version is the same as the nullable version except it will throw an exception if the data returned was null. The code will resolve the index of the column and then finally deal with the boolean value. Dealing with the boolean value comes down to:
+1) How the provider stores values. In SQL Server, there is a `bit` field that can store a boolean. In MySQL, a boolean is stored as a `byte`, and in SQLite, a boolean value is simply stored as an integer (0 == false and 1 == true).
+2) The data type used for storing the value. In SQL Server, we can use a string "True", "False" or 1, 0; this can be stored as a `bit`, `byte`, `smallint`, `int`, or `bigint`. 
+3) How the code will detect and convert the result. 
 
-To give the mix between performance and flexibility the blocks will test if the raw value from the data source is already in the target type, so if you are using an SQL server and the storage type is a bit and you selecting that value, then the read the data directly, if not then we try the .NET IConvertible method Convert.ToBoolean to get the value ( byte, short, int, long, decimal, float, string ) into a boolean value.  The Blocks stop at this level.  This level is comprehensive and if using a string Culture aware, ie if it sees the value "Wahr" and you running in German it will return "True".  The Default converters do not extend beyond that.  
+To balance performance and flexibility, the blocks will test if the raw value from the data source is already in the target type. So if you are using SQL Server and the storage type is a `bit` and you are selecting that value, then we read the data directly. If not, then we try the .NET `IConvertible` method `Convert.ToBoolean` to get the value (byte, short, int, long, decimal, float, string) into a boolean value. The blocks stop at this level. This level is comprehensive and, if using a string, culture-aware; i.e., if it sees the value "Wahr" and you are running in German, it will return "True". The default converters do not extend beyond that.  
 
 
-Some systems can define Boolean values as a Char. example "Y", "N"  (Yes, NO) or "T", "F" (True, False)  or "N", "F" (On, Off) for those systems you will need to provide a Custom Translator 
+Some systems can define boolean values as a `char`. Example: "Y", "N" (Yes, No) or "T", "F" (True, False). For those systems, you will need to provide a custom translator.
 
 
 See CharValueBoolDbColToTypeConverter as an example

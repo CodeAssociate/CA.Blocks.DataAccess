@@ -4,8 +4,8 @@ These methods are the most frequently used methods within the package. They prov
 
 | Method      | Description |
 | ----------- | ----------- |
-| ExecuteToListOf\<T>(cmd)   | This is alias to Execute(cmd).ToListOf\<T>  |
-| [Execute(cmd).ToListOf\<T>](#executecmdtolistofltt)   | executes a data reader and passed conversion to ToListOf<> |
+| ExecuteToListOf<T>(cmd)   | This is an alias for Execute(cmd).ToListOf<T>  |
+| [Execute(cmd).ToListOf<T>](#executecmdtolistofltt)   | Executes a data reader and passes conversion to `ToListOf<T>` |
 | [Execute(cmd).ToSingleNamedColumnList\<T>](#executecmdtosinglenamedcolumnlistt)| executes a single Column to a List of values  |
 | [ExecuteReader(cmd)](#executereadercmd)  | executes and returns the raw data reader |
 | [DataTable(cmd)](#datatablecmd)  | executes and returns a DataTable  |
@@ -20,17 +20,16 @@ These methods are the most frequently used methods within the package. They prov
 </span>
 </div>
 
-### ExecuteToListOf\<T>(cmd) 
-This is alias to Execute(cmd).ToListOf\<T>  
+### ExecuteToListOf<T>(cmd) 
+This is an alias for `Execute(cmd).ToListOf<T>`
 ```C#
      ExecuteToListOf<ProductSummary>(cmd);
      // is the same as 
      Execute(cmd).ToListOf<ProductSummary>();
 ```
 
-
-### Execute(cmd).ToListOf\<T>
-The ExecuteTo will get the First or default of Type T.  This is one of the most common methods as reading from a table and returning a Types IList of \<T>
+### Execute(cmd).ToListOf<T>
+The `ToListOf<T>` will get a typed `IList<T>` by reading from a table.
 
 The following is an example of executing the result of a query from the Adventure works Schema into the ProductSummary class.
 ```C#
@@ -80,7 +79,7 @@ Any data that comes back as a Data reader can be executed into List. For Example
 
 
 ### Execute(cmd).ToSingleNamedColumnList\<T>
-There are some times you only need to select a single Column value and what to pass that into e list of values. In this case, you can use Execute(cmd).ToSingleNamedColumnList\<T> passing in the type for T and the name of the Column. For Example, we can get a list of all the product Names from the [Production].[Product] table and return that as a list of strings
+There are some times you only need to select a single column value and want to pass that into a list of values. In this case, you can use `Execute(cmd).ToSingleNamedColumnList<T>` passing in the type for `T` and the name of the column. For example, we can get a list of all the product names from the `[Production].[Product]` table and return that as a list of strings:
 
 ```C#
     public IList<string> GetAllProductNames()

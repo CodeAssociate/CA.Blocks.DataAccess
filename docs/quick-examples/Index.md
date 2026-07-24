@@ -1,6 +1,6 @@
 ## Connections
 
-One of the first tasks you will need to do is setup a connection to a database. The CA Data Access blocks follows the .NET convention of using named configured connection strings. The connection strings encode the parameters needed to make the connection to the database such as database server, database name, network protocol, Credentials etc. Internally the core DataAccess block will ask to resolve a connectionStringKey to a connection string value.  This is done calling the IDataAccessKeyToConnectionStringResolver interface. 
+One of the first tasks you will need to do is set up a connection to a database. The CA Data Access blocks follow the .NET convention of using named configured connection strings. The connection strings encode the parameters needed to make the connection to the database, such as database server, database name, network protocol, credentials, etc. Internally, the core DataAccess block will ask to resolve a `connectionStringKey` to a connection string value. This is done by calling the `IDataAccessKeyToConnectionStringResolver` interface. 
 
 ``` csharp
 public interface IDataAccessKeyToConnectionStringResolver
@@ -9,17 +9,17 @@ public interface IDataAccessKeyToConnectionStringResolver
 }
 ```
 
-The blocks only have a single concrete implementation of the IDataAccessKeyToConnectionStringResolver which is the HardCodedConnectionStringsResolver.  The AppDotConfigConnectionStringsResolver and JsonConfigConnectionStringsResolver have been pulled out of blocks as the configuration is more of a hosting app concern. Having these concrete implementations meant the blocks were pulling in both configuration models and bloating the project dependencies.  
+The blocks only have a single concrete implementation of the `IDataAccessKeyToConnectionStringResolver`, which is the `HardCodedConnectionStringsResolver`. The `AppDotConfigConnectionStringsResolver` and `JsonConfigGetConnectionStringResolver` have been pulled out of the blocks, as configuration is more of a hosting app concern. Having these concrete implementations meant the blocks were pulling in both configuration models and bloating project dependencies.  
 
 ### Using app.config 
-If you are using web.config or app.config typically .Net 1 -  4.8 [see using  AppDotConfigConnectionStringsResolver ](./UsingAppDotConfigConnectionStringsResolver.html)
+If you are using `web.config` or `app.config` (typically .NET Framework 1.1 - 4.8), [see using AppDotConfigConnectionStringsResolver](./connection-configuration/UsingAppDotConfigConnectionStringsResolver.md).
 
 
 ### Using appsettings.json
-2. If you using appsettings.json or config.json which is typically done with .Net Core  [see using JsonConfigConnectionStringsResolver.html](./UsingJsonConfigConnectionStringsResolver.html)
+If you are using `appsettings.json` or `config.json` (typically .NET Core / .NET 5+), [see using JsonConfigConnectionStringsResolver](./connection-configuration/UsingJsonConfigConnectionStringsResolver.md).
 
-### Using a Custom  ConnectionStringsResolver
-3. You can use custom ConnectionStringsResolver [see implementing a CustomConnectionStringResolver](./CustomConnectionStringResolver.html)
+### Using a custom ConnectionStringsResolver
+You can use a custom `ConnectionStringsResolver`, [see implementing a CustomConnectionStringResolver](./connection-configuration/CustomConnectionStringResolver.md).
 
 
 ### The hard coded version 

@@ -24,12 +24,12 @@ Examples of DML commands include:
 * DELETE 
 
 
-As far as the blocks are concerned all of these groups can be executed through the ExecuteNonQuery command, The only slight difference is the return value. For a DML statement, the Execute Non-Query returns an int, representing the number of rows affected by the successful completion of the command. So in the query affected  20 rows you will get 20. For the DDL and DCL statements, the return will be -1. The -1 represents no data was returned, -1 is used as it is different from zero records returned.
+As far as the blocks are concerned, all of these groups can be executed through the `ExecuteNonQuery` command. The only slight difference is the return value. For a DML statement, the Execute Non-Query returns an `int`, representing the number of rows affected by the successful completion of the command. So if the query affected 20 rows, you will get 20. For the DDL and DCL statements, the return will be -1. The -1 represents that no data was returned; -1 is used as it is different from zero records returned.
 
 Any syntax error or other DB error from the database will raise a DbException.
 
 
-The example below will return 1 as only one row is created
+The example below will return 1 if only one row is created:
 ```C#
     public int CreateNewProductCategory(string name)
     {
@@ -39,7 +39,7 @@ The example below will return 1 as only one row is created
     }
 ```
 
-In the example below the method, DeleteProductCategory will delete a row by name, as the name has a unique index if the Product Category exists and is deleted the function will return 1 if no Product Category exists the result will be 0. 
+In the example below, the method `DeleteProductCategory` will delete a row by name. As the name has a unique index, if the product category exists and is deleted, the function will return 1; if no product category exists, the result will be 0. 
 
 ```C#
     public int DeleteProductCategory(string name)
@@ -51,7 +51,7 @@ In the example below the method, DeleteProductCategory will delete a row by name
 ```
 
 
-Example Executing a DDL ensuring the return is -1 as it is a DDL statement
+Example executing a DDL, ensuring the return is -1 as it is a DDL statement:
 ```C#
         public bool CreateTableExample1()
         {
@@ -66,7 +66,7 @@ Create Table MyTable (Id int not null, Name varchar(10) not null);";
         }
 ```
 
-More Typically you can execute the ExecuteNonQuery as a void and deal with any exceptions
+More typically, you can execute the `ExecuteNonQuery` as a void and deal with any exceptions:
 ```C#
         public void CreateTableExample2()
         {
@@ -77,6 +77,6 @@ BEGIN
 END;
 Create Table MyTable (Id int not null, Name VarChar(10) not null);";
             var cmd = CreateTextCommand(sql);
-            return ExecuteNonQuery(cmd);
+            ExecuteNonQuery(cmd);
         }
 ```

@@ -4,7 +4,7 @@
 
 The CA Data Access Blocks can execute SQL Server stored procedures. A stored procedure in SQL Server is a group of one or more Transact-SQL statements that execute on the server.
 
-The main benefits for using stored stored procedure include:
+The main benefits of using stored procedures include:
 1. Reduced network traffic
 2. Isolated security, as you can grant permissions on the stored procedure without permission on the underlying tables or views.
 3. Arguably increased performance as the query plan is cached.  (This one is subjective as you can write bad tSQL procedures given the limited option in TSQL and the cache plans with parameterised queries are very fast, the main performance benefits when comparing parameterised queries  and Stored procedures is Reduced network traffic  )
@@ -41,7 +41,7 @@ public IList<SpWhoResult> ExecuteSpwhoWithNoReturnValue()
 }
 ```
 
-In addition Stored procedures can return results through parameters, there 
+In addition, stored procedures can return results through parameters. There are:
 
 1. Standard input parameters
 2. Output Parameters 
@@ -94,7 +94,7 @@ The result value is simply be 123.
 
 
 
-To call this in C# you need to define parameter to execute into. The simplest way is setting up normal input parameter can converting the parameter to an output. In the example below we will be using a intOutput to setup parameter converting to an output value. Once the command has been executed you read the value of the sqlOutputParamParam
+To call this in C#, you need to define a parameter to execute into. The simplest way is setting up a normal input parameter and converting the parameter to an output. In the example below, we will be using an `intOutput` to set up a parameter, converting it to an output value. Once the command has been executed, you read the value of the `sqlOutputParamParam`:
 ``` csharp
 public int Execute_CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_Output()
 {
@@ -132,7 +132,7 @@ Select @TestOutputValue
 The result value wil be 246.  
 
 
-Like output to call this in C# you need to define parameter to execute into. The simplest way is setting up normal input parameter can converting the parameter to an InputOutput. In the example below we will be using a intInput to setup parameter, in doing this the input value is set. Converting to an InputOutput value allows us to setup the return result  Once the command has been executed you read the value of the sqlInOutParam
+Like output parameters, to call this in C#, you need to define a parameter to execute into. The simplest way is setting up a normal input parameter and converting the parameter to an `InputOutput`. In the example below, we will be using an `intInput` to set up a parameter; in doing this, the input value is set. Converting to an `InputOutput` value allows us to set up the return result. Once the command has been executed, you read the value of the `sqlInOutParam`:
 ``` csharp
 public int CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput()
 {
@@ -140,13 +140,14 @@ public int CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput()
     var sqlInOutParam = intInput.ToSqlParameter("@TestOutputValue").AsInputOutput();
     var cmd = CreateStoredProcedureCommand("CA_Blocks_SQLServerDataAccessUnitTests_SQLServer_InputOutput").WithParameter(sqlInOutParam);
     ExecuteNonQuery(cmd);
-    return = sqlInOutParam.ToValue<int>();
+    return sqlInOutParam.ToValue<int>();
+}
 ```
 The result value will be 246.
 
 
 ### Return Value
-Return values can be used within stored procedures to provide the stored procedure execution status to the calling program. THe Return value is always and integer. You can create your own meaning around the return values. By default, the successful execution of a stored procedure will return 0.
+Return values can be used within stored procedures to provide the stored procedure execution status to the calling program. The return value is always an integer. You can create your own meaning around the return values. By default, the successful execution of a stored procedure will return 0.
 
 Example
 

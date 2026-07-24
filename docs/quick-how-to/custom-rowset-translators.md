@@ -30,11 +30,11 @@ The Table data need to be mapped into the  .NET Class Structure
 ``` Csharp
     public class MyClass
     {
-        public int Id  {get; init;}
-        public int Name  {get; init;}
-        public byte Status  {get; init;}
-        public decimal? Quantity  {get; init;}
-        public DateTime? Modified  {get; init;}
+        public int Id { get; init; }
+        public string Name { get; init; }
+        public byte Status { get; init; }
+        public decimal? Quantity { get; init; }
+        public DateTime? Modified { get; init; }
     }
 ```
 
@@ -52,7 +52,7 @@ In this setup,  the command will be executed. The command, in this case, is 'Sel
 
 With with command you can almost read what the code is going to do in the translator if we break down the statement 'Execute(cmd).ToListOf<MyClass>();'
 
-We saying execute this command "Select * From MyTable", to a List Of MyClass objects, in this example you not getting back a Table structure with rows and columns and cells byt are getting back a IList of MyClass this has been converted into the .NET world ov objects.
+We are saying: execute this command "Select * From MyTable" into a list of `MyClass` objects. In this example, you are not getting back a table structure with rows, columns, and cells, but are getting back an `IList<MyClass>`—this has been converted into the .NET world of objects.
 
 #### Notes
 1) The Names have to match and are case sensitive. 
@@ -76,11 +76,11 @@ The .NET Class Structure
 ``` Csharp
     public class MyClass
     {
-        public int Id  {get; init;}
-        public int Name  {get; init;}
-        public int Status  {get; init;}
-        public decimal? Quantity  {get; init;}
-        public DateTime? ModifiedAt  {get; init;}
+        public int Id { get; init; }
+        public string Name { get; init; }
+        public int Status { get; init; }
+        public decimal? Quantity { get; init; }
+        public DateTime? ModifiedAt { get; init; }
     }
 ```
 
@@ -117,17 +117,17 @@ The second Option you have to to provide the markup in the target class
     public class MyClass
     {
         [DbColToSourceName("MyTableId")]
-        public int Id  {get; init;}
+        public int Id { get; init; }
         [DbColToSourceName("MyTableName")]
-        public int Name  {get; init;}
+        public string Name { get; init; }
         [DbColToTypeConverter(typeof(IntDbColToTypeConverter))]
-        public int Status  {get; init;}
-        public decimal? Quantity  {get; init;}
+        public int Status { get; init; }
+        public decimal? Quantity { get; init; }
         [DbColToSourceName("Modified")]
-        public DateTime? ModifiedAt  {get; init;}
+        public DateTime? ModifiedAt { get; init; }
     }
 ```
-In this case we have simply turned te mapping around providing the mapping info on the .NET side. With This in place we can execute the query.
+In this case, we have simply turned the mapping around, providing the mapping info on the .NET side. With this in place, we can execute the query.
 
 ```C#
     public IList<MyClass> GetMyClassFromMyTable()
@@ -155,8 +155,8 @@ Using a lambda
             Id = reader.AsInt("MyTableId"),
             Name = reader.AsString("MyTableName"),
             Status = reader.AsInt("Status"),
-            Quantity = reader.AsNullQuantity("Quantity"),
-            ModifiedAt = reader.ASDateTime("Modified")
+            Quantity = reader.AsNullDecimal("Quantity"),
+            ModifiedAt = reader.AsDateTime("Modified")
         }
         );
     }
@@ -164,15 +164,15 @@ Using a lambda
 
 Using a function.  The Key advantage for function is the you can reuse the conversion in other places.
 ```C#
-    private MyClass MyCustomConvert(DataReader reader)
+    private MyClass MyCustomConvert(IDataReader reader)
     {
         return new MyClass
         {
             Id = reader.AsInt("MyTableId"),
             Name = reader.AsString("MyTableName"),
             Status = reader.AsInt("Status"),
-            Quantity = reader.AsNullQuantity("Quantity"),
-            ModifiedAt = reader.ASDateTime("Modified")
+            Quantity = reader.AsNullDecimal("Quantity"),
+            ModifiedAt = reader.AsDateTime("Modified")
         }
     }
 

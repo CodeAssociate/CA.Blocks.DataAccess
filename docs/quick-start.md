@@ -57,5 +57,6 @@ builder.Services.AddScoped<MyDataAccess>();
 
 Now that you have the basics down, explore the modular power of the library:
 
+- 🚀 [Getting Started](getting-started/getting-started.md) — A more detailed guide for beginners.
 - 🏗️ [Architecture & Design](architecture.md) — Learn about the "Pluggable Building Blocks".
 - 📦 [Package Reference](packages.md) — See all available database providers and extensions.

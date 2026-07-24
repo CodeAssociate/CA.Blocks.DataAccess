@@ -47,7 +47,7 @@ Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName l
 If you expose errors from the database, this is the start of your hell, as you have just shown the world that there is an Unclosed quotation mark after the character string resulting in an incorrect syntax near 'arbo'. You have just published to the world you have injectable code. 
 
 
-If the hacker wants to steel data will simply inject "' or  ''='"
+If the hacker wants to steal data, they will simply inject "' or ''='":
 ```C#
 result = SQLInjectionExample_Bad("' or  ''='")
 ```
@@ -59,7 +59,7 @@ Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName l
 ```
 In this statement we have bypassed the restriction for  City = 'Bothell'  and we have got everything in the table where ''=''. The query has just dumped all rows including ones that were restricted.
 
-If the Hacker wants to be nasty they can shut-down your server:
+If the hacker wants to be nasty, they can shut down your server:
 ```C#
 result = SQLInjectionExample_Bad("'; SHUTDOWN WITH NOWAIT ; select '")
 ```
@@ -74,7 +74,7 @@ If we break this down
 ```
 the hacker can add anything they like between the ; ; and if you have permissions the database will execute that statement.   
 
-As such you never build and execute the SQL that contains anything that comes as a parameter. You should Parameterise all variables.
+As such, you should never build and execute SQL that contains anything that comes as a parameter. You should parameterize all variables.
 
 ### Parameterise all variables 
 When you pass ad hoc or user-supplied values to your SQL command at run time, it is important to use parameters to represent them to prevent the possibility of your application being exposed to SQL injection attacks.
@@ -166,5 +166,5 @@ Working with the database this concept can be extended to data horizontally thro
 Working with "least privilege" design together with full SQL parameterised queries provides a robust data access model. 
 
 
-The CA.Bocks.DataAccess provides the building blocks to create Safe code, it is the developer's responsibility not to expose direct access, parameters all parameters and work with the least privilege.
+The `CA.Blocks.DataAccess` provides the building blocks to create safe code; it is the developer's responsibility not to expose direct access, to parameterize all parameters, and to work with the principle of least privilege.
 

@@ -1,12 +1,12 @@
 ﻿
 ## Design
 The CA.Blocks.DataAccess is designed as a micro-ORM for relational databases. Its core functionality focuses on reducing the object-relational impedance mismatch that exists between the relational world and the object world of objects in .NET.
-It was designed to work with onion / layered and CQRS-type architectures and can work with or without dependency injection.  The blocks are built on top of ADO.NET the core layer is implemented within CA.Blocks.DataAccess.  This layer has no dependence on any provider, each provider is implemented as implementation on the abstract core.  These are all independent assemblies such that each of the providers can be isolated. If you using MySQL you do not need to pull in the SQL server dependencies and visa versa.
+It was designed to work with onion / layered and CQRS-type architectures and can work with or without dependency injection. The blocks are built on top of ADO.NET; the core layer is implemented within `CA.Blocks.DataAccess`. This layer has no dependency on any provider; each provider is implemented as a specialization of the abstract core. These are all independent assemblies, such that each of the providers can be isolated. If you are using MySQL, you do not need to pull in the SQL Server dependencies and vice versa.
 
 
-At a high level, the code simply inherits from the provider you what to use injecting the configuration.  Once you have that class in place it is a case of creating your data access methods.
+At a high level, the code simply inherits from the provider you want to use, injecting the configuration. Once you have that class in place, it is a case of creating your data access methods.
 
-Below is a simple example that will connect to the local SQL server using a trusted connection. It then exposes two methods
+Below is a simple example that will connect to the local SQL Server using a trusted connection. It then exposes two methods:
 1. **ExecSpWho** - this will execute the sp_who stored procedure and return the results in the POCO class called SpWhoResult.
 2. **GetSysObjectsOfType** - this will execute the query with a parameter and return the results in a class called SysObjectsResult.
 
@@ -18,13 +18,13 @@ Below is a simple example that will connect to the local SQL server using a trus
         {
         }
 
-        public async Task<IList<SpWhoResult>>> ExecSpWhoAsync()
+        public async Task<IList<SpWhoResult>> ExecSpWhoAsync()
         {
             var cmd = CreateStoredProcedureCommand("sp_Who");
             return await ExecuteAsync(cmd).ToListOf<SpWhoResult>();
         }
 
-        public async Task<IList<SysObjectsResult>>> GetSysObjectsOfType(string xtype)
+        public async Task<IList<SysObjectsResult>> GetSysObjectsOfType(string xtype)
         {
             var cmd = CreateTextCommand("Select * from sysobjects where xtype = @xtype")
                 .WithParameter(xtype.ToSqlParameter("@xtype"));
@@ -48,9 +48,9 @@ Whilst all the core methods will allow processing of some sort SQL, the design i
 
 ## The Assemblies
 
-1. The Model - CA.Blocks.DataAccess.Model used for client access in multi-tier architectures, with 100% separation there is no need to expose the blocks beyond the assembly in which they are consumed.
-2. The Core Abstract Data Access Logic - CA.Blocks.DataAccess is used for abstract and shared non-provider-specific code.
-3. The specific implementation - eg    CA.Blocks.SQLServerDataAccess or CA.Blocks.SQLLiteDataAccess or CA.Blocks.MySQLDataAccess
+1. The Model - `CA.Blocks.DataAccess.Model` used for client access in multi-tier architectures. With 100% separation, there is no need to expose the blocks beyond the assembly in which they are consumed.
+2. The Core Abstract Data Access Logic - `CA.Blocks.DataAccess` is used for abstract and shared non-provider-specific code.
+3. The specific implementation - e.g., `CA.Blocks.SQLServerDataAccess`, `CA.Blocks.SqliteDataAccess`, or `CA.Blocks.MySQLDataAccess`.
 
 
 ### The Model
@@ -59,29 +59,24 @@ The *model* represents the core design elements that you will need a client to s
 
 ### The Core Abstract code
 
-The code in the CA.Blocks.DataAccess is abstract and common among all providers.  The assembly will have no dependencies on any specific provider. This assembly handles the connection, execution and translation, all of these elements are in System.Data namespace. It will work entirely in the System.Data level. This class is abstract so cannot be used by itself. You will not find any provider-specific references at this level.
+The code in `CA.Blocks.DataAccess` is abstract and common among all providers. The assembly will have no dependencies on any specific provider. This assembly handles the connection, execution, and translation; all of these elements are in the `System.Data` namespace. It will work entirely at the `System.Data` level. This class is abstract, so it cannot be used by itself. You will not find any provider-specific references at this level.
 
 ### The specific implementation
-This code hooks in the specific provider implementation. So if you connect to a Microsoft SQL server database you will reference CA.Blocks.SQLServerDataAccess.  This in turn will bring in CA.Blocks.DataAccess and CA.Blocks.DataAccess.Model in addition to Microsoft.Data.SqlClient.
+This code hooks in the specific provider implementation. So if you connect to a Microsoft SQL Server database, you will reference `CA.Blocks.SQLServerDataAccess`. This, in turn, will bring in `CA.Blocks.DataAccess` and `CA.Blocks.DataAccess.Model`, in addition to `Microsoft.Data.SqlClient`.
 
-When using the DataAccess block to write a Data Access Class you only need to install the specific provider you need. For Examples:
+When using the DataAccess block to write a Data Access class, you only need to install the specific provider you need. For example:
 
-To install for SQL server
+To install for SQL Server:
 ``` powershell
 PM> Install-Package CA.Blocks.SQLServerDataAccess -Version x.x.x
 ```
 
-To install for Microsoft.Data.Sqlite
+To install for Microsoft.Data.Sqlite:
 ``` powershell
-PM> Install-Package CA.Blocks.SQLLiteDataAccess -Version x.x.x
+PM> Install-Package CA.Blocks.SqliteDataAccess -Version x.x.x
 ```
 
-To install for MySqlConnector
-``` powershell
-PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
-```
-
-To install for MySqlConnector
+To install for MySQL:
 ``` powershell
 PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
 ```

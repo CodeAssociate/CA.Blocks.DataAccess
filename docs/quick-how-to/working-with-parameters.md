@@ -1,6 +1,6 @@
 ## Working with parameters 
 The CA.Blocks.DataAccess allows you to work directly with SQL 
-Working with the parameters is one of the key defenses against SQL injection attacks. see [SQL Injection attacks](../Design/sql-injection-attacks.md)
+Working with parameters is one of the key defenses against SQL injection attacks, see [SQL Injection attacks](../architecture/sql-injection-attacks.md).
 
 
 ### Using parameters
@@ -9,10 +9,10 @@ Anything that comes in as a parameter to a function should be turned into a SQL 
 
 The parameters are provided at a provider level they can be used by simply calling the type.ToSqlParameter(sqlParameterName)
 
-parameters are named at the SQL provider level as @ParameterName
-Then your code you take the .NET type and call the ToSqlParameter method to assign the .NET parameter to the SQL Parameter.
+Parameters are named at the SQL provider level as `@ParameterName`.
+Then in your code, you take the .NET type and call the `ToSqlParameter` method to assign the .NET parameter to the SQL parameter.
 
-below is a simple example of adding the "searchTerm" Parameter to the command
+Below is a simple example of adding the `searchTerm` parameter to the command:
 
 ```C#
     public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
@@ -23,7 +23,7 @@ below is a simple example of adding the "searchTerm" Parameter to the command
         return Execute(cmd).ToListOf<ProductSummary>();
     }
 ```
-Given the above, in the SQL we specify the parameters by Name ie "Where Name like @searchTerm".  Toto assign a value to "@searchTerm" in the SQL we Do this via the command we take the .NET string value searchTerm and call 
+Given the above, in the SQL we specify the parameters by name, i.e., `Where Name like @searchTerm`. To assign a value to `@searchTerm` in the SQL, we do this via the command; we take the .NET string value `searchTerm` and call:
 ```C#
     var sqlParameterValue = searchTerm.ToSqlParameter("@searchTerm")
 ``` 

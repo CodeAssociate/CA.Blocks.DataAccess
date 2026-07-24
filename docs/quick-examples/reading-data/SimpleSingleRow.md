@@ -2,9 +2,9 @@
 
 #### Simple Single Row
 
-In this example we going to use the data from the local SQL server selecting the meta data data from the sysobjects table and executing the results into the .NET class called ExampleSysObjects2.
+In this example, we are going to use the data from the local SQL Server, selecting the metadata from the `sysobjects` table and executing the results into the .NET class called `ExampleSysObject2`.
 
-Under the hood the execution path will ask SQL server to execute the result into a DataRow.  This will only work if there is zero or one row.  If there are multiple rows returned the blocks by design will through an DataException.  The premise behind this is the blocks is not going to take the first or default as the answer. If you what the first then you can ask SQL to return top 1 only. If you querying by primary or alternate key there should be one at most results.     
+Under the hood, the execution path will ask SQL Server to execute the result into a `DataRow`. This will only work if there is zero or one row. If there are multiple rows returned, the blocks by design will throw a `DataException`. The premise behind this is that the blocks are not going to take the "first or default" as the answer. If you want the first, then you can ask SQL to return `TOP 1` only. If you are querying by primary or alternate key, there should be one result at most.     
 
 
 The Target Class Note in this example we have matched the name of the class to the names in SQL.
@@ -44,7 +44,7 @@ public class ExampleReadDataSingleRow : SqlServerDataAccess
 
 ```
 
-As we know the name is an alternate Key and unique to the table we can query by name. The execute the result into a Single Object. In the example above we have also shown that if you use the name in the C# class to match the SQL names you can use the select * notation.  Although this does work it is recommended to use named columns such that you not transferring unneeded data.  
+As we know the name is an alternate key and unique to the table, we can query by name, then execute the result into a single object. In the example above, we have also shown that if you use the name in the C# class to match the SQL names, you can use the `SELECT *` notation. Although this does work, it is recommended to use named columns such that you are not transferring unneeded data.  
 
 The following method will raise a DataException error as there will be more than one row in the table that match the filter.
 ``` csharp

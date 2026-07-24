@@ -2,7 +2,7 @@
 
 #### Simple Select
 
-In this example we going to use the data from the local SQL server selecting the data from the sysobjects table and executing the results into the .NET class called ExampleSysObject
+In this example, we are going to use the data from the local SQL Server, selecting the data from the `sysobjects` table and executing the results into the .NET class called `ExampleSysObject`:
 
 ``` csharp
 public class ExampleSysObject

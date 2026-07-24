@@ -1,5 +1,5 @@
 ﻿# CA.Blocks.DataAccess
-A lightweight, high-performance C# data access layer designed to simplify repository patterns for  database operations in .NET applications.
+A lightweight, high-performance C# data access layer designed to simplify repository patterns for database operations in .NET applications.
 
 ---
 ## ⚡ Quick Start
@@ -17,7 +17,7 @@ Choose the package for your database:
 | **MySQL** | `CA.Blocks.MySQLDataAccess` | `dotnet add package CA.Blocks.MySQLDataAccess` |
 | **ODBC** | `CA.Blocks.OdbcDataAccess` | `dotnet add package CA.Blocks.OdbcDataAccess` |
 
-### 2. Set your connection string 
+### 2. Set your connection strings 
 
 Choose how to resolve your connection strings:
 
@@ -54,7 +54,7 @@ Then use
         ...
     }
 ```
-In this example we are using the SqlServerDataAccess module. The DI is set up to read the appsettings.json file looking for a connection string key exampleName that will resolve to your connection string. 
+In this example, we are using the `SqlServerDataAccess` module. The DI is set up to read the `appsettings.json` file looking for a connection string key 'exampleName' that will resolve to your connection string. 
 
 #### Using `app.config`
 ```bash xml
@@ -139,7 +139,7 @@ Learn more about setting up and extending the library:
 
 📦 [Package Reference](packages.md) — A complete list of all NuGet packages and extensions.
 
-⚙️ Configuration & DI Options — Connection strings, lifetime options, and extensions. (Coming Soon)
+⚙️ [Configuration & DI Options](getting-started/dependency-injection.md) — Connection strings, lifetime options, and extensions.
 
 🧪 Unit Testing Guide — How to mock repositories and write fast unit tests. (Coming Soon)
 
@@ -150,7 +150,7 @@ Async-First: Native async/await support across all database operations.
 
 DI-Ready: Simple extension methods for native .NET Dependency Injection.
 
-Testable: Built against clean interfaces (IRepository, IUnitOfWork) for effortless mocking.
+Testable: Built against clean interfaces for effortless mocking.
 
 🤝 Contributing & Source Code
 Source Code & Issues: [GitHub Repository](https://github.com/CodeAssociate/CA.Blocks.DataAccess)

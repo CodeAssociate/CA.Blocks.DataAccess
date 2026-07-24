@@ -1,5 +1,5 @@
 ﻿
-The CA.Blocks.DataAccess has been published to NuGet.  The first thing that you need to decide is which provider you want to use. 
+CA.Blocks.DataAccess has been published to NuGet. The first thing you need to decide is which provider you want to use. 
 
 For SQL server https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/
 
@@ -20,13 +20,13 @@ For SQL MySQL https://www.nuget.org/packages/CA.Blocks.MySQLDataAccess/
 PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
 ```
 
-The second thing you need to do is set up a connection string see [Connection String Examples](../Samples/Connection/Index.md)
+The second thing you need to do is set up a connection string, see [Connection String Examples](../quick-examples/connection-configuration/Index.md)
 
 Then you will be ready to work with the DataAccess Class
 
 ### Template example accessing SQL server  
 
-In this example, we going to use the data from the local SQL server selecting the data from the sysobjects table and executing the results into the .NET class calledExampleSysObjects below
+In this example, we are going to use the data from the local SQL Server, selecting the data from the `sysobjects` table and executing the results into the .NET class called `ExampleSysObjects` below:
 
 ``` csharp
     public class ExampleSysObjects
@@ -56,14 +56,14 @@ Template code using SQL server.
 ```
 Notes:
 1. The Class inherits from SqlServerDataAccess which is the SQL server provider. 
-2. The example above is using the provided SimpleConnectionStringDataAccessConfig, this is provided for quick prototyping, samples and testing code allowing connection to be specified in line with the code. It is recommended you use an external connection string when working on something that is to be published. see [Connection String Examples](../Samples/Connection/Index.md)
-3. The ReadSysObjectsOfType method represents your DataAccess Method, the only input parameter exposed is xtype as a string, and the return type will be an IList of ExampleSysObjects 
+2. The example above is using the provided SimpleConnectionStringDataAccessConfig, this is provided for quick prototyping, samples and testing code allowing connection to be specified in line with the code. It is recommended you use an external connection string when working on something that is to be published, see [Connection String Examples](../quick-examples/connection-configuration/Index.md)
+3. The `ReadSysObjectsOfType` method represents your DataAccess method; the only input parameter exposed is `xtype` as a `string`, and the return type will be an `IList<ExampleSysObjects>`.
 4. The CreateTextCommand will return an Interface to the SQL server implementation of the command
 5. The SQL is constructed internally as parameterized query this is the developer's responsibility
-6. The conversion of .NET string to SQL parameter is done using the WithParameter(type.ToSqlParameter("@xtype"));  you can also use the connection object directly ie cmd.Parameters.Add(xtype.ToSqlParameter("@xtype"));
-7. The ToSqlParameter is a convention used for taking a .NET type into a SQL server parameter. All .NET value types will have implementations of ToSqlParameter();
-8. The cmd is then passed into the ExecuteToListOf method which returns the data as n IList of ExampleSysObjects. As we have 1-1 mapping the conversion is handled 100% by the Blocks. 
-9. The property names are case sensitive, so in this example, we have aliased the columns on the query side ie id as Id. This Id is the property name on the target object.  You only have to do this if you using 100% automatic conversions
+6. The conversion of a .NET string to a SQL parameter is done using `WithParameter(xtype.ToSqlParameter("@xtype"))`; you can also use the command object directly, i.e., `cmd.Parameters.Add(xtype.ToSqlParameter("@xtype"))`.
+7. The `ToSqlParameter` is a convention used for taking a .NET type into a SQL Server parameter. All .NET value types will have implementations of `ToSqlParameter()`.
+8. The `cmd` is then passed into the `Execute` method, and we call `ToListOf` which returns the data as an `IList<ExampleSysObjects>`. As we have 1-1 mapping, the conversion is handled 100% by the blocks. 
+9. The property names are case-sensitive, so in this example, we have aliased the columns on the query side, i.e., `id as Id`. This `Id` is the property name on the target object. You only have to do this if you are using 100% automatic conversions.
 
 Consuming this class: 
 ``` csharp
@@ -81,13 +81,13 @@ public void ExecuteToListOfDev()
 }
 ```
 Notes:
-1. You construct the instance of the DataAccess YourDataAccessClass
-2. You Call the method ReadSysObjectsOfType("U") The only methods you see are public ones from System.Object and the ReadSysObjectsOfType. This is by design the guts of the DataAccess class is **protected by default**. The Instance of the DataAccess can access the method, but the calling client only sees what is exposed. The calling code cannot call ExecuteToListOf
+1. You construct the instance of the DataAccess class `YourDataAccessClass`.
+2. You call the method `ReadSysObjectsOfType("U")`. The only methods you see are public ones from `System.Object` and the `ReadSysObjectsOfType`. This is by design: the guts of the DataAccess class is **protected by default**. The instance of the DataAccess can access the method, but the calling client only sees what is exposed. The calling code cannot call `Execute`.
 <p align="center">
     <img src="../_assets/ProtectedByDefaultExample.png" alt="ProtectedByDefault" />
 </p>
-3. The result of the execution is the filled IList of ExampleSysObjects objects. All Types have been converted from the SQL world into the .NET world.
-4. Using the Result is like any other Class in .NET.  In this case, we are dumping the result to the Test console:
+3. The result of the execution is the filled `IList<ExampleSysObjects>`. All types have been converted from the SQL world into the .NET world.
+4. Using the result is like using any other class in .NET. In this case, we are dumping the result to the test console:
 
 The dump result
 ```
@@ -100,7 +100,7 @@ The dump result
 1787153412,MSreplication_options,U ,30/04/2016 12:47:59 AM
 ```
 
-A walk though of setting up a new MVC project and linking in the code associate data blocks. 
+A walk-through of setting up a new MVC project and linking in the Code Associate data blocks. 
 <iframe id="ytplayer" type="text/html" width="640" height="360"
   src="https://www.youtube.com/embed/UdpxquVk67Q?autoplay=0&origin=http://codeassociate.com/&loop=1"
   frameborder="0"></iframe>
