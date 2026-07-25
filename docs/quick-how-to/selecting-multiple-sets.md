@@ -1,7 +1,9 @@
 ---
 layout: default
-title: howto
-nav_exclude: true
+title: Select To Multiple sets 
+description: "Select Multiple sets"
+parent: How to
+nav_order: 4
 ---
 
 ### Multiple sets
@@ -17,7 +19,7 @@ nav_exclude: true
 The blocks support executing multiple ResultSets within a single query.
 Given the example where we would like to get the ProductCategory  the ProductSubCategory and the ProductNameAndNumber we could execute this as three methods:
 
-```C#
+```csharp
     public IList<ProductCategory> GetProductCategory()
     {
         var sql = @"Select ProductCategoryID, Name from [Production].[ProductCategory]";
@@ -44,7 +46,7 @@ If we know we always want to work with all three sets of data, we can wrap the e
 
 To do this, simply execute the result into `ToResultsSet<T1, T2, ... T5>`; the blocks have support for up to 5 result sets in a single statement. 
 
-```C#
+```csharp
         public ResultsSet<ProductCategory, ProductSubCategory, ProductNameAndNumber> GetProjectCategoryResultSet()
         {
             var sql = @"

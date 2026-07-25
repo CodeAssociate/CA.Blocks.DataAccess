@@ -1,8 +1,11 @@
 ---
 layout: default
-title: howto
-nav_exclude: true
+title: Working with parameters
+description: "Working with parameters"
+parent: How to
+nav_order: 6
 ---
+
 
 ## Working with parameters 
 The CA.Blocks.DataAccess allows you to work directly with SQL 
@@ -20,7 +23,7 @@ Then in your code, you take the .NET type and call the `ToSqlParameter` method t
 
 Below is a simple example of adding the `searchTerm` parameter to the command:
 
-```C#
+```csharp
     public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
     {
         var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";
@@ -30,7 +33,7 @@ Below is a simple example of adding the `searchTerm` parameter to the command:
     }
 ```
 Given the above, in the SQL we specify the parameters by name, i.e., `Where Name like @searchTerm`. To assign a value to `@searchTerm` in the SQL, we do this via the command; we take the .NET string value `searchTerm` and call:
-```C#
+```csharp
     var sqlParameterValue = searchTerm.ToSqlParameter("@searchTerm")
 ``` 
 This returns a SqlParameter that can be added to the SQL Command parameter values. 
@@ -38,7 +41,7 @@ This returns a SqlParameter that can be added to the SQL Command parameter value
 
 Example 2 using the cmd with WithParameter
 
-```C#
+```csharp
     public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
     {
         var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";

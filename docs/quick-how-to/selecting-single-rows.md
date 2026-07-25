@@ -33,7 +33,7 @@ The examples below: we will be working with the Product table, and returning Pro
 
 ### ExecuteTo<T>
 
-```C#
+```csharp
     public ProductSummary GetProductSummary(int productId)
     {
         var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
@@ -46,7 +46,7 @@ where ProductID = @productId";
 The `ExecuteTo<T>` is simply short form for `Execute(cmd).ToFirstOrDefault<T>();`
 
 ### Execute(cmd).ToFirstOrDefault<T> 
-```C#
+```csharp
     public ProductSummary GetProductSummary(int productId)
     {
         var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
@@ -60,7 +60,7 @@ where ProductID = @productId";
 ### Execute(cmd).ToFirst<T> 
 
 
-```C#
+```csharp
     public ProductSummary GetProductSummary(int productId)
     {
         var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
@@ -76,7 +76,7 @@ where ProductID = @productId";
 * If there are many records you can get the database to restrict data on the server using top x,  This results in better performance  
 
 ### Execute(cmd).ToSingleOrDefault<T>  
-```C#
+```csharp
     public ProductSummary GetProductSummary(int productId)
     {
         var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
@@ -92,7 +92,7 @@ where ProductID = @productId";
 * If there are many you can use restricted data on the database server using top x to get better performance  
 
 ### Execute(cmd).ToSingle<T>
-```C#
+```csharp
     public ProductSummary GetProductSummary(int productId)
     {
         var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  

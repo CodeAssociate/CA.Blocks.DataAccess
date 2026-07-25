@@ -1,7 +1,9 @@
 ---
 layout: default
-title: howto
-nav_exclude: true
+title: Custom Column Translators
+description: "Custom Column Translators
+parent: How to
+nav_order: 9
 ---
 
 ### Custom Column Translators  
@@ -20,7 +22,7 @@ The best way of explaining is by way of example:
 ### The Humble Boolean.
 A boolean value can be true or false, or if defined as nullable, can be true, false, or null. So let's consider we have a cell from a database and we need to convert that to a boolean. We know that the target is a boolean, so we create a `BoolDbColToTypeConverter`; we can then ask the converter to convert a value from the database into the boolean. What will happen is this converter will call `GetDataValue`, i.e.:
 
-``` C#
+```csharp
     public override bool GetDataValue(IDataReader dr, string columnName)
     {
         return dr.AsBool(columnName);
@@ -28,7 +30,7 @@ A boolean value can be true or false, or if defined as nullable, can be true, fa
 ```
 This then delegates the logic to `DataReader` extensions to get the value from the data reader column as a bool:
 
-``` C#
+```csharp
     public static bool AsBool(this IDataReader dr, string colName)
     {
         var val = dr.AsNullBool(colName);

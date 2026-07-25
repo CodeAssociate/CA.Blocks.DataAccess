@@ -1,7 +1,9 @@
 ---
 layout: default
-title: howto
-nav_exclude: true
+title: execute Stored procedures
+description: "execute Stored procedures"
+parent: How to
+nav_order: 7
 ---
 
 ### execute Stored procedures
@@ -9,7 +11,7 @@ nav_exclude: true
 Working with stored procedures is very easy with the blocks.  You set the procedure name in the CreateStoredProcedureCommand, then execute it like any other command.
 
 
-```C#
+```csharp
     public class SpWhoResult
     {
         public short spid { get; init; }

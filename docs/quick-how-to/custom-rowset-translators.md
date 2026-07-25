@@ -1,23 +1,16 @@
 ---
 layout: default
-title: howto
-nav_exclude: true
+title: Custom Row Translators
+description: "Custom Row Translators"
+parent: How to
+nav_order: 8
 ---
-
 ### Custom Row Translators  
 
 A core part of the CA.Blocks.DataAccess functionality is reducing the object-relational impedance mismatch that exists between the relational world and the object world of .NET.   In the relational world, the data structures revolve around sets of tables with each table having rows and columns. Each intersection of a row with a column has a cell value. Cells come from a finite number of simple data types, like strings, numbers dates. The tables are all linked with primary and foreign keys.  In the object world, the data structures are far richer with objects having properties, a property can be any value including other objects. The properties themselves reflect the relationships between objects, as such, there is no real concept of foreign keys.    
 
 The Row Translators have the responsibility of mapping the Table structure which is rows, columns and cells into the class structure with properties.  The focus on the Row Translators is at the structure level.  See the column translators for the cell mappings. 
 
-
-<div style="text-align:center;">
-<span style="min-height:128px;display:inline-flex;align-items:center;border: 1px solid aqua;background-color:white;" >
-    <img src="../_assets/Table.svg" alt="Table" width=128 /> 
-    ==➤
-    <img src="../_assets/Class.svg" alt="class" width=128 />
-</span>
-</div>
 
 ### One-to-one mapping
 
@@ -33,7 +26,7 @@ With a  SQL Table Structure as
     )
 ```
 The Table data need to be mapped into the  .NET Class Structure
-``` Csharp
+```csharp
     public class MyClass
     {
         public int Id { get; init; }
@@ -46,7 +39,7 @@ The Table data need to be mapped into the  .NET Class Structure
 
 This setup, is a simple 1-1 mapping you can simply call execute passing in the command object. The mapping is done using the ToListOf method which will work with the  IDataReader reader object returning the list of MyClass objects as follows:
 
-```C#
+```csharp
     public IList<MyClass> GetMyClassFromMyTable()
     {
         var cmd = CreateTextCommand("Select * From MyTable");
@@ -79,7 +72,7 @@ The SQL Table Structure
     )
 ```
 The .NET Class Structure
-``` Csharp
+```csharp
     public class MyClass
     {
         public int Id { get; init; }
@@ -96,7 +89,7 @@ To make use of automatic mapping there are three options:
 3) Implement a Custom Mapping Function
 
 #### using SQL to alias 
-```C#
+```csharp
     public IList<MyClass> GetMyClassFromMyTable()
     {
         var sql = @"Select MyTableId as Id, MyTableName as Name, Cast([Status] as Int) as [Status] , Quantity, Modified as ModifiedAt from MyTable";
@@ -119,7 +112,7 @@ In this example we have gone back to the server and make the sever return someth
 #### Provide mapping attributes to the class in .NET
 The second Option you have to to provide the markup in the target class
 
-``` C#
+```csharp
     public class MyClass
     {
         [DbColToSourceName("MyTableId")]
@@ -135,7 +128,7 @@ The second Option you have to to provide the markup in the target class
 ```
 In this case, we have simply turned the mapping around, providing the mapping info on the .NET side. With this in place, we can execute the query.
 
-```C#
+```csharp
     public IList<MyClass> GetMyClassFromMyTable()
     {
         var sql = @"Select * From MyTable";
@@ -151,7 +144,7 @@ The Most powerful and most flexible option is to use a custom function for the m
 This can be either be a lambda or function 
 
 Using a lambda
-```C#
+```csharp
     public IList<MyClass> GetMyClassFromMyTable()
     {
         var sql = @"Select * From MyTable";
@@ -169,7 +162,7 @@ Using a lambda
 ```
 
 Using a function.  The Key advantage for function is the you can reuse the conversion in other places.
-```C#
+```csharp
     private MyClass MyCustomConvert(IDataReader reader)
     {
         return new MyClass

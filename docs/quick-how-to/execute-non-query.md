@@ -1,7 +1,9 @@
 ---
 layout: default
-title: howto
-nav_exclude: true
+title: Execute Non-Query
+description: "Execute Non-Query "
+parent: How to
+nav_order: 5
 ---
 
 ### Execute Non-Query 
@@ -36,7 +38,7 @@ Any syntax error or other DB error from the database will raise a DbException.
 
 
 The example below will return 1 if only one row is created:
-```C#
+```csharp
     public int CreateNewProductCategory(string name)
     {
         var sql = "Insert into [Production].[ProductCategory] (Name, rowguid, ModifiedDate) values (@name, NEWID(), GetDate())";
@@ -47,7 +49,7 @@ The example below will return 1 if only one row is created:
 
 In the example below, the method `DeleteProductCategory` will delete a row by name. As the name has a unique index, if the product category exists and is deleted, the function will return 1; if no product category exists, the result will be 0. 
 
-```C#
+```csharp
     public int DeleteProductCategory(string name)
     {
         var sql = "Delete from [Production].[ProductCategory] where Name = @name";
@@ -58,7 +60,7 @@ In the example below, the method `DeleteProductCategory` will delete a row by na
 
 
 Example executing a DDL, ensuring the return is -1 as it is a DDL statement:
-```C#
+```csharp
         public bool CreateTableExample1()
         {
             var sql = @"
@@ -73,7 +75,7 @@ Create Table MyTable (Id int not null, Name varchar(10) not null);";
 ```
 
 More typically, you can execute the `ExecuteNonQuery` as a void and deal with any exceptions:
-```C#
+```csharp
         public void CreateTableExample2()
         {
             var sql = @"

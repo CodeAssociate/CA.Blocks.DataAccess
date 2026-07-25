@@ -72,17 +72,8 @@ The methods follow the same pipeline
 2) you Execute or execute async the command
 3) you then map the results into desired materialised objects 
 
-```csharp
-public class MyDataAccess : SqlServerDataAccess
-{
-    public MyDataAccess(IConfiguration configuration) : base (
-            new DataAccessConfig(
-                new DataAccessConfigOptions { ConnectionStringKey = "MyDbConnection" }, 
-                new JsonConfigConnectionStringsResolver(configuration))
-        )
-        {
-        }
-     
+```csharp  
+    // Example method to get a IList<MyModel>
     public async Task<IList<MyModel>> GetAllAsync()
     {
         var cmd = CreateCommand("SELECT * FROM MyTable");
@@ -91,7 +82,6 @@ public class MyDataAccess : SqlServerDataAccess
         //           Step 2 ^^^execute async
         //                             Step 3 ^^^^ map the row set to a list of MyTableModel
     }
-}
 ```
 
 📖 Documentation & Guides
@@ -100,7 +90,7 @@ Learn more about setting up and extending the library:
 
 🚀 [Quick Start Guide](quick-start.md) — Step-by-step setup and basic usage.
 
-🏗️ [Architecture & Design](architecture.md) — How the "Pluggable Building Blocks" work together.
+🏗️ [Architecture & Design](./architecture/architecture.md) — How the "Pluggable Building Blocks" work together.
 
 📦 [Package Reference](packages.md) — A complete list of all NuGet packages and extensions.
 
