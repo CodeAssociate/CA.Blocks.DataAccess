@@ -14,6 +14,12 @@ aux_links:
 # Enable heading anchors (click-to-copy section links)
 heading_anchors: true
 
+# Path to the logo image displayed in the left sidebar top corner
+logo: "/_assets/ico/ca128x128.png"
+
+# Path to the browser tab favicon
+favicon_ico: "/_assets/ico/ca.ico"
+
 mermaid:
   # Version of mermaid library
   # Pick an available version from https://cdn.jsdelivr.net/npm/mermaid/

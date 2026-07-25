@@ -6,7 +6,13 @@ description: "Overview and Quick Start for CA.Blocks.DataAccess."
 ---
 
 # CA.Blocks.DataAccess
-A lightweight, high-performance C# data access layer designed to simplify repository patterns for database operations in .NET applications.
+Built to help developers write clean data access code faster, CA.Blocks.DataAccess removes the friction of setting up custom repositories and database context boilerplate. It integrates seamlessly with .NET Dependency Injection, giving you an expressive, testable foundation for your database queries out of the box.
+
+
+![ado Boiler plate](docs/_assets/impedance_bridge.jpg)
+![ado Boiler plate](docs/_assets/AD_Boilerplate.jpg)
+![using the blocks abstract and distilled and clean data access](docs/_assets/Blocks_Distilled.jpg)
+
 
 ---
 ## ⚡ Quick Start
