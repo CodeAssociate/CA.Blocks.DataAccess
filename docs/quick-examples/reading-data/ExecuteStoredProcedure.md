@@ -1,3 +1,9 @@
+---
+layout: default
+title: Samples
+nav_exclude: true
+---
+
 ### Samples 
 
 #### Execute a Stored Procedure

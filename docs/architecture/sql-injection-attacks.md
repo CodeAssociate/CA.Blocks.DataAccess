@@ -1,3 +1,9 @@
+---
+layout: default
+title: SQL injection
+parent: Architecture
+nav_order: 3
+---
 ## SQL injection
 
 One of the key responsibilities that the CA.Blocks.DataAccess passes on to you as the developer is that of protecting against SQL injection attacks.  The framework exposes the full power of the underlying database through the execution of SQL, this SQL is 100% written by the developer with no restrictions. Using the blocks there is no direct way to execute a SQL statement from the calling code without writing a custom data access method.  Whilst the core design is protected by default, and all functions that execute the SQL commands are protected.  It is the custom DataAccess methods that invoke those protected methods that need to be written with SQL injection in mind. As the developer, you may be tempted to expose this to avoid writing your access methods by making the protected methods public. Doing this will open your code up to be injected.  Working directly with the SQL means as a developer you are responsible for the SQL generated this means responsibility for injection attacks. The simplest way to avoid injection attacks is not executing any SQL that is not 100% controlled by the code and using parameterized SQL everywhere.

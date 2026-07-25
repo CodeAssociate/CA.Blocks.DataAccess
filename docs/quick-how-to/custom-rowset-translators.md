@@ -1,3 +1,9 @@
+---
+layout: default
+title: howto
+nav_exclude: true
+---
+
 ### Custom Row Translators  
 
 A core part of the CA.Blocks.DataAccess functionality is reducing the object-relational impedance mismatch that exists between the relational world and the object world of .NET.   In the relational world, the data structures revolve around sets of tables with each table having rows and columns. Each intersection of a row with a column has a cell value. Cells come from a finite number of simple data types, like strings, numbers dates. The tables are all linked with primary and foreign keys.  In the object world, the data structures are far richer with objects having properties, a property can be any value including other objects. The properties themselves reflect the relationships between objects, as such, there is no real concept of foreign keys.    

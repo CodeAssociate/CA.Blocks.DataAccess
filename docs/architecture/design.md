@@ -1,4 +1,10 @@
-﻿
+﻿---
+layout: default
+title: Design
+parent: Architecture
+nav_order: 1
+---
+
 ## Design
 The CA.Blocks.DataAccess is designed as a micro-ORM for relational databases. Its core functionality focuses on reducing the object-relational impedance mismatch that exists between the relational world and the object world of objects in .NET.
 It was designed to work with onion / layered and CQRS-type architectures and can work with or without dependency injection. The blocks are built on top of ADO.NET; the core layer is implemented within `CA.Blocks.DataAccess`. This layer has no dependency on any provider; each provider is implemented as a specialization of the abstract core. These are all independent assemblies, such that each of the providers can be isolated. If you are using MySQL, you do not need to pull in the SQL Server dependencies and vice versa.

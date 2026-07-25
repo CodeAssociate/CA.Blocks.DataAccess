@@ -1,4 +1,10 @@
-﻿
+﻿---
+layout: default
+title: Dependency Injection 
+nav_exclude: true
+---
+
+
 CA.Blocks.DataAccess has been published to NuGet. First thing that you need to decide is which provider we want to use. 
 
 For SQL server https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/

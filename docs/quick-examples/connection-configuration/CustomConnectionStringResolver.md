@@ -1,3 +1,9 @@
+---
+layout: default
+title: CustomConnectionStringResolver
+nav_exclude: true
+---
+
 ### CustomConnectionStringResolver
 
 Although the app.config and appsettings.json will cater to a large number of cases there are times when you might need custom logic to resolve the connection string.  This is common in applications that work with sharded databases. This is easily achieved by implementing the  IDataAccessKeyToConnectionStringResolver interface. 

@@ -1,3 +1,8 @@
+---
+layout: default
+title: JsonConfigConnectionStringsResolver
+nav_exclude: true
+---
 ### JsonConfigConnectionStringsResolver
 
 This is an example implementation of IDataAccessKeyToConnectionStringResolver that uses the Microsoft.Extensions.ConfigurationConfigurationManager class.  

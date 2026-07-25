@@ -1,3 +1,10 @@
+---
+layout: default
+title: Protected by default
+parent: Architecture
+nav_order: 2
+---
+
 ## Protected by default
 
 If you look at the core design of the blocks your database methods will reside within a class. So it will look something like 

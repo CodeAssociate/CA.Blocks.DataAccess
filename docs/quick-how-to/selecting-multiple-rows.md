@@ -1,3 +1,9 @@
+---
+layout: default
+title: howto
+nav_exclude: true
+---
+
 ## Selecting Multiple Rows
 
 These methods are the most frequently used methods within the package. They provide the ability to get data coming from a query as a row set into dotNET class structure.   

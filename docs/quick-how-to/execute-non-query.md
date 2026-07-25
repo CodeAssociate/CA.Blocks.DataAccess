@@ -1,3 +1,9 @@
+---
+layout: default
+title: howto
+nav_exclude: true
+---
+
 ### Execute Non-Query 
 
 The Execute Non-Query is for commands that do not return any results.  These are generally grouped into three sets of statements DDL (Data Definition Language) DML (Data Manipulation Language) and DCL (Data Control Language).

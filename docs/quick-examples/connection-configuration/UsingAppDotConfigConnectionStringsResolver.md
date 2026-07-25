@@ -1,3 +1,9 @@
+---
+layout: default
+title: AppDotConfigConnectionStringsResolver
+nav_exclude: true
+---
+
 ### AppDotConfigConnectionStringsResolver
 
 This is a implementation of IDataAccessKeyToConnectionStringResolver that uses the Microsoft System.Configuration.ConfigurationManager class.  This is common with the .NET 1 to 4.8 frameworks. It will be using the App.config or web.config ConnectionStrings setting.

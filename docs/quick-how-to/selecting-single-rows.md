@@ -2,8 +2,8 @@
 layout: default
 title: Select Single Object
 description: "Select Single Object"
-parent: How To
-nav_order: 1
+parent: How to
+nav_order: 2
 ---
 
 ## Selecting Single Rows

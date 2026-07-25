@@ -1,3 +1,9 @@
+---
+layout: default
+title: howto
+nav_exclude: true
+---
+
 ### execute Stored procedures
 
 Working with stored procedures is very easy with the blocks.  You set the procedure name in the CreateStoredProcedureCommand, then execute it like any other command.

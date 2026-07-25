@@ -1,3 +1,9 @@
+---
+layout: default
+title: Connections
+nav_exclude: true
+---
+
 ## Connections
 
 One of the first tasks you will need to do is set up a connection to a database. The CA Data Access blocks follow the .NET convention of using named configured connection strings. The connection strings encode the parameters needed to make the connection to the database, such as database server, database name, network protocol, credentials, etc. Internally, the core DataAccess block will ask to resolve a `connectionStringKey` to a connection string value. This is done by calling the `IDataAccessKeyToConnectionStringResolver` interface. 

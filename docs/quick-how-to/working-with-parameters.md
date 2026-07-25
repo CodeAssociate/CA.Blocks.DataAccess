@@ -1,3 +1,9 @@
+---
+layout: default
+title: howto
+nav_exclude: true
+---
+
 ## Working with parameters 
 The CA.Blocks.DataAccess allows you to work directly with SQL 
 Working with parameters is one of the key defenses against SQL injection attacks, see [SQL Injection attacks](../architecture/sql-injection-attacks.md).

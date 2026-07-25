@@ -1,3 +1,8 @@
+---
+layout: default
+title: Samples
+nav_exclude: true
+---
 ## Samples
 
 All samples given will use a local sql server database only the DataAccess Methods will be shown 

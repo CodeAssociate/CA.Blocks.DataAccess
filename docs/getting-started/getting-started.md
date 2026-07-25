@@ -1,4 +1,10 @@
-﻿
+﻿---
+layout: default
+title: Getting Started
+nav_exclude: true
+---
+
+
 CA.Blocks.DataAccess has been published to NuGet. The first thing you need to decide is which provider you want to use. 
 
 For SQL server https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/
