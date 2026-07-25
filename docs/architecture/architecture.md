@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Architecture
-nav_order: 2
+nav_order: 4
 description: "The Design Architecture for the CA.Blocks.DataAccess."
 ---
 
