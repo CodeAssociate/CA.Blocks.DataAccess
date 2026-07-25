@@ -4,7 +4,6 @@ title: Home
 nav_order: 1
 description: "Overview and Quick Start for CA.Blocks.DataAccess."
 ---
-
 # CA.Blocks.DataAccess
 Built to help developers write clean data access code faster, CA.Blocks.DataAccess removes the friction of setting up custom repositories and database context boilerplate. It integrates seamlessly with .NET Dependency Injection, giving you an expressive, testable foundation for your database queries out of the box.
 
@@ -32,114 +31,68 @@ Choose the package for your database:
 
 ### 2. Choose how to resolve your connection strings:
 
-| Method                                                                                                    | Resolver Class                                | Extension Package |
-|:----------------------------------------------------------------------------------------------------------|:----------------------------------------------| :--- |
-| [**appsettings.json**](./quick-examples/connection-configuration/json-resolver.md)                        | `JsonConfigGetConnectionStringResolver`       | `CA.Blocks.DataAccess.Extensions.Config.Json` |
-| [**Environment Variables**](./quick-examples/connection-configuration/environment-variables-resolver.md)  | `EnvironmentVariableConnectionStringResolver` | (Built-in) |
-| [**In Code**](./quick-examples/connection-configuration/simple-hardcoded-resolver.md)                     | `HardCodedConnectionStringsResolver`          | (Built-in) |
-| [**app.config**](./quick-examples/connection-configuration/app-config-resolver.md)                        | Custom using ConfigurationManager             | (Built-in) |
-| [** custom **](./quick-examples/connection-configuration/custom-resolver.md)                              | `IDataAccessKeyToConnectionStringResolver`    | (Built-in) |
+| Method                                                                                                   | Resolver Class                                | Extension Package |
+|:---------------------------------------------------------------------------------------------------------|:----------------------------------------------| :--- |
+| [**appsettings.json**](./quick-examples/connection-configuration/json-resolver.md)                       | `JsonConfigGetConnectionStringResolver`       | `CA.Blocks.DataAccess.Extensions.Config.Json` |
+| [**Environment Variables**](./quick-examples/connection-configuration/environment-variables-resolver.md) | `EnvironmentVariableConnectionStringResolver` | (Built-in) |
+| [**In Code**](./quick-examples/connection-configuration/simple-hardcoded-resolver.md)                    | `HardCodedConnectionStringsResolver`          | (Built-in) |
+| [**app.config**](./quick-examples/connection-configuration/app-config-resolver.md)                       | Custom using ConfigurationManager             | (Built-in) |
+| [**custom**](./quick-examples/connection-configuration/custom-resolver.md)                               | `IDataAccessKeyToConnectionStringResolver`    | (Built-in) |
 
-#### Using `appsettings.json`
-```bash
-dotnet add package CA.Blocks.DataAccess.Extensions.Config.Json
-```
-Then 
-```bash json
-{
-    "ConnectionStrings": {
-    "exampleName": "Server=(localdb)\\MSSQLLocalDB;Integrated Security=true"
-    }
-}
-```
-Then use
-```csharp
-    public class MyDataAccess : SqlServerDataAccess
+### 3. Glue up your data access with the provider and configuration 
+#### SQL Server Example using Json config 
+1) Setup you configuration value in the appsettings.json file:
+``` json
     {
-        public MyDataAccess(IConfiguration configuration) : base (
-                new DataAccessConfig( 
-                    new DataAccessConfigOptions { ConnectionStringKey = "exampleName" }, 
-                    new JsonConfigGetConnectionStringResolver(configuration))
-            )
-            {
-            }
-        ...
+        "ConnectionStrings": {
+            "MyDbConnection": "Server=(localdb)\\MSSQLLocalDB;Integrated Security = true"
+        }
     }
-```
-In this example, we are using the `SqlServerDataAccess` module. The DI is set up to read the `appsettings.json` file looking for a connection string key 'exampleName' that will resolve to your connection string. 
-
-#### Using `app.config`
-```bash xml
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-  <connectionStrings>
-    <add name="exampleName" connectionString="Server=(localdb)\\MSSQLLocalDB;Integrated Security = true"/>
-  </connectionStrings>
-</configuration>
-```
-
-#### Using Environment Variables
-This is useful for cloud-native applications and containers where connection strings are often stored as environment variables.
-
-```csharp
-public class MyDataAccess : SqlServerDataAccess
-{
-    public MyDataAccess() : base (
-            new EnvironmentVariableDataAccessConfig("MyDbConnection")
-        )
-        {
-        }
-    ...
-}
-```
-
-#### Using Roll your own 
-
-```csharp
-public class ExampleConnectionStringResolver : IDataAccessKeyToConnectionStringResolver
-{
-
-  public string GetConnectionString(string connectionStringKey)
-  {
-        var result = $"Server={Environment.MachineName}-sql;Database={connectionStringKey};Trusted_Connection=True;";
-        return result; 
-  }
-}
-```
-
-
-### 3. Write your code
-#### SQL Server
-```csharp
-public class MyDataAccess : SqlServerDataAccess
-{
-    public MyDataAccess(IDataAccessKeyToConnectionStringResolver resolver) : base (
-            new DataAccessConfig(
-            new DataAccessConfigOptions { ConnectionStringKey = "YourDBKey" }, resolver)
-        )
-        {
-        }
-    ...
-}
-```
-
-#### Using `appsettings.json` with the default key
+ ```
+2) You create you data access class as inherit form the provided `SqlServerDataAccess` class. You glue up the configuration value pointing to the "MyDbConnection" Key
 ```csharp
 public class MyDataAccess : SqlServerDataAccess
 {
     public MyDataAccess(IConfiguration configuration) : base (
             new DataAccessConfig(
-            new DataAccessConfigOptions { ConnectionStringKey = "default" }, new JsonConfigGetConnectionStringResolver(configuration))
+                new DataAccessConfigOptions { ConnectionStringKey = "MyDbConnection" }, 
+                new JsonConfigConnectionStringsResolver(configuration))
         )
         {
         }
-    ...
+     ...
     // your code goes here
     ...
 }
 ```
+3) You can now write you data access methods
+The methods follow the same pipeline
+![Execute Piepline](./_assets/ExectionPipelinepng.jpg)
+1) you construct the command from a SQL statement or stored procedure 
+2) you Execute or execute async the command
+3) you then map the results into desired materialised objects 
 
-
+```csharp
+public class MyDataAccess : SqlServerDataAccess
+{
+    public MyDataAccess(IConfiguration configuration) : base (
+            new DataAccessConfig(
+                new DataAccessConfigOptions { ConnectionStringKey = "MyDbConnection" }, 
+                new JsonConfigConnectionStringsResolver(configuration))
+        )
+        {
+        }
+     
+    public async Task<IList<MyModel>> GetAllAsync()
+    {
+        var cmd = CreateCommand("SELECT * FROM MyTable");
+        // Step 1 construct the command ^^^^
+        return await ExecuteAsync(cmd).ToListOf<MyTableModel>();
+        //           Step 2 ^^^execute async
+        //                             Step 3 ^^^^ map the row set to a list of MyTableModel
+    }
+}
+```
 
 📖 Documentation & Guides
 
