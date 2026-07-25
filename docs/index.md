@@ -19,27 +19,26 @@ Built to help developers write clean data access code faster, CA.Blocks.DataAcce
 
 Get up and running in your .NET project in under 2 minutes:
 
-### 1. Install Package
+### 1. Install Package that matches your target database
 Choose the package for your database:
 
-| Database | NuGet Package | Install Command |
-| :--- | :--- | :--- |
+| Database       | NuGet Package | Install Command |
+|:---------------| :--- | :--- |
 | **SQL Server** | `CA.Blocks.SQLServerDataAccess` | `dotnet add package CA.Blocks.SQLServerDataAccess` |
-| **SQLite** | `CA.Blocks.SqliteDataAccess` | `dotnet add package CA.Blocks.SqliteDataAccess` |
-| **PostgreSQL** | `CA.Blocks.PostgreSQLDataAccess` | `dotnet add package CA.Blocks.PostgreSQLDataAccess` |
-| **MySQL** | `CA.Blocks.MySQLDataAccess` | `dotnet add package CA.Blocks.MySQLDataAccess` |
-| **ODBC** | `CA.Blocks.OdbcDataAccess` | `dotnet add package CA.Blocks.OdbcDataAccess` |
+| **Sqlite**     | `CA.Blocks.SqliteDataAccess` | `dotnet add package CA.Blocks.SqliteDataAccess` |
+| **Postgres**   | `CA.Blocks.PostgreSQLDataAccess` | `dotnet add package CA.Blocks.PostgreSQLDataAccess` |
+| **MySQL**      | `CA.Blocks.MySQLDataAccess` | `dotnet add package CA.Blocks.MySQLDataAccess` |
+| **ODBC**       | `CA.Blocks.OdbcDataAccess` | `dotnet add package CA.Blocks.OdbcDataAccess` |
 
-### 2. Set your connection strings 
+### 2. Choose how to resolve your connection strings:
 
-Choose how to resolve your connection strings:
-
-| Method | Resolver Class | Extension Package |
-| :--- | :--- | :--- |
-| **appsettings.json** | `JsonConfigGetConnectionStringResolver` | `CA.Blocks.DataAccess.Extensions.Config.Json` |
-| **Environment Variables** | `EnvironmentVariableConnectionStringResolver` | (Built-in) |
-| **app.config** | Custom implementation | (Built-in) |
-| **Roll your own** | `IDataAccessKeyToConnectionStringResolver` | (Built-in) |
+| Method                                                                                                    | Resolver Class                                | Extension Package |
+|:----------------------------------------------------------------------------------------------------------|:----------------------------------------------| :--- |
+| [**appsettings.json**](./quick-examples/connection-configuration/json-resolver.md)                        | `JsonConfigGetConnectionStringResolver`       | `CA.Blocks.DataAccess.Extensions.Config.Json` |
+| [**Environment Variables**](./quick-examples/connection-configuration/environment-variables-resolver.md)  | `EnvironmentVariableConnectionStringResolver` | (Built-in) |
+| [**In Code**](./quick-examples/connection-configuration/simple-hardcoded-resolver.md)                     | `HardCodedConnectionStringsResolver`          | (Built-in) |
+| [**app.config**](./quick-examples/connection-configuration/app-config-resolver.md)                        | Custom using ConfigurationManager             | (Built-in) |
+| [** custom **](./quick-examples/connection-configuration/custom-resolver.md)                              | `IDataAccessKeyToConnectionStringResolver`    | (Built-in) |
 
 #### Using `appsettings.json`
 ```bash

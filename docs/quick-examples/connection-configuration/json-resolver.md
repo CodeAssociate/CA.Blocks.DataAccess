@@ -3,10 +3,18 @@ layout: default
 title: JsonConfigConnectionStringsResolver
 nav_exclude: true
 ---
-### JsonConfigConnectionStringsResolver
+### Json Config Connection Strings Resolver
+
+![json connectino string resolver](./../../_assets/CA.Blocks.JsonConfigSettings.jpg)
 
 This is an example implementation of IDataAccessKeyToConnectionStringResolver that uses the Microsoft.Extensions.ConfigurationConfigurationManager class.  
 This is common with the .NET Core frameworks and designed using the dependency injection pattern. 
+
+You can write this as [JsonConfigConnectionStringsResolver](https://github.com/CodeAssociate/CA.Blocks.DataAccess/blob/master/CA.Blocks.DataAccess.Extensions.Config.Json/JsonConfigConnectionStringsResolver.cs) in your our code base or simply pull in the extention from Nuget
+
+``` bash 
+dotnet add package CA.Blocks.DataAccess.Extensions.Config.Json
+```
 
 Example using Json and with config in appsettings.json and a ConnectionString named exampleName
 
@@ -18,29 +26,8 @@ Example using Json and with config in appsettings.json and a ConnectionString na
 }
 
 ```
-First you will need to add a reference to the package Microsoft.Extensions.Configuration
-Create a class in your code where you data access classes will live called JsonConfigConnectionStringsResolver, to resolve the Key to the connection string.  
 
-``` csharp
-/// <summary>
-/// Uses the JsonConfig 
-/// </summary>
-public class JsonConfigConnectionStringsResolver : IDataAccessKeyToConnectionStringResolver
-{
-    private readonly IConfiguration _configuration;
 
-    public JsonConfigConnectionStringsResolver(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
-    public string GetConnectionString(string connectionStringKey)
-    {
-        // this is use the IConfiguration to get the configured value for connectionStringKey/
-        return _configuration.GetConnectionString(connectionStringKey);
-    }
-}
-```
 
 To use this in from the blocks we need to join the config up notice we are using the JsonConfigConnectionStringsResolver from above
 

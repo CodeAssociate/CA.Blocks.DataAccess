@@ -18,14 +18,14 @@ public interface IDataAccessKeyToConnectionStringResolver
 The blocks only have a single concrete implementation of the `IDataAccessKeyToConnectionStringResolver`, which is the `HardCodedConnectionStringsResolver`. The `AppDotConfigConnectionStringsResolver` and `JsonConfigGetConnectionStringResolver` have been pulled out of the blocks, as configuration is more of a hosting app concern. Having these concrete implementations meant the blocks were pulling in both configuration models and bloating project dependencies.  
 
 ### Using app.config 
-If you are using `web.config` or `app.config` (typically .NET Framework 1.1 - 4.8), [see using AppDotConfigConnectionStringsResolver](./UsingAppDotConfigConnectionStringsResolver.md).
+If you are using `web.config` or `app.config` (typically .NET Framework 1.1 - 4.8), [see using AppDotConfigConnectionStringsResolver](./app-config-resolver.md).
 
 
 ### Using appsettings.json
-If you are using `appsettings.json` or `config.json` (typically .NET Core / .NET 5+), [see using JsonConfigConnectionStringsResolver](./UsingJsonConfigConnectionStringsResolver.md).
+If you are using `appsettings.json` or `config.json` (typically .NET Core / .NET 5+), [see using JsonConfigConnectionStringsResolver](./json-resolver.md).
 
 ### Using a custom ConnectionStringsResolver
-You can use a custom `ConnectionStringsResolver`, [see implementing a CustomConnectionStringResolver](./CustomConnectionStringResolver.md).
+You can use a custom `ConnectionStringsResolver`, [see implementing a CustomConnectionStringResolver](./custom-resolver.md).
 
 
 ### The hard coded version 
