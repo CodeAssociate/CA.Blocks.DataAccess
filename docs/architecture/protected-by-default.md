@@ -9,24 +9,24 @@ nav_order: 2
 
 If you look at the core design of the blocks your database methods will reside within a class. So it will look something like 
 
-```C#
-    public class YourDataAccessClass : SqlServerDataAccess
+```csharp
+public class YourDataAccessClass : SqlServerDataAccess
+{
+    public YourDataAccessClass() : base( IDataAccessConfig  )
     {
-        public YourDataAccessClass() : base( IDataAccessConfig  )
-        {
-        }
-        //... your methods go here
     }
+    //... your methods go here
+}
 ```
 At this point, you are working with the context of a class; you can then write your data access method within that class.
 
-```C#
-    public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
-    {
-        var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";
-        var cmd = CreateTextCommand(sql).WithParameter(searchTerm.ToSqlParameter("@searchTerm"));
-        return Execute(cmd).ToListOf<ProductSummary>();
-    }
+```csharp
+public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
+{
+    var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";
+    var cmd = CreateTextCommand(sql).WithParameter(searchTerm.ToSqlParameter("@searchTerm"));
+    return Execute(cmd).ToListOf<ProductSummary>();
+}
 ```
 
 So in the example above, we are searching for all products with a name like the search term. 
@@ -41,51 +41,51 @@ This design offers you, as a developer, a degree of protection:
 ### What can go wrong if you don't use parameters
 
 consider the same code without parameters
-```C#
-    public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
-    {
-        var sql = $"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like '{searchTerm}'";
-        var cmd = CreateTextCommand(sql);
-        return Execute(cmd).ToListOf<ProductSummary>();
-    }
+```csharp
+public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
+{
+    var sql = $"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like '{searchTerm}'";
+    var cmd = CreateTextCommand(sql);
+    return Execute(cmd).ToListOf<ProductSummary>();
+}
 ```
 
 1) Calling with expected data example search for %Bikes%
-```C#
-     var result = _adventureWorksDataAccess.GetProductSummaryContainingName("%Bike%");
+```csharp
+var result = _adventureWorksDataAccess.GetProductSummaryContainingName("%Bike%");
 ```
 This does exactly what the parameterized version does.
 
 2) Calling with expected data example search for '%Bike's%'
-```C#
-     var result = _adventureWorksDataAccess.GetProductSummaryContainingName("%Bike's%");
+```csharp
+var result = _adventureWorksDataAccess.GetProductSummaryContainingName("%Bike's%");
 ```
 Here we start to get problems the parameters in parameterized version you will have the following SQL executed which will execute as expected  
-``` SQL 
-    Declare @SearchTerm varchar(64) = '%Bike''s%'
-    Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
-    From  [Production].[Product]
-    where name like @SearchTerm
+```sql
+Declare @SearchTerm varchar(64) = '%Bike''s%'
+Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
+From  [Production].[Product]
+where name like @SearchTerm
 ```
 In the non parameterized version you will have the following SQL executed
-```SQL
-    Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
-    From  [Production].[Product]
-    where name like '%Bike's%'
+```sql
+Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
+From  [Production].[Product]
+where name like '%Bike's%'
 ``` 
 Here the server will generate a SQL error.
 
 3) Lets Inject:
 Calling with expected data example search for ''; SHUTDOWN  WITH NOWAIT;'
-```C#
+```csharp
      var result = _adventureWorksDataAccess.GetProductSummaryContainingName("'; SHUTDOWN  WITH NOWAIT;");
 ```
 With the parameterized version, this will run:
-``` SQL 
-    Declare @SearchTerm varchar(64) = '; SHUTDOWN  WITH NOWAIT;'
-    Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
-    From  [Production].[Product]
-    where name like @SearchTerm
+```sql
+Declare @SearchTerm varchar(64) = '; SHUTDOWN  WITH NOWAIT;'
+Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
+From  [Production].[Product]
+where name like @SearchTerm
 ```
 This will execute the search looking for all the products with `'; SHUTDOWN WITH NOWAIT;'`. An odd search term, but no damage done.
 
@@ -93,10 +93,10 @@ However with the no parameterized version you will have the following SQL execut
 
 
 In the non parameterized version you will have the following SQL executed
-```SQL
-    Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
-    From  [Production].[Product]
-    where name like ''; SHUTDOWN  WITH NOWAIT;
+```sql
+Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
+From  [Production].[Product]
+where name like ''; SHUTDOWN  WITH NOWAIT;
 ``` 
 And if you are running a SQL connection with a high-privilege account, you will be running around trying to work out why the server stopped responding.
 
