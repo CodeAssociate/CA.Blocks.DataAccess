@@ -1,4 +1,10 @@
-﻿# Unit Testing & Integration Testing Guide
+﻿---
+layout: default
+title: howto
+nav_exclude: true
+---
+
+# Unit Testing & Integration Testing Guide
 
 CA.Blocks.DataAccess was built from the ground up to be fully testable Unlike traditional ORMs that require complex in-memory setups or mock DbSets, our minimal abstraction layer uses clean interfaces that allow for effortless mocking of your data access code
 Additionally, for true end-to-end validation, we fully support modern, containerized integration testing.

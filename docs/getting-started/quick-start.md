@@ -22,13 +22,13 @@ Choose the package for your database:
 
 ### 2. Choose how to resolve your connection strings:
 
-| Method                                                                                                   | Resolver Class                                | Extension Package |
-|:---------------------------------------------------------------------------------------------------------|:----------------------------------------------| :--- |
-| [**appsettings.json**](./quick-examples/connection-configuration/json-resolver.md)                       | `JsonConfigGetConnectionStringResolver`       | `CA.Blocks.DataAccess.Extensions.Config.Json` |
-| [**Environment Variables**](./quick-examples/connection-configuration/environment-variables-resolver.md) | `EnvironmentVariableConnectionStringResolver` | (Built-in) |
-| [**In Code**](./quick-examples/connection-configuration/simple-hardcoded-resolver.md)                    | `HardCodedConnectionStringsResolver`          | (Built-in) |
-| [**app.config**](./quick-examples/connection-configuration/app-config-resolver.md)                       | Custom using ConfigurationManager             | (Built-in) |
-| [**custom**](./quick-examples/connection-configuration/custom-resolver.md)                               | `IDataAccessKeyToConnectionStringResolver`    | (Built-in) |
+| Method                                                                                                              | Resolver Class                                | Extension Package |
+|:--------------------------------------------------------------------------------------------------------------------|:----------------------------------------------| :--- |
+| [**appsettings.json**](./../quick-examples/connection-configuration/json-resolver.md)                               | `JsonConfigGetConnectionStringResolver`       | `CA.Blocks.DataAccess.Extensions.Config.Json` |
+| [**Environment Variables**](./..//quick-examples/connection-configuration/environment-variables-resolver.md)        | `EnvironmentVariableConnectionStringResolver` | (Built-in) |
+| [**In Code**](./../quick-examples/connection-configuration/simple-hardcoded-resolver.md)                            | `HardCodedConnectionStringsResolver`          | (Built-in) |
+| [**app.config**](./../quick-examples/connection-configuration/app-config-resolver.md)                               | Custom using ConfigurationManager             | (Built-in) |
+| [**custom**](./../quick-examples/connection-configuration/custom-resolver.md)                                       | `IDataAccessKeyToConnectionStringResolver`    | (Built-in) |
 
 ### 3. Glue up your data access with the provider and configuration
 #### SQL Server Example using Json config
@@ -79,6 +79,5 @@ public class MyDataAccess : SqlServerDataAccess
 
 Now that you have the basics down, explore the modular power of the library:
 
-- 🚀 [Getting Started](getting-started/getting-started.md) — A more detailed guide for beginners.
 - 🏗️ [Architecture & Design](architecture.md) — Learn about the "Pluggable Building Blocks".
 - 📦 [Package Reference](packages.md) — See all available database providers and extensions.

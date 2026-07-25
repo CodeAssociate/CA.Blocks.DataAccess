@@ -1,4 +1,10 @@
-﻿# Take Control of Your Data Layer with CA.Blocks.DataAccess
+﻿---
+layout: default
+title: howto
+nav_exclude: true
+---
+
+# Take Control of Your Data Layer with CA.Blocks.DataAccess
 Are you tired of "fighting" with heavy ORM frameworks or drowning in verbose ADO.NET boilerplate? Meet CA.Blocks.DataAccess, the high-performance micro-ORM designed by developers, for developers
 
 Originally created by Kevin Bosch and used in production environments since 2003, CA.Blocks.DataAccess is an open-source (MIT license) library that bridges the gap between relational databases and .NET objects without the overhead of a full-blown ORM
