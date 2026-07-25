@@ -6,7 +6,15 @@ parent: How To
 nav_order: 7
 ---
 
-### execute Stored procedures
+{: .no_toc .text-delta }
+## Execute Stored Procedures Overview
+
+{:toc_levels="3"}
+
+1. TOC
+{:toc}
+
+---
 
 Working with stored procedures is very easy with the blocks.  You set the procedure name in the CreateStoredProcedureCommand, then execute it like any other command.
 

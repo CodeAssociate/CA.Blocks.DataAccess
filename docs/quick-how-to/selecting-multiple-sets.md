@@ -6,15 +6,18 @@ parent: How To
 nav_order: 4
 ---
 
-### Multiple sets
+{: .no_toc .text-delta }
+## Multiple Sets Overview
 
+{:toc_levels="3"}
 
-| Method      | Description |
-| ----------- | ----------- |
-| Execute(cmd).ToResultsSet<T1, T2>   | Returns an object derived from the data reader |
+1. TOC
+{:toc}
 
+---
 
-### Execute(cmd).ToResultsSet<T1, T2>
+### Execute(cmd).ToResultsSet\<T1, T2\>
+*Returns an object derived from the data reader*
 
 The blocks support executing multiple ResultSets within a single query.
 Given the example where we would like to get the ProductCategory  the ProductSubCategory and the ProductNameAndNumber we could execute this as three methods:

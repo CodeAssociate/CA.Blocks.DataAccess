@@ -6,7 +6,15 @@ parent: How To
 nav_order: 5
 ---
 
-### Execute Non-Query 
+{: .no_toc .text-delta }
+## Execute Non-Query Overview
+
+{:toc_levels="3"}
+
+1. TOC
+{:toc}
+
+---
 
 The Execute Non-Query is for commands that do not return any results.  These are generally grouped into three sets of statements DDL (Data Definition Language) DML (Data Manipulation Language) and DCL (Data Control Language).
 

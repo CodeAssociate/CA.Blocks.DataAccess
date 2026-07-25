@@ -7,7 +7,16 @@ nav_order: 6
 ---
 
 
-## Working with parameters 
+{: .no_toc .text-delta }
+## Working with Parameters Overview
+
+{:toc_levels="3"}
+
+1. TOC
+{:toc}
+
+---
+
 The CA.Blocks.DataAccess allows you to work directly with SQL 
 Working with parameters is one of the key defenses against SQL injection attacks, see [SQL Injection attacks](../architecture/sql-injection-attacks.md).
 
