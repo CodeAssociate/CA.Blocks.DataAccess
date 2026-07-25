@@ -21,9 +21,11 @@ CA.Blocks provides two methods for selecting scalar values along with their asyn
 
 
 {: .no_toc .text-delta }
-## The Selecting Scalar Values Methods
+### Scalar Methods Overview
+
+{:toc_levels="3"}
 1. TOC
-   {:toc_levels="3"}
+   {:toc}
 
 
 ### ExecuteScalarAs<T>
