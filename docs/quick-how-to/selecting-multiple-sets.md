@@ -2,7 +2,7 @@
 layout: default
 title: Select To Multiple Sets 
 description: "Select Multiple sets"
-parent: How to
+parent: How To
 nav_order: 4
 ---
 

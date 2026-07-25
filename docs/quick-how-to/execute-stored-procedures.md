@@ -2,7 +2,7 @@
 layout: default
 title: Execute Stored procedures
 description: "Execute Stored Procedures"
-parent: How to
+parent: How To
 nav_order: 7
 ---
 

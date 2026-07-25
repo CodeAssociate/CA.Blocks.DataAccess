@@ -2,7 +2,7 @@
 layout: default
 title: Custom Row Translators
 description: "Custom Row Translators"
-parent: How to
+parent: How To
 nav_order: 8
 ---
 ### Custom Row Translators  

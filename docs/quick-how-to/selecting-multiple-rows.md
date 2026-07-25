@@ -2,7 +2,7 @@
 layout: default
 title: Select To Lists
 description: "Select To Lists"
-parent: How to
+parent: How To
 nav_order: 3
 ---
 

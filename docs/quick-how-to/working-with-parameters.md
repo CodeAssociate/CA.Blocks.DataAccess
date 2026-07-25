@@ -2,7 +2,7 @@
 layout: default
 title: Working With Parameters
 description: "Working with parameters"
-parent: How to
+parent: How To
 nav_order: 6
 ---
 

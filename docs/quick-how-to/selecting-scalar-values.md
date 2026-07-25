@@ -2,7 +2,7 @@
 layout: default
 title: Selecting Scalar Values
 description: "Selecting Scalar Values"
-parent: How to
+parent: How To
 nav_order: 1
 ---
 

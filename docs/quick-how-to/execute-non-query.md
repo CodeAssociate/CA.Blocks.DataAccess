@@ -2,7 +2,7 @@
 layout: default
 title: Execute Non-Query
 description: "Execute Non-Query "
-parent: How to
+parent: How To
 nav_order: 5
 ---
 

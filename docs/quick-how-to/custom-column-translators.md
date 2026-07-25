@@ -2,7 +2,7 @@
 layout: default
 title: Custom Column Translators
 description: "Custom Column Translators
-parent: How to
+parent: How To
 nav_order: 9
 ---
 

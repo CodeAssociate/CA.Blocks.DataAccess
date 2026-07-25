@@ -2,7 +2,7 @@
 layout: default
 title: Select Single Object
 description: "Select Single Object"
-parent: How to
+parent: How To
 nav_order: 2
 ---
 
