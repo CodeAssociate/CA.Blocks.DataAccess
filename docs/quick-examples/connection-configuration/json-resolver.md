@@ -1,6 +1,6 @@
 ---
 layout: default
-title: JsonConfigConnectionStringsResolver
+title: Json Config Connection Strings Resolver
 nav_exclude: true
 ---
 ### Json Config Connection Strings Resolver

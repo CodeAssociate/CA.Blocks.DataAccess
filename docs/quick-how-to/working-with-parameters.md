@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Working with parameters
+title: Working With Parameters
 description: "Working with parameters"
 parent: How to
 nav_order: 6

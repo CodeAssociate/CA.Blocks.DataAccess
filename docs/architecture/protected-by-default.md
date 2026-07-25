@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Protected by default
+title: Protected By Default
 parent: Architecture
 nav_order: 2
 ---

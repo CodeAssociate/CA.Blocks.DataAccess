@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Samples
+title:  Execute a Stored Procedure
 nav_exclude: true
 ---
 

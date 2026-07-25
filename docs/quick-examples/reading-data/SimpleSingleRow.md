@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Samples
+title: Simple Single Row
 nav_exclude: true
 ---
 

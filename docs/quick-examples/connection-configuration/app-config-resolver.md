@@ -1,6 +1,6 @@
 ---
 layout: default
-title: AppDotConfigConnectionStringsResolver
+title: App Config Connection Strings Resolver
 nav_exclude: true
 ---
 

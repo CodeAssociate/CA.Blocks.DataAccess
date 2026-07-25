@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Select To Multiple sets 
+title: Select To Multiple Sets 
 description: "Select Multiple sets"
 parent: How to
 nav_order: 4

@@ -6,7 +6,15 @@ parent: How to
 nav_order: 2
 ---
 
+{: .no_toc .text-delta }
 ## Selecting Single Rows
+
+{:toc_levels="3"}
+
+1. TOC
+   {:toc}
+
+---
 
 Selecting single rows from a database is a common task. There are two primary driving cases:
 * Firstly, selecting data involved with a unique index such as a primary key, where there can be zero or one row returned. 
@@ -16,22 +24,10 @@ Depending on how you want to work with the data that you retrieve, there are sev
 The default method is `ExecuteTo<T>(cmd)`. This provides the default implementation of `FirstOrDefault`. 
 
 
-
-
-| Method      | Description | Exception
-| ----------- | ----------- | ------|
-| [ExecuteTo<T>(cmd)](#executetot) | This is an alias method mapping to `Execute(cmd).ToFirstOrDefault<T>()` | |
-| [Execute(cmd).ToFirstOrDefault<T>](#executecmdtofirstordefaultt)   | Returns the first of one or more rows as an instance of the type specified by `T` or default if no results are returned | |
-| [Execute(cmd).ToFirst<T>](#executecmdtofirstt)   | Returns the first of one or more rows as an instance of the type specified by `T`. | `DataException` when there are no rows in the returned set |
-| [Execute(cmd).ToSingleOrDefault<T>](#executecmdtosingleordefaultt)   | Returns the single row as an instance of the type specified by `T` or default if no results are returned. You use this when you expect zero or one row | `DataException` when there is more than one row in the returned set (for example selecting data by primary key)|
-| [Execute(cmd).ToSingle<T>](#executecmdtosinglet)   | Returns the single row as an instance of the type specified by `T`. You use this when you expect one and only one row. | `DataException` when there is more than one row in the returned set, or when there are no rows in the returned set |
-| [ExecuteDataRow(cmd)](#executedatarowcmd) | Used to return a `DataRow` using a data adapter | This works with the `SingleOrDefault` behavior |
-| [ExecuteObject(cmd)](#executeobjectcmd) | Use to return a dynamic object | |
-
-
 The examples below: we will be working with the Product table, and returning ProductSummary, The ProductID is the Primary Key to the Product Table.
 
-### ExecuteTo<T>
+### ExecuteTo\<T\>
+*This is an alias method mapping to Execute(cmd).ToFirstOrDefault<T>()*
 
 ```csharp
     public ProductSummary GetProductSummary(int productId)
@@ -45,7 +41,8 @@ where ProductID = @productId";
 ```
 The `ExecuteTo<T>` is simply short form for `Execute(cmd).ToFirstOrDefault<T>();`
 
-### Execute(cmd).ToFirstOrDefault<T> 
+### Execute(cmd).ToFirstOrDefault\<T\> 
+*Returns the first of one or more rows as an instance of the type specified by T or default if no results are returned*
 ```csharp
     public ProductSummary GetProductSummary(int productId)
     {
@@ -57,8 +54,8 @@ where ProductID = @productId";
     }
 ```
 
-### Execute(cmd).ToFirst<T> 
-
+### Execute(cmd).ToFirst\<T\> 
+*Returns the first of one or more rows as an instance of the type specified by T. | DataException when there are no rows in the returned set*
 
 ```csharp
     public ProductSummary GetProductSummary(int productId)
@@ -71,11 +68,12 @@ where ProductID = @productId";
     }
 ```
 
-#### Tips with the `Execute(cmd).ToFirst<T>`
+#### Tips with the `Execute(cmd).ToFirst\<T\>`
 * Use this method when there are one or many records returned from the database.
 * If there are many records you can get the database to restrict data on the server using top x,  This results in better performance  
 
-### Execute(cmd).ToSingleOrDefault<T>  
+### Execute(cmd).ToSingleOrDefault\<T\>  
+*Returns the single row as an instance of the type specified by T or default if no results are returned. You use this when you expect zero or one row | DataException when there is more than one row in the returned set (for example selecting data by primary key)*
 ```csharp
     public ProductSummary GetProductSummary(int productId)
     {
@@ -91,7 +89,9 @@ where ProductID = @productId";
 * Use this method when there is zero or one record returned from the database.
 * If there are many you can use restricted data on the database server using top x to get better performance  
 
-### Execute(cmd).ToSingle<T>
+
+### Execute(cmd).ToSingle\<T\>
+*Returns the single row as an instance of the type specified by T. You use this when you expect one and only one row. | DataException when there is more than one row in the returned set, or when there are no rows in the returned set*
 ```csharp
     public ProductSummary GetProductSummary(int productId)
     {
@@ -108,11 +108,12 @@ where ProductID = @productId";
 * If there are many rows you can use restricted data on the database server using top x to get better performance  
 
 ### ExecuteDataRow(cmd)
-
+*Used to return a DataRow using a data adapter | This works with the SingleOrDefault behavior*
 This method will return a DataRow, the data row can be passed into the translator.  This method is executed using a DbDataAdapter as such there is no Async support. 
 
 
 ### ExecuteObject(cmd) 
+*Use to return a dynamic object*
 
 This will execute to a dynamic object. This is useful for quick prototyping but provides no "type safety". 
 

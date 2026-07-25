@@ -1,6 +1,6 @@
 ---
 layout: default
-title: How to
+title: How To
 nav_order: 2
 description: "the how-to section provides simple examples of how to work with the blocks"
 has_children: true

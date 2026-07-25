@@ -1,6 +1,6 @@
 ---
 layout: default
-title: CustomConnectionStringResolver
+title: Custom Connection String Resolver
 nav_exclude: true
 ---
 
