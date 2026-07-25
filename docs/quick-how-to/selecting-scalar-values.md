@@ -5,7 +5,17 @@ description: "Selecting Scalar Values"
 parent: How to
 nav_order: 1
 ---
-# Selecting Scalar Values
+
+{: .no_toc .text-delta }
+## Scalar Methods Overview
+
+{:toc_levels="3"}
+
+1. TOC
+{:toc}
+
+---
+
 
 A scalar value refers to a single value, for example, a string or a number. So the underlying query will return a single value that will need to be converted. 
 CA.Blocks provides two methods for selecting scalar values along with their asynchronous counterparts.
@@ -19,16 +29,7 @@ CA.Blocks provides two methods for selecting scalar values along with their asyn
 | [ExecuteScalar(cmd)](#executescalar)     | Returns an object|
 
 
-{: .no_toc .text-delta }
-### Scalar Methods Overview
-
-{:toc_levels="3"}
-1. TOC
-   {:toc}
-
----
-
-### ExecuteScalarAs<T>
+### ExecuteScalarAs\<T\>
 The vast majority of the time you are going to know the return type; in this case, you can use `ExecuteScalarAs<T>`. This is the fastest method to call; however, the object is cast to the expected type, so you need to match the return type with the type returned by the data source.
 
 In the example below, we will return an integer value as a count of `[Production].[Product]`. So once we have created the command, we call `ExecuteScalarAs<int>(cmd)`; this will get the value as an integer and cast the result value as an integer. 
@@ -39,7 +40,7 @@ public int GetProductionProductCount()
     return ExecuteScalarAs<int>(cmd);
 }
 ```
-### ExecuteScalarAsAsync<T>
+### ExecuteScalarAsAsync\<T\>
 Async version of `ExecuteScalarAs<T>`
 
 ```csharp
@@ -50,7 +51,7 @@ public async Task<int> GetProductionProductCountAsync()
 }
 ```
 
-### ExecuteScalarWithConvertAs<T>
+### ExecuteScalarWithConvertAs\<T\>
 
 There are times when the result type from the source system is not the desired type. In the example below, the type coming back from the source system is a byte. We may want to return the type as a string. In this case, we can use the `ExecuteScalarWithConvertAs<string>` function. This will get the value from the system as a byte but will convert the value to a string.
 
