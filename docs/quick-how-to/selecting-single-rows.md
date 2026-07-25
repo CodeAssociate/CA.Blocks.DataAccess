@@ -12,7 +12,7 @@ nav_order: 2
 {:toc_levels="3"}
 
 1. TOC
-   {:toc}
+{:toc}
 
 ---
 
