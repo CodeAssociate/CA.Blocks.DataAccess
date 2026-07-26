@@ -8,9 +8,9 @@ parent: Quick Start
 ## Getting started with SQL Server 
 
 1. Install NuGet package for [SQL Server](https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess)  
-````bash
+```bash
 >  dotnet add package CA.Blocks.SQLServerDataAccess
-````
+```
 
 2. Configure your [connection string](./../quick-examples/connection-configuration/index.md)  
 
@@ -19,7 +19,7 @@ parent: Quick Start
 
 Example:
 
-````csharp
+```csharp
 // model class
 public class MyCustomObject
 {
@@ -45,10 +45,12 @@ FROM sys.sysobjects WHERE type = @Type").WithParameter(type.ToSqlParameter("@Typ
         //           Step 2 ^^^^^^^^^^^^  Step 3 ^^^^^^^^^^^^^^^^^^
     }
 }
-````
+```
 There are a few notes about this example:
+
 1) You can see Blocks will support modern syntax in your model supporting the required keyword and init setters 
 2) Once you have set up your class to inherit from SqlServerDataAccess, the methods in your data access class follow the same pattern
+
 ![Execution Pipeline](./../_assets/ExectionPipelinepng.jpg)
 - first step is to construct the SqlCommand (here we build a SQL statement to get data from sys objects where the type matches the input parameter)
 - second step is to execute the command (here we are calling ExecuteAsync(sqlCmd))

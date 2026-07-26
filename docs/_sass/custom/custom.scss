@@ -3,7 +3,7 @@
 div.highlighter-rouge pre.highlight,
 pre.highlight {
   font-size: 0.85em !important;   /* Slightly bump up from 0.75em for better readability */
-  line-height: 1.5 !important;    /* Proportional line height eliminates line gaps */
+  line-height: 1.0 !important;    /* Proportional line height eliminates line gaps */
 }
 
 /* Ensure inline code and pre code inherit the fixed height */
