@@ -1,7 +1,9 @@
-﻿layout: default
+﻿---
+layout: default
 title: Getting Started with Sql server
 nav_exclude: true
 parent: Quick Start
+---
 
 # Sql server 
 
@@ -10,7 +12,7 @@ parent: Quick Start
 >  dotnet add package CA.Blocks.SQLServerDataAccess
 ````
 
-2. Configure your [connection string](./../../quick-examples/connection-configuration/index.md) 
+2. Configure your [connection string](./../quick-examples/connection-configuration/index.md) 
 
 3. Create you DataAccess class 
 *Here we use the SimpleConnectionStringDataAccessConfig resolver for simplicity*
