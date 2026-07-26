@@ -2,6 +2,7 @@
 layout: default
 title: Simple Connection String Resolver
 nav_exclude: true
+parent: Quick Start
 ---
 
 ### Simple Connection String Data Access Config

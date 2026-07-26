@@ -2,6 +2,7 @@
 layout: default
 title: Json Config Connection Strings Resolver
 nav_exclude: true
+parent: Quick Start
 ---
 ### Json Config Connection Strings Resolver
 

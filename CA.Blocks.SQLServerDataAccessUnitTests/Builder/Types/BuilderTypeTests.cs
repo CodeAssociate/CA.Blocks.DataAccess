@@ -1,5 +1,4 @@
 #nullable enable
-using System;
 using System.Data;
 using CA.Blocks.SQLServerDataAccess.Builder;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;

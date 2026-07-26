@@ -2,6 +2,7 @@
 layout: default
 title: Using Environment Variables
 nav_exclude: true
+parent: Quick Start
 ---
 
 #### Using Environment Variables

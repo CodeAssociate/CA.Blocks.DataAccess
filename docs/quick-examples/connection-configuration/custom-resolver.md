@@ -2,6 +2,7 @@
 layout: default
 title: Custom Connection String Resolver
 nav_exclude: true
+parent: Quick Start
 ---
 
 ### CustomConnectionStringResolver

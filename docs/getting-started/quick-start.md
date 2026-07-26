@@ -12,13 +12,13 @@ Get up and running in your .NET project in under 2 minutes:
 ### 1. Install Package that matches your target database
 Choose the package for your database:
 
-| Database       | NuGet Package | Install Command |
-|:---------------| :--- | :--- |
-| **SQL Server** | `CA.Blocks.SQLServerDataAccess` | `dotnet add package CA.Blocks.SQLServerDataAccess` |
-| **Sqlite**     | `CA.Blocks.SqliteDataAccess` | `dotnet add package CA.Blocks.SqliteDataAccess` |
-| **Postgres**   | `CA.Blocks.PostgreSQLDataAccess` | `dotnet add package CA.Blocks.PostgreSQLDataAccess` |
-| **MySQL**      | `CA.Blocks.MySQLDataAccess` | `dotnet add package CA.Blocks.MySQLDataAccess` |
-| **ODBC**       | `CA.Blocks.OdbcDataAccess` | `dotnet add package CA.Blocks.OdbcDataAccess` |
+| Database                          | NuGet Package | Install Command |
+|:----------------------------------| :--- | :--- |
+| [**SQL Server**](./sql-server.md) | `CA.Blocks.SQLServerDataAccess` | `dotnet add package CA.Blocks.SQLServerDataAccess` | 
+| **Sqlite**                        | `CA.Blocks.SqliteDataAccess` | `dotnet add package CA.Blocks.SqliteDataAccess` |   
+| **Postgres**                      | `CA.Blocks.PostgreSQLDataAccess` | `dotnet add package CA.Blocks.PostgreSQLDataAccess` |    
+| **MySQL**                         | `CA.Blocks.MySQLDataAccess` | `dotnet add package CA.Blocks.MySQLDataAccess` |    
+| **ODBC**                          | `CA.Blocks.OdbcDataAccess` | `dotnet add package CA.Blocks.OdbcDataAccess` |    
 
 ### 2. Choose how to resolve your connection strings:
 
@@ -58,21 +58,21 @@ public class MyDataAccess : SqlServerDataAccess
 ```
 3) You can now write you data access methods
    The methods follow the same pipeline
-   ![Execute Piepline](./_assets/ExectionPipelinepng.jpg)
+   ![Execute Piepline](./../_assets/ExectionPipelinepng.jpg)
 1) you construct the command from a SQL statement or stored procedure
 2) you Execute or execute async the command
 3) you then map the results into desired materialised objects
 
 ```csharp  
-    // Example method to get a IList<MyModel>
-    public async Task<IList<MyModel>> GetAllAsync()
-    {
-        var cmd = CreateCommand("SELECT * FROM MyTable");
-        // Step 1 construct the command ^^^^
-        return await ExecuteAsync(cmd).ToListOf<MyTableModel>();
-        //           Step 2 ^^^execute async
-        //                             Step 3 ^^^^ map the row set to a list of MyTableModel
-    }
+ // Example method to get a IList<MyModel>
+ public async Task<IList<MyModel>> GetAllAsync()
+ {
+     var cmd = CreateCommand("SELECT * FROM MyTable");
+     // Step 1 construct the command ^^^^
+     return await ExecuteAsync(cmd).ToListOf<MyTableModel>();
+     //           Step 2 ^^^execute async
+     //                             Step 3 ^^^^ map the row set to a list of MyTableModel
+ }
 ```
 
 ## Next Steps

@@ -2,6 +2,7 @@
 layout: default
 title: App Config Connection Strings Resolver
 nav_exclude: true
+parent: Quick Start
 ---
 
 ### AppDotConfigConnectionStringsResolver
