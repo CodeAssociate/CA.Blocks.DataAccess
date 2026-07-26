@@ -4,7 +4,6 @@ using Aspire.Hosting.Testing;
 using CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Converters;
 using CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
-using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 using CA.Blocks.PostgresSQLDataAccessTests.Base;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -16,7 +15,7 @@ using Xunit.v3;
 
 namespace CA.Blocks.PostgresSQLDataAccessTests.Base
 {
-    [CollectionDefinition("DbTypeTests")]
+    [CollectionDefinition("DbIntegrationTests")]
     public class DbTypeTestsCollection : ICollectionFixture<TestPipelineSetup> { }
 
     public class TestPipelineSetup : ITestPipelineStartup, IAsyncLifetime

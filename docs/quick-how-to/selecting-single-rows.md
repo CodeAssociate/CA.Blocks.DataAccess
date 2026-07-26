@@ -30,42 +30,42 @@ The examples below: we will be working with the Product table, and returning Pro
 *This is an alias method mapping to Execute(cmd).ToFirstOrDefault<T>()*
 
 ```csharp
-    public ProductSummary GetProductSummary(int productId)
-    {
-        var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
+public ProductSummary GetProductSummary(int productId)
+{
+    var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
 From  [Production].[Product]
 where ProductID = @productId";
-        var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
-        return ExecuteTo<ProductSummary>(cmd);
-    }
+    var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
+    return ExecuteTo<ProductSummary>(cmd);
+}
 ```
 The `ExecuteTo<T>` is simply short form for `Execute(cmd).ToFirstOrDefault<T>();`
 
 ### Execute(cmd).ToFirstOrDefault\<T\> 
 *Returns the first of one or more rows as an instance of the type specified by T or default if no results are returned*
 ```csharp
-    public ProductSummary GetProductSummary(int productId)
-    {
-        var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
+public ProductSummary GetProductSummary(int productId)
+{
+    var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
 From  [Production].[Product]
 where ProductID = @productId";
-        var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
-        return Execute(cmd).ToFirstOrDefault<ProductSummary>();
-    }
+    var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
+    return Execute(cmd).ToFirstOrDefault<ProductSummary>();
+}
 ```
 
 ### Execute(cmd).ToFirst\<T\> 
 *Returns the first of one or more rows as an instance of the type specified by T. | DataException when there are no rows in the returned set*
 
 ```csharp
-    public ProductSummary GetProductSummary(int productId)
-    {
-        var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
+public ProductSummary GetProductSummary(int productId)
+{
+    var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
 From  [Production].[Product]
 where ProductID = @productId";
-        var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
-        return Execute(cmd).ToFirst<ProductSummary>();
-    }
+    var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
+    return Execute(cmd).ToFirst<ProductSummary>();
+}
 ```
 
 #### Tips with the `Execute(cmd).ToFirst\<T\>`
@@ -75,14 +75,14 @@ where ProductID = @productId";
 ### Execute(cmd).ToSingleOrDefault\<T\>  
 *Returns the single row as an instance of the type specified by T or default if no results are returned. You use this when you expect zero or one row | DataException when there is more than one row in the returned set (for example selecting data by primary key)*
 ```csharp
-    public ProductSummary GetProductSummary(int productId)
-    {
-        var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
+public ProductSummary GetProductSummary(int productId)
+{
+    var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
 From  [Production].[Product]
 where ProductID = @productId";
-        var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
-        return Execute(cmd).ToSingleOrDefault<ProductSummary>();
-    }
+    var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
+    return Execute(cmd).ToSingleOrDefault<ProductSummary>();
+}
 ```
 
 #### Tips with the `Execute(cmd).ToSingleOrDefault<T>`
@@ -93,14 +93,14 @@ where ProductID = @productId";
 ### Execute(cmd).ToSingle\<T\>
 *Returns the single row as an instance of the type specified by T. You use this when you expect one and only one row. | DataException when there is more than one row in the returned set, or when there are no rows in the returned set*
 ```csharp
-    public ProductSummary GetProductSummary(int productId)
-    {
-        var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
+public ProductSummary GetProductSummary(int productId)
+{
+    var sql = @"Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
 From  [Production].[Product]
 where ProductID = @productId";
-        var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
-        return Execute(cmd).ToSingle<ProductSummary>();
-    }
+    var cmd = CreateTextCommand(sql).WithParameter(productId.ToSqlParameter("@productId"));
+    return Execute(cmd).ToSingle<ProductSummary>();
+}
 ```
 #### Tips with the `Execute(cmd).ToSingle<T>`
 * The execute single is designed to work when you are working with a primary or unique key on a data set.

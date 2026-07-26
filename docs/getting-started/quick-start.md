@@ -15,9 +15,9 @@ Choose the package for your database:
 | Database                          | NuGet Package | Install Command |
 |:----------------------------------| :--- | :--- |
 | [**SQL Server**](./sql-server.md) | `CA.Blocks.SQLServerDataAccess` | `dotnet add package CA.Blocks.SQLServerDataAccess` | 
-| **Sqlite**                        | `CA.Blocks.SqliteDataAccess` | `dotnet add package CA.Blocks.SqliteDataAccess` |   
-| **Postgres**                      | `CA.Blocks.PostgreSQLDataAccess` | `dotnet add package CA.Blocks.PostgreSQLDataAccess` |    
-| **MySQL**                         | `CA.Blocks.MySQLDataAccess` | `dotnet add package CA.Blocks.MySQLDataAccess` |    
+| [**Sqlite**](./sqlite.md)         | `CA.Blocks.SqliteDataAccess` | `dotnet add package CA.Blocks.SqliteDataAccess` |   
+| [**Postgres**](./postgresql.md)   | `CA.Blocks.PostgreSQLDataAccess` | `dotnet add package CA.Blocks.PostgreSQLDataAccess` |    
+| [**MySQL**](./mysql.md)          | `CA.Blocks.MySQLDataAccess` | `dotnet add package CA.Blocks.MySQLDataAccess` |    
 | **ODBC**                          | `CA.Blocks.OdbcDataAccess` | `dotnet add package CA.Blocks.OdbcDataAccess` |    
 
 ### 2. Choose how to resolve your connection strings:

@@ -18,24 +18,24 @@ SQL Injection is a technique that results in unauthorised SQL commands being exe
 
 The simplest way to illustrate this is by way of an Example of injectable SQL, consider the following method which is prone to SQL injection.
 
-```C#
-    public DataTable SQLInjectionExample_Bad(string lastName)
-    {
-        var sql = $"Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like '{lastName}'";
-        var cmd = CreateTextCommand(sql);
-        return ExecuteDataTable(cmd);
-    }
+```csharp
+public DataTable SQLInjectionExample_Bad(string lastName)
+{
+    var sql = $"Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like '{lastName}'";
+    var cmd = CreateTextCommand(sql);
+    return ExecuteDataTable(cmd);
+}
 ```
  
  This is a made-up example using the Adventure works schema. We have a method with a restriction of only getting data where the City = 'Bothell' but allowing the user to search by last name using the SQL like wild card syntax. 
 
 There is a problem here in that the code is building a SQL statement from untrusted input. To demonstrate how sql injection can be used we look at executing this method with different parameters :
 
-```C#
+```csharp
 result = SQLInjectionExample_Bad("N%")
 ```
 This is what was designed for and it works with the expected input:
-```SQL
+```sql
 Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like 'N%' 
 ```
 from a functionality point of view, this does what is expected.
@@ -43,39 +43,39 @@ from a functionality point of view, this does what is expected.
 
 Now let's search for D'arbo ( Maryam D'arbo is the Bond girl in The Living Daylights) 
 
-```C#
+```csharp
 result = SQLInjectionExample_Bad("D'arbo")
 ```
 This results in a syntax error 
-```SQL
+```sql
 Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like 'D'arbo' 
 ```
 If you expose errors from the database, this is the start of your hell, as you have just shown the world that there is an Unclosed quotation mark after the character string resulting in an incorrect syntax near 'arbo'. You have just published to the world you have injectable code. 
 
 
 If the hacker wants to steal data, they will simply inject "' or ''='":
-```C#
+```csharp
 result = SQLInjectionExample_Bad("' or  ''='")
 ```
 
 There we terminate the parameter with ' then add an or ''=' and leave the original ' in place the result is    
 
-```SQL
+```sql
 Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like '' or  ''=''
 ```
 In this statement we have bypassed the restriction for  City = 'Bothell'  and we have got everything in the table where ''=''. The query has just dumped all rows including ones that were restricted.
 
 If the hacker wants to be nasty, they can shut down your server:
-```C#
+```csharp
 result = SQLInjectionExample_Bad("'; SHUTDOWN WITH NOWAIT ; select '")
 ```
 💥 if the account has admin rights on your connection the SQL server is now shutting down. This is why the Least privilege is important. 
-```SQL
+```sql
 Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like ''; SHUTDOWN WITH NOWAIT ; select '' 
 ```
 
 If we break this down 
-```SQL
+```sql
 '; SHUTDOWN WITH NOWAIT ; select '
 ```
 the hacker can add anything they like between the ; ; and if you have permissions the database will execute that statement.   
@@ -86,7 +86,7 @@ As such, you should never build and execute SQL that contains anything that come
 When you pass ad hoc or user-supplied values to your SQL command at run time, it is important to use parameters to represent them to prevent the possibility of your application being exposed to SQL injection attacks.
 
 Example of Bad SQL with building SQL from strings
-```C#
+```csharp
     public DataTable SQLInjectionExample_Bad(string lastName)
     {
         var sql = $"Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like '{lastName}'";
@@ -95,7 +95,7 @@ Example of Bad SQL with building SQL from strings
     }
 ```
 Taking the same example but this time using a Parameterised query
-```C#
+```csharp
     public DataTable SQLInjectionExample_WithInjectionProjection(string lastName)
     {
         var sql = $"Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like @lastName";
@@ -105,7 +105,7 @@ Taking the same example but this time using a Parameterised query
 ```
 This is safer as the lastName will be treated as a string so will execute on the database as
 
-```SQL
+```sql
 Declare @lastName varchar(max) 
 select @lastName = '''; SHUTDOWN WITH NOWAIT ; select '''
 Select * from [HumanResources].[vEmployee] where City = 'Bothell' and LastName like @lastName
@@ -117,7 +117,7 @@ This will safely return zero rows with no injection.  When they try to use D'arb
 Some designs for better or worse will require execution of the SQL that cannot be placed into a parameter, an example is if you are building a SQL statement that can get data from a dynamic table. ( we should try to avoid this at all costs, however, there are some use cases where this is just part of a legitimate design) 
 
 For example, this will not run as a SQL statement:
-``` SQL
+```sql
 Select * from @MyTable  
 ```
 
@@ -125,7 +125,7 @@ In this case, you cannot use the table name as a parameter, what you need to can
 
 As an example below we have a query that can execute a dynamic table into a DataTable.  The tableName is prone to SQL injection attacks and can you cannot use parameters, So what we do here is establish an allowlist of table names.  In this example, we connect to the INFORMATION_SCHEMA.TABLES and pull all the known tables within a given schema.  we then check the value passed-in matches the allowed list if a match is found we allow the construction of the SQL that is prone to SQL injection as we have validated the input against an allowed list. 
 
-```C#
+```csharp
     // This method is private it provide the allow list, this list can be hard coded or dynamic 
     private IList<string> GetAllowedListFor(string schema)
     {

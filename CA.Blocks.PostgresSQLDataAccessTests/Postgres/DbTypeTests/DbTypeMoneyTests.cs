@@ -1,13 +1,13 @@
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
-using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
+using CA.Blocks.PostgresSQLDataAccessTests.Base;
 using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
 // Note The fractional precision is determined by the database's lc_monetary setting.
 // Default is two fractional digits
-[Collection("DbTypeTests")]
+[Collection("DbIntegrationTests")]
 public class DbTypeMoneyTests : UnitTestDataAccess, IDisposable
 {
     private class MoneyDataType

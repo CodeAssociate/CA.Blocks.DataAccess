@@ -1,12 +1,12 @@
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
-using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
+using CA.Blocks.PostgresSQLDataAccessTests.Base;
 using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
-[Collection("DbTypeTests")]
+[Collection("DbIntegrationTests")]
 public class DbTypeGuidTests : UnitTestDataAccess, IDisposable
 {
     private const string TestGuidValue = "CE69B300-F9EA-4F3B-BBA8-676D12737E3E";

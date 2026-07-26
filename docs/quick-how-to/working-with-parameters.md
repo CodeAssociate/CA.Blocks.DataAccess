@@ -33,13 +33,13 @@ Then in your code, you take the .NET type and call the `ToSqlParameter` method t
 Below is a simple example of adding the `searchTerm` parameter to the command:
 
 ```csharp
-    public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
-    {
-        var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";
-        var cmd = CreateTextCommand(sql);
-        cmd.Parameters.Add(searchTerm.ToSqlParameter("@searchTerm"));
-        return Execute(cmd).ToListOf<ProductSummary>();
-    }
+public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
+{
+    var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";
+    var cmd = CreateTextCommand(sql);
+    cmd.Parameters.Add(searchTerm.ToSqlParameter("@searchTerm"));
+    return Execute(cmd).ToListOf<ProductSummary>();
+}
 ```
 Given the above, in the SQL we specify the parameters by name, i.e., `Where Name like @searchTerm`. To assign a value to `@searchTerm` in the SQL, we do this via the command; we take the .NET string value `searchTerm` and call:
 ```csharp
@@ -51,12 +51,12 @@ This returns a SqlParameter that can be added to the SQL Command parameter value
 Example 2 using the cmd with WithParameter
 
 ```csharp
-    public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
-    {
-        var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";
-        var cmd = CreateTextCommand(sql).WithParameter(searchTerm.ToSqlParameter("@searchTerm"));
-        return Execute(cmd).ToListOf<ProductSummary>();
-    }
+public IList<ProductSummary> GetProductSummaryContainingName(string searchTerm)
+{
+    var sql = "Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate From [Production].[Product] Where Name like @searchTerm";
+    var cmd = CreateTextCommand(sql).WithParameter(searchTerm.ToSqlParameter("@searchTerm"));
+    return Execute(cmd).ToListOf<ProductSummary>();
+}
 ```
 
 Out of the box, the blocks support the base .net value types with null support. So you can call ToSqlParameter on (bool, byte, byte[],  Datetime, string, short, int, long, guid, float, decimal, timeSpan, sbyte) 

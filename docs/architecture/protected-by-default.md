@@ -97,9 +97,9 @@ In the non parameterized version you will have the following SQL executed
 Select ProductID, Name, ProductNumber, ReorderPoint, StandardCost, rowguid, ModifiedDate  
 From  [Production].[Product]
 where name like ''; SHUTDOWN  WITH NOWAIT;
-``` 
-And if you are running a SQL connection with a high-privilege account, you will be running around trying to work out why the server stopped responding.
+```
 
+And if you are running a SQL connection with a high-privilege account, you will be running around trying to work out why the server stopped responding.
 
  ### Expose the execute methods at your peril
 

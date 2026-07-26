@@ -16,27 +16,27 @@ Below is a simple example that will connect to the local SQL Server using a trus
 1. **ExecSpWho** - this will execute the sp_who stored procedure and return the results in the POCO class called SpWhoResult.
 2. **GetSysObjectsOfType** - this will execute the query with a parameter and return the results in a class called SysObjectsResult.
 
-```CSharp
-    public class YourDataAccessClass : SqlServerDataAccess
+```csharp
+public class YourDataAccessClass : SqlServerDataAccess
+{
+    public YourDataAccessClass() : base( 
+        new SimpleConnectionStringDataAccessConfig("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
     {
-        public YourDataAccessClass() : base( 
-            new SimpleConnectionStringDataAccessConfig("Server=(local);Database=tempdb;Integrated Security=SSPI;TrustServerCertificate=True"))
-        {
-        }
-
-        public async Task<IList<SpWhoResult>> ExecSpWhoAsync()
-        {
-            var cmd = CreateStoredProcedureCommand("sp_Who");
-            return await ExecuteAsync(cmd).ToListOf<SpWhoResult>();
-        }
-
-        public async Task<IList<SysObjectsResult>> GetSysObjectsOfType(string xtype)
-        {
-            var cmd = CreateTextCommand("Select * from sysobjects where xtype = @xtype")
-                .WithParameter(xtype.ToSqlParameter("@xtype"));
-            return await ExecuteAsync(cmd).ToListOf<SysObjectsResult>();
-        }
     }
+
+    public async Task<IList<SpWhoResult>> ExecSpWhoAsync()
+    {
+        var cmd = CreateStoredProcedureCommand("sp_Who");
+        return await ExecuteAsync(cmd).ToListOf<SpWhoResult>();
+    }
+
+    public async Task<IList<SysObjectsResult>> GetSysObjectsOfType(string xtype)
+    {
+        var cmd = CreateTextCommand("Select * from sysobjects where xtype = @xtype")
+            .WithParameter(xtype.ToSqlParameter("@xtype"));
+        return await ExecuteAsync(cmd).ToListOf<SysObjectsResult>();
+    }
+}
 ```
 
 At the ADO.NET level, you deal with three core constructs.
@@ -73,16 +73,16 @@ This code hooks in the specific provider implementation. So if you connect to a 
 When using the DataAccess block to write a Data Access class, you only need to install the specific provider you need. For example:
 
 To install for SQL Server:
-``` powershell
+```powershell
 PM> Install-Package CA.Blocks.SQLServerDataAccess -Version x.x.x
 ```
 
 To install for Microsoft.Data.Sqlite:
-``` powershell
+```powershell
 PM> Install-Package CA.Blocks.SqliteDataAccess -Version x.x.x
 ```
 
 To install for MySQL:
-``` powershell
+```powershell
 PM> Install-Package CA.Blocks.MySQLDataAccess -Version x.x.x
 ```

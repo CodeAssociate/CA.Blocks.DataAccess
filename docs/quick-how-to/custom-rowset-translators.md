@@ -25,34 +25,34 @@ The Row Translators have the responsibility of mapping the Table structure which
 In this case, we going to look at the case where the table structure is aligned with the class structure 
 With a  SQL Table Structure as 
 ```sql
-    Create TABLE MyTable (
-        [Id]  int not null,
-        [Name] nvarchar(64) not null,
-        [Status] tinyint not null,
-        [Quantity] decimal(18,2) null,
-        [Modified] Datetime2(7) null
-    )
+Create TABLE MyTable (
+    [Id]  int not null,
+    [Name] nvarchar(64) not null,
+    [Status] tinyint not null,
+    [Quantity] decimal(18,2) null,
+    [Modified] Datetime2(7) null
+)
 ```
 The Table data need to be mapped into the  .NET Class Structure
 ```csharp
-    public class MyClass
-    {
-        public int Id { get; init; }
-        public string Name { get; init; }
-        public byte Status { get; init; }
-        public decimal? Quantity { get; init; }
-        public DateTime? Modified { get; init; }
-    }
+public class MyClass
+{
+    public int Id { get; init; }
+    public string Name { get; init; }
+    public byte Status { get; init; }
+    public decimal? Quantity { get; init; }
+    public DateTime? Modified { get; init; }
+}
 ```
 
 This setup, is a simple 1-1 mapping you can simply call execute passing in the command object. The mapping is done using the ToListOf method which will work with the  IDataReader reader object returning the list of MyClass objects as follows:
 
 ```csharp
-    public IList<MyClass> GetMyClassFromMyTable()
-    {
-        var cmd = CreateTextCommand("Select * From MyTable");
-        return Execute(cmd).ToListOf<MyClass>();
-    }
+public IList<MyClass> GetMyClassFromMyTable()
+{
+    var cmd = CreateTextCommand("Select * From MyTable");
+    return Execute(cmd).ToListOf<MyClass>();
+}
 ```
 
 In this setup,  the command will be executed. The command, in this case, is 'Select * From MyTable'. Once executed this will come back as a DataReader. The Reader can then read the rows, getting the columns as the command was set up there is knowledge of the expected columns returned ie the code knowns and expects there will be a column called 'Name' in the reader. 
@@ -71,24 +71,24 @@ While this is nice and easy, we need to provide flexibility as not all conversio
 
 The SQL Table Structure
 ```sql
-    Create TABLE MyTable (
-        [MyTableId]  int not null,
-        [MyTableName] nvarchar(64) not null,
-        [Status] tinyint not null,
-        [Quantity] decimal(18,2) null,
-        [Modified] Datetime2(7) null
-    )
+Create TABLE MyTable (
+    [MyTableId]  int not null,
+    [MyTableName] nvarchar(64) not null,
+    [Status] tinyint not null,
+    [Quantity] decimal(18,2) null,
+    [Modified] Datetime2(7) null
+)
 ```
 The .NET Class Structure
 ```csharp
-    public class MyClass
-    {
-        public int Id { get; init; }
-        public string Name { get; init; }
-        public int Status { get; init; }
-        public decimal? Quantity { get; init; }
-        public DateTime? ModifiedAt { get; init; }
-    }
+public class MyClass
+{
+    public int Id { get; init; }
+    public string Name { get; init; }
+    public int Status { get; init; }
+    public decimal? Quantity { get; init; }
+    public DateTime? ModifiedAt { get; init; }
+}
 ```
 
 To make use of automatic mapping there are three options:
@@ -98,12 +98,12 @@ To make use of automatic mapping there are three options:
 
 #### using SQL to alias 
 ```csharp
-    public IList<MyClass> GetMyClassFromMyTable()
-    {
-        var sql = @"Select MyTableId as Id, MyTableName as Name, Cast([Status] as Int) as [Status] , Quantity, Modified as ModifiedAt from MyTable";
-        var cmd = CreateTextCommand(sql);
-        return Execute(cmd).ToListOf<MyClass>();
-    }
+public IList<MyClass> GetMyClassFromMyTable()
+{
+    var sql = @"Select MyTableId as Id, MyTableName as Name, Cast([Status] as Int) as [Status] , Quantity, Modified as ModifiedAt from MyTable";
+    var cmd = CreateTextCommand(sql);
+    return Execute(cmd).ToListOf<MyClass>();
+}
 ```
 
 ```
@@ -121,28 +121,28 @@ In this example we have gone back to the server and make the sever return someth
 The second Option you have to to provide the markup in the target class
 
 ```csharp
-    public class MyClass
-    {
-        [DbColToSourceName("MyTableId")]
-        public int Id { get; init; }
-        [DbColToSourceName("MyTableName")]
-        public string Name { get; init; }
-        [DbColToTypeConverter(typeof(IntDbColToTypeConverter))]
-        public int Status { get; init; }
-        public decimal? Quantity { get; init; }
-        [DbColToSourceName("Modified")]
-        public DateTime? ModifiedAt { get; init; }
-    }
+public class MyClass
+{
+    [DbColToSourceName("MyTableId")]
+    public int Id { get; init; }
+    [DbColToSourceName("MyTableName")]
+    public string Name { get; init; }
+    [DbColToTypeConverter(typeof(IntDbColToTypeConverter))]
+    public int Status { get; init; }
+    public decimal? Quantity { get; init; }
+    [DbColToSourceName("Modified")]
+    public DateTime? ModifiedAt { get; init; }
+}
 ```
 In this case, we have simply turned the mapping around, providing the mapping info on the .NET side. With this in place, we can execute the query.
 
 ```csharp
-    public IList<MyClass> GetMyClassFromMyTable()
-    {
-        var sql = @"Select * From MyTable";
-        var cmd = CreateTextCommand(sql);
-        return Execute(cmd).ToListOf<MyClass>();
-    }
+public IList<MyClass> GetMyClassFromMyTable()
+{
+    var sql = @"Select * From MyTable";
+    var cmd = CreateTextCommand(sql);
+    return Execute(cmd).ToListOf<MyClass>();
+}
 ```
 
 #### The custom mapping
@@ -153,41 +153,41 @@ This can be either be a lambda or function
 
 Using a lambda
 ```csharp
-    public IList<MyClass> GetMyClassFromMyTable()
+public IList<MyClass> GetMyClassFromMyTable()
+{
+    var sql = @"Select * From MyTable";
+    var cmd = CreateTextCommand(sql);
+    return Execute(cmd).ToListOf<MyClass>(reader => new MyClass
     {
-        var sql = @"Select * From MyTable";
-        var cmd = CreateTextCommand(sql);
-        return Execute(cmd).ToListOf<MyClass>(reader => new MyClass
-        {
-            Id = reader.AsInt("MyTableId"),
-            Name = reader.AsString("MyTableName"),
-            Status = reader.AsInt("Status"),
-            Quantity = reader.AsNullDecimal("Quantity"),
-            ModifiedAt = reader.AsDateTime("Modified")
-        }
-        );
+        Id = reader.AsInt("MyTableId"),
+        Name = reader.AsString("MyTableName"),
+        Status = reader.AsInt("Status"),
+        Quantity = reader.AsNullDecimal("Quantity"),
+        ModifiedAt = reader.AsDateTime("Modified")
     }
+    );
+}
 ```
 
 Using a function.  The Key advantage for function is the you can reuse the conversion in other places.
 ```csharp
-    private MyClass MyCustomConvert(IDataReader reader)
+private MyClass MyCustomConvert(IDataReader reader)
+{
+    return new MyClass
     {
-        return new MyClass
-        {
-            Id = reader.AsInt("MyTableId"),
-            Name = reader.AsString("MyTableName"),
-            Status = reader.AsInt("Status"),
-            Quantity = reader.AsNullDecimal("Quantity"),
-            ModifiedAt = reader.AsDateTime("Modified")
-        }
+        Id = reader.AsInt("MyTableId"),
+        Name = reader.AsString("MyTableName"),
+        Status = reader.AsInt("Status"),
+        Quantity = reader.AsNullDecimal("Quantity"),
+        ModifiedAt = reader.AsDateTime("Modified")
     }
+}
 
-    public IList<MyClass> GetMyClassFromMyTable()
-    {
-        var sql = @"Select * From MyTable";
-        var cmd = CreateTextCommand(sql);
-        return Execute(cmd).ToListOf<MyClass>(MyCustomConvert);
-    }
+public IList<MyClass> GetMyClassFromMyTable()
+{
+    var sql = @"Select * From MyTable";
+    var cmd = CreateTextCommand(sql);
+    return Execute(cmd).ToListOf<MyClass>(MyCustomConvert);
+}
 ```
 

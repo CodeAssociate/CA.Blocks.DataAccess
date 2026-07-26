@@ -1,13 +1,13 @@
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.PostgreSQLDataAccess.Builder;
-using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
+using CA.Blocks.PostgresSQLDataAccessTests.Base;
 using CA.Blocks.SQLServerDataAccess;
 using Npgsql;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 {
-    [Collection("DbTypeTests")]
+    [Collection("DbIntegrationTests")]
     public class DbTypeBigIntTests : UnitTestDataAccess, IDisposable
     {
         private class BigIntDataType

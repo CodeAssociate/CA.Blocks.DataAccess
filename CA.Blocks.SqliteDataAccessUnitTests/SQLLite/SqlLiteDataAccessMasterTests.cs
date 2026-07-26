@@ -1,6 +1,5 @@
 using System.Data;
 using System.Data.Common;
-using System.Threading.Tasks;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Translator.Extensions;

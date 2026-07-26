@@ -1,14 +1,14 @@
 using System.Text;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
-using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
+using CA.Blocks.PostgresSQLDataAccessTests.Base;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 {
     //NOTE Postgres has not fix size binary
     // TODO you can use a bit(a) will need to do example...
 
-    [Collection("DbTypeTests")]
+    [Collection("DbIntegrationTests")]
     public class DbTypeBinaryTests : UnitTestDataAccess, IDisposable
     {
         private class BinaryDataType

@@ -31,40 +31,40 @@ The best way of explaining is by way of example:
 A boolean value can be true or false, or if defined as nullable, can be true, false, or null. So let's consider we have a cell from a database and we need to convert that to a boolean. We know that the target is a boolean, so we create a `BoolDbColToTypeConverter`; we can then ask the converter to convert a value from the database into the boolean. What will happen is this converter will call `GetDataValue`, i.e.:
 
 ```csharp
-    public override bool GetDataValue(IDataReader dr, string columnName)
-    {
-        return dr.AsBool(columnName);
-    }
+public override bool GetDataValue(IDataReader dr, string columnName)
+{
+    return dr.AsBool(columnName);
+}
 ```
 This then delegates the logic to `DataReader` extensions to get the value from the data reader column as a bool:
 
 ```csharp
-    public static bool AsBool(this IDataReader dr, string colName)
-    {
-        var val = dr.AsNullBool(colName);
-        return ThrowExceptionIfIsNull(val, colName, "bool");
-    }
+public static bool AsBool(this IDataReader dr, string colName)
+{
+    var val = dr.AsNullBool(colName);
+    return ThrowExceptionIfIsNull(val, colName, "bool");
+}
 
-    public static bool? AsNullBool(this IDataReader dr, string colName)
-    {
-        var columnIndex = dr.GetOrdinal(colName);
-        return AsNullBool(dr, columnIndex);
-    }
+public static bool? AsNullBool(this IDataReader dr, string colName)
+{
+    var columnIndex = dr.GetOrdinal(colName);
+    return AsNullBool(dr, columnIndex);
+}
 
-    public static bool? AsNullBool(this IDataReader dr, int columnIndex)
+public static bool? AsNullBool(this IDataReader dr, int columnIndex)
+{
+    if (dr.IsDBNull(columnIndex))
+        return null;
+    else
     {
-        if (dr.IsDBNull(columnIndex))
-            return null;
-        else
+        var value = dr[columnIndex];
+        if (value is bool b)
         {
-            var value = dr[columnIndex];
-            if (value is bool b)
-            {
-                return b;
-            }
-            return Convert.ToBoolean(value);
+            return b;
         }
+        return Convert.ToBoolean(value);
     }
+}
 ```
 
 The non-nullable version is the same as the nullable version except it will throw an exception if the data returned was null. The code will resolve the index of the column and then finally deal with the boolean value. Dealing with the boolean value comes down to:

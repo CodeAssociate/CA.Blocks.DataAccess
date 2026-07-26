@@ -2,12 +2,12 @@ using CA.Blocks.DataAccess.Extensions.Translators.Json.Converters;
 using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgreSQLDataAccess.Builder;
-using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
 using System.Text.Json;
+using CA.Blocks.PostgresSQLDataAccessTests.Base;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
-[Collection("DbTypeTests")]
+[Collection("DbIntegrationTests")]
 public class DbTypeJsonbTests : UnitTestDataAccess, IDisposable
 {
     private class ColourValueDataType
