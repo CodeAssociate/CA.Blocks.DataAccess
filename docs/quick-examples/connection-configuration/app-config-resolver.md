@@ -53,7 +53,6 @@ public class MyDataAccess : SqlServerDataAccess
         }
     ...
 }
-
 ```
 
 With this setup the class MyDataAccess is ready to have data access methods written. 

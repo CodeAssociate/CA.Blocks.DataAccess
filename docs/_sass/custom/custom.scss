@@ -1,0 +1,14 @@
+﻿/* Fix code block line height and font proportions */
+.code-example pre,
+div.highlighter-rouge pre.highlight,
+pre.highlight {
+  font-size: 0.85em !important;   /* Slightly bump up from 0.75em for better readability */
+  line-height: 1.5 !important;    /* Proportional line height eliminates line gaps */
+}
+
+/* Ensure inline code and pre code inherit the fixed height */
+.code-example pre code,
+div.highlighter-rouge pre code {
+  font-size: inherit;
+  line-height: inherit;
+}
