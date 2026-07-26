@@ -48,8 +48,8 @@ FROM sys.sysobjects WHERE type = @Type").WithParameter(type.ToSqlParameter("@Typ
 ```
 There are a few notes about this example:
 
-1) You can see Blocks will support modern syntax in your model supporting the required keyword and init setters 
-2) Once you have set up your class to inherit from SqlServerDataAccess, the methods in your data access class follow the same pattern
+1. You can see Blocks will support modern syntax in your model supporting the required keyword and init setters
+2. Once you have set up your class to inherit from SqlServerDataAccess, the methods in your data access class follow the same pattern
 
 ![Execution Pipeline](./../_assets/ExectionPipelinepng.jpg)
 - first step is to construct the SqlCommand (here we build a SQL statement to get data from sys objects where the type matches the input parameter)
