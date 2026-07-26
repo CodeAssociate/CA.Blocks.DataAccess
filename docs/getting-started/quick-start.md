@@ -35,11 +35,11 @@ Choose the package for your database:
 #### SQL Server Example using Json config
 1) Setup you configuration value in the appsettings.json file:
 ``` json
- {
-     "ConnectionStrings": {
-         "MyDbConnection": "Server=(localdb)\\MSSQLLocalDB;Integrated Security = true"
-     }
- }
+{
+  "ConnectionStrings": {
+      "MyDbConnection": "Server=(localdb)\\MSSQLLocalDB;Integrated Security = true"
+  }
+}
  ```
 2) You create you data access class as inherit form the provided `SqlServerDataAccess` class. You glue up the configuration value pointing to the "MyDbConnection" Key
 ```csharp
