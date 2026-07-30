@@ -1,6 +1,15 @@
-# Package Reference
+---
+layout: default
+title: Package Reference
+parent: Architecture
+nav_order: 3
+---
 
+# Package Reference
 `CA.Blocks.DataAccess` is a modular ecosystem. You only install the "blocks" you need for your specific project.
+
+![Core Engine is pluggable](./../_assets/extendable.jpg)
+
 
 ## Core Package
 The foundation of the entire library. It contains the base classes, interfaces, and built-in resolvers.

@@ -2,7 +2,7 @@
 using CA.Blocks.PostgreSQLDataAccess;
 using Npgsql;
 
-namespace CA.Blocks.PostgreSQLDataAccessUnitTests.Base
+namespace CA.Blocks.PostgresSQLDataAccessTests.Base
 {
 
 

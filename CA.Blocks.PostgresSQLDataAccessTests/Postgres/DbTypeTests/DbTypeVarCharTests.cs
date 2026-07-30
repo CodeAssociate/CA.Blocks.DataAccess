@@ -1,10 +1,10 @@
 using CA.Blocks.DataAccess.Translator.Basic;
-using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
+using CA.Blocks.PostgresSQLDataAccessTests.Base;
 using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 
-[Collection("DbTypeTests")]
+[Collection("DbIntegrationTests")]
 public class DbTypeVarCharTests : UnitTestDataAccess, IDisposable
 {
     private const string  TEST_DATA = "varchar data";

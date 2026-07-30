@@ -1,3 +1,11 @@
+---
+layout: default
+title: Architecture
+nav_order: 4
+description: "The Design Architecture for the CA.Blocks.DataAccess."
+---
+
+
 # Architecture & Design
 
 `CA.Blocks.DataAccess` is built on a modular architecture of **"Pluggable Building Blocks"**. This design allows you to mix and match components to suit your specific database, configuration source, and data types while maintaining a consistent programming model.

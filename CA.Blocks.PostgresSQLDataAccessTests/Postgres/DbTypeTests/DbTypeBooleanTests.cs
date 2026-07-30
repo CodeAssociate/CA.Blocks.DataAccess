@@ -1,10 +1,10 @@
 using CA.Blocks.DataAccess;
-using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
+using CA.Blocks.PostgresSQLDataAccessTests.Base;
 using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
 {
-    [Collection("DbTypeTests")]
+    [Collection("DbIntegrationTests")]
     public class DbTypeBooleanTests : UnitTestDataAccess, IDisposable
     {
         private class BoolDataType

@@ -1,6 +1,3 @@
-using System;
-using CA.Blocks.DataAccess.DI;
-using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData

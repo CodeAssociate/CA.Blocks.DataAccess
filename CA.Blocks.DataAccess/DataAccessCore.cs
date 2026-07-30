@@ -681,7 +681,7 @@ namespace CA.Blocks.DataAccess
         ///  This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
         /// </summary>
         /// <returns></returns>
-        protected T ExecuteTo<T>(IDbCommand cmd) where T : new()
+        protected T ExecuteTo<T>(IDbCommand cmd)
         {
             return Execute(cmd).ToFirstOrDefault<T>();
         }
@@ -690,12 +690,12 @@ namespace CA.Blocks.DataAccess
         ///  This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
         /// </summary>
         /// <returns></returns>
-        protected T ExecuteTo<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
+        protected T ExecuteTo<T>(IDbCommand cmd, Func<IDataReader, T> translate)
         {
             return Execute(cmd).ToFirstOrDefault(translate);
         }
         
-        protected IList<T> ExecuteToListOf<T>(IDbCommand cmd) where T : new()
+        protected IList<T> ExecuteToListOf<T>(IDbCommand cmd)
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
             return ExecuteToListOf(cmd, translator.Translate);
@@ -708,19 +708,19 @@ namespace CA.Blocks.DataAccess
         /// <param name="cmd"></param>
         /// <param name="translate"></param>
         /// <returns></returns>
-        protected IList<T> ExecuteToListOf<T>(IDbCommand cmd, Func<IDataReader, T> translate)  where T : new()
+        protected IList<T> ExecuteToListOf<T>(IDbCommand cmd, Func<IDataReader, T> translate) 
         {
             return ExecuteReader(cmd).ToListOf(translate);
         }
 
 
-        protected Task<T> ExecuteToAsync<T>(IDbCommand cmd) where T : new()
+        protected Task<T> ExecuteToAsync<T>(IDbCommand cmd) 
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
             return ExecuteToAsync(cmd, translator.Translate);
         }
 
-        protected async Task<T> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
+        protected async Task<T> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate)
         {
             var dbResult = ExecuteReaderAsync(cmd);
             T result;
@@ -744,7 +744,7 @@ namespace CA.Blocks.DataAccess
             return result;
         }
 
-        protected Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd) where T : new()
+        protected Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd) 
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
             return ExecuteToListOfAsync(cmd, translator.Translate);
@@ -757,7 +757,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="cmd"></param>
         /// <param name="translate"></param>
         /// <returns></returns>
-        protected async Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate) where T : new()
+        protected async Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate) 
         {
             var dbResult = await ExecuteReaderAsync(cmd);
             return await dbResult.ToListOfAsync(translate);
@@ -769,17 +769,15 @@ namespace CA.Blocks.DataAccess
         /// <typeparam name="T"></typeparam>
         /// <param name="dt">The Source DataTable to translate</param>
         /// <returns></returns>
-        protected IList<T> TranslateToListOf<T>(DataTable dt) where T : new()
+        protected IList<T> TranslateToListOf<T>(DataTable dt)
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
             return translator.Translate(dt);
         }
-
-
+        
         protected virtual DataTable GetSchema(string collectionNam, string[] restrictionValues = null)
         {
 	        throw new NotImplementedException("GetSchema not Not Implemented");
         }
-
     }
 }

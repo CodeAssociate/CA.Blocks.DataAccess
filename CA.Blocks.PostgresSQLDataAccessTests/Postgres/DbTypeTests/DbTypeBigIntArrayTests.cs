@@ -1,11 +1,11 @@
 ﻿using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgreSQLDataAccess.Builder;
-using CA.Blocks.PostgreSQLDataAccessUnitTests.Base;
+using CA.Blocks.PostgresSQLDataAccessTests.Base;
 
 namespace CA.Blocks.PostgresSQLDataAccessTests.Postgres.DbTypeTests
 {
 
-    [Collection("DbTypeTests")]
+    [Collection("DbIntegrationTests")]
     public class DbTypeBigIntArrayTests : UnitTestDataAccess, IDisposable
     {
 

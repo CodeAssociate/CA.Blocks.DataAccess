@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Samples\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CA.Blocks.DataAccess.Extensions.Translators.Json\CA.Blocks.DataAccess.Extensions.Translators.Json.csproj" />
     <ProjectReference Include="..\CA.Blocks.DataAccess.Extensions.Translators.NUlid\CA.Blocks.DataAccess.Extensions.Translators.NUlid.csproj" />
     <ProjectReference Include="..\CA.Blocks.PostgresAppHost\CA.Blocks.PostgresAppHost.csproj" />
