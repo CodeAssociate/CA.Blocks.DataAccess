@@ -1,9 +1,7 @@
-using System.Diagnostics;
-using CA.Blocks.DataAccess;
+﻿using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using Microsoft.Data.SqlClient;
 // ReSharper disable InconsistentNaming
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
@@ -66,7 +64,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public void ExecuteSpwhoWithNoReturnValue()
         {
             var cmd = CreateStoredProcedureCommand("sp_who");
-            var result = ExecuteDataTable(cmd);
+            var result = Execute(cmd).ToDataTable();
             Assert.True(result.Rows.Count > 0);
         }
 
@@ -91,7 +89,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public void ExecuteSpWhoWithReturnValue()
         {
             var cmd = CreateStoredProcedureCommand("sp_who").WithReturnResult();
-            var result = ExecuteDataTable(cmd);
+            var result = Execute(cmd).ToDataTable();
             var spReturnValue = cmd.GetReturnResult();
             Assert.Equal(0, spReturnValue);
             Assert.True(result.Rows.Count > 0);

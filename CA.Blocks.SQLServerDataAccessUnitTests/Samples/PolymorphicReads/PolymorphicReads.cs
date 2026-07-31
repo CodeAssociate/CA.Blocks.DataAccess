@@ -1,4 +1,4 @@
-using CA.Blocks.SQLServerDataAccess;
+﻿using CA.Blocks.SQLServerDataAccess;
 using System.Data;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
@@ -144,7 +144,7 @@ Create Table CABLOCKS_PolymorphicReads_Example (Id INT not null  identity(1,1) p
                 Console.WriteLine(shape.Area());
             }
 
-            var asyncShapes = await ExecuteAsync(cmd).ToListOf<Shape?>(ReadPolymorphicShape);
+            var asyncShapes = await ExecuteAsync(cmd, TestContext.Current.CancellationToken).ToListOf<Shape?>(ReadPolymorphicShape);
             foreach (var shape in shapes.Where(x =>  x !=  null))
             {
                 Console.WriteLine(shape!.Describe);

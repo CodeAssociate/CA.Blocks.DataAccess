@@ -3,8 +3,8 @@
     "path": "CA.Blocks.DataAccess.slnx",
     "projects": [
       "CA.Blocks.PostgresAppHost\\CA.Blocks.PostgresAppHost.csproj",
-      "CA.Blocks.PostgreSQLDataAccess\\CA.Blocks.PostgreSQLDataAccess.csproj",
-      "CA.Blocks.PostgresSQLDataAccessTests\\CA.Blocks.PostgresSQLDataAccessTests.csproj",
+      "CA.Blocks.PostgresDataAccess\\CA.Blocks.PostgresDataAccess.csproj",
+      "CA.Blocks.PostgresDataAccessTests\\CA.Blocks.PostgresDataAccessTests.csproj",
     ]
   }
 }

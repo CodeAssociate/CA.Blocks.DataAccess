@@ -1,4 +1,5 @@
 //using Microsoft.Data.SqlClient;
+using CA.Blocks.DataAccess.Translator.Extensions;
 //using System.Diagnostics;
 //using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 //using NUnit.Framework;
@@ -52,7 +53,7 @@
 //        //public void ExecuteDataTable()
 //        //{
 //        //    SqlCommand cmd = CreateTextCommand(benchmarkSQL);
-//        //    var result = TestSysobjectsTranslator.CurrentInstance.Translate(ExecuteDataTable(cmd));
+//        //    var result = TestSysobjectsTranslator.CurrentInstance.Translate(Execute(cmd).ToDataTable());
 
 //        //    Assert.True(result.Count > 0);
 //        //}

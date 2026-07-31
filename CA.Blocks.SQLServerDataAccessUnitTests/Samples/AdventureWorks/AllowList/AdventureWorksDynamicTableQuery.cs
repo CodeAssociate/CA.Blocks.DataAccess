@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using CA.Blocks.DataAccess;
+﻿using System.Data;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
-
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowList
 {
@@ -45,7 +41,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks.AllowLis
             {
                 var sql = $"Select * from [{schema}].[{tableName}]";
                 var cmd = CreateTextCommand(sql);
-                return ExecuteDataTable(cmd);
+                return Execute(cmd).ToDataTable();
             }
             else
             {

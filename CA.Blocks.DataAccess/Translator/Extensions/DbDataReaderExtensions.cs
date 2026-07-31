@@ -156,7 +156,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 
         public static async Task<IDictionary<Key, T>> ToDictionaryAsync<Key, T>(this DbDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector)
         {
-			IDictionary<Key, T> result = new Dictionary<Key, T>();
+			IDictionary<Key, T> result;
 			{
                 try
                 {
@@ -243,7 +243,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 
         #endregion
 
-        #region ToDataTable  This gets asked many Times on stackoverflow howto ExecuteDataTableAsync  The DataAdapter is has not asyinc support
+        #region ToDataTable This gets asked many Times on stackoverflow howto ExecuteDataTableAsync  The DataAdapter has not async support
 
         //private 
 

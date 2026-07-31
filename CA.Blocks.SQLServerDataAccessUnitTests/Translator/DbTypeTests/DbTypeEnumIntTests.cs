@@ -1,4 +1,4 @@
-using CA.Blocks.DataAccess;
+﻿using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
@@ -64,7 +64,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(resultOfToSqlParameter.ToSqlParameter("@value"));
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringEnumDataType>();
             //Act
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = t.Translate(Execute(cmd).ToDataRow());
             
             Assert.Equal(testValue, data.Col);
         }

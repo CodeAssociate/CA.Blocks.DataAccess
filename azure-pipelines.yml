@@ -23,7 +23,7 @@ variables:
 - name: Major
   value: '3'
 - name: Minor
-  value: '8'
+  value: '9'
 - name: Patch
   value: $[counter(variables['BuildID'], 0)]
 - name: SemanticVersion
@@ -90,6 +90,17 @@ steps:
   parameters:
     SemanticVersion: "$(SemanticVersion)"
     ProjectFile: "CA.Blocks.OdbcDataAccess"
+
+- template: set-semantic-version.yaml
+  parameters:
+    SemanticVersion: "$(SemanticVersion)"
+    ProjectFile: "CA.Blocks.MySQLDataAccess"
+
+- template: set-semantic-version.yaml
+  parameters:
+    SemanticVersion: "$(SemanticVersion)"
+    ProjectFile: "CA.Blocks.PostgresDataAccess"
+
 
 # - task: NuGetToolInstaller@1
 #   displayName: 'NuGetToolInstaller' 

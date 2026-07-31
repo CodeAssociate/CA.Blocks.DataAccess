@@ -1,9 +1,10 @@
-#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language. Use as example to convert
+﻿#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language. Use as example to convert
 
 
 using System.Data;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 // ReSharper disable InconsistentNaming
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {

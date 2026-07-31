@@ -11,7 +11,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
         private static readonly object _syncLock = new object();
         private readonly ConcurrentDictionary<string, object> _typeConverters;
 
-        public static IDbColToTypeProvider DefaultInstance = new DefaultDbColToTypeProvider();
+        public static readonly IDbColToTypeProvider DefaultInstance = new DefaultDbColToTypeProvider();
         
 
         private string GetKey(Type targetType, string byName = "")
@@ -137,7 +137,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
             if (Nullable.GetUnderlyingType(targetType) != null)
             {
                 Type genericConverter = typeof(NullEnumDbColToTypeConverter<>);
-                concreteConverter = genericConverter.MakeGenericType(Nullable.GetUnderlyingType(targetType));
+                concreteConverter = genericConverter.MakeGenericType(Nullable.GetUnderlyingType(targetType) ?? throw new InvalidOperationException());
             }
             else
             {

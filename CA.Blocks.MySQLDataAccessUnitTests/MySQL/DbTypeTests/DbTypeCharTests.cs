@@ -1,4 +1,5 @@
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using Xunit;
@@ -41,7 +42,7 @@ public void SelectAllData()
             var cmd = CreateTextCommand(SelectTestDataSQL());
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
             Assert.Equal(5, data.Count);
         }
@@ -67,7 +68,7 @@ public void SelectAllDataBigIntWithFilter ()
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = t.Translate(Execute(cmd).ToDataRow());
 
             //Asert
             Assert.Equal('A', data);

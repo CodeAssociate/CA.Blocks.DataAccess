@@ -1,8 +1,8 @@
 using CA.Blocks.DataAccess.DataTableHelpers;
 using CA.Blocks.DataAccess.DI;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.MySQLDataAccess;
 using System.Data;
-using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
 
 namespace CA.Blocks.MySQLDataAccessUnitTests.Samples;
@@ -21,7 +21,7 @@ public class ReadDataTableDataAccess : UnitTestDataAccess
         var cmd = CreateTextCommand(@"
 Select *
 FROM information_schema.tables");
-        return ExecuteDataTable(cmd);
+        return Execute(cmd).ToDataTable();
     }
     
     public async Task<IList<MyCustomObject>> MyCustomObjects()

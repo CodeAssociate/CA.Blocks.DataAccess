@@ -1,6 +1,7 @@
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using CA.Blocks.DataAccess.Translator;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
@@ -14,7 +15,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
         public void BaseDb2ObjectTranslatorTestTestSysobjectsMapping()
         {
             SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
-            var result = DynamicDbRow2ObjectTranslator.CurrentInstance.Translate(ExecuteDataTable(cmd));
+            var result = DynamicDbRow2ObjectTranslator.CurrentInstance.Translate(Execute(cmd).ToDataTable());
 
             Assert.True(result.Count > 0);
 

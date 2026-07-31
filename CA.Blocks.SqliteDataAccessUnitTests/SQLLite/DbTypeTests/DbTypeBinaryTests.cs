@@ -70,7 +70,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL());
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BinaryDataType>();
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
             
             Assert.Equal("Binary data", Encoding.ASCII.GetString(data[4].Col, 0, 11));
         }

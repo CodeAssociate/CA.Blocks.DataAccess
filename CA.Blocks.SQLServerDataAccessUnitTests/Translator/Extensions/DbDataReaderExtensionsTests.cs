@@ -1,4 +1,4 @@
-#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language. Use as example to convert
+﻿#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language. Use as example to convert
 // ReSharper disable InconsistentNaming
 
 using CA.Blocks.DataAccess.Translator.Extensions;
@@ -18,7 +18,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects where name like @test")
                 .WithParameter("sys%".ToSqlParameter("@test"));
 
-            var result = await ExecuteAsync(cmd).ToSingleNamedColumnList<string>("Name");
+            var result = await ExecuteAsync(cmd, TestContext.Current.CancellationToken).ToSingleNamedColumnList<string>("Name");
 
             Assert.True(result.Count > 0);
 
@@ -39,7 +39,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects; Select * from sysindexes;");
 
-            var result = await ExecuteAsync(cmd).ToResultsSet<sysobject, sysobject>();
+            var result = await ExecuteAsync(cmd, TestContext.Current.CancellationToken).ToResultsSet<sysobject, sysobject>();
 
             Assert.True(result.Results1.Count > 0);
 

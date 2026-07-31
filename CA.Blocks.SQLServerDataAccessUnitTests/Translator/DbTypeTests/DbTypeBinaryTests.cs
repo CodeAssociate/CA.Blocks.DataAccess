@@ -1,5 +1,6 @@
-using System.Text;
+﻿using System.Text;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
@@ -39,7 +40,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteDataTable(cmd);
+            var data = Execute(cmd).ToDataTable();
             //Assert
             Assert.Equal(5, data.Rows.Count);
         }
@@ -68,7 +69,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL());
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BinaryDataType>();
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
             Assert.NotNull(data[4]);
             Assert.NotNull(data[4].Col);
             Assert.Equal("Binary data", Encoding.ASCII.GetString(data[4].Col!, 0, 11));

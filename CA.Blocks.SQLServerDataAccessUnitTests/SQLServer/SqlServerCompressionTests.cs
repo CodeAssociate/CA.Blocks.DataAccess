@@ -1,8 +1,7 @@
-using System;
-using System.Data;
-using System.Transactions;
+﻿using System.Data;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Extensions;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
@@ -70,7 +69,9 @@ END";
             // Read data as binary
             var readAsBinary = CreateTextCommand("Select Id, dataValue from _tempSqlServerSqlServerCompressionTests where id = 1");
             var t = new TestDataObjTranslator();
-            var bresult = t.Translate(ExecuteDataRow(readAsBinary));
+            var dt = Execute(readAsBinary).ToDataTable();
+            var bresult = t.Translate(dt.Rows[0]);
+            
             // Read data as string 
 
             var readAsString = CreateTextCommand("Select Id, cast(decompress(dataValue) as nvarchar(max)) as dataValue from _tempSqlServerSqlServerCompressionTests where id = 1");

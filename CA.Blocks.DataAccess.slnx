@@ -23,8 +23,8 @@
   <Project Path="CA.Blocks.OdbcDataAccess/CA.Blocks.OdbcDataAccess.csproj" />
   <Project Path="CA.Blocks.OdbcDataAccessUnitTests/CA.Blocks.OdbcDataAccessUnitTests.csproj" />
   <Project Path="CA.Blocks.PostgresAppHost/CA.Blocks.PostgresAppHost.csproj" />
-  <Project Path="CA.Blocks.PostgreSQLDataAccess/CA.Blocks.PostgreSQLDataAccess.csproj" />
-  <Project Path="CA.Blocks.PostgresSQLDataAccessTests/CA.Blocks.PostgresSQLDataAccessTests.csproj" />
+  <Project Path="CA.Blocks.PostgresDataAccess/CA.Blocks.PostgresDataAccess.csproj" />
+  <Project Path="CA.Blocks.PostgresDataAccessTests/CA.Blocks.PostgresDataAccessTests.csproj" />
   <Project Path="CA.Blocks.SqliteDataAccess/CA.Blocks.SqliteDataAccess.csproj" />
   <Project Path="CA.Blocks.SqliteDataAccessUnitTests/CA.Blocks.SqliteDataAccessUnitTests.csproj" />
   <Project Path="CA.Blocks.SQLServer.AppHost/CA.Blocks.SQLServer.AppHost.csproj" />

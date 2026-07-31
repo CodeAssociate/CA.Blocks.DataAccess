@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
@@ -145,7 +145,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
-            var result = await ExecuteAsync(cmd).ToSingleOrDefault<sqliteMaster>();
+            var result = await ExecuteAsync(cmd, TestContext.Current.CancellationToken).ToSingleOrDefault<sqliteMaster>();
     
             Assert.Equal("CABLOCKS_TestMasterTable", result.name);
             Assert.True(TraceCalled);
@@ -158,7 +158,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             TraceCalled = false;
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
-            var result = await ExecuteAsync(cmd).ToListOf<sqliteMaster>();
+            var result = await ExecuteAsync(cmd, TestContext.Current.CancellationToken).ToListOf<sqliteMaster>();
             Assert.Single(result);
             Assert.Equal("CABLOCKS_TestMasterTable", result[0].name);
             Assert.True(TraceCalled);
@@ -182,7 +182,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             var cmd = CreateTextCommand("Select * from BadTableName");
             try
             {
-                var result = ExecuteDataTable(cmd);
+                var result = Execute(cmd).ToDataTable();
             }
             catch 
             {

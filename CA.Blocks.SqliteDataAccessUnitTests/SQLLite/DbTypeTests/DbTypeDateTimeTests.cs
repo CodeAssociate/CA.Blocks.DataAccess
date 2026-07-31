@@ -34,7 +34,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             //Act
             var data = Execute(cmd).ToSingleNamedColumnList<DateTime>(UNIT_TEST_COL_NAME);
             //Assert
-            Console.WriteLine(DataTableToText(ExecuteDataTable(cmd)));
+            Console.WriteLine(DataTableToText(Execute(cmd).ToDataTable()));
             Assert.True(data.Count == 5);
         }
 
