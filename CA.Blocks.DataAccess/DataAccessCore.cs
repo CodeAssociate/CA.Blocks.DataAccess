@@ -450,15 +450,13 @@ namespace CA.Blocks.DataAccess
 
 
         /// <inheritdoc cref="ExecuteDataSet(IDbCommand, DataSet, string)" />
-        // about to happen but not in this commit
-        //[Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. Support will be dropped in the next major version (4) to optimize performance.", false)]
+        [Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. Support will be dropped in the next major version (4) to optimize performance.", false)]
         protected DataSet ExecuteDataSet(IDbCommand cmd)
         {
             DataSet ds = new DataSet();
             return (ExecuteDataSet(cmd, ds, "Results"));
         }
-
-
+        
         /// <summary>
         /// Executes the command into a new DataSet using the DbDataAdapter.  Useful for app that need or what DatSet, DataTable and DataRows.  The ExecuteTo it more modern 
         /// </summary>
@@ -469,8 +467,8 @@ namespace CA.Blocks.DataAccess
         /// Using this is very robust but as the  DbDataAdapter is mostly limited to maintenance at this point.
         /// </remarks>
         /// <returns></returns>
-        // about to happen but not in this commit
-        //[Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. Support will be dropped in the next major version (4) to optimize performance.", false)]
+        
+        [Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. Support will be dropped in the next major version (4) to optimize performance.", false)]
 
         protected DataSet ExecuteDataSet(IDbCommand cmd, DataSet ds, string sTableNames)
         {
@@ -490,9 +488,9 @@ namespace CA.Blocks.DataAccess
         /// <param name="cmd"></param>
         /// <returns></returns>
         // about to happen but not in this commit
-        //[Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. " +
-        //          "Support will be dropped in the next major version (4) to optimize performance." +
-        //          "You can use Execute(cmd).ToDateTable() as a replacement", false)]
+        [Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. " +
+                  "Support will be dropped in the next major version (4) to optimize performance." +
+                  "You can use Execute(cmd).ToDateTable() as a replacement", false)]
         protected DataTable ExecuteDataTable(IDbCommand cmd)
         {
             DataSet ds = ExecuteDataSet(cmd);

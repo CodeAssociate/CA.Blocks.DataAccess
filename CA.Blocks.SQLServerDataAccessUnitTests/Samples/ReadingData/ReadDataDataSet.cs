@@ -4,6 +4,7 @@
 using System.Data;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 // ReSharper disable InconsistentNaming
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 {
