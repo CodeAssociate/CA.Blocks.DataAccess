@@ -1,4 +1,4 @@
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Globalization;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
@@ -64,31 +64,31 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public async Task ExecuteNonQueryTestsAsync()
         {
             SqlCommand cmd1 = CreateTextCommand(CreateTempTable);
-            var cmd1result = await ExecuteNonQueryAsync(cmd1);
+            var cmd1result = await ExecuteNonQueryAsync(cmd1, TestContext.Current.CancellationToken);
             Assert.Equal(-1, cmd1result);
 
 
             SqlCommand cmd2 = CreateTextCommand(Insert1);
-            var cmd2result = await ExecuteNonQueryAsync(cmd2);
+            var cmd2result = await ExecuteNonQueryAsync(cmd2, TestContext.Current.CancellationToken);
             Assert.Equal(1, cmd2result);
 
 
             SqlCommand cmd3 = CreateTextCommand(Insert2);
-            var cmd3result = await ExecuteNonQueryAsync(cmd3);
+            var cmd3result = await ExecuteNonQueryAsync(cmd3, TestContext.Current.CancellationToken);
             Assert.Equal(1, cmd3result);
 
 
             SqlCommand cmd4 = CreateTextCommand(NoDelete);
-            var cmd4result = await ExecuteNonQueryAsync(cmd4);
+            var cmd4result = await ExecuteNonQueryAsync(cmd4, TestContext.Current.CancellationToken);
             Assert.Equal(0, cmd4result);
 
             SqlCommand cmd5 = CreateTextCommand(Delete);
-            var cmd5result = await ExecuteNonQueryAsync(cmd5);
+            var cmd5result = await ExecuteNonQueryAsync(cmd5, TestContext.Current.CancellationToken);
             Assert.Equal(2, cmd5result);
 
 
             SqlCommand cmd6 = CreateTextCommand(DropTable);
-            var cmd6result = await ExecuteNonQueryAsync(cmd6);
+            var cmd6result = await ExecuteNonQueryAsync(cmd6, TestContext.Current.CancellationToken);
             Assert.Equal(-1, cmd1result);
         }
 

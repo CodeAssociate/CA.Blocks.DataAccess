@@ -18,6 +18,7 @@ using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Model.Paging;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using MySqlConnector;
 
 namespace CA.Blocks.MySQLDataAccess
@@ -123,7 +124,7 @@ namespace CA.Blocks.MySQLDataAccess
             cmd.CommandText = WrapPagingQuery(cmd.CommandText, sortOrder);
             cmd.Parameters.Add((page.Skip).ToSqlParameter("@skip"));
             cmd.Parameters.Add((page.Take).ToSqlParameter("@take"));
-            return ExecuteDataTable(cmd);
+            return Execute(cmd).ToDataTable();
         }
 
 

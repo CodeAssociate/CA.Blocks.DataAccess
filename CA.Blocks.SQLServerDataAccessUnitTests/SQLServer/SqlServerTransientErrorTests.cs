@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
@@ -7,6 +5,7 @@ using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 {

@@ -1,4 +1,4 @@
-#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language. Use as example to convert
+﻿#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language. Use as example to convert
 
 
 using System.Data;

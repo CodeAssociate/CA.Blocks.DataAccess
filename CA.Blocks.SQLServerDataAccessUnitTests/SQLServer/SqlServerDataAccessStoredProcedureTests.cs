@@ -1,9 +1,7 @@
-using System.Diagnostics;
-using CA.Blocks.DataAccess;
+﻿using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using Microsoft.Data.SqlClient;
 // ReSharper disable InconsistentNaming
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer

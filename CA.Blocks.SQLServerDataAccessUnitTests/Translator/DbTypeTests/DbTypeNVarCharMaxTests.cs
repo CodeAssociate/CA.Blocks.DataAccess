@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;

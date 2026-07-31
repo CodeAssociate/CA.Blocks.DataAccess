@@ -18,7 +18,7 @@ using System.Linq;
 namespace CA.Blocks.DataAccess.Translator
 {
     
-    // This object is a simple container in which the Object will do all the of Translate form a Data Row to the Object
+    // This object is a simple container in which the Object will do all the of Translate from a Data Row to the Object
     public abstract class SimpleDbRow2ObjectTranslator<T> 
     {
         public IList<T> Translate(DataRow[] drs)

@@ -2,8 +2,7 @@
 
 using System;
 
-
-namespace CA.Blocks.DataAccess.Builder
+namespace CA.Blocks.DataAccess.Builders
 {
     public class SqlBuilderException : ApplicationException
     {

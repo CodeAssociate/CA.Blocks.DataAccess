@@ -1,6 +1,6 @@
-﻿using CA.Blocks.DataAccess.Builder;
-using Npgsql;
+﻿using Npgsql;
 using System.Runtime.CompilerServices;
+using CA.Blocks.DataAccess.Builders;
 
 
 namespace CA.Blocks.PostgreSQLDataAccess.Builder;

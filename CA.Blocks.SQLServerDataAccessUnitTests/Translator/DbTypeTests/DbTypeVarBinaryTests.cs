@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;

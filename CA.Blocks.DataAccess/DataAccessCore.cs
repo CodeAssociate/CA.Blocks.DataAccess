@@ -23,6 +23,7 @@ using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 using CA.Blocks.DataAccess.Translator.Extensions;
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace CA.Blocks.DataAccess
 {
@@ -133,6 +134,18 @@ namespace CA.Blocks.DataAccess
             System.Diagnostics.Debug.WriteLine(cmd.CommandText);
             System.Diagnostics.Debug.WriteLine(ex.Message);
         }
+        
+        private CancellationTokenSource CreateCancellationTokenSource(CancellationToken cancellationToken, int timeoutInSeconds)
+        {
+            // Create a CancellationTokenSource linked to the timeout duration of the Command
+            var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(timeoutInSeconds));
+            // Link the timeout token with the user's incoming CancellationToken
+            var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
+            // Note: Dispose timeoutCts since linkedCts manages its own lifecycle once linked
+            timeoutCts.Dispose();
+            return linkedCts;
+        }
+        
         #endregion private utility methods & constructors
 
 
@@ -206,11 +219,14 @@ namespace CA.Blocks.DataAccess
             }
         }
 
-        private async Task<T> ExecuteWithTransientErrorRetryAsync<T>(Func<Task<T>> action, IDbCommand cmd, bool autoCloseConnection = true)
+        private async Task<T> ExecuteWithTransientErrorRetryAsync<T>(Func<Task<T>> action, IDbCommand cmd, bool autoCloseConnection = true, CancellationToken cancellationToken = default)
         {
 	        List<Exception> exceptions = null; 
             for (int tries = 0; tries < _options.TransientErrorRetryTotalNumberOfTimesToTry; tries++)
             {
+                // Bail immediately if cancellation was requested before starting a new try
+                cancellationToken.ThrowIfCancellationRequested();
+                
                 bool closeConnection = PrepCommand(cmd);
                 try
                 {
@@ -218,9 +234,16 @@ namespace CA.Blocks.DataAccess
                     {
                         // if RetryIntervalSeconds = 10 seconds then
                         // try0 = 0,  Try 1 wait 10 seconds, try two wait 20 seconds, Try three wait 30 seconds, then finally 40 seconds then bail. 
-                        await Task.Delay(1000 * _options.TransientErrorRetryRetryIntervalSeconds * tries).ConfigureAwait(false);
+                        await Task.Delay(1000 * _options.TransientErrorRetryRetryIntervalSeconds * tries, cancellationToken).ConfigureAwait(false);
                     }
                     return await action().ConfigureAwait(false);
+                }
+                catch (OperationCanceledException ex)
+                {
+                    // 3. Do NOT treat cancellation as a database transient error or retry.
+                    // Fast-fail and propagate the cancellation upwards.
+                    TraceGeneralError(cmd, ex);
+                    throw; 
                 }
                 catch (DbException dbEx)
                 {
@@ -228,7 +251,8 @@ namespace CA.Blocks.DataAccess
 	                {
 		                exceptions = new List<Exception>();
 	                }
-
+                    exceptions.Add(dbEx);
+                    
 	                if (IsTransientError(dbEx))
                     {
                         if (tries < _options.TransientErrorRetryTotalNumberOfTimesToTry - 1)
@@ -302,7 +326,8 @@ namespace CA.Blocks.DataAccess
 
         protected abstract bool IsTransientError(DbException dbEx);
         #endregion
-
+        
+        
         #region ExecuteNonQuery
 
 
@@ -328,20 +353,30 @@ namespace CA.Blocks.DataAccess
                 TraceDbStatement(cmd);
             return ExecuteWithTransientErrorRetry(cmd.ExecuteNonQuery, cmd);
         }
-
+        
         /// <inheritdoc cref="ExecuteNonQuery(IDbCommand)" />
-        protected Task<int> ExecuteNonQueryAsync(IDbCommand cmd)
+        protected Task<int> ExecuteNonQueryAsync(IDbCommand cmd, CancellationToken cancellationToken = default)
         {
-            DbCommand asynCmd = cmd as DbCommand;
-            if (asynCmd == null)
+            var asyncCmd = cmd as DbCommand;
+            if (asyncCmd == null)
             {
                 throw new InvalidCastException("To Execute Async command the provider by implement DbCommand");
             }
-
-
+            
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            return ExecuteWithTransientErrorRetryAsync(() => asynCmd.ExecuteNonQueryAsync(), cmd);
+            return ExecuteWithTransientErrorRetryAsync(async () =>
+            {
+#if CS80_OR_GREATER || NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+                using var linkedCts = CreateCancellationTokenSource(cancellationToken, cmd.CommandTimeout);
+                return await asyncCmd.ExecuteNonQueryAsync(linkedCts.Token);
+#else
+                using (var linkedCts = CreateCancellationTokenSource(cancellationToken, cmd.CommandTimeout))
+                {
+                    return await asyncCmd.ExecuteNonQueryAsync(linkedCts.Token);
+                }
+#endif
+            }, cmd, cancellationToken: cancellationToken);
         }
         #endregion ExecuteNonQuery
 
@@ -415,6 +450,8 @@ namespace CA.Blocks.DataAccess
 
 
         /// <inheritdoc cref="ExecuteDataSet(IDbCommand, DataSet, string)" />
+        // about to happen but not in this commit
+        //[Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. Support will be dropped in the next major version (4) to optimize performance.", false)]
         protected DataSet ExecuteDataSet(IDbCommand cmd)
         {
             DataSet ds = new DataSet();
@@ -432,6 +469,9 @@ namespace CA.Blocks.DataAccess
         /// Using this is very robust but as the  DbDataAdapter is mostly limited to maintenance at this point.
         /// </remarks>
         /// <returns></returns>
+        // about to happen but not in this commit
+        //[Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. Support will be dropped in the next major version (4) to optimize performance.", false)]
+
         protected DataSet ExecuteDataSet(IDbCommand cmd, DataSet ds, string sTableNames)
         {
             if (_options.DebugTrace)
@@ -449,6 +489,10 @@ namespace CA.Blocks.DataAccess
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
+        // about to happen but not in this commit
+        //[Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. " +
+        //          "Support will be dropped in the next major version (4) to optimize performance." +
+        //          "You can use Execute(cmd).ToDateTable() as a replacement", false)]
         protected DataTable ExecuteDataTable(IDbCommand cmd)
         {
             DataSet ds = ExecuteDataSet(cmd);
@@ -467,6 +511,10 @@ namespace CA.Blocks.DataAccess
         /// <param name="cmd"></param>
         /// <returns></returns>
         /// <exception cref="DataException"> This function expects one or zero results, it is get two more more it will throw an exception</exception>
+        // about to happen but not in this commit
+        //[Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. " +
+        //          "Support will be dropped in the next major version (4) to optimize performance." +
+        //          "You can use Execute(cmd).ToDateTable() then take first row as a replacement", false)]
         protected DataRow ExecuteDataRow(IDbCommand cmd)
         {
             DataSet ds = ExecuteDataSet(cmd);
@@ -492,7 +540,7 @@ namespace CA.Blocks.DataAccess
             return ExecuteWithTransientErrorRetry(cmd.ExecuteScalar, cmd);
         }
 
-        protected Task<object> ExecuteScalarAsync(IDbCommand cmd)
+        protected async Task<object> ExecuteScalarAsync(IDbCommand cmd, CancellationToken cancellationToken = default)
         {
             var asyncCmd = cmd as DbCommand;
             if (asyncCmd == null)
@@ -501,12 +549,44 @@ namespace CA.Blocks.DataAccess
             }
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-
-            return ExecuteWithTransientErrorRetryAsync(asyncCmd.ExecuteScalarAsync, cmd);
+            return await ExecuteWithTransientErrorRetryAsync(async () =>
+            {
+#if CS80_OR_GREATER || NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+            using var linkedCts = CreateCancellationTokenSource(cancellationToken, cmd.CommandTimeout);
+            return await asyncCmd.ExecuteScalarAsync(linkedCts.Token);
+#else
+                using (var linkedCts = CreateCancellationTokenSource(cancellationToken, cmd.CommandTimeout))
+                {
+                    return await asyncCmd.ExecuteScalarAsync(linkedCts.Token);
+                }
+#endif
+            }, cmd, cancellationToken: cancellationToken);
         }
 
+         private T ConvertScalarAs<T>(object result, bool useCast)
+         {
+#if NET6_0_OR_GREATER
+             if (typeof(T) == typeof(DateOnly))
+             {
+                 // waiting for driver support
+                 var dt = (DateTime)result;
+                 var dateOnly = new DateOnly(dt.Year, dt.Month, dt.Day);
+                 return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
+             }
+             if (typeof(T) == typeof(TimeOnly))
+             {
+                 // waiting for driver support
+                 var ts = (TimeSpan)result;
+                 var timeOnly = new TimeOnly(ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds, ts.Nanoseconds);
+                
+                 return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
+             }
+#endif
+             // cast is faster but you only use it if the type is known and the same between .NET and the DB
+             return useCast ? (T)result : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());          
+         }
 
-        /// <summary>
+         /// <summary>
         /// This will execute the cmd to a ScalarValue and cast the ScalarValue to the target Type. Use this command if you can know the data type on  the server.
         /// </summary>
         /// <typeparam name="T">This the target type to execute the result in to</typeparam>
@@ -515,33 +595,13 @@ namespace CA.Blocks.DataAccess
         protected T ExecuteScalarAs<T>(IDbCommand cmd) 
         {
             var result = ExecuteScalar(cmd);
-            if (result == null || result == DBNull.Value)
-                return default;
-#if NET6_0_OR_GREATER
-            if (typeof(T) == typeof(DateOnly))
-            {
-                // waiting for driver support
-                var dt = (DateTime)result;
-                var dateOnly = new DateOnly(dt.Year, dt.Month, dt.Day);
-                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
-            }
-            if (typeof(T) == typeof(TimeOnly))
-            {
-                // waiting for driver support
-                var ts = (TimeSpan)result;
-                var timeOnly = new TimeOnly(ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds, ts.Nanoseconds);
-                
-                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
-            }
-#endif
-
-            return (T)result;
+            return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, true);
         }
 
         protected async Task<T> ExecuteScalarAsAsync<T>(IDbCommand cmd)
         {
             var result = await ExecuteScalarAsync(cmd);
-            return (result == null || result == DBNull.Value) ? default : (T)result;
+            return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, true);
         }
 
         /// <summary>
@@ -554,56 +614,14 @@ namespace CA.Blocks.DataAccess
         /// <returns></returns>
         protected T ExecuteScalarWithConvertAs<T>(IDbCommand cmd)
         {
-            Object result = ExecuteScalar(cmd);
-            if (result == null || result == DBNull.Value)
-                return default;
-#if NET6_0_OR_GREATER
-            if (typeof(T) == typeof(DateOnly))
-            {
-                // waiting for driver support
-                var dt = (DateTime)result;
-                var dateOnly = new DateOnly(dt.Year, dt.Month, dt.Day);
-                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
-            }
-            if (typeof(T) == typeof(TimeOnly))
-            {
-                // waiting for driver support
-                var ts = (TimeSpan)result;
-                var timeOnly = new TimeOnly(ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds, ts.Nanoseconds);
-
-                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
-            }
-#endif          
-
-            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());
-            
-             
+            var result = ExecuteScalar(cmd);
+            return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, false);
         }
 
         protected async Task<T> ExecuteScalarWithConvertAsAsync<T>(IDbCommand cmd)
         {
-            Object result = await ExecuteScalarAsync(cmd);
-            if (result == null || result == DBNull.Value)
-                return default;
-#if NET6_0_OR_GREATER
-            if (typeof(T) == typeof(DateOnly))
-            {
-                // waiting for driver support
-                var dt = (DateTime)result;
-                var dateOnly = new DateOnly(dt.Year, dt.Month, dt.Day);
-                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
-            }
-            if (typeof(T) == typeof(TimeOnly))
-            {
-                // waiting for driver support
-                var ts = (TimeSpan)result;
-                var timeOnly = new TimeOnly(ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds, ts.Nanoseconds);
-
-                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
-            }
-#endif
-
-            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());
+            var result = await ExecuteScalarAsync(cmd);
+            return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, false);
         }
 
 
@@ -631,7 +649,7 @@ namespace CA.Blocks.DataAccess
             return ExecuteWithTransientErrorRetry(() => cmd.ExecuteReader(DefaultCommandBehavior), cmd, false);
         }
 
-        protected Task<DbDataReader> ExecuteReaderAsync(IDbCommand cmd)
+        protected async Task<DbDataReader> ExecuteReaderAsync(IDbCommand cmd, CancellationToken cancellationToken = default)
         {
             if (!(cmd is DbCommand asyncCmd))
             {
@@ -640,12 +658,24 @@ namespace CA.Blocks.DataAccess
 
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
-            return ExecuteWithTransientErrorRetryAsync(() => asyncCmd.ExecuteReaderAsync(DefaultCommandBehavior), cmd, false);
+            
+            return await ExecuteWithTransientErrorRetryAsync(async () =>
+            {
+#if CS80_OR_GREATER || NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+                using var linkedCts = CreateCancellationTokenSource(cancellationToken, cmd.CommandTimeout);
+                return await asyncCmd.ExecuteReaderAsync(DefaultCommandBehavior, linkedCts.Token);
+#else
+                using (var linkedCts = CreateCancellationTokenSource(cancellationToken, cmd.CommandTimeout))
+                {
+                    return await asyncCmd.ExecuteReaderAsync(DefaultCommandBehavior, linkedCts.Token);
+                }
+#endif
+            }, cmd, autoCloseConnection: false, cancellationToken: cancellationToken);
         }
 
-        protected async Task<DbDataReader> ExecuteAsync(IDbCommand cmd)
+        protected async Task<DbDataReader> ExecuteAsync(IDbCommand cmd, CancellationToken cancellationToken = default)
         {
-            return await ExecuteReaderAsync(cmd);
+            return await ExecuteReaderAsync(cmd, cancellationToken);
         }
 
         // TODO implement support but pass the token to the provider 
@@ -678,7 +708,7 @@ namespace CA.Blocks.DataAccess
 
 
         /// <summary>
-        ///  This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
+        ///  This is a shortcut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code> please use that instead
         /// </summary>
         /// <returns></returns>
         protected T ExecuteTo<T>(IDbCommand cmd)
@@ -687,7 +717,7 @@ namespace CA.Blocks.DataAccess
         }
 
         /// <summary>
-        ///  This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
+        ///  This is a shortcut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code> please use that instead
         /// </summary>
         /// <returns></returns>
         protected T ExecuteTo<T>(IDbCommand cmd, Func<IDataReader, T> translate)
@@ -695,6 +725,10 @@ namespace CA.Blocks.DataAccess
             return Execute(cmd).ToFirstOrDefault(translate);
         }
         
+        /// <summary>
+        ///  This is a shortcut method to <code>Execute(cmd).ToListOf(translate);</code> please use that instead
+        /// </summary>
+        /// <returns></returns>
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd)
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
@@ -702,7 +736,7 @@ namespace CA.Blocks.DataAccess
         }
 
         /// <summary>
-        ///  This is a short cut method to <code>ExecuteReader<T>(cmd).ToListOf<T>(translate);</T></T></code>
+        ///  This is a shortcut method to <code>ExecuteReader<T>(cmd).ToListOf<T>(translate);</T></T></code> please use that instead
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="cmd"></param>
@@ -713,35 +747,22 @@ namespace CA.Blocks.DataAccess
             return ExecuteReader(cmd).ToListOf(translate);
         }
 
-
+        /// <summary>
+        ///  This is a shortcut method to <code>ExecuteReader<T>(cmd).ToFirstOrDefault<T>(translate);</T></T></code> please use that instead
+        /// </summary>
+        /// <returns></returns>
         protected Task<T> ExecuteToAsync<T>(IDbCommand cmd) 
         {
-            var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return ExecuteToAsync(cmd, translator.Translate);
+            return ExecuteAsync(cmd).ToFirstOrDefault<T>();
         }
 
-        protected async Task<T> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate)
+        /// <summary>
+        ///  This is a shortcut method to <code>ExecuteReader<T>(cmd).ToFirstOrDefault<T>(translate);</T></T></code> please use that instead
+        /// </summary>
+        /// <returns></returns>
+        protected Task<T> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate)
         {
-            var dbResult = ExecuteReaderAsync(cmd);
-            T result;
-            //await dbResult;
-	        using (var dbReader = await dbResult)
-            {
-                try
-                {
-                    var hasDate = await dbReader.ReadAsync();
-                    result = hasDate ? translate(dbReader) : default;
-                }
-                finally
-                {
-#if NET6_0_OR_GREATER
-                    await dbReader.CloseAsync();
-#else
-                   dbReader.Close();
-#endif
-                }
-            }
-            return result;
+            return ExecuteAsync(cmd).ToFirstOrDefault(translate);
         }
 
         protected Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd) 

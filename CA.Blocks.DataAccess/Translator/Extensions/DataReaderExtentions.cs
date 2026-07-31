@@ -119,6 +119,70 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return ToSingleNamedColumnList(dbReader, colName, converter.GetDataValue);
         }
 
+        #region ToDataTable Support 
+        //private 
+
+        private static DataRow DataReaderToDataRow(IDataReader reader, DataRow newRow)
+        {
+            for (var i = 0; i < reader.FieldCount; i++)
+            {
+                if (reader.IsDBNull(i))
+                {
+                    newRow[i] = DBNull.Value;
+
+                }
+                else
+                {
+                    newRow[i] = reader[i];
+                }
+            }
+            return newRow;
+        }
+
+        private static DataTable CreateDataTableSchemaFromDataReader(IDataReader reader)
+        {
+            var result = new DataTable();
+
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                result.Columns.Add(new DataColumn
+                {
+                    ColumnName = reader.GetName(i),
+#if NET6_0_OR_GREATER
+                    DataType = reader.GetFieldType(i)!
+#else
+					DataType = reader.GetFieldType(i)
+#endif
+                });
+            }
+            return result;
+        }
+
+        public static DataTable ToDataTable(this IDataReader dbReader)
+        {
+            var dt = new DataTable();
+            var schemaCreated = false;
+            try
+            {
+                while (dbReader.Read())
+                {
+                    if (!schemaCreated)
+                    {
+                        dt = CreateDataTableSchemaFromDataReader(dbReader);
+                        schemaCreated = true;
+                    }
+
+                    dt.Rows.Add(DataReaderToDataRow(dbReader, dt.NewRow()));
+                }
+            }
+            finally
+            {
+				dbReader.Close(); 
+            }
+            return dt;
+        }
+        #endregion
+        
         #region Multi Result Sets
         //2
         public static ResultsSet<T1, T2> ToResultsSet<T1, T2>(this IDataReader dbReader,
