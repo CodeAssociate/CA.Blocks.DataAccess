@@ -108,7 +108,7 @@
              Although the ExecuteNonQuery returns no rows, any output parameters or return values mapped to parameters are populated with data. This can useful when executing stored procedures. 
              </remarks>
         </member>
-        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteNonQueryAsync(System.Data.IDbCommand)">
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteNonQueryAsync(System.Data.IDbCommand,System.Threading.CancellationToken)">
             <inheritdoc cref="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteNonQuery(System.Data.IDbCommand)" />
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteDataSet(System.Data.IDbCommand)">
@@ -169,23 +169,41 @@
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteTo``1(System.Data.IDbCommand)">
             <summary>
-             This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
+             This is a shortcut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code> please use that instead
             </summary>
             <returns></returns>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteTo``1(System.Data.IDbCommand,System.Func{System.Data.IDataReader,``0})">
             <summary>
-             This is a short cut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code>
+             This is a shortcut method to <code>Execute(cmd).ToFirstOrDefault(translate);</code> please use that instead
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteToListOf``1(System.Data.IDbCommand)">
+            <summary>
+             This is a shortcut method to <code>Execute(cmd).ToListOf(translate);</code> please use that instead
             </summary>
             <returns></returns>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteToListOf``1(System.Data.IDbCommand,System.Func{System.Data.IDataReader,``0})">
             <summary>
-             This is a short cut method to <code>ExecuteReader<T>(cmd).ToListOf<T>(translate);</T></T></code>
+             This is a shortcut method to <code>ExecuteReader<T>(cmd).ToListOf<T>(translate);</T></T></code> please use that instead
             </summary>
             <typeparam name="T"></typeparam>
             <param name="cmd"></param>
             <param name="translate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteToAsync``1(System.Data.IDbCommand)">
+            <summary>
+             This is a shortcut method to <code>ExecuteReader<T>(cmd).ToFirstOrDefault<T>(translate);</T></T></code> please use that instead
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteToAsync``1(System.Data.IDbCommand,System.Func{System.Data.IDataReader,``0})">
+            <summary>
+             This is a shortcut method to <code>ExecuteReader<T>(cmd).ToFirstOrDefault<T>(translate);</T></T></code> please use that instead
+            </summary>
             <returns></returns>
         </member>
         <member name="M:CA.Blocks.DataAccess.DataAccessCore.ExecuteToListOfAsync``1(System.Data.IDbCommand,System.Func{System.Data.IDataReader,``0})">
