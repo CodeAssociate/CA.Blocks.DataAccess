@@ -1,3 +1,4 @@
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using Xunit;
@@ -39,7 +40,7 @@ public void SelectAllData()
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteDataTable(cmd);
+            var data = Execute(cmd).ToDataTable();
             //Assert
             Assert.Equal(5, data.Rows.Count);
         }

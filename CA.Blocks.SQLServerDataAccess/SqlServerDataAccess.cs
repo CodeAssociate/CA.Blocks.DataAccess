@@ -21,6 +21,7 @@ using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Model.Paging;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess.Model;
 
 namespace CA.Blocks.SQLServerDataAccess
@@ -213,7 +214,7 @@ namespace CA.Blocks.SQLServerDataAccess
             cmd.CommandText = WrapPagingQuery(cmd.CommandText, sqlSelect);
             cmd.Parameters.Add((page.Skip + 1).ToSqlParameter("@PagingRowNumberFrom"));
             cmd.Parameters.Add((page.Skip + page.Take).ToSqlParameter("@PagingRowNumberTo"));
-            return ExecuteDataTable(cmd);
+            return Execute(cmd).ToDataTable();
         }
 
         protected string WrapPagingQuery(string sourceQuery, string orderOver)

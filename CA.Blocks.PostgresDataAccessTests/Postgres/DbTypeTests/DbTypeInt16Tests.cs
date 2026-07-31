@@ -44,7 +44,7 @@ namespace CA.Blocks.PostgresDataAccessTests.Postgres.DbTypeTests
             var t = new ShortTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
             Assert.Equal(5, data.Count);
         }
@@ -72,7 +72,7 @@ namespace CA.Blocks.PostgresDataAccessTests.Postgres.DbTypeTests
             cmd.Parameters.Add(testvalue.ToPostgresParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
 
             //Asert
             Assert.Equal(3, data.Count);
@@ -92,7 +92,7 @@ namespace CA.Blocks.PostgresDataAccessTests.Postgres.DbTypeTests
                 });
 
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
 
             //Assert
             Assert.Equal(3, data.Count);

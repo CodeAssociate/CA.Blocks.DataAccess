@@ -1,5 +1,6 @@
 ﻿using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
@@ -48,7 +49,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
             Assert.Equal(5, data.Count);
         }
@@ -79,7 +80,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             cmd.Parameters.Add(_testDate.ToSqlParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
 
             //Asert
             Assert.Equal(2, data.Count);
@@ -93,7 +94,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
             cmd.Parameters.Add(_testDate.ToSqlParameter("@testValue"));
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
             //Asert
             Assert.Equal(2, data.Count);
         }

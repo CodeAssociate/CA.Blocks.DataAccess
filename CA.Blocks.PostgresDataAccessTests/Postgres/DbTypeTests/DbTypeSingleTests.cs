@@ -1,4 +1,5 @@
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgresDataAccess;
 using CA.Blocks.PostgresDataAccessTests.Base;
 
@@ -40,7 +41,7 @@ public class DbTypeSingleTests : UnitTestDataAccess, IDisposable
         //Setup
         var cmd = CreateTextCommand(SelectTestDataSQL());
         //Act
-        var data = ExecuteDataTable(cmd);
+        var data = Execute(cmd).ToDataTable();
         //Assert
         Assert.Equal(5, data.Rows.Count);
     }
@@ -82,7 +83,7 @@ public class DbTypeSingleTests : UnitTestDataAccess, IDisposable
         cmd.Parameters.Add(testvalue.ToPostgresParameter("@testValue"));
 
         //Act
-        var data = t.Translate(ExecuteDataTable(cmd));
+        var data = t.Translate(Execute(cmd).ToDataTable());
 
         //Asert
         Assert.Equal(3, data.Count);

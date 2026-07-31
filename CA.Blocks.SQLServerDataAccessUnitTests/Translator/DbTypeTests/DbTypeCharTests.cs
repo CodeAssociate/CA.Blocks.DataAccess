@@ -44,7 +44,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL());
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
             Assert.Equal(5, data.Count);
         }

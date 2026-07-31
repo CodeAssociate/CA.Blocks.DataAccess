@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
@@ -42,7 +43,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = ExecuteDataTable(cmd);
+            var data = Execute(cmd).ToDataTable();
             //Assert
             Assert.Equal(5, data.Rows.Count);
         }
@@ -85,7 +86,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
 
             //Asert
             Assert.Equal(3, data.Count);

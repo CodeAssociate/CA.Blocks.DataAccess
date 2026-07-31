@@ -65,7 +65,7 @@ public class DbTypeBigIntTests : UnitTestDataAccess, IDisposable
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
 
 			//Asert
 			Assert.Equal(3, data.Count);
@@ -80,7 +80,7 @@ public class DbTypeBigIntTests : UnitTestDataAccess, IDisposable
                 .WithParameter(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
 
 			//Asert
 			Assert.Equal(3, data.Count);

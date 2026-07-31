@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.Common;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
@@ -32,7 +33,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             var cmd = CreateTextCommand("Select * from sqlite_master");
             try
             {
-                var result = ExecuteDataTable(cmd);
+                var result = Execute(cmd).ToDataTable();
                 Assert.Fail($"Got {result.Rows.Count} rows ?" );
             }
             catch (System.Exception ex)

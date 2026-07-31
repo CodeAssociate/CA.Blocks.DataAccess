@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
 using Xunit;
@@ -41,7 +42,7 @@ public void SelectAllDataBinary()
             var t = new BinaryTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(TEST_DATA, Encoding.ASCII.GetString(data[0]));
@@ -56,7 +57,7 @@ public void SelectDataBinaryWithFilter()
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
 
             //Asert
             Assert.Single(data);

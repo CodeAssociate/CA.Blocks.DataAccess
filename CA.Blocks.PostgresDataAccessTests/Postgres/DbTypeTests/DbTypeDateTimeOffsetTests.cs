@@ -68,7 +68,7 @@ namespace CA.Blocks.PostgresDataAccessTests.Postgres.DbTypeTests
 //        cmd.Parameters.Add(_testDate.ToPostgresParameter("@testValue"));
 
 //        //Act
-//        var data = t.Translate(ExecuteDataTable(cmd));
+//        var data = t.Translate(Execute(cmd).ToDataTable());
 
 //        //Assert
 //        Assert.Equal(2, data.Count);

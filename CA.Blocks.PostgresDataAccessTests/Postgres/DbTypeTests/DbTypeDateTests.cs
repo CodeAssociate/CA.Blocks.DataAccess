@@ -46,7 +46,7 @@ public class DbTypeDateTests : UnitTestDataAccess, IDisposable
         var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
         var cmd = CreateTextCommand(SelectTestDataSQL());
         //Act
-        var data = t.Translate(ExecuteDataTable(cmd));
+        var data = t.Translate(Execute(cmd).ToDataTable());
         //Assert
         Assert.Equal(5, data.Count);
     }
@@ -72,7 +72,7 @@ public class DbTypeDateTests : UnitTestDataAccess, IDisposable
         cmd.Parameters.Add(_testDate.ToPostgresParameter("@testValue"));
 
         //Act
-        var data = t.Translate(ExecuteDataTable(cmd));
+        var data = t.Translate(Execute(cmd).ToDataTable());
 
         //Asert
         Assert.Single(data);

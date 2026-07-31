@@ -33,7 +33,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL());
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             //Act
-            var data = t.Translate(ExecuteDataTable(cmd));
+            var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
             Assert.True(data.Count == 5);
         }

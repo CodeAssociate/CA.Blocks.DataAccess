@@ -1,6 +1,7 @@
 //using Microsoft.Data.SqlClient;
 //using System.Diagnostics;
 //using CA.Blocks.DataAccess.Translator;
+//using CA.Blocks.DataAccess.Translator.Extensions;
 //using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 //using NUnit.Framework;
 
@@ -39,7 +40,7 @@
 //              // Note we only support 1-1 mapping for now
 //            var t = new BaseDb2ObjectTranslator<Sysobjects>(); // <<-- need to have the ability to inject the map. 
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
-//            var result = t.Translate(ExecuteDataTable(cmd)); //<< inject a filter with parameters..
+//            var result = t.Translate(Execute(cmd).ToDataTable()); //<< inject a filter with parameters..
 
 //            foreach (var o in result)
 //            {

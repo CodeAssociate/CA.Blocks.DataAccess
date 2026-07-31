@@ -64,7 +64,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public void ExecuteSpwhoWithNoReturnValue()
         {
             var cmd = CreateStoredProcedureCommand("sp_who");
-            var result = ExecuteDataTable(cmd);
+            var result = Execute(cmd).ToDataTable();
             Assert.True(result.Rows.Count > 0);
         }
 
@@ -89,7 +89,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         public void ExecuteSpWhoWithReturnValue()
         {
             var cmd = CreateStoredProcedureCommand("sp_who").WithReturnResult();
-            var result = ExecuteDataTable(cmd);
+            var result = Execute(cmd).ToDataTable();
             var spReturnValue = cmd.GetReturnResult();
             Assert.Equal(0, spReturnValue);
             Assert.True(result.Rows.Count > 0);

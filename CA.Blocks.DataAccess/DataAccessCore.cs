@@ -700,7 +700,7 @@ namespace CA.Blocks.DataAccess
         protected IList<dynamic> ExecuteObjectList(IDbCommand cmd)
         {
             var translator = new DynamicDbRow2ObjectTranslator();
-            return translator.Translate(ExecuteDataTable(cmd));
+            return translator.Translate(Execute(cmd).ToDataTable());
         }
 
 

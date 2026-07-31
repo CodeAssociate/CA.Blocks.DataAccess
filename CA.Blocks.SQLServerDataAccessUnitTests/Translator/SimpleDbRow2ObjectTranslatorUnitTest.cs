@@ -1,4 +1,5 @@
 //using Microsoft.Data.SqlClient;
+using CA.Blocks.DataAccess.Translator.Extensions;
 //using System.Diagnostics;
 //using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 //using CA.Blocks.SQLServerDataAccessUnitTests.Translator.TestObjects;
@@ -16,7 +17,7 @@
 //        {
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
 
-//            var result = TestSysobjectsTranslator.CurrentInstance.Translate(ExecuteDataTable(cmd));
+//            var result = TestSysobjectsTranslator.CurrentInstance.Translate(Execute(cmd).ToDataTable());
 
 //            Assert.True(result.Count > 0);
 

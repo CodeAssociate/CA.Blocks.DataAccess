@@ -30,7 +30,7 @@
 //        {
 //            var t = new BaseDb2ObjectTranslator<TestSysobjects>();
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
-//            var result = t.Translate(ExecuteDataTable(cmd));
+//            var result = t.Translate(Execute(cmd).ToDataTable());
 
 //            Assert.True(result.Count > 0);
 
@@ -48,7 +48,7 @@
 //        {
 //            var t = new CustomTestSysobjectsTranslator();
 //            SqlCommand cmd = CreateTextCommand("Select * from sysobjects");
-//            var result = t.Translate(ExecuteDataTable(cmd));
+//            var result = t.Translate(Execute(cmd).ToDataTable());
 
 //            Assert.True(result.Count > 0);
 

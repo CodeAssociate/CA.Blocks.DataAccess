@@ -45,7 +45,7 @@ public class DbTypeTextTests : UnitTestDataAccess, IDisposable
         var t = new StringTranslator(UNIT_TEST_COL_NAME);
         var cmd = CreateTextCommand(SelectTestDataSQL());
         //Act
-        var data = t.Translate(ExecuteDataTable(cmd));
+        var data = t.Translate(Execute(cmd).ToDataTable());
         //Assert
         Assert.Equal(5, data.Count);
         Assert.Equal(TEST_DATA, data[0]);
@@ -73,7 +73,7 @@ public class DbTypeTextTests : UnitTestDataAccess, IDisposable
         cmd.Parameters.Add(testvalue.ToPostgresParameter("@testValue", SpecificSQLStringType.Text));
 
         //Act
-        var data = t.Translate(ExecuteDataTable(cmd));
+        var data = t.Translate(Execute(cmd).ToDataTable());
 
         //Asert
         Assert.Single(data);

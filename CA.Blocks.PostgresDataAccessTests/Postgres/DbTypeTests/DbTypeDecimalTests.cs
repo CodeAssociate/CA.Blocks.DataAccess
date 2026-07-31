@@ -42,7 +42,7 @@ public class DbTypeDecimalTests : UnitTestDataAccess, IDisposable
         //Setup
         var cmd = CreateTextCommand(SelectTestDataSQL());
         //Act
-        var data = ExecuteDataTable(cmd);
+        var data = Execute(cmd).ToDataTable();
         //Assert
         Assert.Equal(5, data.Rows.Count);
     }

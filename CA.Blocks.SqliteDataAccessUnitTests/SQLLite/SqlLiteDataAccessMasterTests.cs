@@ -182,7 +182,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             var cmd = CreateTextCommand("Select * from BadTableName");
             try
             {
-                var result = ExecuteDataTable(cmd);
+                var result = Execute(cmd).ToDataTable();
             }
             catch 
             {

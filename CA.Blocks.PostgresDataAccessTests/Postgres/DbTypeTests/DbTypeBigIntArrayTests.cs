@@ -48,7 +48,7 @@ namespace CA.Blocks.PostgresDataAccessTests.Postgres.DbTypeTests
             //Setup 
             var cmd = CreateTextCommand(SelectTestDataSQL());
             //Act
-            var data = this.ExecuteDataTable (cmd);
+            var data = this.Execute(cmd).ToDataTable();
             //Assert
             Assert.Equal(4, data.Rows.Count);
             Assert.Equal(new List<long> { 1, 3, 5 }, data.Rows[1]["Col"]);
