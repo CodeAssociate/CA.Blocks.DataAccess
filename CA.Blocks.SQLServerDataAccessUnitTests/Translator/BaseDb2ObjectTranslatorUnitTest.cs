@@ -1,3 +1,4 @@
+//using CA.Blocks.DataAccess.Translator.Extensions;
 //using System;
 //using Microsoft.Data.SqlClient;
 //using System.Diagnostics;
@@ -74,7 +75,7 @@
 
 //            var target = new BaseDb2ObjectTranslator<TestClassChar>();
 //            SqlCommand cmd = CreateTextCommand(SelectTestDataSQL());
-//            var result = target.Translate(ExecuteDataRow(cmd));
+//            var result = target.Translate(Execute(cmd).ToDataRow());
             
 //            Assert.Equal('T', result.Col);
 
@@ -95,7 +96,7 @@
 
 //            var target = new BaseDb2ObjectTranslator<TestClassTimeSpan>();
 //            var cmd = CreateTextCommand(SelectTestDataSQL());
-//            var result = target.Translate(ExecuteDataRow(cmd));
+//            var result = target.Translate(Execute(cmd).ToDataRow());
 
 //            Assert.Equal(new TimeSpan(1,2,3), result.Col);
 

@@ -2,6 +2,7 @@ using System.Data;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using CA.Blocks.DataAccess;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
@@ -93,7 +94,7 @@ END
         public int ExecuteTestScriptAsDataRow(int workOnStatementNumber)
         {
             var cmd = CreateTextCommand(SQLMOCKTransientErrorSQL).WithParameter(workOnStatementNumber.ToSqlParameter("@WorkOnStatementNumber"));
-            var dr =  ExecuteDataRow(cmd);
+            var dr =  Execute(cmd).ToDataRow();
             return dr.AsInt(0);
         }
 

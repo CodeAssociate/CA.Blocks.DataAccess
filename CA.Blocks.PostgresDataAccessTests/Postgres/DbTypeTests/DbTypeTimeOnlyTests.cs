@@ -75,7 +75,7 @@ public class DbTypeTimeOnlyTests : UnitTestDataAccess, IDisposable
             .WithParameter(testValue.ToPostgresParameter("@value"));
         var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<TimeOnlyDataType>();
         //Act
-        var data = t.Translate(ExecuteDataRow(cmd));
+        var data = t.Translate(Execute(cmd).ToDataRow());
 
         Assert.Equal(testValue, data.Col);
     }

@@ -1,5 +1,6 @@
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgresDataAccess;
 using CA.Blocks.PostgresDataAccessTests.Base;
 
@@ -84,7 +85,7 @@ public class DbTypeMoneyTests : UnitTestDataAccess, IDisposable
         var cmd = CreateTextCommand(SelectTestDataSQL("Where col = @value")).WithParameter(testValue.ToPostgresParameter("@value", SpecificSQLDecimalType.Money));
         var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<MoneyDataType>();
         //Act
-        var data = t.Translate(ExecuteDataRow(cmd));
+        var data = t.Translate(Execute(cmd).ToDataRow());
 
         Assert.Equal(testValue, data.Col);
     }

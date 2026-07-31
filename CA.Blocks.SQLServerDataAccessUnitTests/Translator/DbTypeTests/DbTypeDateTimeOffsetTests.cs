@@ -1,5 +1,4 @@
-﻿using System;
-using CA.Blocks.DataAccess;
+﻿using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
@@ -82,7 +81,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DateTimeOffSetDataType>();
             //Act
 
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = t.Translate(Execute(cmd).ToDataRow());
 
             Assert.Equal(testValue, data.Col);
         }

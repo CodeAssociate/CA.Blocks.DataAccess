@@ -1,5 +1,6 @@
 using System;
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.MySQLDataAccess;
 using CA.Blocks.MySQLDataAccessUnitTests.Base;
@@ -83,7 +84,7 @@ public void SelectAllDataWithFilterWithTranslator()
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<GuidDataType>();
             //Act
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = t.Translate(Execute(cmd).ToDataRow());
 
             //Asert
             Assert.Equal(testvalue, data.Col);

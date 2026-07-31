@@ -1,3 +1,4 @@
+using CA.Blocks.DataAccess.Translator.Extensions;
 namespace CA.Blocks.PostgresDataAccessTests.Postgres.DbTypeTests
 {
 }
@@ -82,7 +83,7 @@ namespace CA.Blocks.PostgresDataAccessTests.Postgres.DbTypeTests
 //        var cmd = CreateTextCommand(SelectTestDataSQL("Where col = @value")).WithParameter(testValue.ToPostgresParameter("@value"));
 //        var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DateTimeOffSetDataType>();
 //        //Act
-//        var data = t.Translate(ExecuteDataRow(cmd));
+//        var data = t.Translate(Execute(cmd).ToDataRow());
 
 //        Assert.Equal(testValue, data.Col);
 //    }

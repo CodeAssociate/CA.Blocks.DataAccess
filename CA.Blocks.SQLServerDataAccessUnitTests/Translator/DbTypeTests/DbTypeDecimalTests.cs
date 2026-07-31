@@ -1,3 +1,4 @@
+﻿using CA.Blocks.DataAccess.Translator.Extensions;
 using System;
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
@@ -85,7 +86,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DecimalDataType>();
             //Act
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = t.Translate(Execute(cmd).ToDataRow());
             
             Assert.Equal(testValue, data.Col);
         }

@@ -1,6 +1,7 @@
 using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgresDataAccess;
 using CA.Blocks.PostgresDataAccessTests.Base;
 
@@ -84,7 +85,7 @@ public class DbTypeGuidTests : UnitTestDataAccess, IDisposable
         var cmd = CreateTextCommand(SelectTestDataSQL("Where col = @value")).WithParameter(testValue.ToPostgresParameter("@value"));
         var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<GuidDataType>();
         //Act
-        var data = t.Translate(ExecuteDataRow(cmd));
+        var data = t.Translate(Execute(cmd).ToDataRow());
 
         Assert.Equal(testValue, data.Col);
     }

@@ -1,5 +1,6 @@
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgresDataAccess;
 using CA.Blocks.PostgresDataAccess.Builder;
 using CA.Blocks.PostgresDataAccessTests.Base;
@@ -108,7 +109,7 @@ namespace CA.Blocks.PostgresDataAccessTests.Postgres.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL("Where col = @testvalue")).WithParameter(testvalue.ToPostgresParameter("testvalue"));
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BigIntDataType>();
             //Act
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = t.Translate(Execute(cmd).ToDataRow());
 
             Assert.Equal(123, data.Col);
         }

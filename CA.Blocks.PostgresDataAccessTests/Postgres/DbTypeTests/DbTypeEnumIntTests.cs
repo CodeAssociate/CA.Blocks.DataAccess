@@ -64,7 +64,7 @@ public class DbTypeEnumIntTests : UnitTestDataAccess, IDisposable
         var cmd = CreateTextCommand(SelectTestDataSQL("Where col = @value")).WithParameter(resultOfToSqlParameter.ToPostgresParameter("@value"));
         var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringEnumDataType>();
         //Act
-        var data = t.Translate(ExecuteDataRow(cmd));
+        var data = t.Translate(Execute(cmd).ToDataRow());
 
         Assert.Equal(testValue, data.Col);
     }

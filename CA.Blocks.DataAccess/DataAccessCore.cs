@@ -696,7 +696,7 @@ namespace CA.Blocks.DataAccess
 		protected dynamic ExecuteObject(IDbCommand cmd)
         {
             var translator = new DynamicDbRow2ObjectTranslator();
-            return translator.Translate(ExecuteDataRow(cmd));
+            return translator.Translate(Execute(cmd).ToDataRow());
         }
 
         protected IList<dynamic> ExecuteObjectList(IDbCommand cmd)

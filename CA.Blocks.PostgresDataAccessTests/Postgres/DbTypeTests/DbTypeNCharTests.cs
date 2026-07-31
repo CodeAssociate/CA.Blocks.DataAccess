@@ -1,6 +1,7 @@
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.PostgresDataAccess;
 using CA.Blocks.PostgresDataAccessTests.Base;
+using CA.Blocks.DataAccess.Translator.Extensions;
 
 namespace CA.Blocks.PostgresDataAccessTests.Postgres.DbTypeTests;
 
@@ -51,7 +52,7 @@ public class DbTypeNCharTests : UnitTestDataAccess, IDisposable
         cmd.Parameters.Add(testvalue.ToPostgresParameter("@testValue"));
 
         //Act
-        var data = t.Translate(ExecuteDataRow(cmd));
+        var data = t.Translate(Execute(cmd).ToDataRow());
 
         //Asert
         Assert.Equal(testvalue, data);

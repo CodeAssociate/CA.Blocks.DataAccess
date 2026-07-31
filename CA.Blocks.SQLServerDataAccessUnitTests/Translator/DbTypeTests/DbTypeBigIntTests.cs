@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
@@ -105,7 +106,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testvalue").WithParameter(testvalue.ToSqlParameter("testvalue"));
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BigIntDataType>();
             //Act
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = t.Translate(Execute(cmd).ToDataRow());
             
             Assert.Equal(123, data.Col);
         }

@@ -88,7 +88,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<GuidDataType>();
             //Act
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = t.Translate(Execute(cmd).ToDataRow());
 
             Assert.NotNull(data);
             Assert.Equal(testValue, data.Col);
