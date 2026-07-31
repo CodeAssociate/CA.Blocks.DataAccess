@@ -511,10 +511,9 @@ namespace CA.Blocks.DataAccess
         /// <param name="cmd"></param>
         /// <returns></returns>
         /// <exception cref="DataException"> This function expects one or zero results, it is get two more more it will throw an exception</exception>
-        // about to happen but not in this commit
-        //[Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. " +
-        //          "Support will be dropped in the next major version (4) to optimize performance." +
-        //          "You can use Execute(cmd).ToDateTable() then take first row as a replacement", false)]
+        [Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. " +
+                  "Support will be dropped in the next major version (4) to optimize performance." +
+                  "You can use Execute(cmd).ToDateTable() then take first row as a replacement", false)]
         protected DataRow ExecuteDataRow(IDbCommand cmd)
         {
             DataSet ds = ExecuteDataSet(cmd);

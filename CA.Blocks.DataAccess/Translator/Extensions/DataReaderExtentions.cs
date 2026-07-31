@@ -181,6 +181,13 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             }
             return dt;
         }
+
+        public static DataRow ToDataRow(this IDataReader dbReader)
+        {
+            return dbReader.ToDataTable().Rows[0];
+        }
+
+
         #endregion
         
         #region Multi Result Sets

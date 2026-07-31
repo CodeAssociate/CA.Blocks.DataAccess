@@ -16,7 +16,7 @@ namespace CA.Blocks.PostgresDataAccess
         private static readonly object _syncLock = new object();
         private readonly ConcurrentDictionary<string, NpgsqlDbType> _typeMappings;
 
-        public static ITypeToSqlDbTypeProvider DefaultInstance = new DefaultTypeToSqlDbTypeProvider();
+        public static readonly ITypeToSqlDbTypeProvider DefaultInstance = new DefaultTypeToSqlDbTypeProvider();
 
         public DefaultTypeToSqlDbTypeProvider()
         {

@@ -156,7 +156,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 
         public static async Task<IDictionary<Key, T>> ToDictionaryAsync<Key, T>(this DbDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector)
         {
-			IDictionary<Key, T> result = new Dictionary<Key, T>();
+			IDictionary<Key, T> result;
 			{
                 try
                 {

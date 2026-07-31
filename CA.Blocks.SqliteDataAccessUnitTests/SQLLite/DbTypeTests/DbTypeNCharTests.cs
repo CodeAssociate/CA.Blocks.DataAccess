@@ -1,4 +1,5 @@
 using CA.Blocks.DataAccess.Translator.Basic;
+using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccess;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 
@@ -14,7 +15,7 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
 {
             ExecuteNonQuery(DropTestTableSQL());
             ExecuteNonQuery(CreateTestTable("NChar not null"));
-            InsertTestDataSQL('ä');
+            InsertTestDataSQL('ï¿½');
             InsertTestDataSQL('B');
             InsertTestDataSQL('C');
             InsertTestDataSQL('D');
@@ -41,13 +42,13 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite.DbTypeTests
         public void SelectAllDataNCharWithFilter ()
         {
             //setup
-            char testvalue = 'ä';
+            char testvalue = 'ï¿½';
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
             cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
             //Act
-            var data = t.Translate(ExecuteDataRow(cmd));
+            var data = t.Translate(Execute(cmd).ToDataRow());
 
             //Asert
             Assert.Equal(testvalue, data);

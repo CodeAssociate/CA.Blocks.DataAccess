@@ -17,10 +17,14 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions
         public DbColToTypeConverterAttribute(Type converterType)
         {
             this._converterType = (object)converterType != null ? converterType : throw new ArgumentNullException(nameof(converterType));
-            var hasInterface = converterType.GetInterface(typeof(IDbColToTypeConverter)?.FullName);
-            if (hasInterface == null)
+            var fullName = typeof(IDbColToTypeConverter).FullName;
+            if (fullName != null)
             {
-                throw new ArgumentException("The Converter must be of type IDbColToTypeConverter", nameof(converterType));
+                var hasInterface = converterType.GetInterface(fullName);
+                if (hasInterface == null)
+                {
+                    throw new ArgumentException("The Converter must be of type IDbColToTypeConverter", nameof(converterType));
+                }
             }
         }
 
