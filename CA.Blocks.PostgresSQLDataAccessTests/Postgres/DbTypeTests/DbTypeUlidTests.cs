@@ -3,7 +3,6 @@ using CA.Blocks.DataAccess.Extensions.Translators.NUlid;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgresSQLDataAccessTests.Base;
-using CA.Blocks.SQLServerDataAccess;
 using NUlid;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;

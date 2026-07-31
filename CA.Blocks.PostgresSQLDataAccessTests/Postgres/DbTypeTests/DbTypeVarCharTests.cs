@@ -1,6 +1,5 @@
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.PostgresSQLDataAccessTests.Base;
-using CA.Blocks.SQLServerDataAccess;
 
 namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests;
 

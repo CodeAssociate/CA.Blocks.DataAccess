@@ -7,13 +7,12 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System.Data;
 using CA.Blocks.DataAccess;
-using CA.Blocks.DataAccess.DataTableHelpers;
 using Npgsql;
 using NpgsqlTypes;
-using System.Data;
 
-namespace CA.Blocks.SQLServerDataAccess
+namespace CA.Blocks.PostgreSQLDataAccess
 {
     ///// <summary>
     ///// The SpecificSQLDecimalType to use this will default to Decimal if not specified

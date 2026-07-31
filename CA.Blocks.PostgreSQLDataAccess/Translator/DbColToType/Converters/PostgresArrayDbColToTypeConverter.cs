@@ -1,8 +1,9 @@
-﻿using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
+﻿using System.Data;
+using CA.Blocks.DataAccess;
+using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using Npgsql;
-using System.Data;
 
-namespace CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Converters
+namespace CA.Blocks.PostgreSQLDataAccess.Translator.DbColToType.Converters
 {
     public class PostgresArrayDbColToTypeConverter<T> : BaseDbColToTypeConverter<T>
     {

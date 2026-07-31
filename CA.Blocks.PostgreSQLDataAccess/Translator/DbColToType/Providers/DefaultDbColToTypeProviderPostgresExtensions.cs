@@ -1,8 +1,7 @@
-﻿using CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Converters;
-using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
+﻿using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
+using CA.Blocks.PostgreSQLDataAccess.Translator.DbColToType.Converters;
 
-
-namespace CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Providers
+namespace CA.Blocks.PostgreSQLDataAccess.Translator.DbColToType.Providers
 {
     public static class DefaultDbColToTypeProviderPostgresExtensions
     {

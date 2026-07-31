@@ -2,7 +2,6 @@
 using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.Testing;
 using CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Converters;
-using CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Providers;
 using CA.Blocks.DataAccess.Translator.DbColToType.Providers;
 using CA.Blocks.PostgresSQLDataAccessTests.Base;
 using Microsoft.Extensions.DependencyInjection;

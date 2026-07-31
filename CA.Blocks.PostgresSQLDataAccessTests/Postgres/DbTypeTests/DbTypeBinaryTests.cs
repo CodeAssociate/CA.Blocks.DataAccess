@@ -3,7 +3,7 @@ using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.PostgresSQLDataAccessTests.Base;
 
-namespace CA.Blocks.PostgreSQLDataAccessUnitTests.DbTypeTests
+namespace CA.Blocks.PostgresSQLDataAccessTests.Postgres.DbTypeTests
 {
     //NOTE Postgres has not fix size binary
     // TODO you can use a bit(a) will need to do example...
