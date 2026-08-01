@@ -5,7 +5,7 @@
 - [Homepage](https://www.codeassociate.com/)
 - [Documentation](https://www.codeassociate.com/Blocks/DataAccess/)
 - [NuGet Package Sqlite](https://www.nuget.org/packages/CA.Blocks.SQLLiteDataAccess/)
-- [Source Code](https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess)
+- [Source Code](https://github.com/CodeAssociate/CA.Blocks.DataAccess)
 
 This Package is a extension to the DataAccess Blocks, it will pull in the System.Text.Json to allow reading of Json Data Directory from a Column
 
@@ -20,7 +20,6 @@ Direct Usage .NET standard a null value will be returned as Default(YourObject)
     //or if you have we what to use the custom JsonSerializerOptions example PropertyNameCaseInsensitive
     var target = new JsonDbColToTypeConverter<YourObject>(new JsonSerializerOptions{ PropertyNameCaseInsensitive = true});
     var r = target.GetDataValue(dataRow, "col");
-
 ```
 
 Direct Usage .NET 6 + can be as above by also detail with null values and interfaces

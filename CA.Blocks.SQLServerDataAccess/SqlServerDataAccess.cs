@@ -56,6 +56,10 @@ namespace CA.Blocks.SQLServerDataAccess
 
         protected virtual string GetConnectionToken()
         {
+            if (ConnectionTokenResolver != null)
+            {
+                return ConnectionTokenResolver.GetConnectionToken(ConnectionString);
+            }
             return null;
         }
 

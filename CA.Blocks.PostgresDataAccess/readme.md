@@ -5,7 +5,7 @@
 - [Homepage](https://www.codeassociate.com/)
 - [Documentation](https://www.codeassociate.com/Blocks/DataAccess/)
 - [NuGet Package Sqlite](https://www.nuget.org/packages/CA.Blocks.SQLServerDataAccess/)
-- [Source Code](https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess)
+- [Source Code](https://github.com/CodeAssociate/CA.Blocks.DataAccess)
 
 
 This Package is a extension to the DataAccess Blocks targeting the postgres provider

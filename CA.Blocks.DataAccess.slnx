@@ -9,6 +9,7 @@
   </Folder>
   <Project Path="CA.Blocks.DataAccess.Extensions.Config.Json/CA.Blocks.DataAccess.Extensions.Config.Json.csproj" />
   <Project Path="CA.Blocks.DataAccess.Extensions.Config.JsonTests/CA.Blocks.DataAccess.Extensions.Config.JsonTests.csproj" />
+  <Project Path="CA.Blocks.DataAccess.Extensions.TokenResolvers.Azure/CA.Blocks.DataAccess.Extensions.TokenResolvers.Azure.csproj" />
   <Project Path="CA.Blocks.DataAccess.Extensions.Translators.Json/CA.Blocks.DataAccess.Extensions.Translators.Json.csproj" />
   <Project Path="CA.Blocks.DataAccess.Extensions.Translators.JsonTests/CA.Blocks.DataAccess.Extensions.Translators.JsonTests.csproj" />
   <Project Path="CA.Blocks.DataAccess.Extensions.Translators.NUlid/CA.Blocks.DataAccess.Extensions.Translators.NUlid.csproj" />

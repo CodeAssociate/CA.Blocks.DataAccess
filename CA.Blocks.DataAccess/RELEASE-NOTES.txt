@@ -1,4 +1,9 @@
-﻿v3.7
+﻿v3.9
+- Added support for passing a Cancel Token down the stack for the async methods in data core
+- Marking anything that uses DbDataAdapter as obsolete as we are going to remove this is v4.0  it is still supported and included in modern .NET runtimes, but it is considered a legacy technology that receives no new feature updates.
+
+
+v3.7
 - Added build packages for .NET 10
 
 v3.6
