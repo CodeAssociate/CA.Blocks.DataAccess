@@ -104,22 +104,39 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return ToListOfAsync<T>(dbReader, translator1.Translate);
         }
 
-        public static async Task<IList<T>> ToListOf<T>(this Task<DbDataReader> dbReaderTask)
+        public static async Task<IList<T>> ToListOfAsync<T>(this Task<DbDataReader> dbReaderTask)
         {
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             var dbReader = await dbReaderTask.ConfigureAwait(false);
             return await ToListOfAsync<T>(dbReader, translator1.Translate).ConfigureAwait(false);
         }
 
-        public static async Task<IList<T>> ToListOf<T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate)
+        public static async Task<IList<T>> ToListOfAsync<T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate)
         {
             var dbReader = await dbReaderTask.ConfigureAwait(false);
             return await ToListOfAsync<T>(dbReader, translate).ConfigureAwait(false);
         }
 
-		#endregion
-		//**
-#region ExecuteToDictionaryAsync
+        public static async Task<IList<T>> ToListOf<T>(this Task<DbDataReader> dbReaderTask)
+        {
+            // Awaits the initial async Task<DbDataReader>, then synchronously reads the data into a List<T> via ToListOf<T>,
+            // closing the reader upon completion.
+            // Synchronous row reading is the default because it is typically faster once the initial connection is established.
+            // It avoids the overhead of allocating an async state machine and context for every single row iteration.
+            IDataReader dbReader = await dbReaderTask.ConfigureAwait(false);
+            return dbReader.ToListOf<T>() ;
+        }
+
+        public static async Task<IList<T>> ToListOf<T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate)
+        {
+            IDataReader dbReader = await dbReaderTask.ConfigureAwait(false);
+            return  dbReader.ToListOf<T>(translate);
+        }
+        
+
+        #endregion
+        //**
+        #region ExecuteToDictionaryAsync
 
 #if NET6_0_OR_GREATER
 
@@ -187,18 +204,31 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return await ToDictionaryAsync<Key, T>(dbReader, translator1.Translate, keySelector).ConfigureAwait(false);
         }
 
-        public static async Task<IDictionary<Key, T>> ToDictionary<Key, T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate, Func<T, Key> keySelector)
+        public static async Task<IDictionary<Key, T>> ToDictionaryAsync<Key, T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate, Func<T, Key> keySelector)
         {
             var dbReader = await dbReaderTask.ConfigureAwait(false);
             return await ToDictionaryAsync<Key, T>(dbReader, translate, keySelector).ConfigureAwait(false);
         }
 
-#endregion
+
+        public static async Task<IDictionary<Key, T>> ToDictionary<Key, T>(this Task<DbDataReader> dbReaderTask, Func<T, Key> keySelector)
+        {
+            IDataReader dbReader = await dbReaderTask.ConfigureAwait(false);
+            return dbReader.ToDictionary(keySelector);
+        }
+
+        public static async Task<IDictionary<Key, T>> ToDictionary<Key, T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate, Func<T, Key> keySelector)
+        {
+            IDataReader dbReader = await dbReaderTask.ConfigureAwait(false);
+            return dbReader.ToDictionary(translate, keySelector);
+        }
+
+        #endregion
 
 
 
 
-#region ToSingleNamedColumnList
+        #region ToSingleNamedColumnList
         public static async Task<IList<T>> ToSingleNamedColumnListAsync<T>(this DbDataReader dbReader, string colName, Func<IDataReader, string, T> converter)
         {
             IList<T> result = new List<T>();
@@ -228,18 +258,35 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         }
 
 
-        public static async Task<IList<T>> ToSingleNamedColumnList<T>(this Task<DbDataReader> dbReaderTask, string colName)
+
+        public static async Task<IList<T>> ToSingleNamedColumnListAsync<T>(this Task<DbDataReader> dbReaderTask, string colName)
         {
             IDbColToTypeConverter<T> converter = (IDbColToTypeConverter<T>)DefaultDbColToTypeProvider.DefaultInstance.Resolve<T>();
             var dbReader = await dbReaderTask.ConfigureAwait(false);
             return await ToSingleNamedColumnListAsync<T>(dbReader, colName, converter.GetDataValue).ConfigureAwait(false);
         }
 
-        public static async Task<IList<T>> ToSingleNamedColumnList<T>(this Task<DbDataReader> dbReaderTask, string colName, Func<IDataReader, string, T> converter)
+        public static async Task<IList<T>> ToSingleNamedColumnListAsync<T>(this Task<DbDataReader> dbReaderTask, string colName, Func<IDataReader, string, T> converter)
         {
             var dbReader = await dbReaderTask.ConfigureAwait(false);
             return await ToSingleNamedColumnListAsync<T>(dbReader, colName, converter).ConfigureAwait(false);
         }
+
+       
+        public static async Task<IList<T>> ToSingleNamedColumnList<T>(this Task<DbDataReader> dbReaderTask, string colName)
+        {
+  
+            IDataReader dbReader = await dbReaderTask.ConfigureAwait(false);
+            return dbReader.ToSingleNamedColumnList<T>(colName);
+        }
+
+        public static async Task<IList<T>> ToSingleNamedColumnList<T>(this Task<DbDataReader> dbReaderTask, string colName, Func<IDataReader, string, T> converter)
+        {
+            IDataReader dbReader = await dbReaderTask.ConfigureAwait(false);
+            return dbReader.ToSingleNamedColumnList<T>(colName, converter);
+        }
+
+      
 
         #endregion
 
@@ -247,7 +294,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 
         //private 
 
-        private static DataRow DataReaderToDataRow(DbDataReader reader, DataRow newRow)
+        private static DataRow DataReaderToDataRow(IDataReader reader, DataRow newRow)
         {
 	        for (var i = 0; i < reader.FieldCount; i++)
 	        {
@@ -264,7 +311,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 	        return newRow;
         }
 
-        private static DataTable CreateDataTableSchemaFromDataReader(DbDataReader reader)
+        private static DataTable CreateDataTableSchemaFromDataReader(IDataReader reader)
 		{
 			var result = new DataTable();
 
@@ -283,7 +330,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 			return result;
 		}
 
-		public static async Task<DataTable> ToDataTable(this DbDataReader dbReader)
+		public static async Task<DataTable> ToDataTableAsync(this DbDataReader dbReader)
 		{
 			DataTable dt = new DataTable();
 			bool schemaCreated = false;
@@ -311,10 +358,11 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 			return dt;
 		}
 
-		public static async Task<DataTable> ToDataTable(this Task<DbDataReader> dbReaderTask)
+       
+        public static async Task<DataTable> ToDataTable(this Task<DbDataReader> dbReaderTask)
 		{
-			var dbReader = await dbReaderTask.ConfigureAwait(false);
-			return await ToDataTable(dbReader).ConfigureAwait(false);
+			IDataReader dbReader = await dbReaderTask.ConfigureAwait(false);
+			return dbReader.ToDataTable();
 		}
 
 		#endregion

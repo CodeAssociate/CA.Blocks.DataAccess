@@ -18,31 +18,54 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper
         }
 
         [Benchmark(Baseline = true)]
-        public void BlocksReadobjects()
+        public void ReadSysObjectsSync()
         {
-            var result = _blocksTarget!.ReadSysobjects();
+            var result = _blocksTarget!.ReadSysObjectsSync();
         }
 
 
         [Benchmark]
-        public void BlocksReadobjectsDispose()
+        public void ReadSysObjectsSyncDispose()
         {
-	        var result = _blocksTarget!.ReadSysobjectsDispose();
+	        var result = _blocksTarget!.ReadSysObjectsSyncDispose();
         }
 
-		[Benchmark]
-        public async Task BlocksReadobjectsAsync()
+        [Benchmark]
+        public void ReadSysObjectsSyncWithCustom()
         {
-	        var result = await _blocksTarget!.ReadSysobjectsAsync();
+            var result = _blocksTarget!.ReadSysObjectsSyncWithCustom();
         }
 
-
-		[Benchmark()]
-        public void BlocksReadobjectsCustom()
+        [Benchmark]
+        public void ReadSysObjectsSyncWithIndexedCustom()
         {
-            var result = _blocksTarget!.ReadSysobjects2();
-
+            var result = _blocksTarget!.ReadSysObjectsSyncWithIndexedCustom();
         }
+
+        [Benchmark()]
+        public async Task ReadSysObjectsASync()
+        {
+            var result = await _blocksTarget!.ReadSysObjectsASync();
+        }
+
+        [Benchmark()]
+        public async Task ReadSysObjectsASyncWithReaderAsync()
+        {
+            var result = await _blocksTarget!.ReadSysObjectsASyncWithReaderAsync();
+        }
+
+        [Benchmark()]
+        public async Task ReadSysObjectsASyncWithCustom()
+        {
+            var result = await _blocksTarget!.ReadSysObjectsASyncWithCustom();
+        }
+
+        [Benchmark()]
+        public async Task ReadSysObjectsASyncWithDispose()
+        {
+            var result = await _blocksTarget!.ReadSysObjectsASyncWithDispose();
+        }
+
 
         [Benchmark()]
         public void DapperReadobjects()

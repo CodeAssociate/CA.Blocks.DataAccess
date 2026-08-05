@@ -1,4 +1,9 @@
-﻿v3.7
+﻿v3.9
+- Added support for low-overhead async execution:
+- Default / Low-Overhead: Use ExecuteAsync to await database I/O, then read rows synchronously via ToListOf() to eliminate per-row async state machine allocations.
+- Fully Non-Blocking: Use ToListOfAsync() if non-blocking iteration across all rows is required.
+
+v3.7
 - Added build packages for .NET 10
 
 v3.6
