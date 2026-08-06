@@ -74,6 +74,11 @@ steps:
 - template: set-semantic-version.yaml
   parameters:
     SemanticVersion: "$(SemanticVersion)"
+    ProjectFile: "CA.Blocks.DataAccess.Extensions.TokenResolvers.Azure"
+    
+- template: set-semantic-version.yaml
+  parameters:
+    SemanticVersion: "$(SemanticVersion)"
     ProjectFile: "CA.Blocks.DataAccess.Model"
 
 - template: set-semantic-version.yaml
@@ -100,6 +105,7 @@ steps:
   parameters:
     SemanticVersion: "$(SemanticVersion)"
     ProjectFile: "CA.Blocks.PostgresDataAccess"
+
 
 
 # - task: NuGetToolInstaller@1

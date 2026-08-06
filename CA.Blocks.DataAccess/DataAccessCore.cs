@@ -47,9 +47,11 @@ namespace CA.Blocks.DataAccess
         protected virtual CommandBehavior DefaultCommandBehavior => CommandBehavior.CloseConnection;
 
         /// <summary>
-        /// ConnectionString Used for the provider. This is used in the provider blocks get get a connection string to use  
+        /// ConnectionString Used for the provider. This is used in the provider blocks to get a connection string to use  
         /// </summary>
         protected string ConnectionString { get; }
+        
+        protected DependencyInjection.IConnectionTokenResolver ConnectionTokenResolver { get; }
 
         #region private utility methods & constructors
 
@@ -61,6 +63,7 @@ namespace CA.Blocks.DataAccess
             _dbRowTranslatorProvider = dbRowTranslatorProvider ?? DefaultDbRowTranslatorProvider.DefaultInstance;
             _options = config.Options;
             ConnectionString = config.Resolver.GetConnectionString(_options.ConnectionStringKey);
+            ConnectionTokenResolver = config.ConnectionTokenResolver;
         }
 
         /// <summary>

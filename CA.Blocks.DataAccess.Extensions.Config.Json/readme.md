@@ -4,7 +4,7 @@
 
 - [Homepage](https://www.codeassociate.com/)
 - [Documentation](https://www.codeassociate.com/Blocks/DataAccess/)
-- [Source Code](https://dev.azure.com/RavinEnterprises/CA.Blocks/_git/CA.Blocks.DataAccess)
+- [Source Code](https://github.com/CodeAssociate/CA.Blocks.DataAccess)
 
 
 Example using a Json configuration setting
