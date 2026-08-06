@@ -17,7 +17,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator
                 var result =  new TestDataClass
                 {
                     IntCol = dr.AsInt("IntCol"),
-                    StringCol = dr.AsString("StringCol"),
+                    StringCol = dr.AsString("StringCol")!,
                     GuidCol = dr.AsGuid("GuidCol"),
                     DateCol = dr.AsDateTime("DateCol")
                 };

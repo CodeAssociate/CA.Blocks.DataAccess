@@ -5,15 +5,8 @@ using CA.Blocks.DataAccess.DependencyInjection;
 
 namespace CA.Blocks.DataAccess.Extensions.TokenResolvers.Azure
 {
-    public class AzureManagedIdentityTokenResolver : IConnectionTokenResolver
+    public class AzureManagedIdentityTokenResolver(TokenCredential tokenCredential) : IConnectionTokenResolver
     {
-        private readonly TokenCredential _tokenCredential;
-
-        public AzureManagedIdentityTokenResolver(TokenCredential tokenCredential)
-        {
-            _tokenCredential = tokenCredential;
-        }
-
         private string _existingToken;
         private DateTimeOffset _dateTimeExpires;
         /// <summary>
@@ -32,8 +25,8 @@ namespace CA.Blocks.DataAccess.Extensions.TokenResolvers.Azure
             }
             if (connectionString.Contains("database.windows.net"))
             {
-                var token = _tokenCredential?.GetToken(
-                    new TokenRequestContext(new[] { "https://database.windows.net" }),
+                var token = tokenCredential?.GetToken(
+                    new TokenRequestContext(["https://database.windows.net"]),
                     CancellationToken.None);
                 if (token.HasValue)
                 {
@@ -41,14 +34,9 @@ namespace CA.Blocks.DataAccess.Extensions.TokenResolvers.Azure
                     _dateTimeExpires = token.Value.ExpiresOn;
                     return _existingToken;
                 }
-
-                return null;
             }
-            else
-            {
-                // The connection string for a AzureManagedIdentity must be for a database in the realm database.windows.net
-                return null;
-            }
+            // The connection string for a AzureManagedIdentity must be for a database in the realm database.windows.net
+            return null;
         }
     }
 }

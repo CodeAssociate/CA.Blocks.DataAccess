@@ -7,7 +7,7 @@ namespace CA.Blocks.SQLServerDataAccess.Model
 
     public abstract class SqlServerSessionContext
     {
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         // The value for the specified key, of type sql_variant. Setting a value of NULL frees the memory. The maximum size is 8,000 bytes
         public bool ReadOnly { get; set; }
@@ -27,7 +27,7 @@ namespace CA.Blocks.SQLServerDataAccess.Model
 
     public class SqlServerStringSessionContext : SqlServerSessionContext
     {
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         public override SqlParameter ValueAsSqlParameter(string strParameterName)
         {

@@ -10,9 +10,15 @@ namespace CA.Blocks.DataAccess.Extensions
 	{
 
 		// A simple Property copier in the event the diver does not support the ICloneable interface
-		private static T Clone<T>(T source)
+		private static T Clone<T>(T source) where T : notnull
 		{
-			var result = (T)Activator.CreateInstance(source.GetType());
+			var o = Activator.CreateInstance(source.GetType());
+			if (o == null)
+			{
+				throw new ArgumentNullException("Cannot clone DbParameter");
+			}
+			var result = (T)o;
+			
 			var publicProperties = source.GetType().GetProperties();
 			foreach (var property in publicProperties)
 			{
@@ -39,7 +45,6 @@ namespace CA.Blocks.DataAccess.Extensions
 					// Try a simple object public a copy. 
 					if (dbParameter is DbParameter dataParameter)
 					{
-						
 						result.Add(Clone(dataParameter));
 					}
 					else

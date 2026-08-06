@@ -78,7 +78,7 @@ END";
             var tresult = ExecuteTo<TestDataObj>(readAsString);
             // assert
 
-            Assert.Equal(bresult.Id, tresult.Id);
+            Assert.Equal(bresult!.Id, tresult.Id);
             Assert.Equal(testData, bresult.dataValue);
             Assert.Equal(testData,tresult.dataValue);
            

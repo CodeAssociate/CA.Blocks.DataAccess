@@ -1,30 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-
-	  <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <AssemblyVersion>987.654.3210.0</AssemblyVersion>
-	  <FileVersion>987.654.3210.0</FileVersion>
-	  <Version>987.654.3210</Version>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>987.654.3210.0</AssemblyVersion>
+    <FileVersion>987.654.3210.0</FileVersion>
+    <Version>987.654.3210</Version>
     <RepositoryUrl>https://github.com/CodeAssociate/CA.Blocks.DataAccess</RepositoryUrl>
-	  <AssemblyName>CA.Blocks.OdbcDataAccess</AssemblyName>
-	  <RootNamespace>CA.Blocks.OdbcDataAccess</RootNamespace>
-	  <Authors>Kevin Bosch</Authors>
-	  <Company>Ravin Enterprises Limited</Company>
-	  <Title>CA.Blocks.OdbcDataAccess</Title>
-	  <RepositoryType>git</RepositoryType>
-	  <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
-	  <PackageReadmeFile>readme.md</PackageReadmeFile>
-	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <PackageReleaseNotes>@RELEASE-NOTES.txt</PackageReleaseNotes>
-	  <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;odbc</PackageTags>
-	  <IncludeSymbols>True</IncludeSymbols>
-	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <AssemblyName>CA.Blocks.OdbcDataAccess</AssemblyName>
+    <RootNamespace>CA.Blocks.OdbcDataAccess</RootNamespace>
+    <Authors>Kevin Bosch</Authors>
+    <Company>Ravin Enterprises Limited</Company>
+    <Title>CA.Blocks.OdbcDataAccess</Title>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>@RELEASE-NOTES.txt</PackageReleaseNotes>
+    <PackageTags>data;micro-orm;sql;ca.blocks;ado.net;odbc</PackageTags>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- PrivateAssets ensures this development-only dependency does not leak to consumers 
+PolySharp source-generator package. It automatically injects required attributes for netstandard2.0 
+ alling us to use modern features and still able to package a netstandard2.0 version
+-->
+    <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
     <PackageReference Include="System.Data.Odbc" Version="10.0.9" />
   </ItemGroup>
 

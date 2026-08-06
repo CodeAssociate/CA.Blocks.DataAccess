@@ -36,25 +36,25 @@ namespace CA.Blocks.SQLServerDataAccess
 
         public const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
 
-        public SqlServerDataAccess(IDataAccessConfig config, IDbRowTranslatorProvider dbRowTranslatorProvider = null) : base(config, dbRowTranslatorProvider)
+        public SqlServerDataAccess(IDataAccessConfig config, IDbRowTranslatorProvider? dbRowTranslatorProvider = null) : base(config, dbRowTranslatorProvider)
         {
 
         }
 
 
         [System.Obsolete("If you using SQL server 2016 + it is best to migrate to GetSessionContext")]
-        protected virtual string GetConnectionContext()
+        protected virtual string? GetConnectionContext()
         {
             return null;
         }
 
-        protected virtual IList<SqlServerSessionContext> GetSessionContext()
+        protected virtual IList<SqlServerSessionContext>? GetSessionContext()
         {
             return null;
         }
 
 
-        protected virtual string GetConnectionToken()
+        protected virtual string? GetConnectionToken()
         {
             if (ConnectionTokenResolver != null)
             {
@@ -67,7 +67,7 @@ namespace CA.Blocks.SQLServerDataAccess
         private void SetCommandContext(SqlConnection sqlConnection)
         {
 #pragma warning disable CS0618
-            string context = GetConnectionContext();
+            var context = GetConnectionContext();
 #pragma warning restore CS0618
             if (!string.IsNullOrWhiteSpace(context))
             {
@@ -98,7 +98,7 @@ namespace CA.Blocks.SQLServerDataAccess
 
         private void SetAccessToken(SqlConnection sqlConnection)
         {
-            string token = GetConnectionToken();
+            var token = GetConnectionToken();
             if (!string.IsNullOrWhiteSpace(token))
             {
                 sqlConnection.AccessToken = token;

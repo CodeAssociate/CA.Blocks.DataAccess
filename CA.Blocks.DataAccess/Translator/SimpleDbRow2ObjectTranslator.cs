@@ -21,17 +21,17 @@ namespace CA.Blocks.DataAccess.Translator
     // This object is a simple container in which the Object will do all the of Translate from a Data Row to the Object
     public abstract class SimpleDbRow2ObjectTranslator<T> 
     {
-        public IList<T> Translate(DataRow[] drs)
+        public IList<T?> Translate(DataRow[] drs)
         {
             return (from DataRow dr in drs select Translate(dr)).ToList();
         }
 
-        public IList<T> Translate(DataTable dt)
+        public IList<T?> Translate(DataTable dt)
         {
             return (from DataRow dr in dt.Rows select Translate(dr)).ToList();
         }
 
-        public T Translate(DataRow dr)
+        public T? Translate(DataRow? dr)
         {
             return dr == null ? default(T) : CustomTranslate(dr);
         }

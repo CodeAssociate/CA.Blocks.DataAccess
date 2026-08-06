@@ -11,7 +11,7 @@ namespace CA.Blocks.DataAccess.DependencyInjection
         /// </summary>
         /// <param name="connectionString"></param>
         /// <returns> A Token that can we used on a DBConnection </returns>
-        string GetConnectionToken(string connectionString);
+        string? GetConnectionToken(string connectionString);
     }
     
     /// <summary>
@@ -19,7 +19,7 @@ namespace CA.Blocks.DataAccess.DependencyInjection
     /// </summary>
     public class NullConnectionTokenResolver : IConnectionTokenResolver
     {
-        public string GetConnectionToken(string connectionString)
+        public string? GetConnectionToken(string connectionString)
         {
             return null;
         }

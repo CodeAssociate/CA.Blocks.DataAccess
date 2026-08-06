@@ -557,7 +557,7 @@ namespace CA.Blocks.SQLServerDataAccess
             }
         }
 
-        private static SqlParameter ToSqlParameterString(string input, string strParameterName, SpecificSQLStringType dbType, bool useEmptyStringForNull, int trimInputTo)
+        private static SqlParameter ToSqlParameterString(string? input, string strParameterName, SpecificSQLStringType dbType, bool useEmptyStringForNull, int trimInputTo)
         {
             var inputString = ParameterHelper.PrepStringInput(input, useEmptyStringForNull, trimInputTo);
             return  new SqlParameter(strParameterName, ToSqlDbType(dbType))
@@ -566,7 +566,7 @@ namespace CA.Blocks.SQLServerDataAccess
             };
         }
 
-        public static SqlParameter ToSqlParameter(this string input, string strParameterName, 
+        public static SqlParameter ToSqlParameter(this string? input, string strParameterName, 
                 SpecificSQLStringType dbType = SpecificSQLStringType.NVarChar, 
                 bool useEmptyStringForNull = false, 
                 int trimInputTo = -1)

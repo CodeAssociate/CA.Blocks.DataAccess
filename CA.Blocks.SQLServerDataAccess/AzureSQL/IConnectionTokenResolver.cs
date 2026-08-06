@@ -2,7 +2,6 @@
 
 namespace CA.Blocks.SQLServerDataAccess.AzureSQL
 {
-
     /// <summary>
     /// When connecting to a Azure Database we have the option of using a Token for Auth   
     /// </summary>

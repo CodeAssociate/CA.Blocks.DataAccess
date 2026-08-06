@@ -76,7 +76,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests
                 string tString = TestDotNetTypesToSqlParameter.TestUnicodeString;
             // act
             var paramValues = SqlParameterHelper.AsSqlParameters(
-                     new ParameterMap(tint, nameof(tint)),
+                     new ParameterMap(tint!, nameof(tint)),
                      new ParameterMap(tansiString, nameof(tansiString), "varchar"),
                      new ParameterMap(tString, nameof(tString))
                 );

@@ -52,7 +52,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="sColumnName">The Name of the Column in the DataRow</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static object GetValueFromRow(DataRow dr, string sColumnName)
+        public static object? GetValueFromRow(DataRow dr, string sColumnName)
         {
             return dr.IsNull(sColumnName) ? null : dr[sColumnName];
         }
@@ -65,7 +65,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="column">The Column that belongs to the DataTable</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static object GetValueFromRow(DataRow dr, DataColumn column)
+        public static object? GetValueFromRow(DataRow dr, DataColumn column)
         {
             return dr.IsNull(column) ? null : dr[column];
         }
@@ -78,7 +78,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="columnIndex">The index of the Column that belongs to the DataTable</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static object GetValueFromRow(DataRow dr, int columnIndex)
+        public static object? GetValueFromRow(DataRow dr, int columnIndex)
         {
             return !dr.IsNull(columnIndex) ? dr[columnIndex] : null;
         }
@@ -93,30 +93,30 @@ namespace CA.Blocks.DataAccess
         /// <param name="sColumnName"> The Name of the Column in the DataRow </param>
         /// <param name="returnNullAsEmptyString">Sets the attribute on how an empty string will be treated, it true it will return string.empty else it will return null. </param>
         /// <returns></returns>
-        public static string GetValueFromRowAsString(DataRow dr, string sColumnName, bool returnNullAsEmptyString = false)
+        public static string? GetValueFromRowAsString(DataRow dr, string sColumnName, bool returnNullAsEmptyString = false)
         {
             var result = GetValueFromRow(dr, sColumnName);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
-            return (string)result;
+            return (string?)result;
         }
 
         /// <inheritdoc cref="GetValueFromRowAsString(DataRow, string, bool)" />
-        public static string GetValueFromRowAsString(DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
+        public static string? GetValueFromRowAsString(DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
         {
-            object result = GetValueFromRow(dr, columnOrder);
+            var result = GetValueFromRow(dr, columnOrder);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
-            return (string)result;
+            return (string?)result;
         }
 
         /// <inheritdoc cref="GetValueFromRowAsString(DataRow, string, bool)" />
-        public static string GetValueFromRowAsString(DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
+        public static string? GetValueFromRowAsString(DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
         {
-            object result = GetValueFromRow(dr, column);
+            var result = GetValueFromRow(dr, column);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
-            return (string)result;
+            return (string?)result;
         }
 
         // The AsToString is slower but will auto convert types to string like int 
@@ -128,7 +128,7 @@ namespace CA.Blocks.DataAccess
         /// <param name="sColumnName"></param>
         /// <param name="returnNullAsEmptyString"></param>
         /// <returns></returns>
-        public static string GetValueFromRowAsToString(DataRow dr, string sColumnName, bool returnNullAsEmptyString = false)
+        public static string? GetValueFromRowAsToString(DataRow dr, string sColumnName, bool returnNullAsEmptyString = false)
         {
             var result = GetValueFromRow(dr, sColumnName);
             if (result == null && returnNullAsEmptyString)
@@ -136,17 +136,17 @@ namespace CA.Blocks.DataAccess
             return result?.ToString();
         }
 
-        public static string GetValueFromRowAsToString(DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
+        public static string? GetValueFromRowAsToString(DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
         {
-            object result = GetValueFromRow(dr, columnOrder);
+            var result = GetValueFromRow(dr, columnOrder);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
             return result?.ToString();
         }
 
-        public static string GetValueFromRowAsToString(DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
+        public static string? GetValueFromRowAsToString(DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
         {
-            object result = GetValueFromRow(dr, column);
+            var result = GetValueFromRow(dr, column);
             if (result == null && returnNullAsEmptyString)
                 result = string.Empty;
             return result?.ToString();
@@ -181,7 +181,7 @@ namespace CA.Blocks.DataAccess
         public static int? GetValueFromRowAsNullInt(DataRow dr, int columnOrder)
         {
             var dbValue = GetValueFromRow(dr, columnOrder);
-            return dbValue == null ? (int?)null : Convert.ToInt32(dbValue);
+            return dbValue == null ? null : Convert.ToInt32(dbValue);
         }
 
         public static uint? GetValueFromRowAsNullUInt(DataRow dr, string sColumnName)
@@ -193,13 +193,13 @@ namespace CA.Blocks.DataAccess
         public static uint? GetValueFromRowAsNullUInt(DataRow dr, DataColumn column)
         {
             var dbValue = GetValueFromRow(dr, column);
-            return dbValue == null ? (uint?)null : Convert.ToUInt32(dbValue);
+            return dbValue == null ? null : Convert.ToUInt32(dbValue);
         }
         
         public static uint? GetValueFromRowAsNullUInt(DataRow dr, int columnOrder)
         {
             var dbValue = GetValueFromRow(dr, columnOrder);
-            return dbValue == null ? (uint?)null : Convert.ToUInt32(dbValue);
+            return dbValue == null ? null : Convert.ToUInt32(dbValue);
         }
 
         /// <summary>
@@ -879,7 +879,7 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, dc.ColumnName, "Guid");
         }
 
-        private static Guid? ObjectAsGuid(object dbDataValue)
+        private static Guid? ObjectAsGuid(object? dbDataValue)
         {
             if (dbDataValue == null)
                 return null;
@@ -963,6 +963,7 @@ namespace CA.Blocks.DataAccess
         
         public static ulong GetValueFromRowAsRowVersion(DataRow dr, string sColumnName)
         {
+            
             byte[] result = (byte[])DataHelper.GetValueFromRow(dr, sColumnName);
             return BitConverter.ToUInt64(result, 0);
         }
@@ -996,7 +997,7 @@ namespace CA.Blocks.DataAccess
 
         // Below support for .NET6+ 
 #if NET6_0_OR_GREATER
-        public static DateOnly? ConverDbValueToDateOnly(object dbValue)
+        public static DateOnly? ConverDbValueToDateOnly(object? dbValue)
         {
             if (dbValue == null)
             {
@@ -1055,7 +1056,7 @@ namespace CA.Blocks.DataAccess
             return ThrowExceptionIfIsNull(val, dc.ColumnName, "DateOnly");
         }
 
-        public static TimeOnly? ConverDbValueToTimeOnly(object dbValue)
+        public static TimeOnly? ConverDbValueToTimeOnly(object? dbValue)
         {
             if (dbValue == null)
             {

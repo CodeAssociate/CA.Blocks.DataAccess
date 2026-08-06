@@ -33,17 +33,20 @@ namespace CA.Blocks.SQLServerDataAccess.Builder
         {
             if (format == "[]" && t != null && t is string)
             {
-                var sqObjectlName = t as string;
-
-                if (sqObjectlName.Contains('['))
+                var sqlObjectName = t as string;
+                if (sqlObjectName == null)
+                {
+                    throw new SqlBuilderException("Name cannot be null");
+                }
+                if (sqlObjectName.Contains('['))
                 {
                     throw new SqlBuilderException("Invalid character '[' in SQL identifier.");
                 }
-                if (sqObjectlName.Contains(']'))
+                if (sqlObjectName.Contains(']'))
                 {
                     throw new SqlBuilderException("Invalid character ']' in SQL identifier.");
                 }
-                _builder.AppendSql("[" + sqObjectlName + "]");
+                _builder.AppendSql("[" + sqlObjectName + "]");
                 return;
             }
             _builder.AppendNewSqlParameter(t, format);

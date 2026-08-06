@@ -121,7 +121,7 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
     public int ToListOfSync()
     {
         //var syncTarget = GenerateTestSet(10);
-        var result = _syncTarget.ToListOf<TestDataObject>();
+        var result = _syncTarget!.ToListOf<TestDataObject>();
         return result.Count;
     }
 
@@ -129,7 +129,7 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
     public int ToListOfSyncCustomTranslateByName()
     {
         //var syncTarget = GenerateTestSet(10);
-        var result = _syncTarget.ToListOf<TestDataObject>(CustomTranslateByName);
+        var result = _syncTarget!.ToListOf<TestDataObject>(CustomTranslateByName);
         return result.Count;
     }
 
@@ -137,7 +137,7 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
     public int ToListOfSyncCustomTranslateById()
     {
         //var syncTarget = GenerateTestSet(10);
-        var result = _syncTarget.ToListOf<TestDataObject>(CustomTranslateById);
+        var result = _syncTarget!.ToListOf<TestDataObject>(CustomTranslateById);
         return result.Count;
     }
 
@@ -158,7 +158,7 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
     public async Task<int> ToListOfAsync()
     {
         //var asyncTarget = await GenerateTestDataReaderAsync(10);
-        var result = await _asyncTarget.ToListOfAsync<TestDataObject>();
+        var result = await _asyncTarget!.ToListOfAsync<TestDataObject>();
         return result.Count;
     }
 
@@ -166,7 +166,7 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
     public async Task<int> ToListOfASyncCustomTranslateByName()
     {
         //var asyncTarget = await GenerateTestDataReaderAsync(10);
-        var result = await _asyncTarget.ToListOfAsync<TestDataObject>(CustomTranslateByName);
+        var result = await _asyncTarget!.ToListOfAsync<TestDataObject>(CustomTranslateByName);
         return result.Count;
     }
 
@@ -174,7 +174,7 @@ public class AsyncVrsSyncWithAutoNameAndIdBenchmarks
     public async Task<int> ToListOfASyncCustomTranslateById()
     {
         //var asyncTarget = await GenerateTestDataReaderAsync(10);
-        var result = await _asyncTarget.ToListOfAsync<TestDataObject>(CustomTranslateById);
+        var result = await _asyncTarget!.ToListOfAsync<TestDataObject>(CustomTranslateById);
         return result.Count;
     }
 

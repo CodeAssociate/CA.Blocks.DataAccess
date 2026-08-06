@@ -72,7 +72,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsBinary("col"));
                 Assert.Equal(expected, dataRow.AsBinary(1));
-                Assert.Equal(expected, dataRow.AsBinary(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsBinary(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsBinary("col"));
                 Assert.Equal(expected, dataReader.AsBinary(1));
@@ -90,7 +90,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsBool("col"));
                 Assert.Equal(expected, dataRow.AsBool(1));
-                Assert.Equal(expected, dataRow.AsBool(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsBool(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsBool("col"));
                 Assert.Equal(expected, dataReader.AsBool(1));
@@ -108,7 +108,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullBool("col"));
             AssertNullable(expected, dataRow.AsNullBool(1));
-            AssertNullable(expected, dataRow.AsNullBool(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullBool(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullBool("col"));
             AssertNullable(expected, dataReader.AsNullBool(1));
@@ -126,7 +126,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsByte("col"));
                 Assert.Equal(expected, dataRow.AsByte(1));
-                Assert.Equal(expected, dataRow.AsByte(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsByte(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsByte("col"));
                 Assert.Equal(expected, dataReader.AsByte(1));
@@ -144,7 +144,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullByte("col"));
             AssertNullable(expected, dataRow.AsNullByte(1));
-            AssertNullable(expected, dataRow.AsNullByte(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullByte(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullByte("col"));
             AssertNullable(expected, dataReader.AsNullByte(1));
@@ -162,7 +162,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsChar("col"));
                 Assert.Equal(expected, dataRow.AsChar(1));
-                Assert.Equal(expected, dataRow.AsChar(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsChar(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsChar("col"));
                 Assert.Equal(expected, dataReader.AsChar(1));
@@ -180,7 +180,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullChar("col"));
             AssertNullable(expected, dataRow.AsNullChar(1));
-            AssertNullable(expected, dataRow.AsNullChar(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullChar(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullChar("col"));
             AssertNullable(expected, dataReader.AsNullChar(1));
@@ -214,7 +214,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsDateTime("col"));
                 Assert.Equal(expected, dataRow.AsDateTime(1));
-                Assert.Equal(expected, dataRow.AsDateTime(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsDateTime(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsDateTime("col"));
                 Assert.Equal(expected, dataReader.AsDateTime(1));
@@ -237,7 +237,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullDateTime("col"));
             AssertNullable(expected, dataRow.AsNullDateTime(1));
-            AssertNullable(expected, dataRow.AsNullDateTime(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullDateTime(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullDateTime("col"));
             AssertNullable(expected, dataReader.AsNullDateTime(1));
@@ -255,7 +255,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expectedDecimal, dataRow.AsDecimal("col"));
                 Assert.Equal(expectedDecimal, dataRow.AsDecimal(1));
-                Assert.Equal(expectedDecimal, dataRow.AsDecimal(dt.Columns["col"]));
+                Assert.Equal(expectedDecimal, dataRow.AsDecimal(dt.Columns["col"]!));
 
                 Assert.Equal(expectedDecimal, dataReader.AsDecimal("col"));
                 Assert.Equal(expectedDecimal, dataReader.AsDecimal(1));
@@ -273,7 +273,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expectedDecimal, dataRow.AsNullDecimal("col"));
             AssertNullable(expectedDecimal, dataRow.AsNullDecimal(1));
-            AssertNullable(expectedDecimal, dataRow.AsNullDecimal(dt.Columns["col"]));
+            AssertNullable(expectedDecimal, dataRow.AsNullDecimal(dt.Columns["col"]!));
             
             AssertNullable(expectedDecimal, dataReader.AsNullDecimal("col"));
             AssertNullable(expectedDecimal, dataReader.AsNullDecimal(1));
@@ -291,7 +291,7 @@ namespace CA.Blocks.DataAccessUnitTests
 
                 Assert.Equal(expected, dataRow.AsDouble("col"));
                 Assert.Equal(expected, dataRow.AsDouble(1));
-                Assert.Equal(expected, dataRow.AsDouble(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsDouble(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsDouble("col"));
                 Assert.Equal(expected, dataReader.AsDouble(1));
@@ -308,7 +308,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullDouble("col"));
             AssertNullable(expected, dataRow.AsNullDouble(1));
-            AssertNullable(expected, dataRow.AsNullDouble(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullDouble(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullDouble("col"));
             AssertNullable(expected, dataReader.AsNullDouble(1));
@@ -325,7 +325,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsFloat("col"));
                 Assert.Equal(expected, dataRow.AsFloat(1));
-                Assert.Equal(expected, dataRow.AsFloat(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsFloat(dt.Columns["col"]!));
 
                 // Single / float  a float is a single The use of "float" in C# seems to be a throwback to its C/C++ heritage. a float" still maps to the System.Single type in C# so use single where you can
                 Assert.Equal(expected, dataReader.AsSingle("col"));
@@ -343,7 +343,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullFloat("col"));
             AssertNullable(expected, dataRow.AsNullFloat(1));
-            AssertNullable(expected, dataRow.AsNullFloat(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullFloat(dt.Columns["col"]!));
             
             // Single / float  a float is a single The use of "float" in C# seems to be a throwback to its C/C++ heritage. a float" still maps to the System.Single type in C# so use single where you can
             AssertNullable(expected, dataReader.AsNullSingle("col"));
@@ -381,7 +381,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsGuid("col"));
                 Assert.Equal(expected, dataRow.AsGuid(1));
-                Assert.Equal(expected, dataRow.AsGuid(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsGuid(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsGuid("col"));
                 Assert.Equal(expected, dataReader.AsGuid(1));
@@ -404,7 +404,7 @@ namespace CA.Blocks.DataAccessUnitTests
 
             AssertNullable(expected, dataRow.AsNullGuid("col"));
             AssertNullable(expected, dataRow.AsNullGuid(1));
-            AssertNullable(expected, dataRow.AsNullGuid(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullGuid(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullGuid("col"));
             AssertNullable(expected, dataReader.AsNullGuid(1));
@@ -423,7 +423,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsInt("col"));
                 Assert.Equal(expected, dataRow.AsInt(1));
-                Assert.Equal(expected, dataRow.AsInt(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsInt(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsInt("col"));
                 Assert.Equal(expected, dataReader.AsInt(1));
@@ -440,7 +440,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullInt("col"));
             AssertNullable(expected, dataRow.AsNullInt(1));
-            AssertNullable(expected, dataRow.AsNullInt(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullInt(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullInt("col"));
             AssertNullable(expected, dataReader.AsNullInt(1));
@@ -460,7 +460,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsLong("col"));
                 Assert.Equal(expected, dataRow.AsLong(1));
-                Assert.Equal(expected, dataRow.AsLong(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsLong(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsLong("col"));
                 Assert.Equal(expected, dataReader.AsLong(1));
@@ -477,7 +477,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullLong("col"));
             AssertNullable(expected, dataRow.AsNullLong(1));
-            AssertNullable(expected, dataRow.AsNullLong(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullLong(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullLong("col"));
             AssertNullable(expected, dataReader.AsNullLong(1));
@@ -496,7 +496,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsSbyte("col"));
                 Assert.Equal(expected, dataRow.AsSbyte(1));
-                Assert.Equal(expected, dataRow.AsSbyte(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsSbyte(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsSbyte("col"));
                 Assert.Equal(expected, dataReader.AsSbyte(1));
@@ -515,7 +515,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullSbyte("col"));
             AssertNullable(expected, dataRow.AsNullSbyte(1));
-            AssertNullable(expected, dataRow.AsNullSbyte(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullSbyte(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullSbyte("col"));
             AssertNullable(expected, dataReader.AsNullSbyte(1));
@@ -537,7 +537,7 @@ namespace CA.Blocks.DataAccessUnitTests
             actual = dataRow.AsShort(1);
             Assert.Equal(expected, actual);
 
-            actual = dataRow.AsShort(dt.Columns["col"]);
+            actual = dataRow.AsShort(dt.Columns["col"]!);
             Assert.Equal(expected, actual);
 
             actual = dataReader.AsShort("col");
@@ -560,7 +560,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullShort("col"));
             AssertNullable(expected, dataRow.AsNullShort(1));
-            AssertNullable(expected, dataRow.AsNullShort(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullShort(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullShort("col"));
             AssertNullable(expected, dataReader.AsNullShort(1));
@@ -579,7 +579,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsSingle("col"));
                 Assert.Equal(expected, dataRow.AsSingle(1));
-                Assert.Equal(expected, dataRow.AsSingle(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsSingle(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsSingle("col"));
                 Assert.Equal(expected, dataReader.AsSingle(1));
@@ -597,7 +597,7 @@ namespace CA.Blocks.DataAccessUnitTests
 
             AssertNullable(expected, dataRow.AsNullSingle("col"));
             AssertNullable(expected, dataRow.AsNullSingle(1));
-            AssertNullable(expected, dataRow.AsNullSingle(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullSingle(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullSingle("col"));
             AssertNullable(expected, dataReader.AsNullSingle(1));
@@ -617,7 +617,7 @@ namespace CA.Blocks.DataAccessUnitTests
 
                 Assert.Equal(expected, dataRow.AsString("col"));
                 Assert.Equal(expected, dataRow.AsString(1));
-                Assert.Equal(expected, dataRow.AsString(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsString(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsString("col"));
                 Assert.Equal(expected, dataReader.AsString(1));
@@ -635,7 +635,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Null(dataRow.AsString("col"));
                 Assert.Null(dataRow.AsString(1));
-                Assert.Null(dataRow.AsString(dt.Columns["col"]));
+                Assert.Null(dataRow.AsString(dt.Columns["col"]!));
 
                 Assert.Null(dataReader.AsString("col"));
                 Assert.Null(dataReader.AsString(1));
@@ -652,7 +652,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(string.Empty, dataRow.AsString("col", true));
                 Assert.Equal(string.Empty, dataRow.AsString(1, true));
-                Assert.Equal(string.Empty, dataRow.AsString(dt.Columns["col"], true));
+                Assert.Equal(string.Empty, dataRow.AsString(dt.Columns["col"]!, true));
 
                 Assert.Equal(string.Empty, dataReader.AsString("col", true));
                 Assert.Equal(string.Empty, dataReader.AsString(1, true));
@@ -684,7 +684,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsTimeSpan("col"));
                 Assert.Equal(expected, dataRow.AsTimeSpan(1));
-                Assert.Equal(expected, dataRow.AsTimeSpan(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsTimeSpan(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsTimeSpan("col"));
                 Assert.Equal(expected, dataReader.AsTimeSpan(1));
@@ -707,7 +707,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullTimeSpan("col"));
             AssertNullable(expected, dataRow.AsNullTimeSpan(1));
-            AssertNullable(expected, dataRow.AsNullTimeSpan(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullTimeSpan(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullTimeSpan("col"));
             AssertNullable(expected, dataReader.AsNullTimeSpan(1));
@@ -728,7 +728,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsUInt("col"));
                 Assert.Equal(expected, dataRow.AsUInt(1));
-                Assert.Equal(expected, dataRow.AsUInt(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsUInt(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsUInt("col"));
                 Assert.Equal(expected, dataReader.AsUInt(1));
@@ -747,7 +747,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullUInt("col"));
             AssertNullable(expected, dataRow.AsNullUInt(1));
-            AssertNullable(expected, dataRow.AsNullUInt(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullUInt(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullUInt("col"));
             AssertNullable(expected, dataReader.AsNullUInt(1));
@@ -766,7 +766,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsULong("col"));
                 Assert.Equal(expected, dataRow.AsULong(1));
-                Assert.Equal(expected, dataRow.AsULong(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsULong(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsULong("col"));
                 Assert.Equal(expected, dataReader.AsULong(1));
@@ -785,7 +785,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullULong("col"));
             AssertNullable(expected, dataRow.AsNullULong(1));
-            AssertNullable(expected, dataRow.AsNullULong(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullULong(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullULong("col"));
             AssertNullable(expected, dataReader.AsNullULong(1));
@@ -805,7 +805,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
                 Assert.Equal(expected, dataRow.AsUShort("col"));
                 Assert.Equal(expected, dataRow.AsUShort(1));
-                Assert.Equal(expected, dataRow.AsUShort(dt.Columns["col"]));
+                Assert.Equal(expected, dataRow.AsUShort(dt.Columns["col"]!));
 
                 Assert.Equal(expected, dataReader.AsUShort("col"));
                 Assert.Equal(expected, dataReader.AsUShort(1));
@@ -824,7 +824,7 @@ namespace CA.Blocks.DataAccessUnitTests
             
             AssertNullable(expected, dataRow.AsNullUShort("col"));
             AssertNullable(expected, dataRow.AsNullUShort(1));
-            AssertNullable(expected, dataRow.AsNullUShort(dt.Columns["col"]));
+            AssertNullable(expected, dataRow.AsNullUShort(dt.Columns["col"]!));
             
             AssertNullable(expected, dataReader.AsNullUShort("col"));
             AssertNullable(expected, dataReader.AsNullUShort(1));
