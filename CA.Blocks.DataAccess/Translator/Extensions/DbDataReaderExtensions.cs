@@ -169,8 +169,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return result;
         }
 #endif
-
-
+        
         public static async Task<IDictionary<Key, T>> ToDictionaryAsync<Key, T>(this DbDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector) where Key : notnull
         {
 			IDictionary<Key, T> result;
@@ -229,14 +228,18 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 
 
         #region ToSingleNamedColumnList
-        public static async Task<IList<T>> ToSingleNamedColumnListAsync<T>(this DbDataReader dbReader, string colName, Func<IDataReader, string, T> converter)
+        public static async Task<IList<T>> ToSingleNamedColumnListAsync<T>(this DbDataReader dbReader, string colName, Func<IDataReader, string, T?> converter)
         {
             IList<T> result = new List<T>();
             try
             {
                 while (await dbReader.ReadAsync().ConfigureAwait(false))
                 {
-                    result.Add(converter(dbReader, colName));
+                    var item = converter(dbReader, colName);
+                    if (item != null)
+                    {
+                        result.Add(item);
+                    }
                 }
             }
             finally

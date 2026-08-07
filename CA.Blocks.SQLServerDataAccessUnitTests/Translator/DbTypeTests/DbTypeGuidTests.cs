@@ -3,6 +3,7 @@ using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
+using Microsoft.AspNetCore.Components;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {
@@ -89,7 +90,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<GuidDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());
-            
+            Assert.NotNull(data);
             Assert.Equal(testValue, data.Col);
         }
     }

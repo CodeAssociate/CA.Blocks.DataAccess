@@ -7,8 +7,8 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces
     {
         IList<T> Translate(DataTable dt);
 
-        T? Translate(DataRow dr);
+        T Translate(DataRow dr);
 
-        T? Translate(IDataReader dr);
+        T Translate(IDataReader dr);
     }
 }

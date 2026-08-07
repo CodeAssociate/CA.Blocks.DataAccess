@@ -5,7 +5,7 @@ namespace CA.Blocks.DataAccess.Extensions.Translators.NUlid.DbColToType.Converte
 
 public static class UlidDataHelper
 {
-    private static Ulid? ObjectAsUlid(object dbDataValue)
+    private static Ulid? ObjectAsUlid(object? dbDataValue)
     {
         if (dbDataValue == null)
             return null;

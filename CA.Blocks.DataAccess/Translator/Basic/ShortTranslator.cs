@@ -5,7 +5,8 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 {
     public class ShortTranslator : Db2SingleNamedColumnTranslator<short>
     {
-        public ShortTranslator(string columnName) : base(new ShortDbColToTypeConverter(), columnName)
+        public ShortTranslator(string columnName) : base(new ShortDbColToTypeConverter(), columnName,
+            () => 0)
         {
 
         }

@@ -5,7 +5,7 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 {
     public class BinaryTranslator : Db2SingleNamedColumnTranslator<byte[]>
     {
-        public BinaryTranslator(string columnName) : base(new BinaryDbColToTypeConverter(), columnName)
+        public BinaryTranslator(string columnName) : base(new BinaryDbColToTypeConverter(), columnName, () => [])
         {
 
         }

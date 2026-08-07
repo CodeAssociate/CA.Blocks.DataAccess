@@ -29,11 +29,18 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
 
         private Func<T> NewFactoryFor<T>()
         {
+            if (typeof(T).IsValueType)
+            {
+                // this is safe as we know it is a struct
+#pragma warning disable CS8603 // Possible null reference return. 
+                return () => default(T);
+#pragma warning restore CS8603 // Possible null reference return.
+            }
             var expression = Expression.New(typeof(T));
             Expression<Func<T>> lambda = Expression.Lambda<Func<T>>(expression);
             return lambda.Compile();
         }
-
+       
 
         public DbRowToObjectMappings GenerateDefaultMappingsFor<T>()
         {
@@ -129,7 +136,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
                     var dbToTypeConverter = _colTypeConverters.Resolve(targetType);
                     if (dbToTypeConverter != null)
                     {
-                        typeConverter = new Db2SingleColumnTranslator<T>(dbToTypeConverter);
+                        typeConverter = new Db2SingleColumnTranslator<T>(dbToTypeConverter, NewFactoryFor<T>());
                         TryAdd<T>(key, (IDbRowTranslator<T>)typeConverter, false);
                     }
                     else

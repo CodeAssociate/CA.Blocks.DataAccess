@@ -95,14 +95,18 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 	        return ToDictionary(dbReader, dr => translator.Translate(dr)!, keySelector);
         }
 
-        public static IList<T> ToSingleNamedColumnList<T>(this IDataReader dbReader, string colName, Func<IDataReader, string, T> converter)
+        public static IList<T> ToSingleNamedColumnList<T>(this IDataReader dbReader, string colName, Func<IDataReader, string, T?> converter)
         {
-            IList<T> result = new List<T>();
+            var result = new List<T>();
             try
             {
                 while (dbReader.Read())
                 {
-                    result.Add(converter(dbReader, colName));
+                    var item = converter(dbReader, colName);
+                    if (item != null)
+                    {
+                        result.Add(item);
+                    }
                 }
             }
             finally

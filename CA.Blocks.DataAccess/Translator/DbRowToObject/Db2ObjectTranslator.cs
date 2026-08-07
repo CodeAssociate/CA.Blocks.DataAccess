@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Reflection;
 
 namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 {
@@ -27,12 +26,11 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
             return (from DataRow dr in dt.Rows select Translate(dr)).ToList();
         }
 
-        public T? Translate(DataRow dr)
+        public T Translate(DataRow dr)
         {
-            var item = default(T);
+            var item = _factory();
             if (dr != null)
             {
-                item = _factory();
                 Translate(dr, item);
             }
             return item;
@@ -47,18 +45,16 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
         #region DataReader
 
 
-        public T? Translate(IDataReader dr)
+        public T Translate(IDataReader dr)
         {
-            var result = default(T);
-            if (dr != null && !dr.IsClosed)
+            var result = _factory(); 
+            if (dr is { IsClosed: false })
             {
-                result = _factory(); 
                 Translate(dr, result);
             }
             return result;
         }
-
-
+        
         protected virtual void CustomTranslate(IDataReader dr, T item)
         {
         }
@@ -71,7 +67,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
             foreach (var mapping in _mappings.MappingSet)
             {
                 object? data = mapping.Converter.GetData(dr, mapping.SourceNameName);
-                PropertyInfo? pi = item.GetType().GetProperty(mapping.DestinationName);
+                var pi = item.GetType().GetProperty(mapping.DestinationName);
                 if (pi != null)
                 {
                     pi.SetValue(item, data, null);
@@ -87,7 +83,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
             foreach (var mapping in _mappings.MappingSet)
             {
                 object? data = mapping.Converter.GetData(dr, mapping.SourceNameName);
-                PropertyInfo? pi = item.GetType().GetProperty(mapping.DestinationName);
+                var pi = item.GetType().GetProperty(mapping.DestinationName);
                 if (pi != null)
                 {
                     pi.SetValue(item, data, null);

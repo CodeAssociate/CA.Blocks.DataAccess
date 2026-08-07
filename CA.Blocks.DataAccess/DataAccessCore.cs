@@ -748,7 +748,7 @@ namespace CA.Blocks.DataAccess
         ///  This is a shortcut method to <code>ExecuteReader<T>(cmd).ToFirstOrDefault<T>(translate);</T></T></code> please use that instead
         /// </summary>
         /// <returns></returns>
-        protected Task<T> ExecuteToAsync<T>(IDbCommand cmd) 
+        protected Task<T?> ExecuteToAsync<T>(IDbCommand cmd) 
         {
             return ExecuteAsync(cmd).ToFirstOrDefault<T>();
         }
@@ -757,7 +757,7 @@ namespace CA.Blocks.DataAccess
         ///  This is a shortcut method to <code>ExecuteReader<T>(cmd).ToFirstOrDefault<T>(translate);</T></T></code> please use that instead
         /// </summary>
         /// <returns></returns>
-        protected Task<T> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate)
+        protected Task<T?> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate)
         {
             return ExecuteAsync(cmd).ToFirstOrDefault(translate);
         }

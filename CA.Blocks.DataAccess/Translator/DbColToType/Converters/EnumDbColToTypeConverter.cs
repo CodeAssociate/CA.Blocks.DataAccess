@@ -23,28 +23,28 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
 
         public override T GetDataValue(DataRow dr, string columnName)
         {
-            string value = dr.AsToString(columnName);
+            var value = dr.AsToString(columnName);
             Enum.TryParse<T>(value, _ignoreCase, out var result);
             return result;
         }
 
         public override T GetDataValue(IDataReader dr, string columnName)
         {
-            string value = dr.AsToString(columnName);
+            var value = dr.AsToString(columnName);
             Enum.TryParse<T>(value, _ignoreCase, out var result);
             return result;
         }
 
         public override T GetDataValue(DataRow dr, int columnIndex)
         {
-            string value = dr.AsToString(columnIndex);
+            var value = dr.AsToString(columnIndex);
             Enum.TryParse<T>(value, _ignoreCase, out var result);
             return result;
         }
 
         public override T GetDataValue(IDataReader dr, int columnIndex)
         {
-            string value = dr.AsToString(columnIndex);
+            var value = dr.AsToString(columnIndex);
             Enum.TryParse<T>(value, _ignoreCase, out var result);
             return result;
         }
