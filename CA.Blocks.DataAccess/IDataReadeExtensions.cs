@@ -110,21 +110,21 @@ namespace CA.Blocks.DataAccess
         #endregion
 
         #region Binary
-        public static byte[]? AsBinary(this IDataReader dr, string colName)
+        public static byte[] AsBinary(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
-                return null;
+                return Array.Empty<byte>();
             else
                 return (byte[])(dr[colName]);
         }
 
-        public static byte[]? AsBinary(this IDataReader dr, int columnIndex)
+        public static byte[] AsBinary(this IDataReader dr, int columnIndex)
         {
             if (dr.IsDBNull(columnIndex))
-                return null;
+                return Array.Empty<byte>();
             else
                 return (byte[])(dr[columnIndex]);
-        }          
+        }
 
         #endregion
         #region SByte

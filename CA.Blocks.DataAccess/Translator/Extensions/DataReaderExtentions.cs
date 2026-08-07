@@ -65,15 +65,15 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 		public static IList<T> ToListOf<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
-            return ToListOf(dbReader, translator.Translate);
+            return ToListOf(dbReader, dr => translator.Translate(dr)!);
         }
 
-        private static IDictionary<Key, T> ExecuteToToDictionary<Key, T>(IDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector)
+        private static IDictionary<Key, T> ExecuteToToDictionary<Key, T>(IDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector) where Key : notnull
         {
 	        return ExecuteToEnumerable(dbReader, translate).ToDictionary(keySelector);
         }
 
-		public static IDictionary<Key, T> ToDictionary<Key, T>(this IDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector)
+		public static IDictionary<Key, T> ToDictionary<Key, T>(this IDataReader dbReader, Func<IDataReader, T> translate, Func<T, Key> keySelector) where Key : notnull
         {
 			IDictionary<Key, T> result;
 	        {
@@ -89,10 +89,10 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 	        return result;
         }
 
-		public static IDictionary<Key, T> ToDictionary<Key, T> (this IDataReader dbReader, Func<T, Key> keySelector)
+		public static IDictionary<Key, T> ToDictionary<Key, T> (this IDataReader dbReader, Func<T, Key> keySelector) where Key : notnull
         {
 	        var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
-	        return ToDictionary(dbReader, translator.Translate, keySelector);
+	        return ToDictionary(dbReader, dr => translator.Translate(dr)!, keySelector);
         }
 
         public static IList<T> ToSingleNamedColumnList<T>(this IDataReader dbReader, string colName, Func<IDataReader, string, T> converter)
@@ -223,7 +223,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         {
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T1>();
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();
-            return ToResultsSet<T1, T2>(dbReader, translator1.Translate, translator2.Translate);
+            return ToResultsSet<T1, T2>(dbReader, dr => translator1.Translate(dr)!, dr => translator2.Translate(dr)!);
         }
 
 
@@ -270,7 +270,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             var translator1 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T1>();
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();
             var translator3 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T3>();
-            return ToResultsSet<T1, T2, T3>(dbReader, translator1.Translate, translator2.Translate, translator3.Translate);
+            return ToResultsSet<T1, T2, T3>(dbReader, dr => translator1.Translate(dr)!, dr => translator2.Translate(dr)!, dr => translator3.Translate(dr)!);
         }
 
         //4
@@ -328,7 +328,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             var translator2 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T2>();
             var translator3 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T3>();
             var translator4 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T4>();
-            return ToResultsSet<T1, T2, T3, T4>(dbReader, translator1.Translate, translator2.Translate, translator3.Translate, translator4.Translate);
+            return ToResultsSet<T1, T2, T3, T4>(dbReader, dr => translator1.Translate(dr)!, dr => translator2.Translate(dr)!, dr => translator3.Translate(dr)!, dr => translator4.Translate(dr)!);
         }
 
 
@@ -401,7 +401,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             var translator3 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T3>();
             var translator4 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T4>();
             var translator5 = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T5>();
-            return ToResultsSet<T1, T2, T3, T4, T5>(dbReader, translator1.Translate, translator2.Translate, translator3.Translate, translator4.Translate, translator5.Translate);
+            return ToResultsSet<T1, T2, T3, T4, T5>(dbReader, dr => translator1.Translate(dr)!, dr => translator2.Translate(dr)!, dr => translator3.Translate(dr)!, dr => translator4.Translate(dr)!, dr => translator5.Translate(dr)!);
         }
         #endregion
 

@@ -66,10 +66,12 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 
         private void Translate(DataRow dr, T item)
         {
+            if (item == null) return;
+
             foreach (var mapping in _mappings.MappingSet)
             {
-                object data = mapping.Converter.GetData(dr, mapping.SourceNameName);
-                PropertyInfo pi = item.GetType().GetProperty(mapping.DestinationName);
+                object? data = mapping.Converter.GetData(dr, mapping.SourceNameName);
+                PropertyInfo? pi = item.GetType().GetProperty(mapping.DestinationName);
                 if (pi != null)
                 {
                     pi.SetValue(item, data, null);
@@ -80,10 +82,12 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 
         private void Translate(IDataReader dr, T item)
         {
+            if (item == null) return;
+
             foreach (var mapping in _mappings.MappingSet)
             {
-                object data = mapping.Converter.GetData(dr, mapping.SourceNameName);
-                PropertyInfo pi = item.GetType().GetProperty(mapping.DestinationName);
+                object? data = mapping.Converter.GetData(dr, mapping.SourceNameName);
+                PropertyInfo? pi = item.GetType().GetProperty(mapping.DestinationName);
                 if (pi != null)
                 {
                     pi.SetValue(item, data, null);

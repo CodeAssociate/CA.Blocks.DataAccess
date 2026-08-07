@@ -74,7 +74,7 @@ namespace CA.Blocks.DataAccess
 		/// </summary>
 		/// <param name="conn">the connection to close pending closeConnection</param>
 		/// <param name="closeConnection"> determines if conn should be closed on complete</param>
-        protected void WrapUp(IDbConnection conn, bool closeConnection)
+        protected void WrapUp(IDbConnection? conn, bool closeConnection)
         {
             if (closeConnection)
             {
@@ -560,7 +560,7 @@ namespace CA.Blocks.DataAccess
             }, cmd, cancellationToken: cancellationToken);
         }
 
-         private T ConvertScalarAs<T>(object result, bool useCast)
+         private T? ConvertScalarAs<T>(object result, bool useCast)
          {
 #if NET6_0_OR_GREATER
              if (typeof(T) == typeof(DateOnly))
@@ -568,7 +568,7 @@ namespace CA.Blocks.DataAccess
                  // waiting for driver support
                  var dt = (DateTime)result;
                  var dateOnly = new DateOnly(dt.Year, dt.Month, dt.Day);
-                 return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
+                 return (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
              }
              if (typeof(T) == typeof(TimeOnly))
              {
@@ -576,11 +576,11 @@ namespace CA.Blocks.DataAccess
                  var ts = (TimeSpan)result;
                  var timeOnly = new TimeOnly(ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds, ts.Nanoseconds);
                 
-                 return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
+                 return (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
              }
 #endif
              // cast is faster but you only use it if the type is known and the same between .NET and the DB
-             return useCast ? (T)result : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());          
+             return useCast ? (T)result : (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString()!);          
          }
 
          /// <summary>
@@ -729,7 +729,7 @@ namespace CA.Blocks.DataAccess
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd)
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return ExecuteToListOf(cmd, translator.Translate);
+            return ExecuteToListOf(cmd, dr => translator.Translate(dr)!);
         }
 
         /// <summary>
@@ -765,7 +765,7 @@ namespace CA.Blocks.DataAccess
         protected Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd) 
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return ExecuteToListOfAsync(cmd, translator.Translate);
+            return ExecuteToListOfAsync(cmd, dr => translator.Translate(dr)!);
         }
 
         /// <summary>

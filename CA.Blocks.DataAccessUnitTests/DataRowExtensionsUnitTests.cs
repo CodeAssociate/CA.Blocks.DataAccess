@@ -61,7 +61,7 @@ namespace CA.Blocks.DataAccessUnitTests
         [InlineData(1, "")]
         public void GetValueFromRowAsBinary(int rowNumber, string? testValue)
         {
-            byte[]? expected = null;
+            byte[] expected = Array.Empty<byte>();
             if (testValue != null)
             {
                 expected = Encoding.ASCII.GetBytes(testValue);

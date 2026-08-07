@@ -43,13 +43,13 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             {
                 if (pi.CanWrite)
                 {
-                    IDbColToTypeConverter dbToTypeConverter = null;
+                    IDbColToTypeConverter? dbToTypeConverter = null;
                     if (Attribute.IsDefined(pi, typeof(DbColToTypeConverterAttribute)))
                     {
-                        var customConverter = (DbColToTypeConverterAttribute)(pi.GetCustomAttributes(typeof(DbColToTypeConverterAttribute), false)).FirstOrDefault();
+                        var customConverter = (DbColToTypeConverterAttribute?)(pi.GetCustomAttributes(typeof(DbColToTypeConverterAttribute), false)).FirstOrDefault();
                         if (customConverter != default)
                         {
-                            dbToTypeConverter = (IDbColToTypeConverter)Activator.CreateInstance(customConverter.ConverterType, customConverter.ConverterParameters);
+                            dbToTypeConverter = (IDbColToTypeConverter)Activator.CreateInstance(customConverter.ConverterType, customConverter.ConverterParameters)!;
                         }
                     }
                     else
@@ -61,7 +61,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
                     {
                         if (Attribute.IsDefined(pi, typeof(DbColToSourceNameAttribute)))
                         {
-                            var sourceFrom = (DbColToSourceNameAttribute)(pi.GetCustomAttributes(typeof(DbColToSourceNameAttribute), false)).FirstOrDefault();
+                            var sourceFrom = (DbColToSourceNameAttribute?)(pi.GetCustomAttributes(typeof(DbColToSourceNameAttribute), false)).FirstOrDefault();
                             if (sourceFrom != default)
                             {
                                 mappings.AddMapping(new DbColToTypeMapping

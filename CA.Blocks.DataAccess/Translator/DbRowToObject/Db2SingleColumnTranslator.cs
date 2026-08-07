@@ -8,36 +8,34 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 {
     public class Db2SingleColumnTranslator<T> : IDbRowTranslator<T>
     {
-        private IDbColToTypeConverter _converter;
+        private readonly IDbColToTypeConverter _converter;
 
         public Db2SingleColumnTranslator(IDbColToTypeConverter converter)
         {
-            _converter = converter;
+            _converter = converter ?? throw new System.ArgumentNullException(nameof(converter));
         }
 
         public IList<T> Translate(DataTable dt)
         {
-            return (from DataRow dr in dt.Rows select Translate(dr)).ToList();
+            return (from DataRow dr in dt.Rows select Translate(dr)).ToList()!;
         }
 
         public T? Translate(DataRow dr)
         {
-            var item = default(T);
             if (dr != null)
             {
-                item = (T)_converter.GetData(dr, 0);
+                return (T?)_converter.GetData(dr, 0);
             }
-            return item;
+            return default;
         }
 
         public T? Translate(IDataReader dr)
         {
-            T result = default(T);
             if (dr != null && !dr.IsClosed)
             {
-                result = (T)_converter.GetData(dr, 0);
+                return (T?)_converter.GetData(dr, 0);
             }
-            return result;
+            return default;
         }
     }
 }

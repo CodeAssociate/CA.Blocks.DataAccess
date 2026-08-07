@@ -144,7 +144,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
                 Type genericConverter = typeof(EnumDbColToTypeConverter<>);
                 concreteConverter = genericConverter.MakeGenericType(targetType);
             }
-            var result = (IDbColToTypeConverter)Activator.CreateInstance(concreteConverter, true);
+            var result = (IDbColToTypeConverter)Activator.CreateInstance(concreteConverter, true)!;
 
             return result;
 

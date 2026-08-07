@@ -179,7 +179,6 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
 
         });
         Assert.Contains("Expected At least one result, but no row was found", exception.Message);
-        Assert.Contains("No row", exception.Message);
     }
 
     [Fact]
@@ -193,7 +192,6 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
 
         });
         Assert.Contains("Expected At least one result, but no row was found", exception.Message);
-        Assert.Contains("No row", exception.Message);
     }
 
     [Fact]

@@ -9,10 +9,10 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
     {
         public static T ToFirstOrDefault<T>(this IDataReader dbReader, Func<IDataReader, T> translate)
         {
-            T result;
+            T result = default!;
             try
             {
-                result = DataReaderExtensions.ExecuteToEnumerable(dbReader, translate).FirstOrDefault();
+                result = DataReaderExtensions.ExecuteToEnumerable(dbReader, translate).FirstOrDefault()!;
             }
             finally
             {
@@ -23,7 +23,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         public static T ToFirstOrDefault<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
-            return ToFirstOrDefault(dbReader, translator.Translate);
+            return ToFirstOrDefault(dbReader, dr => translator.Translate(dr)!);
         }
 
         public static T ToFirst<T>(this IDataReader dbReader, Func<IDataReader, T> translate)
@@ -39,7 +39,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         public static T ToFirst<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
-            return ToFirst(dbReader, translator.Translate);
+            return ToFirst(dbReader, dr => translator.Translate(dr)!);
         }
 
         public static T ToSingle<T>(this IDataReader dbReader, Func<IDataReader, T> translate) 
@@ -56,15 +56,15 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         public static T ToSingle<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
-            return ToSingle(dbReader, translator.Translate);
+            return ToSingle(dbReader, dr => translator.Translate(dr)!);
         }
 
         public static T ToSingleOrDefault<T>(this IDataReader dbReader, Func<IDataReader, T> translate)
         {
-            T result;
+            T result = default!;
             try
             {
-                result = DataReaderExtensions.ExecuteToEnumerable(dbReader, translate).FirstOrDefault();
+                result = DataReaderExtensions.ExecuteToEnumerable(dbReader, translate).FirstOrDefault()!;
                 if (dbReader.Read())
                 {
                     throw new DataException("Expected Single Result, but more that one row was found");
@@ -80,7 +80,7 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
         public static T ToSingleOrDefault<T>(this IDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
-            return ToSingleOrDefault(dbReader, translator.Translate);
+            return ToSingleOrDefault(dbReader, dr => translator.Translate(dr)!);
         }
     }
 }

@@ -87,5 +87,10 @@
             <remarks>
             </remarks>
         </member>
+        <member name="T:Microsoft.CodeAnalysis.EmbeddedAttribute">
+            <summary>
+            A special attribute recognized by Roslyn, that marks a type as "embedded", meaning it won't ever be visible from other assemblies.
+            </summary>
+        </member>
     </members>
 </doc>
