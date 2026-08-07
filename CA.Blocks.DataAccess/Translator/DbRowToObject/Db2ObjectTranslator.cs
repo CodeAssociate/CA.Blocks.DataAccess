@@ -27,9 +27,9 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
             return (from DataRow dr in dt.Rows select Translate(dr)).ToList();
         }
 
-        public T Translate(DataRow dr)
+        public T? Translate(DataRow dr)
         {
-            T item = default(T);
+            var item = default(T);
             if (dr != null)
             {
                 item = _factory();
@@ -47,9 +47,9 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
         #region DataReader
 
 
-        public T Translate(IDataReader dr)
+        public T? Translate(IDataReader dr)
         {
-            T result = default(T);
+            var result = default(T);
             if (dr != null && !dr.IsClosed)
             {
                 result = _factory(); 

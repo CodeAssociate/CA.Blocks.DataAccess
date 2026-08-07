@@ -178,7 +178,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToFirstAsync<TestDataObject>();
 
         });
-        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("Expected At least one result, but no row was found", exception.Message);
         Assert.Contains("No row", exception.Message);
     }
 
@@ -192,7 +192,7 @@ public class DbDataReaderSingleRowAsyncExtensions : DataReaderExtensionsBaseTest
             _ = await dataReader.ToFirst<TestDataObject>();
 
         });
-        Assert.Contains("Expected Single Result", exception.Message);
+        Assert.Contains("Expected At least one result, but no row was found", exception.Message);
         Assert.Contains("No row", exception.Message);
     }
 

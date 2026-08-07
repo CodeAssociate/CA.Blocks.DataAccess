@@ -138,7 +138,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
                     }
                 }
             }
-            return typeConverter as IDbRowTranslator<T>;
+            return (typeConverter as IDbRowTranslator<T>) ?? throw new KeyNotFoundException($"No DbRow To Object Provider registered for {key}");
         }
 
         public bool HasTranslatorFor<T>(string byName = "")

@@ -51,24 +51,24 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
 
         public static async Task<T> ToFirstAsync<T>(this DbDataReader dbReader, Func<IDataReader, T> translate)
         {
-            T? result = await ToFirstOrDefaultAsync(dbReader, translate);
+            var result = await ToFirstOrDefaultAsync(dbReader, translate);
             if (result == null || result.Equals(default(T)))
             {
-                throw new DataException("Expected Single Result,but No row was found");
+                throw new DataException("Expected At least one result, but no row was found");
             }
-            return result;
+            return (T)result;
         }
 
-        public static Task<T> ToFirstAsync<T>(this DbDataReader dbReader) 
+        public static async Task<T> ToFirstAsync<T>(this DbDataReader dbReader) 
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
-            return ToFirstAsync(dbReader, translator.Translate);
+            return (T)(await ToFirstAsync(dbReader, translator.Translate))!;
         }
         public static async Task<T> ToFirst<T>(this Task<DbDataReader> dbReaderTask)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             var dbReader = await dbReaderTask;
-            return await ToFirstAsync(dbReader, translator.Translate);
+            return (T)(await ToFirstAsync(dbReader, translator.Translate))!;
         }
 
         public static async Task<T> ToFirst<T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate) 
@@ -132,17 +132,17 @@ namespace CA.Blocks.DataAccess.Translator.Extensions
             return result;
         }
 
-        public static Task<T> ToSingleAsync<T>(this DbDataReader dbReader)
+        public static async Task<T> ToSingleAsync<T>(this DbDataReader dbReader)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
-            return ToSingleAsync(dbReader, translator.Translate);
+            return (T)(await ToSingleAsync(dbReader, translator.Translate))!;
         }
 
         public static async Task<T> ToSingle<T>(this Task<DbDataReader> dbReaderTask)
         {
             var translator = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<T>();
             var dbReader = await dbReaderTask;
-            return await ToSingleAsync(dbReader, translator.Translate);
+            return (T)(await ToSingleAsync(dbReader, translator.Translate))!;
         }
 
         public static async Task<T> ToSingle<T>(this Task<DbDataReader> dbReaderTask, Func<IDataReader, T> translate)

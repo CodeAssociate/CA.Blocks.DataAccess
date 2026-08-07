@@ -19,7 +19,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
             return dr.AsString(columnIndex);
         }
 
-        public override string GetDataValue(IDataReader dr, int columnIndex)
+        public override string? GetDataValue(IDataReader dr, int columnIndex)
         {
             return dr.AsString(columnIndex);
         }

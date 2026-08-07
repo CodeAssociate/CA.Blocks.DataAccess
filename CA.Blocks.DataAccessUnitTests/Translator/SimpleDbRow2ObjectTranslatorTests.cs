@@ -37,7 +37,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator
             // assert
             Assert.NotNull(result);
             Assert.Equal(10, result.Count);
-            Assert.Equal(1, result[0].IntCol);
+            Assert.Equal(1, result[0]!.IntCol);
         }
         [Fact]
         public void Translate_DataRows()
@@ -51,7 +51,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator
             // assert
             Assert.NotNull(result);
             Assert.Equal(10, result.Count);
-            Assert.Equal(1, result[0].IntCol);
+            Assert.Equal(1, result[0]!.IntCol);
         }
     }
 }

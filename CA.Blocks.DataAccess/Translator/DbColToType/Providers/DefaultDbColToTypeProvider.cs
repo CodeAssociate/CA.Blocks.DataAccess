@@ -180,8 +180,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Providers
                     throw new KeyNotFoundException($"No DbCol To Type Converter registered for {key}");
                 }
             }
-
-            return typeConverter as IDbColToTypeConverter;
+            return (typeConverter as IDbColToTypeConverter) ?? throw new InvalidCastException($"typeConverter is not IDbColToTypeConverter for {key}");
         }
     }
 }

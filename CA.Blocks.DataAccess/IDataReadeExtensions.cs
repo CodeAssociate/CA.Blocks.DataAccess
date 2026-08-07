@@ -110,7 +110,7 @@ namespace CA.Blocks.DataAccess
         #endregion
 
         #region Binary
-        public static byte[] AsBinary(this IDataReader dr, string colName)
+        public static byte[]? AsBinary(this IDataReader dr, string colName)
         {
             if (dr.IsDBNull(dr.GetOrdinal(colName)))
                 return null;
@@ -118,7 +118,7 @@ namespace CA.Blocks.DataAccess
                 return (byte[])(dr[colName]);
         }
 
-        public static byte[] AsBinary(this IDataReader dr, int columnIndex)
+        public static byte[]? AsBinary(this IDataReader dr, int columnIndex)
         {
             if (dr.IsDBNull(columnIndex))
                 return null;
@@ -619,13 +619,13 @@ namespace CA.Blocks.DataAccess
         /// <param name="colName"></param>
         /// <param name="returnNullAsEmptyString"></param>
         /// <returns></returns>
-        public static string AsString(this IDataReader dr, string colName, bool returnNullAsEmptyString = false)
+        public static string? AsString(this IDataReader dr, string colName, bool returnNullAsEmptyString = false)
         {
             return AsString(dr, dr.GetOrdinal(colName), returnNullAsEmptyString);
         }
 
 
-        public static string AsString(this IDataReader dr, int columnIndex, bool returnNullAsEmptyString = false)
+        public static string? AsString(this IDataReader dr, int columnIndex, bool returnNullAsEmptyString = false)
         {
             if (dr.IsDBNull(columnIndex))
                 return returnNullAsEmptyString ? string.Empty : null;
@@ -640,13 +640,13 @@ namespace CA.Blocks.DataAccess
         /// <param name="colName"></param>
         /// <param name="returnNullAsEmptyString"></param>
         /// <returns></returns>
-        public static string AsToString(this IDataReader dr, string colName, bool returnNullAsEmptyString = false)
+        public static string? AsToString(this IDataReader dr, string colName, bool returnNullAsEmptyString = false)
         {
             return AsToString(dr, dr.GetOrdinal(colName), returnNullAsEmptyString);
         }
 
 
-        public static string AsToString(this IDataReader dr, int columnIndex, bool returnNullAsEmptyString = false)
+        public static string? AsToString(this IDataReader dr, int columnIndex, bool returnNullAsEmptyString = false)
         {
             if (dr.IsDBNull(columnIndex))
                 return returnNullAsEmptyString ? string.Empty : null;

@@ -589,14 +589,14 @@ namespace CA.Blocks.DataAccess
         /// <typeparam name="T">This the target type to execute the result in to</typeparam>
         /// <param name="cmd">The IDbCommand cmd to execute</param>
         /// <returns></returns>
-        protected T ExecuteScalarAs<T>(IDbCommand cmd) 
+        protected T? ExecuteScalarAs<T>(IDbCommand cmd) 
         {
             var result = ExecuteScalar(cmd);
             return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, true);
         }
 
-        protected async Task<T> ExecuteScalarAsAsync<T>(IDbCommand cmd)
-        {
+        protected async Task<T?> ExecuteScalarAsAsync<T>(IDbCommand cmd)
+        { 
             var result = await ExecuteScalarAsync(cmd);
             return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, true);
         }
@@ -609,13 +609,13 @@ namespace CA.Blocks.DataAccess
         /// <typeparam name="T">This the target type to execute the result in to</typeparam>
         /// <param name="cmd">The IDbCommand cmd to execute</param>
         /// <returns></returns>
-        protected T ExecuteScalarWithConvertAs<T>(IDbCommand cmd)
+        protected T? ExecuteScalarWithConvertAs<T>(IDbCommand cmd)
         {
             var result = ExecuteScalar(cmd);
             return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, false);
         }
 
-        protected async Task<T> ExecuteScalarWithConvertAsAsync<T>(IDbCommand cmd)
+        protected async Task<T?> ExecuteScalarWithConvertAsAsync<T>(IDbCommand cmd)
         {
             var result = await ExecuteScalarAsync(cmd);
             return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, false);

@@ -28,9 +28,9 @@ namespace CA.Blocks.DataAccess.Translator
         protected override dynamic CustomTranslate(DataRow dr)
         {
             dynamic item = new ExpandoObject();
-            var d = item as IDictionary<string, object>;
+            var d = item as IDictionary<string, object?>;
             for (int i = 0; i < dr.Table.Columns.Count; i++)
-                d.Add(dr.Table.Columns[i].ColumnName,
+                d!.Add(dr.Table.Columns[i].ColumnName,
                     DBNull.Value.Equals(dr[i]) ? null : dr[i]);
             return item;
         }

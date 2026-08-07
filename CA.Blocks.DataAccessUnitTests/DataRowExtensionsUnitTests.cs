@@ -45,7 +45,7 @@ namespace CA.Blocks.DataAccessUnitTests
             if (expected.HasValue)
             {
                 Assert.NotNull(actual);
-                Assert.Equal(expected, actual!.Value);
+                Assert.Equal(expected, actual.Value);
             }
             else
             {
@@ -53,7 +53,7 @@ namespace CA.Blocks.DataAccessUnitTests
             }
         }
         
-        // There is not null value for Binary it is simple a zero length array
+        // There is no null value for Binary it is a zero length array
         [Theory]
         [InlineData(0, null)]
         [InlineData(1, "Test Data ")]
