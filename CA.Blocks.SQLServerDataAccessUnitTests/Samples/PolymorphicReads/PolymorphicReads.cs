@@ -118,7 +118,7 @@ Create Table CABLOCKS_PolymorphicReads_Example (Id INT not null  identity(1,1) p
 
         private Shape? ReadPolymorphicShape(IDataReader dr)
         {
-            var typeOfShape = dr.AsString("TypeOfShape");
+            var typeOfShape = dr.AsString("TypeOfShape")!;
             var shape = dr.AsString("shape");
             var type = Type.GetType(typeOfShape);
             if (string.IsNullOrEmpty(shape))

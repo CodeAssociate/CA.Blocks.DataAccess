@@ -16,7 +16,7 @@ namespace CA.Blocks.SQLServerDataAccess
             };
         }
 
-        public static SqlParameter CreateNewParameterFor<T>(T t, string name, string targetDbType= "") where T : notnull
+        public static SqlParameter CreateNewParameterFor<T>(T t, string name, string targetDbType= "")
         {
             return new SqlParameter
             { 

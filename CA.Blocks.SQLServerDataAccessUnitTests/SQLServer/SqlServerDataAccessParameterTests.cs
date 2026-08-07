@@ -34,11 +34,12 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
 
             // act
             var list = ExecuteObjectList(cmd);
-
+            Assert.NotNull(list);
             //Assert
             foreach (var item in list)
             {
-                Assert.True(item.avg_total_user_cost > testNumber);
+                Assert.NotNull(item);
+                Assert.True(item!.avg_total_user_cost > testNumber);
             }
         }
 
@@ -68,7 +69,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             foreach (var item in list)
             {
-                Assert.True(item.id > testid);
+                Assert.NotNull(item);
+                Assert.True(item!.id > testid);
             }
         }
 
@@ -88,7 +90,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //Assert
             foreach (var item in list)
             {
-                Assert.True(item.id > testid.Value);
+                Assert.NotNull(item);
+                Assert.True(item!.id > testid.Value);
             }
         }
 

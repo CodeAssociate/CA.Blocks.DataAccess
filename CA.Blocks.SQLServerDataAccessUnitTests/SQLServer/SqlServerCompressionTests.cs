@@ -63,7 +63,7 @@ END";
             // Act
             var cmd = CreateTextCommand(InsertData);
             cmd.Parameters.Add(1.ToSqlParameter("@id"));
-            cmd.Parameters.Add(testData.CompressToSqlNVarcharString().ToSqlParameter("@data"));
+            cmd.Parameters.Add(testData.CompressToSqlNVarcharString()!.ToSqlParameter("@data"));
             ExecuteNonQuery(cmd);
 
             // Read data as binary

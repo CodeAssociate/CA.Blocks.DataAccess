@@ -31,7 +31,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             return result;
         }
 
-        public string GetStringContextDataBase()
+        public string? GetStringContextDataBase()
         {
             var cmd = CreateTextCommand("SELECT SESSION_CONTEXT(N'StringContext') AS CONTEXTINFO");
             return ExecuteScalarAs<string>(cmd);

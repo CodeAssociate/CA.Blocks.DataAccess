@@ -77,7 +77,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = ExecuteObject(cmd);
-            Assert.Equal("CABLOCKS_TestMasterTable", result.name);
+            Assert.NotNull(result);
+            Assert.Equal("CABLOCKS_TestMasterTable", result!.name);
         }
 
         
@@ -96,10 +97,10 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
         {
             var result = new sqliteMaster
             {
-                name = dr.AsString("name"),
+                name = dr.AsString("name")!,
                 rootpage = dr.AsInt("rootpage"),
-                sql = dr.AsString("sql"),
-                type = dr.AsString("type")
+                sql = dr.AsString("sql")!,
+                type = dr.AsString("type")!
             };
 
             return result;
@@ -146,8 +147,8 @@ namespace CA.Blocks.SqliteDataAccessUnitTests.SQLLite
             var cmd = CreateTextCommand("Select * from sqlite_master where name = @tableName");
             cmd.Parameters.Add("CABLOCKS_TestMasterTable".ToSqlParameter("@tableName"));
             var result = await ExecuteAsync(cmd, TestContext.Current.CancellationToken).ToSingleOrDefault<sqliteMaster>();
-    
-            Assert.Equal("CABLOCKS_TestMasterTable", result.name);
+            Assert.NotNull(result);
+            Assert.Equal("CABLOCKS_TestMasterTable", result!.name);
             Assert.True(TraceCalled);
         }
         

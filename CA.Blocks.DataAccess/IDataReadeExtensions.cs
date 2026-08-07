@@ -623,8 +623,7 @@ namespace CA.Blocks.DataAccess
         {
             return AsString(dr, dr.GetOrdinal(colName), returnNullAsEmptyString);
         }
-
-
+        
         public static string? AsString(this IDataReader dr, int columnIndex, bool returnNullAsEmptyString = false)
         {
             if (dr.IsDBNull(columnIndex))

@@ -184,7 +184,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             //}
             SqlCommand cmdSingle = CreateTextCommand("Select id, name from sysobjects where id=@id").WithParameter(result[0].id.ToSqlParameter("@id"));
             var singleResult = await ExecuteToAsync<temp>(cmd);
-            Assert.Equal(singleResult.id, result[0].id);
+            Assert.NotNull(singleResult);
+            Assert.Equal(singleResult!.id, result[0].id);
             Assert.Equal(singleResult.name, result[0].name);
         }
 

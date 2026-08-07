@@ -37,7 +37,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.AdventureWorks
             return ExecuteScalarAsAsync<int>(cmd);
         }
 
-        public string GetValueThatMustBeConvertedToString()
+        public string? GetValueThatMustBeConvertedToString()
         {
             // Here we getting a values as a byte from the server but returning the values as a string
             var cmd = CreateTextCommand("Select Cast(123 as tinyint) as ExampleOfConvert");
@@ -116,8 +116,8 @@ From  [Production].[Product]
             return Execute(cmd).ToListOf<ProductSummary>(reader => new ProductSummary
             {
                 ProductID = reader.AsInt("ProductID"),
-                Name = reader.AsString("Name"),
-                ProductNumber = reader.AsString("ProductNumber"),
+                Name = reader.AsString("Name")!,
+                ProductNumber = reader.AsString("ProductNumber")!,
                 ReorderPoint = reader.AsShort("ReorderPoint"),
                 StandardCost = reader.AsDecimal("StandardCost"),
                 rowguid = reader.AsGuid("rowguid"),

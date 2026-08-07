@@ -102,12 +102,12 @@ namespace CA.Blocks.SQLServerDataAccess
         }
 
 
-        public static T ToValue<T>(this SqlParameter sqlParameter)
+        public static T? ToValue<T>(this SqlParameter sqlParameter)
         {
             return sqlParameter.ToValue<SqlParameter, T>();
         }
 
-        public static T ToValueWithConvert<T>(this SqlParameter sqlParameter)
+        public static T? ToValueWithConvert<T>(this SqlParameter sqlParameter)
         {
             return sqlParameter.ToValueWithConvert<SqlParameter, T>();
         }
