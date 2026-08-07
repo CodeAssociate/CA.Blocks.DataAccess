@@ -1,7 +1,4 @@
-﻿using CA.Blocks.DataAccess.DI;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
-
-namespace CA.Blocks.SQLServerDataAccess.AzureSQL
+﻿namespace CA.Blocks.SQLServerDataAccess.AzureSQL
 {
     /// <summary>
     /// This class provides a wrapper for Managed Identity authentication using tokens.  This is a common pattern used in Azure where you can authenticate using a Token. Other than that this is  just like the SqlServerDataAccess class

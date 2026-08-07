@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	<TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyVersion>987.654.3210.0</AssemblyVersion>
     <FileVersion>987.654.3210.0</FileVersion>
@@ -19,11 +20,13 @@
     <PackageTags>data;micro-orm;sql;ca.blocks;ado.net</PackageTags>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+      <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>.\CA.Blocks.DataAccess.xml</DocumentationFile>
-    <WarningLevel>3</WarningLevel>
-  </PropertyGroup>
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!-- Suppress missing XML comment warnings -->
+        <NoWarn>$(NoWarn);1591</NoWarn>
+    </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
@@ -39,12 +42,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="DI\IDataAccessKeyToConnectionStringResolverDocs.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DI\IDataAccessKeyToConnectionStringResolverDocs.xml" />
-  </ItemGroup>
 	<ItemGroup>
 		<None Include="..\CA.Blocks.DataAccess\readme.md">
 			<Pack>True</Pack>
@@ -55,6 +52,12 @@
     <ProjectReference Include="..\CA.Blocks.DataAccess.Model\CA.Blocks.DataAccess.Model.csproj" />
   </ItemGroup>
 	<ItemGroup>
+        <!-- PrivateAssets ensures this development-only dependency does not leak to consumers 
+        PolySharp source-generator package. It automatically injects required attributes for netstandard2.0 
+         alling us to use modern features and still able to package a netstandard2.0 version
+        -->
+        <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
+        
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

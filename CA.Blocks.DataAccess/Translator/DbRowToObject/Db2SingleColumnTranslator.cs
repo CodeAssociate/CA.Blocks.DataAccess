@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using CA.Blocks.DataAccess.Translator.DbColToType.Interfaces;
@@ -8,36 +9,44 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject
 {
     public class Db2SingleColumnTranslator<T> : IDbRowTranslator<T>
     {
-        private IDbColToTypeConverter _converter;
-
-        public Db2SingleColumnTranslator(IDbColToTypeConverter converter)
+        private readonly IDbColToTypeConverter _converter;
+        private readonly Func<T> _defaultFactory;
+    
+        public Db2SingleColumnTranslator(IDbColToTypeConverter converter,  Func<T> defaultFactory)
         {
-            _converter = converter;
+            _converter = converter ?? throw new System.ArgumentNullException(nameof(converter));
+            _defaultFactory = defaultFactory ?? throw new System.ArgumentNullException(nameof(defaultFactory));
         }
 
         public IList<T> Translate(DataTable dt)
         {
-            return (from DataRow dr in dt.Rows select Translate(dr)).ToList();
+            return (from DataRow dr in dt.Rows select Translate(dr)).ToList()!;
         }
 
         public T Translate(DataRow dr)
         {
-            T item = default(T);
             if (dr != null)
             {
-                item = (T)_converter.GetData(dr, 0);
+                var item = _converter.GetData(dr, 0);
+                if (item is T result)
+                {
+                    return (T)item;
+                }
             }
-            return item;
+            return _defaultFactory();
         }
 
         public T Translate(IDataReader dr)
         {
-            T result = default(T);
-            if (dr != null && !dr.IsClosed)
+            if (dr is { IsClosed: false })
             {
-                result = (T)_converter.GetData(dr, 0);
+                var item = _converter.GetData(dr, 0);
+                if (item is T result)
+                {
+                    return (T)item;
+                }
             }
-            return result;
+            return _defaultFactory();;
         }
     }
 }

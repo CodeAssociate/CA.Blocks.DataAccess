@@ -123,9 +123,9 @@ namespace CA.Blocks.SQLServerDataAccess
             // Add more mappings as needed
         }
 
-        private string GetKeyName(Type type, string byName = "")
+        private string GetKeyName(Type type, string? byName = "")
         {
-            return string.IsNullOrWhiteSpace(byName) ? $"{type}" : $"{type}-{byName.ToLower()}";
+            return string.IsNullOrWhiteSpace(byName) ? $"{type}" : $"{type}-{byName!.ToLower()}";
         }
 
         public void TryAdd(Type type, SqlDbType sqlDbType, string specificType = "", bool errorOnExists = false)
@@ -142,7 +142,7 @@ namespace CA.Blocks.SQLServerDataAccess
             }
         }
 
-        public SqlDbType Resolve(Type type, string byName = "")
+        public SqlDbType Resolve(Type type, string? byName = "")
         {
             var key = GetKeyName(type, byName);
             if (_typeMappings.TryGetValue(key, out var sqlDbType))

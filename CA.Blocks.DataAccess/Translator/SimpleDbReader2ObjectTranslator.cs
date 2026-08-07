@@ -34,11 +34,10 @@ namespace CA.Blocks.DataAccess.Translator
             return result;
         }
 
-        public T TranslateRow(IDataReader dr)
+        private T TranslateRow(IDataReader dr)
         {
-            return dr == null ? default(T) : CustomTranslate(dr);
+            return CustomTranslate(dr);
         }
-
         protected abstract T CustomTranslate(IDataReader dr);
     }
 }

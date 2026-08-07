@@ -21,7 +21,7 @@ namespace CA.Blocks.DataAccess
             return input.HasValue ? (object)input : (object)DBNull.Value;
         }
         
-        public static object ToDbParameterValue(object input)
+        public static object ToDbParameterValue(object? input)
         {
             return input != null ? (object)input : (object)DBNull.Value;
         }
@@ -58,10 +58,10 @@ namespace CA.Blocks.DataAccess
             return dbParameter;
         }
 
-        public static T ToValue<TP, T>(this TP dbParameter)  where TP : DbParameter
+        public static T? ToValue<TP, T>(this TP dbParameter)  where TP : DbParameter
         {
-            T result = default(T);
-            if (dbParameter != null && (dbParameter.Direction == ParameterDirection.Output || dbParameter.Direction == ParameterDirection.InputOutput))
+            var result = default(T);
+            if (dbParameter.Direction == ParameterDirection.Output || dbParameter.Direction == ParameterDirection.InputOutput)
             {
                 if (dbParameter.Value != null && dbParameter.Value != DBNull.Value)
                     result = (T)dbParameter.Value;
@@ -69,19 +69,26 @@ namespace CA.Blocks.DataAccess
             return result;
         }
 
-        public static T ToValueWithConvert<TP, T>(this TP dbParameter)  where TP : DbParameter
+        public static T? ToValueWithConvert<TP, T>(this TP dbParameter)  where TP : DbParameter
         {
-            T result = default(T);
-            if (dbParameter != null && (dbParameter.Direction == ParameterDirection.Output || dbParameter.Direction == ParameterDirection.InputOutput))
-            {
-                if (dbParameter.Value != null && dbParameter.Value != DBNull.Value)
-                    result = (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dbParameter.Value.ToString());
-            }
+            var result = default(T);
+            if (dbParameter.Direction != ParameterDirection.Output &&  dbParameter.Direction != ParameterDirection.InputOutput) 
+                return result;
+            if (dbParameter.Value == null || dbParameter.Value == DBNull.Value) 
+                return result;
+            
+            var valueAsString = dbParameter.Value.ToString();
+            if (string.IsNullOrEmpty(valueAsString)) 
+                return result;
+            var o = TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(valueAsString);
+            if (o == null) 
+                return result;
+            result = (T)o;
             return result;
         }
 
 
-        public static string PrepStringInput(string input, bool useEmptyStringForNull, int trimInputTo)
+        public static string? PrepStringInput(string? input, bool useEmptyStringForNull, int trimInputTo)
         {
             switch (input)
             {

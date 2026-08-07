@@ -7,11 +7,13 @@ namespace CA.Blocks.PostgresDataAccess.Translator.DbColToType.Converters
 {
     public class PostgresArrayDbColToTypeConverter<T> : BaseDbColToTypeConverter<T>
     {
-        public override T GetDataValue(DataRow dr, string columnName)
+        public override T? GetDataValue(DataRow dr, string columnName)
         {
             // old school just try cast. If it fails, it fails.
             var obj = DataHelper.GetValueFromRow(dr, columnName);
-            return (T)obj;
+            if (obj == null)
+                return default;
+            return (T)obj!;
         }
 
         public override T GetDataValue(IDataReader dr, string columnName)
@@ -22,11 +24,13 @@ namespace CA.Blocks.PostgresDataAccess.Translator.DbColToType.Converters
                 : pgReader.GetFieldValue<T>(columnName);
         }
 
-        public override T GetDataValue(DataRow dr, int columnIndex)
+        public override T? GetDataValue(DataRow dr, int columnIndex)
         {
             // old school just try cast. If it fails, it fails.
             var obj = DataHelper.GetValueFromRow(dr, columnIndex);
-            return (T)obj;
+            if (obj == null)
+                return default;
+            return (T)obj!;
         }
 
         public override T GetDataValue(IDataReader dr, int columnIndex)

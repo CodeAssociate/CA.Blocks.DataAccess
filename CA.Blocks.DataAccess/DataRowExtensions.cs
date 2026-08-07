@@ -662,28 +662,28 @@ namespace CA.Blocks.DataAccess
 #endregion
 
 #region String
-        public static string AsString(this DataRow dr, string colName, bool returnNullAsEmptyString = false)
+        public static string? AsString(this DataRow dr, string colName, bool returnNullAsEmptyString = false)
         {
             return DataHelper.GetValueFromRowAsString(dr, colName, returnNullAsEmptyString);
         }
-        public static string AsString(this DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
+        public static string? AsString(this DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
         {
             return DataHelper.GetValueFromRowAsString(dr, columnOrder, returnNullAsEmptyString);
         }
-        public static string AsString(this DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
+        public static string? AsString(this DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
         {
             return DataHelper.GetValueFromRowAsString(dr, column, returnNullAsEmptyString);
         }
 
-        public static string AsToString(this DataRow dr, string colName, bool returnNullAsEmptyString = false)
+        public static string? AsToString(this DataRow dr, string colName, bool returnNullAsEmptyString = false)
         {
             return DataHelper.GetValueFromRowAsToString(dr, colName, returnNullAsEmptyString);
         }
-        public static string AsToString(this DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
+        public static string? AsToString(this DataRow dr, int columnOrder, bool returnNullAsEmptyString = false)
         {
             return DataHelper.GetValueFromRowAsToString(dr, columnOrder, returnNullAsEmptyString);
         }
-        public static string AsToString(this DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
+        public static string? AsToString(this DataRow dr, DataColumn column, bool returnNullAsEmptyString = false)
         {
             return DataHelper.GetValueFromRowAsToString(dr, column, returnNullAsEmptyString);
         }

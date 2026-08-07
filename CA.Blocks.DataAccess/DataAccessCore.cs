@@ -58,7 +58,7 @@ namespace CA.Blocks.DataAccess
         /// <summary>
         /// This is a protected constructor which must be called by the inheriting class, it will use config.Resolver to resolve the connectionStringKey to a valid connection string 
         /// </summary>
-        protected DataAccessCore(IDataAccessConfig config, IDbRowTranslatorProvider dbRowTranslatorProvider)
+        protected DataAccessCore(IDataAccessConfig config, IDbRowTranslatorProvider? dbRowTranslatorProvider)
         {
             _dbRowTranslatorProvider = dbRowTranslatorProvider ?? DefaultDbRowTranslatorProvider.DefaultInstance;
             _options = config.Options;
@@ -74,7 +74,7 @@ namespace CA.Blocks.DataAccess
 		/// </summary>
 		/// <param name="conn">the connection to close pending closeConnection</param>
 		/// <param name="closeConnection"> determines if conn should be closed on complete</param>
-        protected void WrapUp(IDbConnection conn, bool closeConnection)
+        protected void WrapUp(IDbConnection? conn, bool closeConnection)
         {
             if (closeConnection)
             {
@@ -155,7 +155,7 @@ namespace CA.Blocks.DataAccess
         #region ExecuteWithTransientErrorRetry
         private T ExecuteWithTransientErrorRetry<T>(Func<T> action, IDbCommand cmd, bool autoCloseConnection = true)
         {
-	        List<Exception> exceptions = null;
+	        List<Exception>? exceptions = null;
             for (var tries = 0; tries < _options.TransientErrorRetryTotalNumberOfTimesToTry; tries++)
             {
                 var closeConnection = true;
@@ -224,7 +224,7 @@ namespace CA.Blocks.DataAccess
 
         private async Task<T> ExecuteWithTransientErrorRetryAsync<T>(Func<Task<T>> action, IDbCommand cmd, bool autoCloseConnection = true, CancellationToken cancellationToken = default)
         {
-	        List<Exception> exceptions = null; 
+	        List<Exception>? exceptions = null; 
             for (int tries = 0; tries < _options.TransientErrorRetryTotalNumberOfTimesToTry; tries++)
             {
                 // Bail immediately if cancellation was requested before starting a new try
@@ -250,10 +250,7 @@ namespace CA.Blocks.DataAccess
                 }
                 catch (DbException dbEx)
                 {
-	                if (exceptions == null)
-	                {
-		                exceptions = new List<Exception>();
-	                }
+	                exceptions ??= new List<Exception>();
                     exceptions.Add(dbEx);
                     
 	                if (IsTransientError(dbEx))
@@ -515,10 +512,10 @@ namespace CA.Blocks.DataAccess
         [Obsolete("ExecuteDataSet uses DbDataAdapter which is legacy architecture and is no longer recommended in modern .NET. " +
                   "Support will be dropped in the next major version (4) to optimize performance." +
                   "You can use Execute(cmd).ToDateTable() then take first row as a replacement", false)]
-        protected DataRow ExecuteDataRow(IDbCommand cmd)
+        protected DataRow? ExecuteDataRow(IDbCommand cmd)
         {
             DataSet ds = ExecuteDataSet(cmd);
-            DataRow dr = null;
+            DataRow? dr = null;
             if (ds.Tables[0].Rows.Count > 0)
             {
                 if (ds.Tables[0].Rows.Count == 1)
@@ -526,21 +523,21 @@ namespace CA.Blocks.DataAccess
                 else
                     throw new DataException("Command was asked to execute a ExecuteDataRow however more than a single data row was found, ExecuteDataRow expects one or zero rows returned");
             }
-            return (dr);
+            return dr;
         }
 
         #endregion ExecuteDataRow
 
         #region ExecuteScalar
 
-        protected object ExecuteScalar(IDbCommand cmd)
+        protected object? ExecuteScalar(IDbCommand cmd)
         {
             if (_options.DebugTrace)
                 TraceDbStatement(cmd);
             return ExecuteWithTransientErrorRetry(cmd.ExecuteScalar, cmd);
         }
 
-        protected async Task<object> ExecuteScalarAsync(IDbCommand cmd, CancellationToken cancellationToken = default)
+        protected async Task<object?> ExecuteScalarAsync(IDbCommand cmd, CancellationToken cancellationToken = default)
         {
             var asyncCmd = cmd as DbCommand;
             if (asyncCmd == null)
@@ -563,7 +560,7 @@ namespace CA.Blocks.DataAccess
             }, cmd, cancellationToken: cancellationToken);
         }
 
-         private T ConvertScalarAs<T>(object result, bool useCast)
+         private T? ConvertScalarAs<T>(object result, bool useCast)
          {
 #if NET6_0_OR_GREATER
              if (typeof(T) == typeof(DateOnly))
@@ -571,7 +568,7 @@ namespace CA.Blocks.DataAccess
                  // waiting for driver support
                  var dt = (DateTime)result;
                  var dateOnly = new DateOnly(dt.Year, dt.Month, dt.Day);
-                 return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
+                 return (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(dateOnly.ToString());
              }
              if (typeof(T) == typeof(TimeOnly))
              {
@@ -579,11 +576,11 @@ namespace CA.Blocks.DataAccess
                  var ts = (TimeSpan)result;
                  var timeOnly = new TimeOnly(ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds, ts.Nanoseconds);
                 
-                 return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
+                 return (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(timeOnly.ToString());
              }
 #endif
              // cast is faster but you only use it if the type is known and the same between .NET and the DB
-             return useCast ? (T)result : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString());          
+             return useCast ? (T)result : (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(result.ToString()!);          
          }
 
          /// <summary>
@@ -592,14 +589,14 @@ namespace CA.Blocks.DataAccess
         /// <typeparam name="T">This the target type to execute the result in to</typeparam>
         /// <param name="cmd">The IDbCommand cmd to execute</param>
         /// <returns></returns>
-        protected T ExecuteScalarAs<T>(IDbCommand cmd) 
+        protected T? ExecuteScalarAs<T>(IDbCommand cmd) 
         {
             var result = ExecuteScalar(cmd);
             return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, true);
         }
 
-        protected async Task<T> ExecuteScalarAsAsync<T>(IDbCommand cmd)
-        {
+        protected async Task<T?> ExecuteScalarAsAsync<T>(IDbCommand cmd)
+        { 
             var result = await ExecuteScalarAsync(cmd);
             return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, true);
         }
@@ -612,13 +609,13 @@ namespace CA.Blocks.DataAccess
         /// <typeparam name="T">This the target type to execute the result in to</typeparam>
         /// <param name="cmd">The IDbCommand cmd to execute</param>
         /// <returns></returns>
-        protected T ExecuteScalarWithConvertAs<T>(IDbCommand cmd)
+        protected T? ExecuteScalarWithConvertAs<T>(IDbCommand cmd)
         {
             var result = ExecuteScalar(cmd);
             return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, false);
         }
 
-        protected async Task<T> ExecuteScalarWithConvertAsAsync<T>(IDbCommand cmd)
+        protected async Task<T?> ExecuteScalarWithConvertAsAsync<T>(IDbCommand cmd)
         {
             var result = await ExecuteScalarAsync(cmd);
             return (result == null || result == DBNull.Value) ? default : ConvertScalarAs<T>(result, false);
@@ -631,9 +628,9 @@ namespace CA.Blocks.DataAccess
         /// <param name="cmd">The IDbCommand cmd to execute</param>
         /// <param name="nullDefault">If execute result is null this this value will be passed back. </param>
         /// <returns></returns>
-        protected string ExecuteScalarAsString(IDbCommand cmd, string nullDefault = null)
+        protected string? ExecuteScalarAsString(IDbCommand cmd, string? nullDefault = null)
         {
-            Object result = ExecuteScalar(cmd);
+            var result = ExecuteScalar(cmd);
             return result != null ? result.ToString() : nullDefault;
         }
         
@@ -694,13 +691,13 @@ namespace CA.Blocks.DataAccess
 		#endregion ExecuteReader
 
 
-		protected dynamic ExecuteObject(IDbCommand cmd)
+		protected dynamic? ExecuteObject(IDbCommand cmd)
         {
             var translator = new DynamicDbRow2ObjectTranslator();
             return translator.Translate(Execute(cmd).ToDataRow());
         }
 
-        protected IList<dynamic> ExecuteObjectList(IDbCommand cmd)
+        protected IList<dynamic?> ExecuteObjectList(IDbCommand cmd)
         {
             var translator = new DynamicDbRow2ObjectTranslator();
             return translator.Translate(Execute(cmd).ToDataTable());
@@ -732,7 +729,7 @@ namespace CA.Blocks.DataAccess
         protected IList<T> ExecuteToListOf<T>(IDbCommand cmd)
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return ExecuteToListOf(cmd, translator.Translate);
+            return ExecuteToListOf(cmd, dr => translator.Translate(dr)!);
         }
 
         /// <summary>
@@ -751,7 +748,7 @@ namespace CA.Blocks.DataAccess
         ///  This is a shortcut method to <code>ExecuteReader<T>(cmd).ToFirstOrDefault<T>(translate);</T></T></code> please use that instead
         /// </summary>
         /// <returns></returns>
-        protected Task<T> ExecuteToAsync<T>(IDbCommand cmd) 
+        protected Task<T?> ExecuteToAsync<T>(IDbCommand cmd) 
         {
             return ExecuteAsync(cmd).ToFirstOrDefault<T>();
         }
@@ -760,7 +757,7 @@ namespace CA.Blocks.DataAccess
         ///  This is a shortcut method to <code>ExecuteReader<T>(cmd).ToFirstOrDefault<T>(translate);</T></T></code> please use that instead
         /// </summary>
         /// <returns></returns>
-        protected Task<T> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate)
+        protected Task<T?> ExecuteToAsync<T>(IDbCommand cmd, Func<IDataReader, T> translate)
         {
             return ExecuteAsync(cmd).ToFirstOrDefault(translate);
         }
@@ -768,7 +765,7 @@ namespace CA.Blocks.DataAccess
         protected Task<IList<T>> ExecuteToListOfAsync<T>(IDbCommand cmd) 
         {
             var translator = _dbRowTranslatorProvider.Resolve<T>();
-            return ExecuteToListOfAsync(cmd, translator.Translate);
+            return ExecuteToListOfAsync(cmd, dr => translator.Translate(dr)!);
         }
 
         /// <summary>
@@ -796,7 +793,7 @@ namespace CA.Blocks.DataAccess
             return translator.Translate(dt);
         }
         
-        protected virtual DataTable GetSchema(string collectionNam, string[] restrictionValues = null)
+        protected virtual DataTable GetSchema(string collectionNam, string[]? restrictionValues = null)
         {
 	        throw new NotImplementedException("GetSchema not Not Implemented");
         }

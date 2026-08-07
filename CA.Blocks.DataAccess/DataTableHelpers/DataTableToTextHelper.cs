@@ -11,13 +11,13 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
 
             for (var i = 0; i < dt.Columns.Count; i++)
             {
-                maxLengths[i] = dt.Columns[i].ColumnName.Length;
+                maxLengths[i] = dt.Columns[i].ColumnName?.Length ?? 0;
 
                 foreach (DataRow row in dt.Rows)
                 {
                     if (!row.IsNull(i))
                     {
-                        var length = row[i].ToString().Length;
+                        var length = row[i]?.ToString()?.Length ?? 0;
 
                         if (length > maxLengths[i])
                         {
@@ -31,7 +31,7 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
             {
                 for (int i = 0; i < dt.Columns.Count; i++)
                 {
-                    sb.Append(dt.Columns[i].ColumnName.PadRight(maxLengths[i] + 2));
+                    sb.Append((dt.Columns[i].ColumnName ?? "").PadRight(maxLengths[i] + 2));
                 }
 
                 sb.AppendLine();
@@ -41,7 +41,7 @@ namespace CA.Blocks.DataAccess.DataTableHelpers
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
                         sb.Append(!row.IsNull(i)
-                            ? row[i].ToString().PadRight(maxLengths[i] + 2)
+                            ? (row[i]?.ToString() ?? "").PadRight(maxLengths[i] + 2)
                             : new string(' ', maxLengths[i] + 2));
                     }
 

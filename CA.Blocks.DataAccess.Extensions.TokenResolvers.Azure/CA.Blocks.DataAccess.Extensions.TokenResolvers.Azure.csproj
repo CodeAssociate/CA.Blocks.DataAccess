@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <AssemblyVersion>987.654.3210.0</AssemblyVersion>
         <FileVersion>987.654.3210.0</FileVersion>
@@ -22,6 +23,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!-- PrivateAssets ensures this development-only dependency does not leak to consumers 
+        PolySharp source-generator package. It automatically injects required attributes for netstandard2.0 
+         alling us to use modern features and still able to package a netstandard2.0 version
+        -->
+        <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
+        
         <PackageReference Include="Azure.Core" Version="1.60.0" />
     </ItemGroup>
 

@@ -384,7 +384,7 @@ namespace CA.Blocks.DataAccessUnitTests
         [InlineData(null)]
         public void GetValueFromRowAsString(string? expected)
         {
-            string actual;
+            string? actual;
             var dr = CreateTestTable(typeof(string), expected);
             dr.Read();
             if (expected != null)

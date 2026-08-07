@@ -1,15 +1,6 @@
-﻿#if NET6_0_OR_GREATER
-
-using System;
+﻿using System;
 
 namespace CA.Blocks.DataAccess.Builders
 {
-    public class SqlBuilderException : ApplicationException
-    {
-        public SqlBuilderException(string message) : base(message)
-        {
-        }
-    }
+    public class SqlBuilderException(string message) : ApplicationException(message);
 }
-
-#endif

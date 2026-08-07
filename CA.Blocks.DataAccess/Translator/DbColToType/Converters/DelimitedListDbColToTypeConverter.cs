@@ -12,7 +12,7 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Converters
             _delimiter = delimiter;
         }
 
-        protected abstract IList<T> ToList(string input);
+        protected abstract IList<T> ToList(string? input);
        
         public override IList<T> GetDataValue(DataRow dr, string columnName)
         {

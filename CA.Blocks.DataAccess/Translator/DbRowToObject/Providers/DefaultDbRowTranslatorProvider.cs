@@ -29,11 +29,18 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
 
         private Func<T> NewFactoryFor<T>()
         {
+            if (typeof(T).IsValueType)
+            {
+                // this is safe as we know it is a struct
+#pragma warning disable CS8603 // Possible null reference return. 
+                return () => default(T);
+#pragma warning restore CS8603 // Possible null reference return.
+            }
             var expression = Expression.New(typeof(T));
             Expression<Func<T>> lambda = Expression.Lambda<Func<T>>(expression);
             return lambda.Compile();
         }
-
+       
 
         public DbRowToObjectMappings GenerateDefaultMappingsFor<T>()
         {
@@ -43,13 +50,13 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             {
                 if (pi.CanWrite)
                 {
-                    IDbColToTypeConverter dbToTypeConverter = null;
+                    IDbColToTypeConverter? dbToTypeConverter = null;
                     if (Attribute.IsDefined(pi, typeof(DbColToTypeConverterAttribute)))
                     {
-                        var customConverter = (DbColToTypeConverterAttribute)(pi.GetCustomAttributes(typeof(DbColToTypeConverterAttribute), false)).FirstOrDefault();
+                        var customConverter = (DbColToTypeConverterAttribute?)(pi.GetCustomAttributes(typeof(DbColToTypeConverterAttribute), false)).FirstOrDefault();
                         if (customConverter != default)
                         {
-                            dbToTypeConverter = (IDbColToTypeConverter)Activator.CreateInstance(customConverter.ConverterType, customConverter.ConverterParameters);
+                            dbToTypeConverter = (IDbColToTypeConverter)Activator.CreateInstance(customConverter.ConverterType, customConverter.ConverterParameters)!;
                         }
                     }
                     else
@@ -61,7 +68,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
                     {
                         if (Attribute.IsDefined(pi, typeof(DbColToSourceNameAttribute)))
                         {
-                            var sourceFrom = (DbColToSourceNameAttribute)(pi.GetCustomAttributes(typeof(DbColToSourceNameAttribute), false)).FirstOrDefault();
+                            var sourceFrom = (DbColToSourceNameAttribute?)(pi.GetCustomAttributes(typeof(DbColToSourceNameAttribute), false)).FirstOrDefault();
                             if (sourceFrom != default)
                             {
                                 mappings.AddMapping(new DbColToTypeMapping
@@ -129,7 +136,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
                     var dbToTypeConverter = _colTypeConverters.Resolve(targetType);
                     if (dbToTypeConverter != null)
                     {
-                        typeConverter = new Db2SingleColumnTranslator<T>(dbToTypeConverter);
+                        typeConverter = new Db2SingleColumnTranslator<T>(dbToTypeConverter, NewFactoryFor<T>());
                         TryAdd<T>(key, (IDbRowTranslator<T>)typeConverter, false);
                     }
                     else
@@ -138,7 +145,7 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
                     }
                 }
             }
-            return typeConverter as IDbRowTranslator<T>;
+            return (typeConverter as IDbRowTranslator<T>) ?? throw new KeyNotFoundException($"No DbRow To Object Provider registered for {key}");
         }
 
         public bool HasTranslatorFor<T>(string byName = "")

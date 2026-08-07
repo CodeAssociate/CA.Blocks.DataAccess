@@ -12,7 +12,7 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.DataReaderExtension
             return GenerateTestData(1, count);
         }
 
-        protected DataTable GenerateTestData(int start, int count)
+        private DataTable GenerateTestData(int start, int count)
         {
             var testData = new DataTable();
             testData.Columns.Add("IntCol", typeof(int));
@@ -27,45 +27,38 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.DataReaderExtension
             testData.AcceptChanges();
             return testData;
         }
-        protected IDataReader GenerateTestSet(int count)
+
+        private IDataReader GenerateTestSet(int count)
         {
             return GenerateTestData(1).CreateDataReader();
         }
-
-
-
+        
         private IDataReader? _target;
+        
         [GlobalSetup]
         public void GlobalSetup()
         {
             _target = GenerateTestSet(1);
             _target.Read();
         }
-
-      
-        //[IterationSetup]
-        //public void IterationSetup()
-        //{
-            
-        //}
-
+        
 
         [Benchmark(Baseline = true)]
-        public string AsStringBaseline()
+        public string? AsStringBaseline()
         {
-            return _target.AsString("StringCol");
+            return _target!.AsString("StringCol");
         }
 
         [Benchmark]
-        public string AsToStringBaseline()
+        public string? AsToStringBaseline()
         {
-            return _target.AsToString("StringCol");
+            return _target!.AsToString("StringCol");
         }
 
         [Benchmark]
-        public string AsToStringIndex()
+        public string? AsToStringIndex()
         {
-            return _target.AsToString(1);
+            return _target!.AsToString(1);
         }
 
         //[IterationCleanup]
@@ -81,7 +74,5 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.DataReaderExtension
             _target!.Dispose();
             // Disposing logic
         }
-
-
     }
 }

@@ -23,7 +23,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator
             Trace.WriteLine(string.Format(outputformat, "id", "name", "xtype", "crdate"));
             foreach (var item in result)
             {
-                Console.WriteLine($"{item.id}\t{item.name}\t{item.xtype}\t{item.crdate}");
+                Assert.NotNull(item);
+                Console.WriteLine($"{item!.id}\t{item.name}\t{item.xtype}\t{item.crdate}");
             }
         }
         #endregion 

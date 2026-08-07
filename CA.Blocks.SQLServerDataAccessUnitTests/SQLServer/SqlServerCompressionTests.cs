@@ -63,7 +63,7 @@ END";
             // Act
             var cmd = CreateTextCommand(InsertData);
             cmd.Parameters.Add(1.ToSqlParameter("@id"));
-            cmd.Parameters.Add(testData.CompressToSqlNVarcharString().ToSqlParameter("@data"));
+            cmd.Parameters.Add(testData.CompressToSqlNVarcharString()!.ToSqlParameter("@data"));
             ExecuteNonQuery(cmd);
 
             // Read data as binary
@@ -78,7 +78,7 @@ END";
             var tresult = ExecuteTo<TestDataObj>(readAsString);
             // assert
 
-            Assert.Equal(bresult.Id, tresult.Id);
+            Assert.Equal(bresult!.Id, tresult.Id);
             Assert.Equal(testData, bresult.dataValue);
             Assert.Equal(testData,tresult.dataValue);
            

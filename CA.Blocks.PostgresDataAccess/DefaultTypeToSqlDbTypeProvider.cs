@@ -124,7 +124,7 @@ namespace CA.Blocks.PostgresDataAccess
 
 
 
-        private string GetKeyName(Type type, string byName = "")
+        private string GetKeyName(Type type, string? byName = "")
         {
             return string.IsNullOrWhiteSpace(byName) ? $"{type}" : $"{type}-{byName.ToLower()}";
         }
@@ -143,7 +143,7 @@ namespace CA.Blocks.PostgresDataAccess
             }
         }
 
-        public NpgsqlDbType Resolve(Type type, string byName = "")
+        public NpgsqlDbType Resolve(Type type, string? byName = "")
         {
             var key = GetKeyName(type, byName);
             if (_typeMappings.TryGetValue(key, out var sqlDbType))

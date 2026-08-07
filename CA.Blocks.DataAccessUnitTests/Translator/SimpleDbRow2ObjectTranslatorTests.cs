@@ -17,7 +17,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator
                 var result =  new TestDataClass
                 {
                     IntCol = dr.AsInt("IntCol"),
-                    StringCol = dr.AsString("StringCol"),
+                    StringCol = dr.AsString("StringCol")!,
                     GuidCol = dr.AsGuid("GuidCol"),
                     DateCol = dr.AsDateTime("DateCol")
                 };
@@ -37,7 +37,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator
             // assert
             Assert.NotNull(result);
             Assert.Equal(10, result.Count);
-            Assert.Equal(1, result[0].IntCol);
+            Assert.Equal(1, result[0]!.IntCol);
         }
         [Fact]
         public void Translate_DataRows()
@@ -51,7 +51,7 @@ namespace CA.Blocks.DataAccessUnitTests.Translator
             // assert
             Assert.NotNull(result);
             Assert.Equal(10, result.Count);
-            Assert.Equal(1, result[0].IntCol);
+            Assert.Equal(1, result[0]!.IntCol);
         }
     }
 }

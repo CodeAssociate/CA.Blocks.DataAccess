@@ -16,7 +16,8 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions
 
         public DbColToTypeConverterAttribute(Type converterType)
         {
-            this._converterType = (object)converterType != null ? converterType : throw new ArgumentNullException(nameof(converterType));
+            this.ConverterParameters = Array.Empty<object>();
+            this._converterType = converterType ?? throw new ArgumentNullException(nameof(converterType));
             var fullName = typeof(IDbColToTypeConverter).FullName;
             if (fullName != null)
             {

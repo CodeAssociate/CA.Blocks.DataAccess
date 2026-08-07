@@ -8,7 +8,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Samples.ReadingData
 
         public class ExampleReadDataSingleValue: UnitTestDataAccess
         {
-            public object GetSysObjectsCountReturnObject()
+            public object? GetSysObjectsCountReturnObject()
             {
                 var cmd = CreateTextCommand("Select count(*) from Sysobjects");
                 return ExecuteScalar(cmd);

@@ -5,7 +5,7 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 {
     public class CharTranslator : Db2SingleNamedColumnTranslator<char>
     {
-        public CharTranslator(string columnName) : base(new CharDbColToTypeConverter(), columnName)
+        public CharTranslator(string columnName) : base(new CharDbColToTypeConverter(), columnName, () => '\0')
         {
 
         }

@@ -5,7 +5,7 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 {
     public class LongTranslator : Db2SingleNamedColumnTranslator<long>
     {
-        public LongTranslator(string columnName) : base(new LongDbColToTypeConverter(), columnName)
+        public LongTranslator(string columnName) : base(new LongDbColToTypeConverter(), columnName, () => 0)
         {
 
         }

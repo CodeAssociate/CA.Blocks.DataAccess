@@ -7,7 +7,7 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 
     public class ByteTranslator : Db2SingleNamedColumnTranslator<Byte>
     {
-        public ByteTranslator(string columnName) : base(new ByteDbColToTypeConverter(), columnName)
+        public ByteTranslator(string columnName) : base(new ByteDbColToTypeConverter(), columnName, () => 0)
         {
 
         }

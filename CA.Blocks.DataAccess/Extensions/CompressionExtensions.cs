@@ -71,7 +71,7 @@ namespace CA.Blocks.DataAccess.Extensions
         /// <param name="input"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static byte[] CompressString(this string input, Encoding encoding)
+        public static byte[]? CompressString(this string input, Encoding encoding)
         {
             return string.IsNullOrWhiteSpace(input) ? null : Compress(encoding.GetBytes(input));
         }
@@ -82,7 +82,7 @@ namespace CA.Blocks.DataAccess.Extensions
         /// <param name="input"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static string DecompressToString(this byte[] input, Encoding encoding)
+        public static string? DecompressToString(this byte[] input, Encoding encoding)
         {
             return input.Length  == 0 ? null : encoding.GetString(Decompress(input));
         }
@@ -92,7 +92,7 @@ namespace CA.Blocks.DataAccess.Extensions
         /// if you need a different encoding you can specify the Encoding
         /// be aware you need to use the same collation on the server to read the data out  in a query on the server 
         /// </remarks>
-        public static byte[] CompressToSQLVarcharString(this string input)
+        public static byte[]? CompressToSQLVarcharString(this string input)
         {
             return input.CompressString(Encoding.ASCII);
         }
@@ -102,22 +102,21 @@ namespace CA.Blocks.DataAccess.Extensions
         /// if you need a different encoding you can specify the Encoding
         /// be aware you need to use the same collation on the server to read the data out  in a query on the server 
         /// </remarks>
-        public static string DecompressToSQLVarcharString(this byte[] input)
+        public static string? DecompressToSQLVarcharString(this byte[] input)
         {
             return input.DecompressToString(Encoding.ASCII);
         }
 
         /// <inheritdoc cref="CompressString(string, Encoding)"/>
         /// <remarks>The default string encoding is Encoding.Unicode</remarks>
-        public static byte[] CompressToSqlNVarcharString(this string input)
+        public static byte[]? CompressToSqlNVarcharString(this string input)
         {
             return input.CompressString(Encoding.Unicode);
         }
-
-
+        
         /// <inheritdoc cref="DecompressToString(byte[], Encoding)"/>
         /// <remarks>The default string encoding is Encoding.Unicode</remarks>
-        public static string DecompressToSqlNVarcharString(this byte[] input)
+        public static string? DecompressToSqlNVarcharString(this byte[] input)
         {
             return input.DecompressToString(Encoding.Unicode);
         }

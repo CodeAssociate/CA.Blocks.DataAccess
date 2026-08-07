@@ -19,9 +19,9 @@ namespace CA.Blocks.DataAccess.Generic
 		where ADP : DbDataAdapter, new()
 		where CMD : DbCommand, new()
 	{
-		private readonly CON _dbConnection;
+		private readonly CON? _dbConnection;
 
-		public AbstractedDbDataAccessConnector(IDataAccessConfig config, bool pooled = false, IDbRowTranslatorProvider dbRowTranslatorProvider = null) : base(config, dbRowTranslatorProvider)
+		public AbstractedDbDataAccessConnector(IDataAccessConfig config, bool pooled = false, IDbRowTranslatorProvider? dbRowTranslatorProvider = null) : base(config, dbRowTranslatorProvider)
 		{
 			if (!pooled)
 			{
@@ -37,12 +37,12 @@ namespace CA.Blocks.DataAccess.Generic
 
 		protected override DbDataAdapter GetDataAdapter(IDbCommand cmd)
 		{
-			return (DbDataAdapter)Activator.CreateInstance(typeof(ADP), (CMD)cmd);
+			return (DbDataAdapter)Activator.CreateInstance(typeof(ADP), (CMD)cmd)!;
 		}
 
 		protected CON CreateNewConnection()
 		{
-			return (CON)Activator.CreateInstance(typeof(CON), ConnectionString);
+			return (CON)Activator.CreateInstance(typeof(CON), ConnectionString)!;
 		}
 
 		protected override bool PrepCommand(IDbCommand cmd)
@@ -115,7 +115,7 @@ namespace CA.Blocks.DataAccess.Generic
 		}
 
 
-		protected override DataTable GetSchema(string collectionNam, string[] restrictionValues = null)
+		protected override DataTable GetSchema(string collectionNam, string[]? restrictionValues = null)
 		{
 			if (_dbConnection == null)
 			{

@@ -7,7 +7,8 @@ namespace CA.Blocks.DataAccess.Translator.Basic
 
     public class StringTranslator : Db2SingleNamedColumnTranslator<string>
     {
-        public StringTranslator(string columnName) : base(new StringDbColToTypeConverter(), columnName)
+        public StringTranslator(string columnName) : base(new StringDbColToTypeConverter(), columnName,
+            () => string.Empty)
         {
 
         }
