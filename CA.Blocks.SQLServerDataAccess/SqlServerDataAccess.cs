@@ -22,6 +22,7 @@ using CA.Blocks.DataAccess.DI;
 using CA.Blocks.DataAccess.Model.Paging;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using CA.Blocks.DataAccess.Translator.Extensions;
+using CA.Blocks.SQLServerDataAccess.Builder;
 using CA.Blocks.SQLServerDataAccess.Model;
 
 namespace CA.Blocks.SQLServerDataAccess
@@ -83,15 +84,22 @@ namespace CA.Blocks.SQLServerDataAccess
             var context = GetSessionContext();
             if (context != null && context.Count > 0)
             {
+                var i = 0;
+                var builder = new BatchSqlBuilder();
                 foreach (var contextItem in context)
                 {
-                    var cmd = CreateTextCommand("EXEC sp_set_session_context @key, @value, @read_only;");
-                    cmd.Parameters.Add(contextItem.Key.ToSqlParameter("@Key"));
-                    cmd.Parameters.Add(contextItem.ValueAsSqlParameter("@value"));
-                    cmd.Parameters.Add(contextItem.ReadOnly.ToSqlParameter("@read_only"));
-                    cmd.Connection = sqlConnection;
-                    cmd.ExecuteNonQuery();
+                    builder.AddSqlFragment("EXEC sp_set_session_context ");
+                    builder.AddIndexedParameter((x) => contextItem.Key.ToSqlParameter(x), "@Key", i);
+                    builder.AddSqlComma();
+                    builder.AddIndexedParameter((x) => contextItem.ValueAsSqlParameter(x), "@Value", i);
+                    builder.AddSqlComma();
+                    builder.AddIndexedParameter((x) => contextItem.ReadOnly.ToSqlParameter(x), "@ReadOnly", i);
+                    builder.AddLine(";");
+                    i++;
                 }
+                var cmd = CreateDbCommand(builder.GetSqlStatement()).WithParameters(builder.GetParameters());
+                cmd.Connection = sqlConnection;
+                cmd.ExecuteNonQuery();
             }
         }
 

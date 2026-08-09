@@ -19,6 +19,84 @@
             provides a class for Null Token. Ie don't use tokens.   at this point this will be the same as  using the SqlServerDataAccess to access the Azure SQL database
             </summary>
         </member>
+        <member name="T:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder">
+            <summary>
+            Provides a fluid builder for constructing parameterized dynamic SQL statements 
+            alongside their corresponding <see cref="T:Microsoft.Data.SqlClient.SqlParameter"/> objects to prevent SQL injection.
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.#ctor">
+            <summary>
+            Provides a fluid builder for constructing parameterized dynamic SQL statements 
+            alongside their corresponding <see cref="T:Microsoft.Data.SqlClient.SqlParameter"/> objects to prevent SQL injection.
+            </summary>
+        </member>
+        <member name="F:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder._sb">
+            <summary>
+            Internal string buffer used to accumulate the generated SQL query text.
+            </summary>
+        </member>
+        <member name="F:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder._parameters">
+            <summary>
+            Internal collection storing all SQL parameters generated during query construction.
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.AddSqlFragment(System.String)">
+            <summary>
+            Appends a raw SQL text fragment to the SQL buffer without adding a new line.
+            </summary>
+            <param name="text">The raw SQL fragment to append.</param>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.AddSqlOpenBracket">
+            <summary>
+            Appends an opening parenthesis <c>(</c> to the SQL buffer.
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.AddSqlCloseBracket">
+            <summary>
+            Appends a closing parenthesis <c>)</c> to the SQL buffer.
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.AddSqlComma">
+            <summary>
+            Appends a comma and space <c>, </c> to the SQL buffer.
+            </summary>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.AddLine(System.String)">
+            <summary>
+            Appends specified text followed by a line terminator to the SQL buffer.
+            </summary>
+            <param name="text">The optional text to write before the line terminator.</param>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.AddParameter(System.Func{System.String,Microsoft.Data.SqlClient.SqlParameter},System.String)">
+            <summary>
+            Generates a parameter using the specified factory delegate, registers it to the parameter collection, 
+            and appends the parameter name into the SQL buffer.
+            </summary>
+            <param name="toSqlParamFunc">A factory delegate that accepts the parameter name and returns a <see cref="T:Microsoft.Data.SqlClient.SqlParameter"/>.</param>
+            <param name="name">The name of the parameter (e.g., "@ParamName").</param>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.AddIndexedParameter(System.Func{System.String,Microsoft.Data.SqlClient.SqlParameter},System.String,System.Int32)">
+            <summary>
+            Generates an indexed parameter name (formatted as <c>{name}_{index}</c>), creates the <see cref="T:Microsoft.Data.SqlClient.SqlParameter"/> 
+            via the provided factory, registers it, and appends the generated name into the SQL buffer.
+            </summary>
+            <param name="toSqlParamFunc">A factory delegate that accepts the indexed parameter name and returns a <see cref="T:Microsoft.Data.SqlClient.SqlParameter"/>.</param>
+            <param name="name">The base parameter name prefix (e.g., "@Id").</param>
+            <param name="index">The zero-based index to append to the parameter name.</param>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.GetSqlStatement">
+            <summary>
+            Returns the complete generated SQL command text.
+            </summary>
+            <returns>A string containing the compiled SQL query.</returns>
+        </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.Builder.BatchSqlBuilder.GetParameters">
+            <summary>
+            Gets the list of <see cref="T:Microsoft.Data.SqlClient.SqlParameter"/> objects generated during query construction.
+            </summary>
+            <returns>A read-only or mutable list of parameters ready for execution against a <see cref="T:Microsoft.Data.SqlClient.SqlCommand"/>.</returns>
+        </member>
         <member name="M:CA.Blocks.SQLServerDataAccess.Builder.SafeSqlBuilder.AddSql(CA.Blocks.SQLServerDataAccess.Builder.SqlStringHandler)">
             <summary>
             Will append the SQL text and parameters from the SqlStringHandler
@@ -65,56 +143,6 @@
         <member name="T:Microsoft.CodeAnalysis.EmbeddedAttribute">
             <summary>
             A special attribute recognized by Roslyn, that marks a type as "embedded", meaning it won't ever be visible from other assemblies.
-            </summary>
-        </member>
-        <member name="T:System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute">
-            <summary>
-            When applied to an attribute class, instructs the compiler to flow applications of that attribute,
-            from source code down to compiler-generated symbols. This can help IL-based analysis tools.
-            </summary>
-            <remarks>
-            One example where this attribute applies is in C# primary constructor parameters. If an attribute
-            marked with <see cref="T:System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute"/> gets applied to a primary constructor
-            parameter, the attribute will also be applied to any compiler-generated fields storing that parameter.
-            </remarks>
-        </member>
-        <member name="M:System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute"/> class.
-            </summary>
-        </member>
-        <member name="T:System.Runtime.CompilerServices.ParamCollectionAttribute">
-            <summary>
-            Indicates that a method will allow a variable number of arguments in its invocation.
-            </summary>
-        </member>
-        <member name="T:System.Runtime.CompilerServices.ExtensionMarkerAttribute">
-            <summary>
-            This attribute is used to mark extension members and associate them with a specific marker type (which provides detailed information about an extension block and its receiver parameter).
-            This attribute should not be used by developers in source code.
-            </summary>
-        </member>
-        <member name="M:System.Runtime.CompilerServices.ExtensionMarkerAttribute.#ctor(System.String)">
-            <summary>Initializes a new instance of the <see cref="T:System.Runtime.CompilerServices.ExtensionMarkerAttribute"/> class.</summary>
-            <param name="name">The name of the marker type this extension member is associated with.</param>
-        </member>
-        <member name="P:System.Runtime.CompilerServices.ExtensionMarkerAttribute.Name">
-            <summary>The name of the marker type this extension member is associated with.</summary>
-        </member>
-        <member name="T:System.Runtime.CompilerServices.OverloadResolutionPriorityAttribute">
-            <summary>
-            Specifies the priority of a member in overload resolution. When unspecified, the default priority is 0.
-            </summary>
-        </member>
-        <member name="M:System.Runtime.CompilerServices.OverloadResolutionPriorityAttribute.#ctor(System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Runtime.CompilerServices.OverloadResolutionPriorityAttribute"/> class.
-            </summary>
-            <param name="priority">The priority of the attributed member. Higher numbers are prioritized, lower numbers are deprioritized. 0 is the default if no attribute is present.</param>
-        </member>
-        <member name="P:System.Runtime.CompilerServices.OverloadResolutionPriorityAttribute.Priority">
-            <summary>
-            The priority of the member.
             </summary>
         </member>
     </members>
