@@ -1,5 +1,3 @@
-using System;
-using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.SqliteDataAccessUnitTests.Base;
 

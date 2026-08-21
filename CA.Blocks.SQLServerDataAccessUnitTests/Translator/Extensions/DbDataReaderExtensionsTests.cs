@@ -33,13 +33,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             public int id { get; init; }
             public required string name { get; init; }
         }
+        public class sysobject2
+        {
+            public int id { get; init; }
+            public required string name { get; init; }
+        }
+        
 
         [Fact]
         public async Task ExeucteDataReaderToResultsSetAsync()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects; Select * from sysindexes;");
 
-            var result = await ExecuteAsync(cmd, TestContext.Current.CancellationToken).ToResultsSet<sysobject, sysobject>();
+            var result = await ExecuteAsync(cmd, TestContext.Current.CancellationToken).ToResultsSet<sysobject, sysobject2>();
 
             Assert.True(result.Results1.Count > 0);
 

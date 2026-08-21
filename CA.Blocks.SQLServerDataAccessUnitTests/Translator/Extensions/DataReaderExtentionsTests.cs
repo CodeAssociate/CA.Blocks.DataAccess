@@ -35,12 +35,19 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.Extensions
             public required string name { get; init; }
         }
 
+        public class sysobject2
+        {
+            public int id { get; init; }
+            public required string name { get; init; }
+        }
+
+        
         [Fact]
         public void ExeucteDataReaderToResultsSet()
         {
             SqlCommand cmd = CreateTextCommand("Select id, name from sysobjects; Select * from sysindexes;");
 
-            var result = Execute(cmd).ToResultsSet<sysobject, sysobject>();
+            var result = Execute(cmd).ToResultsSet<sysobject, sysobject2>();
 
             Assert.True(result.Results1.Count > 0);
 

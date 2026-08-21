@@ -4,6 +4,7 @@
 - Added support for low-overhead async execution:
 - Default / Low-Overhead: Use ExecuteAsync to await database I/O, then read rows synchronously via ToListOf() to eliminate per-row async state machine allocations.
 - Fully Non-Blocking: Use ToListOfAsync() if non-blocking iteration across all rows is required.
+- Add support for Auto mapping from snake_case in source to PascalCase in target
 
 v3.7
 - Added build packages for .NET 10

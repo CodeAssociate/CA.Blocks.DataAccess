@@ -81,7 +81,6 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
         [Fact]
         public void ExecuteToListOfDevCustomTranslator()
         {
-
             var cmd = CreateDbCommand("Select id, name from sysobjects");
             var result = ExecuteToListOf<temp2>(cmd);
             Assert.True(result.Count > 0);

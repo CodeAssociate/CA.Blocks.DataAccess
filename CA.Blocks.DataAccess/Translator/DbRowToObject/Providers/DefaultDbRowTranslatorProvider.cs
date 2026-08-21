@@ -16,12 +16,14 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
     public class DefaultDbRowTranslatorProvider : IDbRowTranslatorProvider
     {
         private readonly IDbColToTypeProvider _colTypeConverters = DefaultDbColToTypeProvider.DefaultInstance;
-
         private static object _syncLock = new object();
         private readonly ConcurrentDictionary<string, object> _typeConverters = new ConcurrentDictionary<string, object>();
 
         public static IDbRowTranslatorProvider DefaultInstance = new DefaultDbRowTranslatorProvider();
 
+        public bool MatchNamesWithUnderscores { get; set; } = true;
+        public bool MatchCaseInsensitive { get; set; } = true;
+        
         private string GetKey(Type targetType, string byName = "")
         {
             return string.IsNullOrWhiteSpace(byName) ? $"{targetType}" : $"{targetType}-{byName}";
@@ -41,10 +43,26 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
             return lambda.Compile();
         }
        
+        private Func<string, string> NormalizeColNameFunction() 
+        {
+            if (MatchNamesWithUnderscores)
+            {
+                return MatchCaseInsensitive
+                    ? (name) => name.ToLowerInvariant().Replace("_", string.Empty)
+                    : (name) => name.Replace("_", string.Empty);
+            }
+            else
+            {
+                return MatchCaseInsensitive
+                    ? (name) => name.ToLowerInvariant()
+                    : (name) => name;
+            }
+        }
 
         public DbRowToObjectMappings GenerateDefaultMappingsFor<T>()
         {
             DbRowToObjectMappings mappings = new DbRowToObjectMappings();
+            mappings.NormalizeNameFunction = NormalizeColNameFunction();
             var myObjectFields = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var pi in myObjectFields)
             {
@@ -75,7 +93,8 @@ namespace CA.Blocks.DataAccess.Translator.DbRowToObject.Providers
                                 {
                                     DestinationName = pi.Name, 
                                     SourceNameName = sourceFrom.SourceName, 
-                                    Converter = dbToTypeConverter
+                                    Converter = dbToTypeConverter,
+                                    NormalizeSourceName = false // here we are 1-1 so respect the config
                                 });
                             }
                             else

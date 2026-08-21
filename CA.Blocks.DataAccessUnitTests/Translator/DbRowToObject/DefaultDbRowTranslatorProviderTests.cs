@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CA.Blocks.DataAccessUnitTests.Translator.DbRowToObject
 {
-        public class DefaultDbRowTranslatorProviderTests
+    public class DefaultDbRowTranslatorProviderTests
     {
         //We only need the structure to generate the mapping
         [ExcludeFromCodeCoverage()]
