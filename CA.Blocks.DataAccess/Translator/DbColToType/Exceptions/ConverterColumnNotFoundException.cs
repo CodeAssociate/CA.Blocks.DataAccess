@@ -10,5 +10,10 @@ namespace CA.Blocks.DataAccess.Translator.DbColToType.Exceptions
             : base(message, inner)
         {
         }
+        
+        public ConverterColumnNotFoundException(string message)
+            : base(message)
+        {
+        }
     }
 }
