@@ -20,6 +20,7 @@
     <Title>CA.Blocks.DataAccess.Generators</Title>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://www.codeassociate.com/Blocks/DataAccess/</PackageProjectUrl>
+    <PackageReleaseNotes>@RELEASE-NOTES.txt</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>data;micro-orm;source-generator;roslyn;aot;ca.blocks;ado.net</PackageTags>
@@ -38,7 +39,6 @@
   <ItemGroup>
     <!-- Package the generator in the analyzer directory of the nuget package -->
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="..\readme.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,9 @@
-using System.Collections.Immutable;
 using System.Reflection;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Attributes;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Xunit;
+
 
 namespace CA.Blocks.DataAccess.Generators.Tests
 {
@@ -31,7 +30,7 @@ namespace TestNamespace
 
             var compilation = CSharpCompilation.Create(
                 "TestAssembly",
-                new[] { CSharpSyntaxTree.ParseText(source) },
+                new[] { CSharpSyntaxTree.ParseText(source, cancellationToken: TestContext.Current.CancellationToken) },
                 new[]
                 {
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
@@ -45,7 +44,7 @@ namespace TestNamespace
             var generator = new GenerateDbRowTranslatorGenerator();
             GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
-            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics);
+            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics, TestContext.Current.CancellationToken);
 
             Assert.Empty(diagnostics);
 
@@ -84,7 +83,7 @@ namespace TestNamespace
             var parseOptions = new CSharpParseOptions(LanguageVersion.CSharp11);
             var compilation = CSharpCompilation.Create(
                 "TestAssembly",
-                new[] { CSharpSyntaxTree.ParseText(source, parseOptions) },
+                new[] { CSharpSyntaxTree.ParseText(source, parseOptions, cancellationToken: TestContext.Current.CancellationToken) },
                 new[]
                 {
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
@@ -98,7 +97,7 @@ namespace TestNamespace
             var generator = new GenerateDbRowTranslatorGenerator();
             GeneratorDriver driver = CSharpGeneratorDriver.Create(new[] { generator.AsSourceGenerator() }, parseOptions: parseOptions);
 
-            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics);
+            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics, TestContext.Current.CancellationToken);
 
             Assert.Empty(diagnostics);
 
@@ -137,7 +136,7 @@ namespace TestNamespace
 
             var compilation = CSharpCompilation.Create(
                 "TestAssembly",
-                new[] { CSharpSyntaxTree.ParseText(source) },
+                new[] { CSharpSyntaxTree.ParseText(source, cancellationToken: TestContext.Current.CancellationToken) },
                 new[]
                 {
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
@@ -151,7 +150,7 @@ namespace TestNamespace
             var generator = new GenerateDbRowTranslatorGenerator();
             GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
-            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics);
+            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics, TestContext.Current.CancellationToken);
 
             Assert.Empty(diagnostics);
 
@@ -186,7 +185,7 @@ namespace TestNamespace
 
             var compilation = CSharpCompilation.Create(
                 "TestAssembly",
-                new[] { CSharpSyntaxTree.ParseText(source) },
+                new[] { CSharpSyntaxTree.ParseText(source, cancellationToken: TestContext.Current.CancellationToken) },
                 new[]
                 {
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
@@ -200,7 +199,7 @@ namespace TestNamespace
             var generator = new GenerateDbRowTranslatorGenerator();
             GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
-            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics);
+            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics, TestContext.Current.CancellationToken);
 
             Assert.Empty(diagnostics);
 
