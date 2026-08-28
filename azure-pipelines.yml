@@ -75,6 +75,11 @@ steps:
   parameters:
     SemanticVersion: "$(SemanticVersion)"
     ProjectFile: "CA.Blocks.DataAccess.Extensions.TokenResolvers.Azure"
+
+- template: set-semantic-version.yaml
+  parameters:
+    SemanticVersion: "$(SemanticVersion)"
+    ProjectFile: "CA.Blocks.DataAccess.Generators"
     
 - template: set-semantic-version.yaml
   parameters:
