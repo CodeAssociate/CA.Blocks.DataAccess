@@ -62,12 +62,12 @@ PolySharp source-generator package. It automatically injects required attributes
  alling us to use modern features and still able to package a netstandard2.0 version
 -->
       <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
-      <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.14" />
       <!-- 
         Replace transitive dependency bundle_e_sqlite3 to address https://github.com/advisories/GHSA-2m69-gcr7-jv3q
         will rewind this once  Microsoft.Data.Sqlite as updated its ref 
       -->
-      <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.12" />
+      <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,7 +75,7 @@ PolySharp source-generator package. It automatically injects required attributes
     <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
   </ItemGroup>
 	<ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.403">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

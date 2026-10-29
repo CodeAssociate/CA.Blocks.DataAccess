@@ -45,7 +45,7 @@ PolySharp source-generator package. It automatically injects required attributes
 		</None>
 	</ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.403">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
