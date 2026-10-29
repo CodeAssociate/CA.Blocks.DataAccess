@@ -29,7 +29,7 @@
         -->
         <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
         
-        <PackageReference Include="Azure.Core" Version="1.60.0" />
+        <PackageReference Include="Azure.Core" Version="1.64.0" />
     </ItemGroup>
 
     <ItemGroup>
