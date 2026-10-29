@@ -21,13 +21,20 @@ public class SampleCustomer
     public DateTime CreatedDate { get; init; }
 }
 
-[GenerateTranslatorFor(typeof(SampleCustomer), "SampleCustomerDbRowTranslator")]
+[GenerateTranslatorFor(typeof(SampleCustomer))]
 public static class SampleMappingContext { }
 ```
 The Compiler will generate and register the class SampleCustomerDbRowTranslator you can then use it to translate SampleCustomer
 ``` C#
      var result = await ExecuteAsync(cmd).ToListOf<SampleCustomer>();
 ```
+The default mapping will handel case insensitive mappings and deal with snake conversions example "customer_id" can map to CustomerId
+If you are using a database that using Pascal naming for column names you can use disable the snake case mapping to get better performance
+``` C#
+[GenerateTranslatorFor(typeof(SampleCustomer), MatchNamesWithUnderscores = false, MatchCaseInsensitive = false))]
+public static class SampleMappingContext { }
+```
+
 
 
 
