@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Attributes;
+﻿using CA.Blocks.DataAccess.Generators;
 
 namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper.Read
 {
@@ -14,7 +13,6 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper.Read
         public DateTime crdate { get; set; }
     }
     
-    [GenerateDbRowTranslator]
     public class ExampleSysObject2
     {
         public int id { get; set; }
@@ -22,4 +20,7 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper.Read
         public string? xtype { get; set; }
         public DateTime crdate { get; set; }
     }
+
+    [GenerateTranslatorFor(typeof(ExampleSysObject2), "ExampleSysObject2DbRowTranslator")]
+    public static class ExampleSysObjectMappingContext { }
 }

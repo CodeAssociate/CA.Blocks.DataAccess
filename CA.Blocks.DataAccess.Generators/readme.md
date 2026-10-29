@@ -12,15 +12,17 @@ Add a Package Reference to your project
 ``` C#
     <PackageReference Include="CA.Blocks.DataAccess.Generators" Version="3.9.+" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
 ```
-Then Mark your SampleCustomer with the GenerateDbRowTranslator
+Keep your DTO free of attributes, and declare the mapper on a separate context class using the `GenerateTranslatorFor` attribute (emitted by the generator into your project)
 ``` C#
-[GenerateDbRowTranslator]
 public class SampleCustomer
 {
     public int Id { get; init; }
     public required string Name { get; init; }
     public DateTime CreatedDate { get; init; }
 }
+
+[GenerateTranslatorFor(typeof(SampleCustomer), "SampleCustomerDbRowTranslator")]
+public static class SampleMappingContext { }
 ```
 The Compiler will generate and register the class SampleCustomerDbRowTranslator you can then use it to translate SampleCustomer
 ``` C#

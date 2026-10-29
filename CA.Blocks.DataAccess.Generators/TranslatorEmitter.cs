@@ -53,6 +53,10 @@ namespace CA.Blocks.DataAccess.Generators
             }
             sb.AppendLine();
 
+            bool oneToOne = !type.MatchNamesWithUnderscores && !type.MatchCaseInsensitive;
+
+            if (!oneToOne)
+            {
             // Struct for ordinals
             sb.AppendLine("        private struct ReaderOrdinals");
             sb.AppendLine("        {");
@@ -178,6 +182,7 @@ namespace CA.Blocks.DataAccess.Generators
             sb.AppendLine("            return new StrongBox<ReaderOrdinals>(ords);");
             sb.AppendLine("        }");
             sb.AppendLine();
+            }
 
             // Translate(IDataReader)
             sb.AppendLine($"        public {type.FullTypeName} Translate(IDataReader dr)");
@@ -187,13 +192,18 @@ namespace CA.Blocks.DataAccess.Generators
             sb.AppendLine("                return default!;");
             sb.AppendLine("            }");
             sb.AppendLine();
-            sb.AppendLine("            var box = _readerCache.GetValue(dr, ResolveReaderOrdinals);");
-            sb.AppendLine("            ref readonly var ords = ref box.Value;");
-            sb.AppendLine();
+            if (!oneToOne)
+            {
+                sb.AppendLine("            var box = _readerCache.GetValue(dr, ResolveReaderOrdinals);");
+                sb.AppendLine("            ref readonly var ords = ref box.Value;");
+                sb.AppendLine();
+            }
 
+            var inlineReader = new Dictionary<string, string>();
             foreach (var prop in type.Properties)
             {
-                EmitDataReaderPropertyAssignment(sb, prop);
+                var expr = EmitDataReaderPropertyAssignment(sb, prop, oneToOne);
+                if (expr != null) inlineReader[prop.PropertyName] = expr;
             }
 
             sb.AppendLine();
@@ -207,7 +217,8 @@ namespace CA.Blocks.DataAccess.Generators
                 sb.AppendLine("            {");
                 foreach (var prop in type.Properties)
                 {
-                    sb.AppendLine($"                {prop.PropertyName} = val_{prop.PropertyName},");
+                    string value = inlineReader.TryGetValue(prop.PropertyName, out var e) ? e : $"val_{prop.PropertyName}";
+                    sb.AppendLine($"                {prop.PropertyName} = {value},");
                 }
                 sb.AppendLine("            };");
             }
@@ -225,13 +236,18 @@ namespace CA.Blocks.DataAccess.Generators
             sb.AppendLine("                return default!;");
             sb.AppendLine("            }");
             sb.AppendLine();
-            sb.AppendLine("            var box = _tableCache.GetValue(dr.Table, ResolveTableOrdinals);");
-            sb.AppendLine("            ref readonly var ords = ref box.Value;");
-            sb.AppendLine();
+            if (!oneToOne)
+            {
+                sb.AppendLine("            var box = _tableCache.GetValue(dr.Table, ResolveTableOrdinals);");
+                sb.AppendLine("            ref readonly var ords = ref box.Value;");
+                sb.AppendLine();
+            }
 
+            var inlineRow = new Dictionary<string, string>();
             foreach (var prop in type.Properties)
             {
-                EmitDataRowPropertyAssignment(sb, prop);
+                var expr = EmitDataRowPropertyAssignment(sb, prop, oneToOne);
+                if (expr != null) inlineRow[prop.PropertyName] = expr;
             }
 
             sb.AppendLine();
@@ -245,7 +261,8 @@ namespace CA.Blocks.DataAccess.Generators
                 sb.AppendLine("            {");
                 foreach (var prop in type.Properties)
                 {
-                    sb.AppendLine($"                {prop.PropertyName} = val_{prop.PropertyName},");
+                    string value = inlineRow.TryGetValue(prop.PropertyName, out var e) ? e : $"val_{prop.PropertyName}";
+                    sb.AppendLine($"                {prop.PropertyName} = {value},");
                 }
                 sb.AppendLine("            };");
             }
@@ -305,7 +322,55 @@ namespace CA.Blocks.DataAccess.Generators
             return res;
         }
 
-        private static void EmitDataReaderPropertyAssignment(StringBuilder sb, PropertyToGenerate prop)
+        // Returns an inline expression when the property can be assigned directly in the object initializer; otherwise null.
+        private static string? AppendOneToOneAware(StringBuilder sb, PropertyToGenerate prop, bool oneToOne, Action<StringBuilder> emit)
+        {
+            if (!oneToOne)
+            {
+                emit(sb);
+                return null;
+            }
+
+            var tmp = new StringBuilder();
+            emit(tmp);
+            string text = tmp.ToString();
+            string ordinal = $"ords.{prop.PropertyName}Ordinal";
+            // direct 1-1 name mapping: no ordinal lookup, so drop the ordinal guard
+            string guard = $"if ({ordinal} >= 0)";
+            var lines = new List<string>();
+            foreach (var line in text.Split('\n'))
+            {
+                if (line.Trim() == guard) continue;
+                if (line.Length == 0) continue;
+                lines.Add(line.TrimEnd('\r').Replace(ordinal, $"\"{prop.SourceColumnName}\""));
+            }
+
+            // Simple shape: declaration, "{", single assignment, "}"  => inline the expression
+            string prefix = $"val_{prop.PropertyName} = ";
+            if (lines.Count == 4 && lines[1].Trim() == "{" && lines[3].Trim() == "}")
+            {
+                string assign = lines[2].Trim();
+                if (assign.StartsWith(prefix, StringComparison.Ordinal) && assign.EndsWith(";", StringComparison.Ordinal))
+                {
+                    return assign.Substring(prefix.Length, assign.Length - prefix.Length - 1);
+                }
+            }
+
+            foreach (var l in lines) sb.AppendLine(l);
+            return null;
+        }
+
+        private static string? EmitDataReaderPropertyAssignment(StringBuilder sb, PropertyToGenerate prop, bool oneToOne)
+        {
+            return AppendOneToOneAware(sb, prop, oneToOne, s => EmitDataReaderPropertyAssignmentCore(s, prop));
+        }
+
+        private static string? EmitDataRowPropertyAssignment(StringBuilder sb, PropertyToGenerate prop, bool oneToOne)
+        {
+            return AppendOneToOneAware(sb, prop, oneToOne, s => EmitDataRowPropertyAssignmentCore(s, prop));
+        }
+
+        private static void EmitDataReaderPropertyAssignmentCore(StringBuilder sb, PropertyToGenerate prop)
         {
             if (prop.Kind == PropertyKind.String && !prop.PropertyTypeName.EndsWith("?"))
             {
@@ -468,7 +533,7 @@ namespace CA.Blocks.DataAccess.Generators
             sb.AppendLine("            }");
         }
 
-        private static void EmitDataRowPropertyAssignment(StringBuilder sb, PropertyToGenerate prop)
+        private static void EmitDataRowPropertyAssignmentCore(StringBuilder sb, PropertyToGenerate prop)
         {
             if (prop.Kind == PropertyKind.String && !prop.PropertyTypeName.EndsWith("?"))
             {

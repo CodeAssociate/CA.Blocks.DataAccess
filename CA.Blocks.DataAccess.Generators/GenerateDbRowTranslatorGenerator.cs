@@ -14,22 +14,24 @@ namespace CA.Blocks.DataAccess.Generators
     [Generator(LanguageNames.CSharp)]
     public sealed class GenerateDbRowTranslatorGenerator : IIncrementalGenerator
     {
-        private const string AttributeShortName = "GenerateDbRowTranslator";
-        private const string AttributeFullName = "CA.Blocks.DataAccess.Translator.DbRowToObject.Attributes.GenerateDbRowTranslatorAttribute";
+        private const string AttributeShortName = GenerateTranslatorForAttributeSource.ShortName;
+        private const string AttributeFullName = GenerateTranslatorForAttributeSource.FullName;
 
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            // Register syntax provider for classes, structs, records with attributes
-            IncrementalValuesProvider<TypeToGenerate?> typesToGenerate = context.SyntaxProvider
+            // Emit the marker attribute into the consuming compilation so contracts need no assembly reference
+            context.RegisterPostInitializationOutput(static ctx =>
+                ctx.AddSource(GenerateTranslatorForAttributeSource.FileName, SourceText.From(GenerateTranslatorForAttributeSource.Source, Encoding.UTF8)));
+
+            IncrementalValuesProvider<TypeToGenerate> typesToGenerate = context.SyntaxProvider
                 .CreateSyntaxProvider(
                     predicate: static (node, _) => IsTargetSyntax(node),
-                    transform: static (ctx, ct) => GetTargetType(ctx, ct))
-                .Where(static t => t is not null);
+                    transform: static (ctx, ct) => GetTargetTypes(ctx, ct))
+                .SelectMany(static (items, _) => items);
 
             // Register output generation
             context.RegisterSourceOutput(typesToGenerate, static (spc, type) =>
             {
-                if (type is null) return;
                 string source = TranslatorEmitter.Emit(type);
                 spc.AddSource($"{type.TranslatorClassName}.g.cs", SourceText.From(source, Encoding.UTF8));
             });
@@ -43,16 +45,16 @@ namespace CA.Blocks.DataAccess.Generators
         private static readonly SymbolDisplayFormat TypeDisplayFormat = SymbolDisplayFormat.FullyQualifiedFormat
             .WithMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
 
-        private static TypeToGenerate? GetTargetType(GeneratorSyntaxContext context, CancellationToken ct)
+        private static ImmutableArray<TypeToGenerate> GetTargetTypes(GeneratorSyntaxContext context, CancellationToken ct)
         {
             if (context.Node is not TypeDeclarationSyntax typeDecl)
-                return null;
+                return ImmutableArray<TypeToGenerate>.Empty;
 
-            if (context.SemanticModel.GetDeclaredSymbol(typeDecl, ct) is not INamedTypeSymbol typeSymbol)
-                return null;
+            if (context.SemanticModel.GetDeclaredSymbol(typeDecl, ct) is not INamedTypeSymbol contextSymbol)
+                return ImmutableArray<TypeToGenerate>.Empty;
 
-            AttributeData? targetAttr = null;
-            foreach (var attr in typeSymbol.GetAttributes())
+            var results = ImmutableArray.CreateBuilder<TypeToGenerate>();
+            foreach (var attr in contextSymbol.GetAttributes())
             {
                 if (attr.AttributeClass is null) continue;
                 string attrName = attr.AttributeClass.Name;
@@ -62,13 +64,24 @@ namespace CA.Blocks.DataAccess.Generators
                     attrName == AttributeShortName + "Attribute" ||
                     attrFull == AttributeFullName)
                 {
-                    targetAttr = attr;
-                    break;
+                    var result = BuildTypeToGenerate(contextSymbol, attr);
+                    if (result is not null) results.Add(result);
                 }
             }
 
-            if (targetAttr is null)
+            return results.ToImmutable();
+        }
+
+        private static TypeToGenerate? BuildTypeToGenerate(INamedTypeSymbol contextSymbol, AttributeData targetAttr)
+        {
+            // Constructor arguments: (Type targetType, string mapperName)
+            if (targetAttr.ConstructorArguments.Length < 1)
                 return null;
+            if (targetAttr.ConstructorArguments[0].Value is not INamedTypeSymbol typeSymbol)
+                return null;
+            string? mapperName = targetAttr.ConstructorArguments.Length > 1
+                ? targetAttr.ConstructorArguments[1].Value as string
+                : null;
 
             // Extract attribute settings
             bool matchNamesWithUnderscores = true;
@@ -76,16 +89,6 @@ namespace CA.Blocks.DataAccess.Generators
             string? byName = null;
             bool autoRegister = true;
             bool throwIfColumnNotFound = true;
-
-            // Constructor arguments
-            if (targetAttr.ConstructorArguments.Length > 0)
-            {
-                var firstArg = targetAttr.ConstructorArguments[0];
-                if (firstArg.Value is string s)
-                {
-                    byName = s;
-                }
-            }
 
             // Named arguments
             foreach (var namedArg in targetAttr.NamedArguments)
@@ -97,6 +100,9 @@ namespace CA.Blocks.DataAccess.Generators
                         break;
                     case "MatchCaseInsensitive" when namedArg.Value.Value is bool b:
                         matchCaseInsensitive = b;
+                        break;
+                    case "MapperName" when namedArg.Value.Value is string mn:
+                        mapperName = mn;
                         break;
                     case "ByName" when namedArg.Value.Value is string s:
                         byName = s;
@@ -110,14 +116,16 @@ namespace CA.Blocks.DataAccess.Generators
                 }
             }
 
-            string targetNamespace = typeSymbol.ContainingNamespace.IsGlobalNamespace
+            // Generated mapper lives in the context class's namespace
+            string targetNamespace = contextSymbol.ContainingNamespace.IsGlobalNamespace
                 ? string.Empty
-                : typeSymbol.ContainingNamespace.ToDisplayString();
+                : contextSymbol.ContainingNamespace.ToDisplayString();
 
             string targetTypeName = typeSymbol.Name;
             string fullTypeName = typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-            string translatorClassName = $"{targetTypeName}DbRowTranslator";
-            string accessibility = typeSymbol.DeclaredAccessibility == Accessibility.Public ? "public" : "internal";
+            string translatorClassName = string.IsNullOrWhiteSpace(mapperName) ? $"{targetTypeName}Translator" : mapperName!;
+            string accessibility = typeSymbol.DeclaredAccessibility == Accessibility.Public &&
+                                   contextSymbol.DeclaredAccessibility == Accessibility.Public ? "public" : "internal";
             bool isValueType = typeSymbol.IsValueType;
 
             var properties = new List<PropertyToGenerate>();

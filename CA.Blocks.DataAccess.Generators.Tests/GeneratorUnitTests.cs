@@ -1,5 +1,5 @@
+using System.Linq;
 using System.Reflection;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Attributes;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -14,11 +14,13 @@ namespace CA.Blocks.DataAccess.Generators.Tests
         {
             string source = @"
 using System;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Attributes;
+using CA.Blocks.DataAccess.Generators;
 
 namespace TestNamespace
 {
-    [GenerateDbRowTranslator]
+    [GenerateTranslatorFor(typeof(CustomerDto), ""CustomerDtoDbRowTranslator"")]
+    public static class CustomerDtoMappingContext { }
+
     public class CustomerDto
     {
         public int Id { get; set; }
@@ -35,7 +37,6 @@ namespace TestNamespace
                 {
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(IDbRowTranslator<>).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(GenerateDbRowTranslatorAttribute).Assembly.Location),
                     MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
                     MetadataReference.CreateFromFile(Assembly.Load("System.Data.Common").Location),
                 },
@@ -49,9 +50,9 @@ namespace TestNamespace
             Assert.Empty(diagnostics);
 
             var runResult = driver.GetRunResult();
-            Assert.Single(runResult.GeneratedTrees);
+            Assert.Equal(2, runResult.GeneratedTrees.Length); // attribute + translator
 
-            string generatedCode = runResult.GeneratedTrees[0].ToString();
+            string generatedCode = runResult.GeneratedTrees.Single(t => !t.FilePath.EndsWith("GenerateTranslatorForAttribute.g.cs")).ToString();
             Assert.Contains("public sealed partial class CustomerDtoDbRowTranslator : IDbRowTranslator<global::TestNamespace.CustomerDto>", generatedCode);
             Assert.Contains("val_Id = dr.AsInt(ords.IdOrdinal);", generatedCode);
             Assert.Contains("val_Name = dr.AsString(ords.NameOrdinal) ?? string.Empty;", generatedCode);
@@ -62,15 +63,55 @@ namespace TestNamespace
         }
 
         [Fact]
+        public void Generator_DefaultsTranslatorName_WhenMapperNameOmitted()
+        {
+            string source = @"
+using System;
+using CA.Blocks.DataAccess.Generators;
+
+namespace TestNamespace
+{
+    [GenerateTranslatorFor(typeof(WidgetDto))]
+    public static class WidgetContext { }
+
+    public class WidgetDto
+    {
+        public int Id { get; set; }
+    }
+}
+";
+            var compilation = CSharpCompilation.Create(
+                "TestAssembly",
+                new[] { CSharpSyntaxTree.ParseText(source, cancellationToken: TestContext.Current.CancellationToken) },
+                new[]
+                {
+                    MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(IDbRowTranslator<>).Assembly.Location),
+                    MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
+                    MetadataReference.CreateFromFile(Assembly.Load("System.Data.Common").Location),
+                },
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            GeneratorDriver driver = CSharpGeneratorDriver.Create(new GenerateDbRowTranslatorGenerator());
+            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out _, out var diagnostics, TestContext.Current.CancellationToken);
+
+            Assert.Empty(diagnostics);
+            string generatedCode = driver.GetRunResult().GeneratedTrees.Single(t => !t.FilePath.EndsWith("GenerateTranslatorForAttribute.g.cs")).ToString();
+            Assert.Contains("class WidgetDtoTranslator : IDbRowTranslator<global::TestNamespace.WidgetDto>", generatedCode);
+        }
+
+        [Fact]
         public void Generator_Supports_InitAndRequiredProperties()
         {
             string source = @"
 using System;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Attributes;
+using CA.Blocks.DataAccess.Generators;
 
 namespace TestNamespace
 {
-    [GenerateDbRowTranslator]
+    [GenerateTranslatorFor(typeof(CustomerWithInitAndRequired), ""CustomerWithInitAndRequiredDbRowTranslator"")]
+    public static class CustomerWithInitAndRequiredMappingContext { }
+
     public class CustomerWithInitAndRequired
     {
         public int Id { get; init; }
@@ -88,7 +129,6 @@ namespace TestNamespace
                 {
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(IDbRowTranslator<>).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(GenerateDbRowTranslatorAttribute).Assembly.Location),
                     MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
                     MetadataReference.CreateFromFile(Assembly.Load("System.Data.Common").Location),
                 },
@@ -102,9 +142,9 @@ namespace TestNamespace
             Assert.Empty(diagnostics);
 
             var runResult = driver.GetRunResult();
-            Assert.Single(runResult.GeneratedTrees);
+            Assert.Equal(2, runResult.GeneratedTrees.Length); // attribute + translator
 
-            string generatedCode = runResult.GeneratedTrees[0].ToString();
+            string generatedCode = runResult.GeneratedTrees.Single(t => !t.FilePath.EndsWith("GenerateTranslatorForAttribute.g.cs")).ToString();
             Assert.Contains("Id = val_Id,", generatedCode);
             Assert.Contains("Name = val_Name,", generatedCode);
             Assert.Contains("CreatedAt = val_CreatedAt,", generatedCode);
@@ -115,13 +155,15 @@ namespace TestNamespace
         {
             string source = @"
 using System;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Attributes;
+using CA.Blocks.DataAccess.Generators;
 using CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions;
 using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 
 namespace TestNamespace
 {
-    [GenerateDbRowTranslator(ThrowIfColumnNotFound = false)]
+    [GenerateTranslatorFor(typeof(ProductDto), ""ProductDtoDbRowTranslator"", ThrowIfColumnNotFound = false)]
+    public static class ProductMappingContext { }
+
     public class ProductDto
     {
         [DbColToSourceName(""prod_id"")]
@@ -141,7 +183,6 @@ namespace TestNamespace
                 {
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(IDbRowTranslator<>).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(GenerateDbRowTranslatorAttribute).Assembly.Location),
                     MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
                     MetadataReference.CreateFromFile(Assembly.Load("System.Data.Common").Location),
                 },
@@ -155,9 +196,9 @@ namespace TestNamespace
             Assert.Empty(diagnostics);
 
             var runResult = driver.GetRunResult();
-            Assert.Single(runResult.GeneratedTrees);
+            Assert.Equal(2, runResult.GeneratedTrees.Length); // attribute + translator
 
-            string generatedCode = runResult.GeneratedTrees[0].ToString();
+            string generatedCode = runResult.GeneratedTrees.Single(t => !t.FilePath.EndsWith("GenerateTranslatorForAttribute.g.cs")).ToString();
             Assert.Contains("case \"prodid\":", generatedCode);
             Assert.Contains("case \"listnums\":", generatedCode);
             Assert.Contains("_converter_ListOfNumbers", generatedCode);
@@ -168,13 +209,15 @@ namespace TestNamespace
         {
             string source = @"
 using System;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Attributes;
+using CA.Blocks.DataAccess.Generators;
 
 namespace TestNamespace
 {
     public struct CustomId { public string Value { get; set; } }
 
-    [GenerateDbRowTranslator]
+    [GenerateTranslatorFor(typeof(OrderDto), ""OrderDtoDbRowTranslator"")]
+    public static class OrderDtoMappingContext { }
+
     public class OrderDto
     {
         public int Id { get; set; }
@@ -190,7 +233,6 @@ namespace TestNamespace
                 {
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(IDbRowTranslator<>).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(GenerateDbRowTranslatorAttribute).Assembly.Location),
                     MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
                     MetadataReference.CreateFromFile(Assembly.Load("System.Data.Common").Location),
                 },
@@ -204,9 +246,9 @@ namespace TestNamespace
             Assert.Empty(diagnostics);
 
             var runResult = driver.GetRunResult();
-            Assert.Single(runResult.GeneratedTrees);
+            Assert.Equal(2, runResult.GeneratedTrees.Length); // attribute + translator
 
-            string generatedCode = runResult.GeneratedTrees[0].ToString();
+            string generatedCode = runResult.GeneratedTrees.Single(t => !t.FilePath.EndsWith("GenerateTranslatorForAttribute.g.cs")).ToString();
             Assert.Contains("Lazy<IDbColToTypeConverter> _converter_OrderId", generatedCode);
             Assert.Contains("DefaultDbColToTypeProvider.DefaultInstance.Resolve(typeof(global::TestNamespace.CustomId))", generatedCode);
             Assert.Contains("val_OrderId = (global::TestNamespace.CustomId)_converter_OrderId.Value.GetData(dr, ords.OrderIdOrdinal)!;", generatedCode);

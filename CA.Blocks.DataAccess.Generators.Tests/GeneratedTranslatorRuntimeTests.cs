@@ -1,11 +1,9 @@
-using System;
 using System.Data;
 using CA.Blocks.DataAccess.Translator.DbColToType.AttributeExtensions;
 using CA.Blocks.DataAccess.Translator.DbColToType.Converters;
 using CA.Blocks.DataAccess.Translator.DbColToType.Exceptions;
-using CA.Blocks.DataAccess.Translator.DbRowToObject.Attributes;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
-using Xunit;
+using CA.Blocks.DataAccess.Generators;
 
 namespace CA.Blocks.DataAccess.Generators.Tests
 {
@@ -16,7 +14,6 @@ namespace CA.Blocks.DataAccess.Generators.Tests
         Pending = 2
     }
 
-    [GenerateDbRowTranslator]
     public class SampleCustomer
     {
         public int Id { get; init; }
@@ -30,7 +27,6 @@ namespace CA.Blocks.DataAccess.Generators.Tests
         public string? Description { get; set; }
     }
 
-    [GenerateDbRowTranslator]
     public class SampleCustomMapped
     {
         [DbColToSourceName("customer_id")]
@@ -44,12 +40,17 @@ namespace CA.Blocks.DataAccess.Generators.Tests
         public IList<int>? TagList { get; set; }
     }
 
-    [GenerateDbRowTranslator(ThrowIfColumnNotFound = false)]
     public class SamplePartialDto
     {
         public int Id { get; set; }
         public string? OptionalExtra { get; set; }
     }
+
+    [GenerateTranslatorFor(typeof(SampleCustomer), "SampleCustomerDbRowTranslator")]
+    [GenerateTranslatorFor(typeof(SampleCustomMapped), "SampleCustomMappedDbRowTranslator")]
+    [GenerateTranslatorFor(typeof(SamplePartialDto), "SamplePartialDtoDbRowTranslator", ThrowIfColumnNotFound = false)]
+    [GenerateTranslatorFor(typeof(SampleCustomer), "SampleCustomerDbRowTranslatorOneToOne", ByName = "SampleCustomerOneToOne", MatchNamesWithUnderscores = false, MatchCaseInsensitive = false)]
+    public static class SampleMappingContext { }
 
     public class GeneratedTranslatorRuntimeTests
     {
@@ -204,6 +205,43 @@ namespace CA.Blocks.DataAccess.Generators.Tests
             Assert.Null(customer.Description);
         }
 
+        [Fact]
+        public void Translate_IDataReader_MapsAllPropertiesOneToOne()
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Id", typeof(int));
+            dt.Columns.Add("Name", typeof(string));
+            dt.Columns.Add("CreatedDate", typeof(DateTime));
+            dt.Columns.Add("TotalBalance", typeof(decimal));
+            dt.Columns.Add("IsActive", typeof(bool));
+            dt.Columns.Add("UserGuid", typeof(Guid));
+            dt.Columns.Add("Status", typeof(string));
+            dt.Columns.Add("OptionalCount", typeof(int));
+            dt.Columns.Add("Description", typeof(string));
+
+            var expectedGuid = Guid.NewGuid();
+            var expectedDate = new DateTime(2026, 1, 15, 10, 30, 0);
+
+            dt.Rows.Add(42, "Alice Smith", expectedDate, 125.50m, true, expectedGuid, "Active", 10, "A loyal customer");
+
+            using var reader = dt.CreateDataReader();
+            Assert.True(reader.Read());
+
+            var translator = SampleCustomerDbRowTranslatorOneToOne.Instance;
+            var customer = translator.Translate(reader);
+
+            Assert.Equal(42, customer.Id);
+            Assert.Equal("Alice Smith", customer.Name);
+            Assert.Equal(expectedDate, customer.CreatedDate);
+            Assert.Equal(125.50m, customer.TotalBalance);
+            Assert.True(customer.IsActive);
+            Assert.Equal(expectedGuid, customer.UserGuid);
+            Assert.Equal(SampleStatus.Active, customer.Status);
+            Assert.Equal(10, customer.OptionalCount);
+            Assert.Equal("A loyal customer", customer.Description);
+        }
+        
+        
         [Fact]
         public void DefaultDbRowTranslatorProvider_Resolves_AutoRegisteredTranslator()
         {
