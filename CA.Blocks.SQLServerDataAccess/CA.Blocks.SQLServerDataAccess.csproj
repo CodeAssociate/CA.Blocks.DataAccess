@@ -40,7 +40,7 @@
 PolySharp source-generator package. It automatically injects required attributes for netstandard2.0 
  alling us to use modern features and still able to package a netstandard2.0 version
 -->
-      <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
+    <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
     <PackageReference Include="Microsoft.Data.SqlClient.Extensions.Abstractions" Version="7.1.1" />
   </ItemGroup>

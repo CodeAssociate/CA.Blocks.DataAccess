@@ -7,11 +7,15 @@
     <Nullable>enable</Nullable>
     <UserSecretsId>715186cc-15f6-44f4-a33b-1ede2f7d8522</UserSecretsId>
     <IsTestProject>false</IsTestProject>
+    <!-- we intend to keep using NuGet-restored orchestration dependencies-->
+    <AspireUseCliBundle>false</AspireUseCliBundle>
+    <NoWarn>$(NoWarn);ASPIRE010</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="13.6.4" />
     <PackageReference Include="Aspire.Hosting.MySql" Version="13.6.4" />
+    <PackageReference Include="MySqlConnector" Version="2.6.2" />
   </ItemGroup>
 
 </Project>
