@@ -90,6 +90,12 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper.Read
             return await ExecuteAsync(cmd).ToListOf<ExampleSysObject>(CustomT);
         }
 
+        public async Task<IList<ExampleSysObject2>> ReadSysObjectsAsyncSyncWithAot()
+        {
+            var cmd = CreateDbCommand(testSql);
+            return await ExecuteAsync(cmd).ToListOf<ExampleSysObject2>();
+        }
+                
         public async Task<IList<ExampleSysObject>> ReadSysObjectsASyncWithDispose()
         {
             var cmd = CreateDbCommand(testSql);

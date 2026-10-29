@@ -14,7 +14,7 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper
         public void GlobalSetup()
         {
             _blocksTarget = new BlocksReadTest();
-            _dapperReadTarget = new DapperReadTest();
+            _dapperReadTarget = new DapperReadTest(); 
         }
 
         [Benchmark(Baseline = true)]
@@ -60,6 +60,12 @@ namespace CA.Blocks.SQLServerDataAccessBenchmarks.Benchmarks.ReadVrsDapper
             var result = await _blocksTarget!.ReadSysObjectsASyncWithCustom();
         }
 
+        [Benchmark()]
+        public async Task ReadSysObjectsASyncWithAot()
+        {
+            var result = await _blocksTarget!.ReadSysObjectsAsyncSyncWithAot();
+        }
+        
         [Benchmark()]
         public async Task ReadSysObjectsASyncWithDispose()
         {

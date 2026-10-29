@@ -14,6 +14,8 @@
   <Project Path="CA.Blocks.DataAccess.Extensions.Translators.JsonTests/CA.Blocks.DataAccess.Extensions.Translators.JsonTests.csproj" />
   <Project Path="CA.Blocks.DataAccess.Extensions.Translators.NUlid/CA.Blocks.DataAccess.Extensions.Translators.NUlid.csproj" />
   <Project Path="CA.Blocks.DataAccess.Extensions.Translators.NUlidTests/CA.Blocks.DataAccess.Extensions.Translators.NUlidTests.csproj" />
+  <Project Path="CA.Blocks.DataAccess.Generators/CA.Blocks.DataAccess.Generators.csproj" />
+  <Project Path="CA.Blocks.DataAccess.Generators.Tests/CA.Blocks.DataAccess.Generators.Tests.csproj" />
   <Project Path="CA.Blocks.DataAccess.Model/CA.Blocks.DataAccess.Model.csproj" />
   <Project Path="CA.Blocks.DataAccess/CA.Blocks.DataAccess.csproj" />
   <Project Path="CA.Blocks.DataAccessTestDataForUnitTests/CA.Blocks.DataAccessTestDataForUnitTests.csproj" />
