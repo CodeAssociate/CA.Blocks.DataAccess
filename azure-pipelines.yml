@@ -179,7 +179,6 @@ steps:
     packDirectory: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: byEnvVar
     versionEnvVar : SemanticVersionPack
-    includesymbols: true
 
 - task: PublishBuildArtifacts@1    
   displayName: 'Publish Artifact: drop'
