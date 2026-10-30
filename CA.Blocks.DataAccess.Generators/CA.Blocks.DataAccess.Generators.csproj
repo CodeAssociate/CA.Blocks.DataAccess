@@ -24,7 +24,8 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>data;micro-orm;source-generator;roslyn;aot;ca.blocks;ado.net</PackageTags>
-    <IncludeSymbols>false</IncludeSymbols>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     <NoWarn>$(NoWarn);NU5128;NU5100;NU5017</NoWarn>
     <IsTestProject>false</IsTestProject>
