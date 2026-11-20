@@ -17,7 +17,7 @@ namespace CA.Blocks.DataAccess.Extensions.TokenResolvers.Azure
         {
             if (_existingToken != null)
             {
-                if (_dateTimeExpires > DateTimeOffset.Now.Subtract(new TimeSpan(0,0,15)))
+                if (_dateTimeExpires > DateTimeOffset.UtcNow.AddSeconds(15))
                 {
                     return _existingToken;
                 }
