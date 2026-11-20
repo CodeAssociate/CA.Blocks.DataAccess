@@ -37,7 +37,6 @@ PolySharp source-generator package. It automatically injects required attributes
 	  <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
     <PackageReference Include="NUlid" Version="1.7.3" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
   </ItemGroup>
