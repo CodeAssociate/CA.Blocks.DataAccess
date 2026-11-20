@@ -24,7 +24,6 @@
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
-
   <ItemGroup>
 	  <!-- PrivateAssets ensures this development-only dependency does not leak to consumers 
 PolySharp source-generator package. It automatically injects required attributes for netstandard2.0 
