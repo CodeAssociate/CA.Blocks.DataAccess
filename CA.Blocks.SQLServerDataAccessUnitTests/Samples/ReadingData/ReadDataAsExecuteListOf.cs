@@ -104,9 +104,7 @@ WHERE xtype = @xtype";
 
                 return Execute(sqlBuilder.BuildSqlCommand()).ToListOf<ExampleSysObject>();
             }
-
-
-
+            
             public async Task<IList<ExampleSysObject>> ReadSysObjectsOfTypeUsingAsync(string xtype)
             {
                 var cmd = CreateTextCommand(ReadSysObjectsOfTypeSql)

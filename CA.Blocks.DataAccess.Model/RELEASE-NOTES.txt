@@ -1,2 +1,5 @@
-﻿v.3.5
+﻿v4.0
+- Add support for .NET11
+
+v.3.5
 - Added build packages for .NET 9

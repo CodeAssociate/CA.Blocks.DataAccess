@@ -1,4 +1,8 @@
-﻿v3.7
+﻿v4.0
+- Add support for .NET11
+- Dropped support for .NET2 standard as driver no longer supports it
+
+v3.7
 - Added build packages for .NET 10
 - Bump the Microsoft.Data.Sqlite to use 10.0"
 

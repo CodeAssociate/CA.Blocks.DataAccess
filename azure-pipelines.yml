@@ -21,9 +21,9 @@ variables:
 - name: buildConfiguration
   value: 'Release'
 - name: Major
-  value: '3'
+  value: '4'
 - name: Minor
-  value: '9'
+  value: '0'
 - name: Patch
   value: $[counter(variables['BuildID'], 0)]
 - name: SemanticVersion
@@ -122,6 +122,13 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '10.0.x'
+
+- task: UseDotNet@2
+  displayName: 'Install .NET 11 SDK'
+  continueOnError: false
+  inputs:
+    packageType: 'sdk'
+    version: '11.0.x'
 
 - script: |
     curl -sSL https://aspire.dev/install.sh | bash
