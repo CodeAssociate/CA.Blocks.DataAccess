@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
+	  <TargetFrameworks>netstandard2.0;net10.0;net11.0</TargetFrameworks>
       <LangVersion>latest</LangVersion>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <AssemblyVersion>987.654.3210.0</AssemblyVersion>
@@ -54,13 +54,13 @@
 PolySharp source-generator package. It automatically injects required attributes for netstandard2.0 
  alling us to use modern features and still able to package a netstandard2.0 version
 -->
-      <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0">
+      <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.12.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
-      <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
-    <PackageReference Include="MySqlConnector" Version="2.6.2" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.12.0" />
+      <PackageReference Include="PolySharp" Version="1.17.1" PrivateAssets="all" />
+    <PackageReference Include="MySqlConnector" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,7 +68,7 @@ PolySharp source-generator package. It automatically injects required attributes
     <ProjectReference Include="..\CA.Blocks.DataAccess\CA.Blocks.DataAccess.csproj" />
   </ItemGroup>
 	<ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.403">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="11.0.100">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

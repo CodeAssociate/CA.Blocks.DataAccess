@@ -1,3 +1,6 @@
-﻿v3.8
+﻿v4.0
+- Add support for .NET11
+
+v3.8
 - Added base protgres support
 

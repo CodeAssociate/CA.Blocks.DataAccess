@@ -1,4 +1,7 @@
-﻿v3.7
+﻿v4.0
+- Add support for .NET11
+
+v3.7
 - Added build packages for .NET 10
 
 v.3.5

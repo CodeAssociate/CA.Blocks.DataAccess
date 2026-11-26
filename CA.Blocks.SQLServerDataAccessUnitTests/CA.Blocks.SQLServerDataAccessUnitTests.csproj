@@ -4,7 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <!-- Forces MTP to automatically output a TRX report every run -->
     <TestingPlatformCommandLineArguments>--report-trx</TestingPlatformCommandLineArguments>
@@ -19,17 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.Testing" Version="13.6.4" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0">
+    <PackageReference Include="Aspire.Hosting.Testing" Version="17.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.12.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.12.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.12.0" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.12.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.2" />
-    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.2" />
+    <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.3" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.3" />
   </ItemGroup>
 
   <ItemGroup>

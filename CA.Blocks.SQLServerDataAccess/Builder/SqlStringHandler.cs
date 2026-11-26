@@ -5,35 +5,23 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using CA.Blocks.DataAccess.Builders;
 
-
 namespace CA.Blocks.SQLServerDataAccess.Builder
 {
-
+    
     [InterpolatedStringHandler]
-    public readonly struct SqlStringHandler
+#pragma warning disable CS9113 // Parameter is unread. This is needed to support interpolated strings in .NET 6 and later.
+    public readonly struct SqlStringHandler(int literalLength, int formattedCount) 
+#pragma warning restore CS9113 // Parameter is unread.
     {
-        private readonly SqlServerSqlStringBuilder _builder;
+        private readonly SqlServerSqlStringBuilder _builder = new SqlServerSqlStringBuilder();
 
-        public SqlStringHandler(int literalLength, int formattedCount)
-        {
-            _builder = new SqlServerSqlStringBuilder();
-        }
-
-        public void AppendLiteral(string s)
-        {
-            _builder.AppendSql(s);
-        }
-
-        public void AppendFormatted<T>(T t)
-        {
-            _builder.AppendSqlParameter(t);
-        }
-
+        public void AppendLiteral(string s) =>  _builder.AppendSql(s);
+        public void AppendFormatted<T>(T t) => _builder.AppendSqlParameter(t);
+        
         public void AppendFormatted<T>(T t, string format)
         {
-            if (format == "[]" && t != null && t is string)
+            if (format == "[]" && t != null && t is string sqlObjectName)
             {
-                var sqlObjectName = t as string;
                 if (sqlObjectName == null)
                 {
                     throw new SqlBuilderException("Name cannot be null");
