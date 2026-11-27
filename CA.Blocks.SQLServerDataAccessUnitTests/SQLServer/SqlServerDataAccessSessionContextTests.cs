@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using CA.Blocks.SQLServerDataAccess.Model;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
@@ -48,11 +46,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.SQLServer
             var cmd = CreateTextCommand("SELECT SESSION_CONTEXT(N'GuidContext') AS CONTEXTINFO");
             return ExecuteScalarAs<Guid>(cmd);
         }
-
     }
-
-
-
+    [Collection("DbIntegrationTests")]
     public partial class SqlServerDataAccessContextTests
     {
         [Fact]

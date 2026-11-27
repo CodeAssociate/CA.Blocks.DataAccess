@@ -40,12 +40,7 @@ namespace CA.Blocks.DataAccessUnitTests.DI
             {
                 return this.ConnectionString;
             }
-
-
-            protected override DbDataAdapter GetDataAdapter(IDbCommand cmd)
-            {
-                throw new NotImplementedException();
-            }
+            
 
             protected override bool PrepCommand(IDbCommand cmd)
             {

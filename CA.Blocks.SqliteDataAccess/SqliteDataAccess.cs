@@ -104,12 +104,6 @@ namespace CA.Blocks.SqliteDataAccess
             return false; 
         }
 
-        protected override DbDataAdapter GetDataAdapter(IDbCommand cmd)
-        {
-            return new SqliteDataAdapter((SqliteCommand)cmd);
-        }
-
-
 		#region TextCommandType Helpers
 		protected override DbCommand CreateDbCommand(string sql, CommandType cmdType = CommandType.Text)
 		{

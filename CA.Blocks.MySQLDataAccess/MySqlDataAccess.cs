@@ -58,14 +58,6 @@ namespace CA.Blocks.MySQLDataAccess
             return false; 
         }
 
-        protected override DbDataAdapter GetDataAdapter(IDbCommand cmd)
-        {
-            
-            return new MySqlDataAdapter((MySqlCommand)cmd);
-        }
-
-      
-
         protected MySqlCommand CreateStoredProcedureCommand(string strStoredProcedureName)
         {
             return  new MySqlCommand

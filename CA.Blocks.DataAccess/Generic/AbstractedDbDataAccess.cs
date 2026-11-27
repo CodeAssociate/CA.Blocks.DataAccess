@@ -35,11 +35,6 @@ namespace CA.Blocks.DataAccess.Generic
 			}
 		}
 
-		protected override DbDataAdapter GetDataAdapter(IDbCommand cmd)
-		{
-			return (DbDataAdapter)Activator.CreateInstance(typeof(ADP), (CMD)cmd)!;
-		}
-
 		protected CON CreateNewConnection()
 		{
 			return (CON)Activator.CreateInstance(typeof(CON), ConnectionString)!;

@@ -110,6 +110,13 @@
             <remarks>
             </remarks>
         </member>
+        <member name="M:CA.Blocks.SQLServerDataAccess.SqlServerDataAccess.#ctor(CA.Blocks.DataAccess.DI.IDataAccessConfig,CA.Blocks.DataAccess.Translator.DbRowToObject.Interfaces.IDbRowTranslatorProvider)">
+            <summary>
+            Provides a SQL server implementation for DataAccessCore
+            </summary>
+            <remarks>
+            </remarks>
+        </member>
         <member name="T:CA.Blocks.SQLServerDataAccess.SpecificSQLDateTimeType">
             <summary>
             When going from the .NET world info the database we need to tell the database the the precision on which to store the DateTime.  SQL server exposes four levels
@@ -145,30 +152,6 @@
             A special attribute recognized by Roslyn, that marks a type as "embedded", meaning it won't ever be visible from other assemblies.
             </summary>
         </member>
-        <member name="T:System.Runtime.CompilerServices.UnionAttribute">
-            <summary>
-            Indicates that a class or struct is a union type, enabling compiler support for union behaviors.
-            </summary>
-            <remarks>
-            Any class or struct annotated with this attribute is recognized by the C# compiler as a union type.
-            Union types may support behaviors such as implicit conversions from case types, pattern matching
-            that unwraps the union's contents, and switch exhaustiveness checking.
-            </remarks>
-            <seealso cref="T:System.Runtime.CompilerServices.IUnion"/>
-        </member>
-        <member name="T:System.Runtime.CompilerServices.IsClosedTypeAttribute">
-            <summary>
-            Reserved for use by a compiler for tracking metadata.
-            This attribute should not be used by developers in source code.
-            </summary>
-        </member>
-        <member name="M:System.Runtime.CompilerServices.IsClosedTypeAttribute.#ctor">
-            <summary>Initializes the attribute.</summary>
-        </member>
-        <member name="P:System.Runtime.CompilerServices.IsClosedTypeAttribute.DerivedTypes">
-            <summary>Gets or sets the derived types of the closed type.</summary>
-            <value>An array of the derived types of the closed type. A <see langword="null" /> value is normalized to an empty array.</value>
-        </member>
         <member name="T:System.Runtime.CompilerServices.IUnion">
             <summary>
             Provides a common interface for accessing the contents of a union type at runtime.
@@ -188,6 +171,30 @@
             <value>
             The current value of the union as one of its case types, or <see langword="null"/>.
             </value>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.IsClosedTypeAttribute">
+            <summary>
+            Reserved for use by a compiler for tracking metadata.
+            This attribute should not be used by developers in source code.
+            </summary>
+        </member>
+        <member name="M:System.Runtime.CompilerServices.IsClosedTypeAttribute.#ctor">
+            <summary>Initializes the attribute.</summary>
+        </member>
+        <member name="P:System.Runtime.CompilerServices.IsClosedTypeAttribute.DerivedTypes">
+            <summary>Gets or sets the derived types of the closed type.</summary>
+            <value>An array of the derived types of the closed type. A <see langword="null" /> value is normalized to an empty array.</value>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.UnionAttribute">
+            <summary>
+            Indicates that a class or struct is a union type, enabling compiler support for union behaviors.
+            </summary>
+            <remarks>
+            Any class or struct annotated with this attribute is recognized by the C# compiler as a union type.
+            Union types may support behaviors such as implicit conversions from case types, pattern matching
+            that unwraps the union's contents, and switch exhaustiveness checking.
+            </remarks>
+            <seealso cref="T:System.Runtime.CompilerServices.IUnion"/>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.RequiresUnsafeAttribute">
             <summary>

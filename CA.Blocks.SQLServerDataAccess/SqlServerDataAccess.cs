@@ -29,23 +29,9 @@ namespace CA.Blocks.SQLServerDataAccess
     /// </summary>
     /// <remarks>
     /// </remarks>
-    public class SqlServerDataAccess : DataAccessCore
+    public class SqlServerDataAccess(IDataAccessConfig config, IDbRowTranslatorProvider? dbRowTranslatorProvider = null)
+        : DataAccessCore(config, dbRowTranslatorProvider)
     {
-
-        public const string FILTER_REPLACE_STRING = "/*##FILTER##*/";
-
-        public SqlServerDataAccess(IDataAccessConfig config, IDbRowTranslatorProvider? dbRowTranslatorProvider = null) : base(config, dbRowTranslatorProvider)
-        {
-
-        }
-
-
-        [System.Obsolete("If you using SQL server 2016 + it is best to migrate to GetSessionContext")]
-        protected virtual string? GetConnectionContext()
-        {
-            return null;
-        }
-
         protected virtual IList<SqlServerSessionContext>? GetSessionContext()
         {
             return null;
@@ -59,21 +45,6 @@ namespace CA.Blocks.SQLServerDataAccess
                 return ConnectionTokenResolver.GetConnectionToken(ConnectionString);
             }
             return null;
-        }
-
-     
-        private void SetCommandContext(SqlConnection sqlConnection)
-        {
-#pragma warning disable CS0618
-            var context = GetConnectionContext();
-#pragma warning restore CS0618
-            if (!string.IsNullOrWhiteSpace(context))
-            {
-                var cmd = CreateTextCommand("SET CONTEXT_INFO @AppContext");
-                cmd.Parameters.Add(Encoding.ASCII.GetBytes(context).ToSqlParameter("@AppContext"));
-                cmd.Connection = sqlConnection;
-                cmd.ExecuteNonQuery();
-            }
         }
 
         private void SetSessionContext(SqlConnection sqlConnection)
@@ -115,7 +86,6 @@ namespace CA.Blocks.SQLServerDataAccess
 	        SqlConnection sqlConnection = new SqlConnection(ConnectionString);
 	        SetAccessToken(sqlConnection);
 	        sqlConnection.Open();
-	        SetCommandContext(sqlConnection);
 	        SetSessionContext(sqlConnection);
             return sqlConnection;
 		}
@@ -150,11 +120,7 @@ namespace CA.Blocks.SQLServerDataAccess
         {
             return dbEx is SqlException sqlexception && TransientErrorNumbers().Contains(sqlexception.Number);
         }
-
-        protected override DbDataAdapter GetDataAdapter(IDbCommand cmd)
-        {
-            return (new SqlDataAdapter((SqlCommand)cmd));
-        }
+        
 
         #region StoredProcedureHelpers
 
@@ -182,7 +148,7 @@ namespace CA.Blocks.SQLServerDataAccess
 		}
 
 
-		// unless you using the SqlCommand it is best to use CreateSqlCommand
+		// unless you using the SqlCommand it is best to use CreateDbCommand
 		protected SqlCommand CreateTextCommand(string sql)
         {
            return new SqlCommand
@@ -195,8 +161,7 @@ namespace CA.Blocks.SQLServerDataAccess
         [System.Obsolete("Use the Sql builder", true)]
         protected SqlCommand CreateTextCommand(string sqlTemplate, string mainFilter)
         {
-            var sql = sqlTemplate.Replace(FILTER_REPLACE_STRING, mainFilter);
-            return CreateTextCommand(sql);
+            throw new System.NotSupportedException("Use the Sql builder");
         }
 
         #endregion 
