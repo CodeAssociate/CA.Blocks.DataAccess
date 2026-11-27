@@ -1,9 +1,6 @@
-﻿using CA.Blocks.DataAccess.Translator.Basic;
-using CA.Blocks.DataAccess.Translator.Extensions;
+﻿using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
-using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
-using Microsoft.Data.SqlClient;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 {

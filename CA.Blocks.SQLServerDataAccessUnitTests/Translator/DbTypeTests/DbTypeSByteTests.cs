@@ -18,13 +18,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(short data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeSByteTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("smallint not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("smallint"));
             InsertTestDataSQL(-128);
             InsertTestDataSQL(0);
             InsertTestDataSQL(10);
@@ -34,7 +34,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
 
@@ -43,9 +43,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<SByteDataType>(cmd);
+            var data = Execute(cmd).ToListOf<SByteDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(-128, data[0].Col);
@@ -57,7 +57,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             sbyte testValue = 127;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var parameter = testValue.ToSqlParameter("@value");
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {parameter}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<SByteDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());

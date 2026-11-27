@@ -1,7 +1,6 @@
 ﻿
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
-using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
@@ -18,13 +17,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(double data)
         {
-            ExecuteNonQuery(InsertTestDataSQL($"{data}"));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeDoubleTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("float not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("float"));
             InsertTestDataSQL(-1.2);
             InsertTestDataSQL(0);
             InsertTestDataSQL(123.456);
@@ -34,18 +33,18 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
         public void SelectAllData()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = Execute(cmd).ToDataTable();
+            var data = Execute(cmd).ToSingleNamedColumnList<double>(UNIT_TEST_COL_NAME);
             //Assert
-            Assert.Equal(5, data.Rows.Count);
+            Assert.Equal(5, data.Count);
         }
 
 
@@ -53,9 +52,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataToListOf()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<DoubleDataType>(cmd);
+            var data = Execute(cmd).ToListOf<DoubleDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(-1.2, data[0].Col);
@@ -66,12 +65,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataFilter ()
         {
             //setup
-            const int testvalue = 123;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col > @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            const double testvalue = 123;
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} > {testvalue:@testValue}");
 
             //Act
-            var data = ExecuteToListOf<DoubleDataType>(cmd);
+            var data = Execute(cmd).ToListOf<DoubleDataType>();
 
             //Asert
             Assert.Equal(3, data.Count);
@@ -82,7 +80,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             const double testValue = 123.456;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testValue:@value}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DoubleDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());

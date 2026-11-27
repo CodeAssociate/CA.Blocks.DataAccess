@@ -18,29 +18,31 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess, IDisposable
 
     private void InsertTestData(string data)
     {
-        ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
+        ExecuteNonQuery(InsertTestDataCommand(data));
     }
 
     public DbTypeVarCharVersionTests()
         {
-        ExecuteNonQuery(DropTestTableSQL());
-        ExecuteNonQuery(CreateTestTable("varchar(20) null"));
+        ExecuteNonQuery(DropTestTableCommand());
+        var create = CreateTestTableCommand("varchar", allowNull: true);
+        create.CommandText = create.CommandText.Replace("[varchar]", "[varchar](20)");
+        ExecuteNonQuery(create);
         InsertTestData(new Version(1,2).ToString());
         InsertTestData(new Version(1, 2,3).ToString());
         InsertTestData(new Version(1, 2, 3, 4).ToString());
-        ExecuteNonQuery(InsertTestDataSQL("null"));
+        ExecuteNonQuery(InsertTestDataCommand<string?>(null));
     }
 
     public void Dispose()
         {
-        ExecuteNonQuery(DropTestTableSQL());
+        ExecuteNonQuery(DropTestTableCommand());
     }
 
     [Fact]
     public void SelectAllData()
     {
         //Setup 
-        var cmd = CreateTextCommand(SelectTestDataSQL());
+        var cmd = BasicSelectCommand();
         //Act
 
         var data = Execute(cmd).ToListOf<VersionDataType>();
@@ -59,7 +61,9 @@ public class DbTypeVarCharVersionTests : UnitTestDataAccess, IDisposable
     {
         //setup
         var testvalue = new Version(1,2,3);
-        var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
+        var value = testvalue.ToString();
+        var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {value:@testValue}");
+        cmd.Parameters.RemoveAt("@testValue");
         cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
 
         //Act

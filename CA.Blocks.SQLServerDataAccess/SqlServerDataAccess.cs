@@ -192,7 +192,7 @@ namespace CA.Blocks.SQLServerDataAccess
             };
         }
 
-        [System.Obsolete("Use the Sql builder")]
+        [System.Obsolete("Use the Sql builder", true)]
         protected SqlCommand CreateTextCommand(string sqlTemplate, string mainFilter)
         {
             var sql = sqlTemplate.Replace(FILTER_REPLACE_STRING, mainFilter);

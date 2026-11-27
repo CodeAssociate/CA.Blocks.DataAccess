@@ -25,7 +25,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(Ulid data)
         {
-            ExecuteNonQuery(InsertTestDataSQL($"'{data.ToString()}'"));
+            ExecuteNonQuery(InsertTestDataCommand(data.ToString()));
         }
 
         public DbTypeUlidAsStringTests()
@@ -33,8 +33,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             DefaultDbColToTypeProvider.DefaultInstance.TryAdd(new UlidDbColToTypeConverter());
             LoadTestData();
 
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("char(26) not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            var create = CreateTestTableCommand("char");
+            create.CommandText = create.CommandText.Replace("[char]", "[char](26)");
+            ExecuteNonQuery(create);
 
             foreach (var item in _testData)
             {
@@ -56,7 +58,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -64,7 +66,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<UlidDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
@@ -76,7 +78,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataToListOf()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = Execute(cmd).ToListOf<UlidDataType>();
             //Assert
@@ -92,8 +94,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var testvalue = new Ulid("01H5S949ZG5HW7F1B0HTBWF3RR");
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
-            cmd.Parameters.Add(testvalue.AsString().ToSqlParameter("@testValue"));
+            var value = testvalue.AsString();
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} >= {value:@testValue}");
 
             //Act
             var data = Execute(cmd).ToListOf<UlidDataType>();
@@ -106,8 +108,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectSingleWithFilter()
         {
             var testvalue = new Ulid("01H5S949ZG5HW7F1B0HTBWF3RR");
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.AsString().ToSqlParameter("@testValue"));
+            var value = testvalue.AsString();
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {value:@testValue}");
 
             //Act
             var data = Execute(cmd).ToFirstOrDefault<UlidDataType>();
@@ -140,7 +142,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(Ulid data)
         {
-            ExecuteNonQuery(InsertTestDataSQL($"{ToBinaryString(data)}"));
+            ExecuteNonQuery(InsertTestDataCommand(data.ToByteArray()));
         }
 
         public DbTypeUlidAsBinaryTests()
@@ -148,8 +150,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             DefaultDbColToTypeProvider.DefaultInstance.TryAdd(new UlidDbColToTypeConverter());
             LoadTestData();
 
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("binary(16) not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            var create = CreateTestTableCommand("binary");
+            create.CommandText = create.CommandText.Replace("[binary]", "[binary](16)");
+            ExecuteNonQuery(create);
 
             foreach (var item in _testData)
             {
@@ -171,7 +175,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -179,7 +183,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<UlidDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
@@ -191,7 +195,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataToListOf()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = Execute(cmd).ToListOf<UlidDataType>();
             //Assert
@@ -207,8 +211,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var testvalue = new Ulid("01H5S949ZG5HW7F1B0HTBWF3RR");
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
-            cmd.Parameters.Add(testvalue.AsByteArray().ToSqlParameter("@testValue"));
+            var value = testvalue.AsByteArray();
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} >= {value:@testValue}");
 
             //Act
             var data = Execute(cmd).ToListOf<UlidDataType>();
@@ -221,8 +225,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectSingleWithFilter()
         {
             var testvalue = new Ulid("01H5S949ZG5HW7F1B0HTBWF3RR");
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.AsByteArray().ToSqlParameter("@testValue"));
+            var value = testvalue.AsByteArray();
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {value:@testValue}");
 
             //Act
             var data = Execute(cmd).ToFirstOrDefault<UlidDataType>();

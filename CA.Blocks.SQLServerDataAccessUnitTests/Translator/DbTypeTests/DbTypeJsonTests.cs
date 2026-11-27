@@ -23,7 +23,7 @@ public class DbTypeJsonTests : UnitTestDataAccess, IDisposable
 
     private void InsertTestDataAsText(string data)
     {
-        ExecuteNonQuery(InsertTestDataSQL(string.Format("N'{0}'", data)));
+        ExecuteNonQuery(InsertTestDataCommand(data));
     }
 
     public DbTypeJsonTests()
@@ -32,8 +32,10 @@ public class DbTypeJsonTests : UnitTestDataAccess, IDisposable
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         }));
-        ExecuteNonQuery(DropTestTableSQL());
-        ExecuteNonQuery(CreateTestTable("NVarChar(512) not null"));
+        ExecuteNonQuery(DropTestTableCommand());
+        var createCommand = CreateTestTableCommand("NVarChar");
+        createCommand.CommandText = createCommand.CommandText.Replace("[NVarChar]", "NVarChar(512)");
+        ExecuteNonQuery(createCommand);
         InsertTestDataAsText(@"
 [
 {""color"": ""red"",""value"": ""#f00""},
@@ -56,7 +58,7 @@ public class DbTypeJsonTests : UnitTestDataAccess, IDisposable
 
     public void Dispose()
         {
-        ExecuteNonQuery(DropTestTableSQL());
+        ExecuteNonQuery(DropTestTableCommand());
     }
 
 
@@ -64,7 +66,7 @@ public class DbTypeJsonTests : UnitTestDataAccess, IDisposable
     public void SelectAllData()
     {
         //Setup 
-        var cmd = CreateTextCommand(SelectTestDataSQL());
+        var cmd = BasicSelectCommand();
 
         //Act
         var result = Execute(cmd).ToListOf<JsonDataExample>();

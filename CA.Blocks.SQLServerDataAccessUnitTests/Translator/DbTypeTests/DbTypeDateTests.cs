@@ -17,13 +17,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(DateTime data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'",data.ToString("yyyy MMMM dd HH:mm:ss"))));
+            ExecuteNonQuery(InsertTestDataCommand(DateOnly.FromDateTime(data)));
         }
 
         public DbTypeDateTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("Date not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("Date"));
             _testDate = DateTime.Now.Date;
             InsertTestDataSQL(_testDate);
             InsertTestDataSQL(_testDate.AddDays(1).Date);
@@ -34,7 +34,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
@@ -55,9 +55,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<DateTimeDataType>(cmd);
+            var data = Execute(cmd).ToListOf<DateTimeDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(_testDate, data[0].Col);
@@ -70,8 +70,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var t = new DateTimeTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(_testDate.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {DateOnly.FromDateTime(_testDate):@testValue}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
@@ -85,7 +84,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var testValue = _testDate;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {DateOnly.FromDateTime(testValue):@value}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DateTimeDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());

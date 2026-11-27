@@ -23,22 +23,24 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataAsText(string data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data)));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeVarCharMaxTests()
         {
             testDataValueForMax = string.Concat(Enumerable.Repeat("0123456789", 1000)); // Create a string 10000 char long
             testDataValueShort = string.Concat(Enumerable.Repeat("0123456789", 600)); // Create a string 6000 char long
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("VarChar(Max) not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            var create = CreateTestTableCommand("varchar");
+            create.CommandText = create.CommandText.Replace("[varchar]", "[varchar](max)");
+            ExecuteNonQuery(create);
             InsertTestDataAsText(testDataValueForMax);
             InsertTestDataAsText(testDataValueShort);
         }
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -46,7 +48,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = new StringTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
@@ -59,9 +61,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataToListOf()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<StringDataType>(cmd);
+            var data = Execute(cmd).ToListOf<StringDataType>();
             //Assert
             Assert.Equal(2, data.Count);
             Assert.Equal(testDataValueForMax, data[0].Col);
@@ -73,7 +75,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testDataValueForMax:@testValue}");
+            cmd.Parameters.RemoveAt("@testValue");
             cmd.Parameters.Add(testDataValueForMax.ToSqlParameter("@testValue", SpecificSQLStringType.VarChar));
 
             //Act
@@ -88,7 +91,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testDataValueForMax:@testValue}");
+            cmd.Parameters.RemoveAt("@testValue");
             cmd.Parameters.Add(testDataValueForMax.ToSqlParameter("@testValue"));
 
             //Act
@@ -104,7 +108,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testDataValueShort:@testValue}");
+            cmd.Parameters.RemoveAt("@testValue");
             cmd.Parameters.Add(testDataValueShort.ToSqlParameter("@testValue", SpecificSQLStringType.VarChar));
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
@@ -118,7 +123,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testDataValueShort:@testValue}");
+            cmd.Parameters.RemoveAt("@testValue");
             cmd.Parameters.Add(testDataValueShort.ToSqlParameter("@testValue"));
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());

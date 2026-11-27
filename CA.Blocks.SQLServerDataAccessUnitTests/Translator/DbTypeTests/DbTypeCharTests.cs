@@ -17,13 +17,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(char data)
         {
-            ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
+            var cmd = InsertTestDataCommand(data);
+            cmd.Parameters["@value"].SqlDbType = System.Data.SqlDbType.Char;
+            ExecuteNonQuery(cmd);
         }
 
         public DbTypeCharTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("char not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("char"));
             InsertTestDataSQL('A');
             InsertTestDataSQL('B');
             InsertTestDataSQL('C');
@@ -34,14 +36,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
         public void SelectAllData()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
@@ -55,9 +57,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<CharDataType>(cmd);
+            var data = Execute(cmd).ToListOf<CharDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal('E', data[4].Col);
@@ -71,8 +73,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //setup
             const char testvalue = 'A';
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testvalue:@testValue|Char}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());
@@ -86,7 +87,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             const char testValue = 'A';
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testValue:@value|Char}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<CharDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());

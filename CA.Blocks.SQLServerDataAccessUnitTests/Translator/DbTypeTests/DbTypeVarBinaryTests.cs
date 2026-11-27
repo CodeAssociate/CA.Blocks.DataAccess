@@ -13,13 +13,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataAsBinarySQL(string data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("CAST('{0}' as varbinary(50))", data)));
+            ExecuteNonQuery(InsertTestDataCommand(Encoding.ASCII.GetBytes(data)));
         }
 
         public DbTypeVarBinaryTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("varbinary(50) not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            var create = CreateTestTableCommand("varbinary");
+            create.CommandText = create.CommandText.Replace("[varbinary]", "[varbinary](50)");
+            ExecuteNonQuery(create);
             InsertTestDataAsBinarySQL(TEST_DATA);
             InsertTestDataAsBinarySQL("Binary Data 2");
             InsertTestDataAsBinarySQL("Binary Data 3");
@@ -29,7 +31,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -37,12 +39,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = new BinaryTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(TEST_DATA, Encoding.ASCII.GetString(data[0]));
+            var streamed = Execute(BasicSelectCommand()).ToSingleNamedColumnList<byte[]>(UNIT_TEST_COL_NAME);
+            Assert.Equal(TEST_DATA, Encoding.ASCII.GetString(streamed[0]));
         }
 
         
@@ -52,8 +56,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //setup
             byte[] testvalue = Encoding.ASCII.GetBytes(TEST_DATA);
             var t = new BinaryTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testvalue:@testValue}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());

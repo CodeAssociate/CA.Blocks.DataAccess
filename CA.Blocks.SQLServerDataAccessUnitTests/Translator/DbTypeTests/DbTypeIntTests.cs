@@ -19,13 +19,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(int data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeIntTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("int not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("int"));
             InsertTestDataSQL(-1);
             InsertTestDataSQL(0);
             InsertTestDataSQL(123);
@@ -35,7 +35,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = new IntTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
@@ -55,9 +55,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataToListOf()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = this.ExecuteToListOf<IntDataType>(cmd);
+            var data = Execute(cmd).ToListOf<IntDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(-1, data[0].Col);
@@ -69,8 +69,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //setup
             const int testvalue = 123; 
             var t = new IntTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} >= {testvalue:@testValue}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
@@ -84,7 +83,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             int testValue = 123;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testValue:@value}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<IntDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());

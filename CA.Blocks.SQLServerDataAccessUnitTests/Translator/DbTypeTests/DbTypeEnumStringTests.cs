@@ -23,13 +23,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataStringSQL(string data)
         {
-            ExecuteNonQuery(InsertTestDataSQL($"'{data}'"));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeEnumStringTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("varchar(32) not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            var createCommand = CreateTestTableCommand("varchar");
+            createCommand.CommandText = createCommand.CommandText.Replace("[varchar]", "varchar(32)");
+            ExecuteNonQuery(createCommand);
             InsertTestDataStringSQL("Foo");
             InsertTestDataStringSQL("Bar");
             InsertTestDataStringSQL("1");
@@ -40,7 +42,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
 
@@ -48,9 +50,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataToListOf()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = this.ExecuteToListOf<StringEnumDataType>(cmd);
+            var data = Execute(cmd).ToListOf<StringEnumDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(MyTestEnum.Foo, data[0].Col);
@@ -63,7 +65,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             const MyTestEnum testValue = MyTestEnum.Bar;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToString().ToSqlParameter("@value"));
+            var value = testValue.ToString();
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {value:@value}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringEnumDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());

@@ -1,8 +1,6 @@
 ﻿using CA.Blocks.DataAccess.Translator.Extensions;
-using CA.Blocks.DataAccess;
 using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
-using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.SQLServerDataAccessUnitTests.Base;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
@@ -17,13 +15,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(byte data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeByteTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("tinyint not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("tinyint"));
             InsertTestDataSQL(0);
             InsertTestDataSQL(1);
             InsertTestDataSQL(2);
@@ -33,7 +31,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -41,7 +39,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = new ByteTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
@@ -53,9 +51,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<ByteDataType>(cmd);
+            var data = Execute(cmd).ToListOf<ByteDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(byte.MaxValue, data[4].Col);
@@ -67,8 +65,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //setup
             const byte testvalue = 123; 
             var t = new ByteTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} >= {testvalue:@testValue}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
@@ -82,7 +79,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             const byte testValue = 1;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testValue:@value}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<ByteDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());

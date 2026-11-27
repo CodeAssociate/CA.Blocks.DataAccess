@@ -18,13 +18,13 @@ public class DbTypeDateOnlyTests : UnitTestDataAccess, IDisposable
 
     private void InsertTestDataSQL(DateOnly data)
     {
-        ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data.ToString("yyyy MMMM dd"))));
+        ExecuteNonQuery(InsertTestDataCommand(data));
     }
 
     public DbTypeDateOnlyTests()
         {
-        ExecuteNonQuery(DropTestTableSQL());
-        ExecuteNonQuery(CreateTestTable("Date not null"));
+        ExecuteNonQuery(DropTestTableCommand());
+        ExecuteNonQuery(CreateTestTableCommand("Date"));
 
         var dt = DateTime.Now;
         _testDate = new DateOnly(dt.Year, dt.Month, dt.Day);
@@ -38,7 +38,7 @@ public class DbTypeDateOnlyTests : UnitTestDataAccess, IDisposable
 
     public void Dispose()
         {
-        ExecuteNonQuery(DropTestTableSQL());
+        ExecuteNonQuery(DropTestTableCommand());
     }
 
 
@@ -48,9 +48,9 @@ public class DbTypeDateOnlyTests : UnitTestDataAccess, IDisposable
     {
         //Setup 
 
-        var cmd = CreateTextCommand(SelectTestDataSQL());
+        var cmd = BasicSelectCommand();
         //Act
-        var data = ExecuteToListOf<DateOnly>(cmd);
+        var data = Execute(cmd).ToListOf<DateOnly>();
         //Assert
         Assert.Equal(5, data.Count);
     }
@@ -60,8 +60,7 @@ public class DbTypeDateOnlyTests : UnitTestDataAccess, IDisposable
     public void SelectAllDataDateOnlyWithFilter()
     {
         //setup
-        var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col > @testValue");
-        cmd.Parameters.Add(_testDate.ToSqlParameter("@testValue"));
+        var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} > {_testDate:@testValue}");
 
         //Act
         var data = Execute(cmd).ToListOf<DateOnlyDataType>();
@@ -76,7 +75,7 @@ public class DbTypeDateOnlyTests : UnitTestDataAccess, IDisposable
     {
         //setup
         var testValue = _testDate;
-        var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+        var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testValue:@value}");
         var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DateOnlyDataType>();
         //Act
         var data = t.Translate(Execute(cmd).ToDataRow());

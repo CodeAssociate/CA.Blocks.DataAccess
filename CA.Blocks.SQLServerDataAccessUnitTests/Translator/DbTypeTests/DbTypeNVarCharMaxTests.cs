@@ -24,22 +24,24 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataAsText(string data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("N'{0}'", data)));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeNVarCharMaxTests()
         {
             testDataValueForMax = string.Concat(Enumerable.Repeat("0123456789?", 500)); // Create a string 5500 char long
             testDataValueShort = string.Concat(Enumerable.Repeat("0123456789?", 300)); // Create a string 3300 char long
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("NVarChar(Max) not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            var createCommand = CreateTestTableCommand("NVarChar");
+            createCommand.CommandText = createCommand.CommandText.Replace("[NVarChar]", "NVarChar(Max)");
+            ExecuteNonQuery(createCommand);
             InsertTestDataAsText(testDataValueForMax);
             InsertTestDataAsText(testDataValueShort);
         }
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -47,7 +49,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = new StringTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
@@ -63,9 +65,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<StringDataType>(cmd);
+            var data = Execute(cmd).ToListOf<StringDataType>();
             //Assert
             Assert.Equal(2, data.Count);
             Assert.Equal(testDataValueForMax, data[0].Col);
@@ -77,8 +79,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testDataValueForMax.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testDataValueForMax:@testValue}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
@@ -92,8 +93,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testDataValueShort.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testDataValueShort:@testValue}");
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
 

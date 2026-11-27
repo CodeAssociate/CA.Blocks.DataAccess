@@ -21,13 +21,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataAsText(string data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("N'{0}'", data)));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeNVarCharTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("NVarChar(50) not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            var createCommand = CreateTestTableCommand("NVarChar");
+            createCommand.CommandText = createCommand.CommandText.Replace("[NVarChar]", "NVarChar(50)");
+            ExecuteNonQuery(createCommand);
             InsertTestDataAsText(TEST_DATA);
             InsertTestDataAsText(Guid.NewGuid().ToString());
             InsertTestDataAsText(Guid.NewGuid().ToString());
@@ -38,7 +40,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -46,7 +48,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = new StringTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
@@ -61,9 +63,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<StringDataType>(cmd);
+            var data = Execute(cmd).ToListOf<StringDataType>();
             //Assert
             Assert.Equal(6, data.Count);
             Assert.Equal(TEST_DATA, data[0].Col);
@@ -76,8 +78,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //setup
             const string testvalue = TEST_DATA;
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testvalue:@testValue}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
@@ -93,8 +94,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //setup
             const string testvalue = TEST_UTF8DATA;
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testvalue:@testValue}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());

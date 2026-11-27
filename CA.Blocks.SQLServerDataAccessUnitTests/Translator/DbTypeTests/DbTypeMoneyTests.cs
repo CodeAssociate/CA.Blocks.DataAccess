@@ -15,36 +15,38 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         }
 
 
-        private void InsertTestDataSQL(double data)
+        private void InsertTestDataSQL(decimal data)
         {
-            ExecuteNonQuery(InsertTestDataSQL($"{data}"));
+            var cmd = InsertTestDataCommand(data);
+            cmd.Parameters["@value"].SqlDbType = System.Data.SqlDbType.Money;
+            ExecuteNonQuery(cmd);
         }
 
         public DbTypeMoneyTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("money not null"));
-            InsertTestDataSQL(-1.2);
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("money"));
+            InsertTestDataSQL(-1.2M);
             InsertTestDataSQL(0);
-            InsertTestDataSQL(123.456);
+            InsertTestDataSQL(123.456M);
             InsertTestDataSQL(int.MaxValue);
-            InsertTestDataSQL(123456789.9876);
+            InsertTestDataSQL(123456789.9876M);
         }
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
         public void SelectAllData()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = Execute(cmd).ToDataTable();
+            var data = Execute(cmd).ToSingleNamedColumnList<decimal>(UNIT_TEST_COL_NAME);
             //Assert
-            Assert.Equal(5, data.Rows.Count);
+            Assert.Equal(5, data.Count);
         }
 
 
@@ -52,9 +54,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataToListOf()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<MoneyDataType>(cmd);
+            var data = Execute(cmd).ToListOf<MoneyDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(-1.2M, data[0].Col);
@@ -65,12 +67,11 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataFilter ()
         {
             //setup
-            const int testvalue = 123;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col > @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            const decimal testvalue = 123M;
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} > {testvalue:@testValue|Money}");
 
             //Act
-            var data = ExecuteToListOf<MoneyDataType>(cmd);
+            var data = Execute(cmd).ToListOf<MoneyDataType>();
 
             //Asert
             Assert.Equal(3, data.Count);
@@ -81,7 +82,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             const Decimal testValue = 123.456M;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testValue:@value|Money}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<MoneyDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());

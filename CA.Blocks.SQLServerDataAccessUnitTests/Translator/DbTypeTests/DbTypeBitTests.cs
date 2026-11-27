@@ -16,20 +16,20 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(bool data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(data? "1":"0"));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeBitTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("bit not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("bit"));
             InsertTestDataSQL(true);
             InsertTestDataSQL(false);
         }
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -37,9 +37,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
            
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = this.ExecuteObjectList(cmd);
+            var data = Execute(cmd).ToSingleNamedColumnList<bool>(UNIT_TEST_COL_NAME);
             //Assert
             Assert.Equal(2, data.Count);
         }
@@ -49,9 +49,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<BoolDataType>(cmd);
+            var data = Execute(cmd).ToListOf<BoolDataType>();
             //Assert
             Assert.Equal(2, data.Count);
             Assert.True(data[0].Col);
@@ -62,11 +62,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             const bool testvalue = true;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testvalue:@testValue}");
 
             //Act
-            var data = this.ExecuteObjectList(cmd);
+            var data = Execute(cmd).ToSingleNamedColumnList<bool>(UNIT_TEST_COL_NAME);
 
             //Asert
             Assert.Single(data);
@@ -77,7 +76,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             const bool testvalue = true;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testvalue.ToSqlParameter("@value"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testvalue:@value}");
             
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BoolDataType>();
             //Act

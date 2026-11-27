@@ -18,13 +18,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataSQL(DateTimeOffset data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data.ToString("yyyy MMMM dd HH:mm:ss zzz"))));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeDateTimeOffsetTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("DateTimeOffSet not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("DateTimeOffSet"));
 
             var dt = DateTimeOffset.Now;
             _testDate = new DateTimeOffset(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Offset);
@@ -38,7 +38,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
 
@@ -48,9 +48,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<DateTimeOffSetDataType>(cmd);
+            var data = Execute(cmd).ToListOf<DateTimeOffSetDataType>();
             //Assert
             Assert.Equal(5, data.Count);
         }
@@ -61,8 +61,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var t = new DateTimeOffsetTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col > @testValue");
-            cmd.Parameters.Add(_testDate.ToSqlParameter("@testValue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} > {_testDate:@testValue}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
@@ -77,7 +76,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             var testValue = _testDate;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @value").WithParameter(testValue.ToSqlParameter("@value"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testValue:@value}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<DateTimeOffSetDataType>();
             //Act
 

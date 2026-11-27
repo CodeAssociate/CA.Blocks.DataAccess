@@ -20,13 +20,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataAsBinarySQL(string data)
         {
-            ExecuteNonQuery(InsertTestDataSQL(string.Format("'{0}'", data)));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeNTextTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("NText not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("NText"));
             InsertTestDataAsBinarySQL(TEST_DATA);
             InsertTestDataAsBinarySQL(Guid.NewGuid().ToString());
             InsertTestDataAsBinarySQL(Guid.NewGuid().ToString());
@@ -36,7 +36,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
             var t = new StringTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
             //Assert
@@ -57,9 +57,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<StringDataType>(cmd);
+            var data = Execute(cmd).ToListOf<StringDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(TEST_DATA, data[0].Col);
@@ -71,10 +71,10 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //setup
             const string testvalue = TEST_DATA;
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<StringDataType>();
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col like @testValue");
 #pragma warning disable CS0618 // Type or member is obsolete
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLStringType.NText));
+            var parameter = testvalue.ToSqlParameter("@testValue", SpecificSQLStringType.NText);
 #pragma warning restore CS0618 // Type or member is obsolete
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} LIKE {parameter}");
 
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());

@@ -15,13 +15,15 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         private void InsertTestDataToBinarySQL(string data)
         {
-            ExecuteNonQuery(InsertTestDataSQL($"CAST( '{data}' AS BINARY(16))"));
+            ExecuteNonQuery(InsertTestDataCommand(Encoding.ASCII.GetBytes(data)));
         }
 
         public DbTypeBinaryTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("binary(16) not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            var createCommand = CreateTestTableCommand("binary");
+            createCommand.CommandText = createCommand.CommandText.Replace("[binary]", "[binary](16)");
+            ExecuteNonQuery(createCommand);
             InsertTestDataToBinarySQL("abc");
             InsertTestDataToBinarySQL("def");
             InsertTestDataToBinarySQL("123");
@@ -31,18 +33,18 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
         public void SelectAllData()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = Execute(cmd).ToDataTable();
+            var data = Execute(cmd).ToSingleNamedColumnList<byte[]>(UNIT_TEST_COL_NAME);
             //Assert
-            Assert.Equal(5, data.Rows.Count);
+            Assert.Equal(5, data.Count);
         }
 
         [Fact]
@@ -50,9 +52,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //Setup 
 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<BinaryDataType>(cmd);
+            var data = Execute(cmd).ToListOf<BinaryDataType>();
             //Assert
             Assert.Equal(5, data.Count);
 
@@ -66,7 +68,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataWithWithTranslator()
         {
             //setup
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BinaryDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());

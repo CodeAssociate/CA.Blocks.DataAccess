@@ -10,13 +10,13 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
     {
         private void InsertTestDataSQL(char data)
         {
-            ExecuteNonQuery(InsertTestDataSQL($"N'{data}'"));
+            ExecuteNonQuery(InsertTestDataCommand(data));
         }
 
         public DbTypeNCharTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("NChar not null"));
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("NChar"));
             InsertTestDataSQL('�');
             InsertTestDataSQL('B');
             InsertTestDataSQL('C');
@@ -26,14 +26,14 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
         public void SelectAllDataNChar()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
             //Act
             var data = t.Translate(Execute(cmd).ToDataTable());
@@ -47,8 +47,8 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             //setup
             char testvalue = '�';
             var t = new CharTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue", SpecificSQLCharType.NChar));
+            var parameter = testvalue.ToSqlParameter("@testValue", SpecificSQLCharType.NChar);
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {parameter}");
 
             var data = t.Translate(Execute(cmd).ToDataRow());
             //Asert
