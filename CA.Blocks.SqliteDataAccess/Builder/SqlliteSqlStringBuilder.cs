@@ -7,7 +7,7 @@ namespace CA.Blocks.SqliteDataAccess.Builder
 {
     public class SqlliteSqlStringBuilder : SqlStringBuilder<SqliteParameter>
     {
-        public override SqliteParameter CreateNewParameterFor(Type t, string name, string targetDbType)
+        protected override SqliteParameter CreateNewParameterFor(Type t, string name, string targetDbType)
         {
             return new SqliteParameter
              { ParameterName = name, SqliteType = DefaultTypeToSqliteTypeProvider.DefaultInstance.Resolve(t, targetDbType) };

@@ -9,11 +9,11 @@ namespace CA.Blocks.DataAccess.Builders
     public abstract class SqlStringBuilder<SP>
         where SP : class, IDataParameter
     {
-        private StringBuilder _sqlsb = new StringBuilder();
-        private List<SP> _parameters = new List<SP>();
+        private readonly StringBuilder _sqlsb = new StringBuilder();
+        private readonly List<SP> _parameters = new List<SP>();
 
 
-        public abstract SP CreateNewParameterFor(Type t, string name, string targetDbType);
+        protected abstract SP CreateNewParameterFor(Type t, string name, string targetDbType);
 
         public void AppendSql(string sql)
         {

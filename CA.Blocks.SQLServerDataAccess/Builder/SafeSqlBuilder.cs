@@ -9,9 +9,8 @@ namespace CA.Blocks.SQLServerDataAccess.Builder
 {
     public class SafeSqlBuilder
     {
-        private StringBuilder _sb = new StringBuilder();
-        private List<SqlParameter> _parameters = [];
-
+        private readonly StringBuilder _sb = new StringBuilder();
+        private readonly List<SqlParameter> _parameters = [];
         public SafeSqlBuilder()
         {
 

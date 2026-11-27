@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using CA.Blocks.DataAccess.DI;
 using CA.Blocks.SQLServerDataAccess;
 using CA.Blocks.DataAccess.Model.Paging;
+using CA.Blocks.SQLServerDataAccess.Builder;
 
 namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
 {
@@ -42,17 +43,46 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
         private const string unitTestTableName = "CA_BLOCKS_UNITTEST_TEMP_TESTTABLE";
         public const string UNIT_TEST_COL_NAME = "Col";
 
+
+        protected SqlCommand DropTestTableCommand()
+        {
+            var sqlBuilder = new SafeSqlBuilder();
+            sqlBuilder.AddSqlLine($"IF EXISTS (SELECT 1 from sysobjects where xtype = 'U' and id = object_id({unitTestTableName:@unitTestTableName}))");
+            sqlBuilder.AddSqlLine("BEGIN");
+            sqlBuilder.AddSqlLine($"DROP TABLE {unitTestTableName:[]}");
+            sqlBuilder.AddSqlLine("END");
+            return sqlBuilder.BuildSqlCommand();
+        }
+
+        [System.Obsolete("Replace with DropTestTableCommand")]
         protected string DropTestTableSQL()
         {
             return $"if exists (select * from sysobjects where xtype = 'U' and id = object_id(N'{unitTestTableName}')) begin drop table {unitTestTableName} end";
         }
 
+        protected SqlCommand CreateTestTableCommand(string coltype, bool allowNull = false )
+        {
+            var sqlBuilder = new SafeSqlBuilder($"CREATE TABLE {unitTestTableName:[]}");
+            sqlBuilder.AddSqlLine("(");
+            sqlBuilder.AddSqlLine("id int identity(1,1),");
+            sqlBuilder.AddSqlLine($"{UNIT_TEST_COL_NAME:[]} {coltype:[]} ");
+            sqlBuilder.AddSql(allowNull ? "NULL" : "NOT NULL");
+            sqlBuilder.AddSqlLine(");");
+            return sqlBuilder.BuildSqlCommand();
+        }
+        [System.Obsolete("Replace with CreateTestTableCommand")]
         protected string CreateTestTable(string coltype)
         {
             return $"Create table {unitTestTableName} (id int identity(1,1), col {coltype} )";
 
         }
 
+        protected SqlCommand InsertTestDataCommand<T>(T value)
+        {
+            var sqlBuilder = new SafeSqlBuilder($"INSERT INTO {unitTestTableName:[]} ({UNIT_TEST_COL_NAME:[]})  values ({value:@value})");
+            return sqlBuilder.BuildSqlCommand();
+        }
+        
         protected string InsertTestDataSQL(string data)
         {
             return  $"Insert into {unitTestTableName}  values ({data})";
@@ -62,6 +92,20 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
         {
             return $"Select col from {unitTestTableName} /*##FILTER##*/";
         }
+        
+        // 
+        protected SqlCommand BasicSelectCommand(SqlStringHandler filter)
+        {
+            var sqlBuilder = new SafeSqlBuilder($"SELECT {UNIT_TEST_COL_NAME:[]} FROM {unitTestTableName:[]}");
+            sqlBuilder.AddSql(filter);
+            return sqlBuilder.BuildSqlCommand();
+        }
+        protected SqlCommand BasicSelectCommand()
+        {
+            var sqlBuilder = new SafeSqlBuilder($"SELECT {UNIT_TEST_COL_NAME:[]} FROM {unitTestTableName:[]}");
+            return sqlBuilder.BuildSqlCommand();
+        }
+
 
 
         // This is a backdoor used for unit testing to setup and teardown test data in the local sql server
@@ -71,23 +115,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Base
             SqlCommand cmd = CreateTextCommand(query);
             ExecuteNonQuery(cmd); 
         }
-
-
-        public new DataTable ExecuteDataTable(SqlCommand cmd, PagingRequest page)
-        {
-#pragma warning disable CS0618 // Type or member is obsolete we testing this still works
-            return base.ExecuteDataTable(cmd, page);
-#pragma warning restore CS0618 // Type or member is obsolete
-        }
-
- 
-
-
-        //public new IList<T> ExecuteToListOf<T>(SqlCommand cmd) where T : new()
-        //{
-        //    return base.ExecuteToListOf<T>(cmd);
-        //}
-
+        
     }
 }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CA.Blocks.DataAccess.Translator.Basic;
+﻿using CA.Blocks.DataAccess.Translator.Basic;
 using CA.Blocks.DataAccess.Translator.Extensions;
 using CA.Blocks.DataAccess.Translator.DbRowToObject.Providers;
 using CA.Blocks.SQLServerDataAccess;
@@ -16,35 +15,35 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
             public long Col { get; set; }
         }
 
-        private void InsertTestDataSQL(long data)
+        private void InsertTestData(long value)
         {
-            ExecuteNonQuery(InsertTestDataSQL(data.ToString()));
+            ExecuteNonQuery(InsertTestDataCommand(value));
         }
 
         public DbTypeBigIntTests()
         {
-            ExecuteNonQuery(DropTestTableSQL());
-            ExecuteNonQuery(CreateTestTable("bigint not null"));
-            InsertTestDataSQL(-1);
-            InsertTestDataSQL(0);
-            InsertTestDataSQL(123);
-            InsertTestDataSQL(246);
-            InsertTestDataSQL((long)int.MaxValue + (long)int.MaxValue);
+            
+            ExecuteNonQuery(DropTestTableCommand());
+            ExecuteNonQuery(CreateTestTableCommand("bigint"));
+            InsertTestData(-1);
+            InsertTestData(0);
+            InsertTestData(123);
+            InsertTestData(246);
+            InsertTestData((long)int.MaxValue + (long)int.MaxValue);
         }
 
         public void Dispose()
         {
-            ExecuteNonQuery(DropTestTableSQL());
+            ExecuteNonQuery(DropTestTableCommand());
         }
 
         [Fact]
         public void SelectAllData()
         {
             //Setup 
-            var t = new LongTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = t.Translate(Execute(cmd).ToDataTable());
+            var data = Execute(cmd).ToSingleNamedColumnList<long>(UNIT_TEST_COL_NAME);
             //Assert
             Assert.Equal(5, data.Count);
         }
@@ -53,9 +52,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         public void SelectAllDataToListOf()
         {
             //Setup 
-            var cmd = CreateTextCommand(SelectTestDataSQL());
+            var cmd = BasicSelectCommand();
             //Act
-            var data = ExecuteToListOf<BigIntDataType>(cmd);
+            var data = Execute(cmd).ToListOf<BigIntDataType>();
             //Assert
             Assert.Equal(5, data.Count);
             Assert.Equal(-1, data[0].Col);
@@ -67,32 +66,9 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             const long testvalue = 123; 
-            var t = new LongTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue");
-            cmd.Parameters.Add(testvalue.ToSqlParameter("@testValue"));
-
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} >= {testvalue:@testValue}");
             //Act
-            var data = t.Translate(Execute(cmd).ToDataTable());
-
-            //Asert
-            Assert.Equal(3, data.Count);
-        }
-
-        
-        [Fact]
-        public void SelectAllDataBigIntWithFilterWithParameters()
-        {
-            //setup
-            const long testvalue = 123;
-            var t = new LongTranslator(UNIT_TEST_COL_NAME);
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col >= @testValue")
-                .WithParameters(new List<SqlParameter>
-                {
-                    testvalue.ToSqlParameter("@testValue")
-                });
-
-            //Act
-            var data = t.Translate(Execute(cmd).ToDataTable());
+            var data = Execute(cmd).ToSingleNamedColumnList<long>(UNIT_TEST_COL_NAME);
 
             //Assert
             Assert.Equal(3, data.Count);
@@ -103,7 +79,7 @@ namespace CA.Blocks.SQLServerDataAccessUnitTests.Translator.DbTypeTests
         {
             //setup
             const long testvalue = 123;
-            var cmd = CreateTextCommand(SelectTestDataSQL(), "Where col = @testvalue").WithParameter(testvalue.ToSqlParameter("testvalue"));
+            var cmd = BasicSelectCommand($"WHERE {UNIT_TEST_COL_NAME:[]} = {testvalue:@testValue}");
             var t = DefaultDbRowTranslatorProvider.DefaultInstance.Resolve<BigIntDataType>();
             //Act
             var data = t.Translate(Execute(cmd).ToDataRow());

@@ -7,7 +7,7 @@ namespace CA.Blocks.SQLServerDataAccess.Builder
 {
     public class SqlServerSqlStringBuilder : SqlStringBuilder<SqlParameter>
     {
-        public override SqlParameter CreateNewParameterFor(Type t, string name, string targetDbType)
+        protected override SqlParameter CreateNewParameterFor(Type t, string name, string targetDbType)
         {
             return new SqlParameter
                 { ParameterName = name, SqlDbType = DefaultTypeToSqlDbTypeProvider.DefaultInstance.Resolve(t, targetDbType) };
